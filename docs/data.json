@@ -1,0 +1,1916 @@
+{
+    "project": {
+        "name": "Magister.js Docs",
+        "description": "A browserside implementation of the Magister 6 API.",
+        "version": "1.0.0",
+        "url": "http://simplyApps.github.io/MagisterJS",
+        "logo": "http://i.imgur.com/Lrg80ax.png"
+    },
+    "files": {
+        "Appointment.coffee": {
+            "name": "Appointment.coffee",
+            "modules": {},
+            "classes": {
+                "Appointment": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "Course.coffee": {
+            "name": "Course.coffee",
+            "modules": {},
+            "classes": {
+                "Course": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "File.coffee": {
+            "name": "File.coffee",
+            "modules": {},
+            "classes": {
+                "FileFolder": 1,
+                "File": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "Magister.coffee": {
+            "name": "Magister.coffee",
+            "modules": {},
+            "classes": {
+                "Magister": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "Message.coffee": {
+            "name": "Message.coffee",
+            "modules": {},
+            "classes": {
+                "Message": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "MessageFolder.coffee": {
+            "name": "MessageFolder.coffee",
+            "modules": {},
+            "classes": {
+                "MessageFolder": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "Person.coffee": {
+            "name": "Person.coffee",
+            "modules": {},
+            "classes": {
+                "Person": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "ProfileInfo.coffee": {
+            "name": "ProfileInfo.coffee",
+            "modules": {},
+            "classes": {
+                "ProfileInfo": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "School.coffee": {
+            "name": "School.coffee",
+            "modules": {},
+            "classes": {
+                "MagisterSchool": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {},
+    "classes": {
+        "Appointment": {
+            "name": "Appointment",
+            "shortname": "Appointment",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "Appointment.coffee",
+            "line": 1,
+            "description": "An appointment.",
+            "params": [
+                {
+                    "name": "_magisterObj",
+                    "description": "A Magister object this Appointment is child of.",
+                    "type": "Magister"
+                }
+            ],
+            "is_constructor": 1
+        },
+        "Course": {
+            "name": "Course",
+            "shortname": "Course",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "Course.coffee",
+            "line": 1,
+            "description": "A Course (like: 4 VWO E/M 14-15).",
+            "params": [
+                {
+                    "name": "_magisterObj",
+                    "description": "A Magister object this Course is child of.",
+                    "type": "Magister"
+                }
+            ],
+            "is_constructor": 1
+        },
+        "FileFolder": {
+            "name": "FileFolder",
+            "shortname": "FileFolder",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "File.coffee",
+            "line": 1,
+            "description": "A folder containing File instances.",
+            "params": [
+                {
+                    "name": "_magisterObj",
+                    "description": "A Magister object this FileFolder is child of.",
+                    "type": "Magister"
+                }
+            ],
+            "is_constructor": 1
+        },
+        "File": {
+            "name": "File",
+            "shortname": "File",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "File.coffee",
+            "line": 68,
+            "description": "A file from Magister, can be downloaded.",
+            "params": [
+                {
+                    "name": "_magisterObj",
+                    "description": "A Magister object this File is child of.",
+                    "type": "Magister"
+                }
+            ],
+            "is_constructor": 1
+        },
+        "Magister": {
+            "name": "Magister",
+            "shortname": "Magister",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "Magister.coffee",
+            "line": 1,
+            "description": "Class to communicate with Magister.",
+            "params": [
+                {
+                    "name": "magisterSchool",
+                    "description": "A MagisterSchool to logon to.",
+                    "type": "MagisterSchool"
+                },
+                {
+                    "name": "username",
+                    "description": "The username of the user to login to.",
+                    "type": "String"
+                },
+                {
+                    "name": "password",
+                    "description": "The password of the user to login to.",
+                    "type": "String"
+                },
+                {
+                    "name": "_keepLoggedIn",
+                    "description": "Whether or not to keep the user logged in.",
+                    "type": "Boolean"
+                }
+            ],
+            "is_constructor": 1
+        },
+        "Message": {
+            "name": "Message",
+            "shortname": "Message",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "Message.coffee",
+            "line": 11,
+            "description": "A Magister message.",
+            "params": [
+                {
+                    "name": "_magisterObj",
+                    "description": "A Magister object this Message is child of.",
+                    "type": "Magister"
+                }
+            ],
+            "is_constructor": 1
+        },
+        "MessageFolder": {
+            "name": "MessageFolder",
+            "shortname": "MessageFolder",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "MessageFolder.coffee",
+            "line": 15,
+            "description": "A MessageFolder.",
+            "params": [
+                {
+                    "name": "_magisterObj",
+                    "description": "A Magister object this MessageFolder is child of.",
+                    "type": "Magister"
+                }
+            ],
+            "is_constructor": 1
+        },
+        "Person": {
+            "name": "Person",
+            "shortname": "Person",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "Person.coffee",
+            "line": 1,
+            "description": "A Person.",
+            "params": [
+                {
+                    "name": "_magisterObj",
+                    "description": "A Magister object this Person is child of.",
+                    "type": "Magister"
+                },
+                {
+                    "name": "_type",
+                    "description": "The type of the Person.",
+                    "type": "Number|String"
+                },
+                {
+                    "name": "_firstName",
+                    "description": "The first name of the Person.",
+                    "type": "String"
+                },
+                {
+                    "name": "_lastName",
+                    "description": "The last name of the Person.",
+                    "type": "String"
+                }
+            ],
+            "is_constructor": 1
+        },
+        "ProfileInfo": {
+            "name": "ProfileInfo",
+            "shortname": "ProfileInfo",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "ProfileInfo.coffee",
+            "line": 1,
+            "description": "Information of the logged in user.",
+            "params": [
+                {
+                    "name": "_magisterObj",
+                    "description": "A Magister object this ProfileInfo is child of.",
+                    "type": "Magister"
+                },
+                {
+                    "name": "_firstName",
+                    "description": "The first name of the user.",
+                    "type": "String"
+                },
+                {
+                    "name": "_lastName",
+                    "description": "The last name of the user.",
+                    "type": "String"
+                },
+                {
+                    "name": "_birthDate",
+                    "description": "The date of birth of the user.",
+                    "type": "Date"
+                }
+            ],
+            "is_constructor": 1
+        },
+        "MagisterSchool": {
+            "name": "MagisterSchool",
+            "shortname": "MagisterSchool",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "School.coffee",
+            "line": 1,
+            "description": "A Magister school.",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "The name of the school.",
+                    "type": "String"
+                },
+                {
+                    "name": "url",
+                    "description": "The URL of the school.",
+                    "type": "String"
+                }
+            ],
+            "is_constructor": 1
+        }
+    },
+    "classitems": [
+        {
+            "file": "Appointment.coffee",
+            "line": 10,
+            "itemtype": "property",
+            "name": "id",
+            "final": 1,
+            "type": "Number",
+            "class": "Appointment"
+        },
+        {
+            "file": "Appointment.coffee",
+            "line": 16,
+            "itemtype": "property",
+            "name": "begin",
+            "final": 1,
+            "type": "Date",
+            "class": "Appointment"
+        },
+        {
+            "file": "Appointment.coffee",
+            "line": 22,
+            "itemtype": "property",
+            "name": "end",
+            "final": 1,
+            "type": "Date",
+            "class": "Appointment"
+        },
+        {
+            "file": "Appointment.coffee",
+            "line": 28,
+            "itemtype": "property",
+            "name": "beginBySchoolHour",
+            "final": 1,
+            "type": "Number",
+            "class": "Appointment"
+        },
+        {
+            "file": "Appointment.coffee",
+            "line": 34,
+            "itemtype": "property",
+            "name": "endBySchoolHour",
+            "final": 1,
+            "type": "Number",
+            "class": "Appointment"
+        },
+        {
+            "file": "Appointment.coffee",
+            "line": 40,
+            "itemtype": "property",
+            "name": "fullDay",
+            "final": 1,
+            "type": "Boolean",
+            "class": "Appointment"
+        },
+        {
+            "file": "Appointment.coffee",
+            "line": 46,
+            "itemtype": "property",
+            "name": "description",
+            "final": 1,
+            "type": "String",
+            "class": "Appointment"
+        },
+        {
+            "file": "Appointment.coffee",
+            "line": 52,
+            "itemtype": "property",
+            "name": "location",
+            "final": 1,
+            "type": "String",
+            "class": "Appointment"
+        },
+        {
+            "file": "Appointment.coffee",
+            "line": 58,
+            "itemtype": "property",
+            "name": "status",
+            "final": 1,
+            "type": "Number",
+            "class": "Appointment"
+        },
+        {
+            "file": "Appointment.coffee",
+            "line": 64,
+            "itemtype": "property",
+            "name": "type",
+            "final": 1,
+            "type": "Number",
+            "class": "Appointment"
+        },
+        {
+            "file": "Appointment.coffee",
+            "line": 70,
+            "itemtype": "property",
+            "name": "displayType",
+            "final": 1,
+            "type": "Number",
+            "class": "Appointment"
+        },
+        {
+            "file": "Appointment.coffee",
+            "line": 76,
+            "itemtype": "property",
+            "name": "content",
+            "final": 1,
+            "type": "String",
+            "class": "Appointment"
+        },
+        {
+            "file": "Appointment.coffee",
+            "line": 82,
+            "itemtype": "property",
+            "name": "infoType",
+            "final": 1,
+            "type": "Number",
+            "class": "Appointment"
+        },
+        {
+            "file": "Appointment.coffee",
+            "line": 88,
+            "itemtype": "property",
+            "name": "notes",
+            "final": 1,
+            "type": "String",
+            "class": "Appointment"
+        },
+        {
+            "file": "Appointment.coffee",
+            "line": 94,
+            "itemtype": "property",
+            "name": "isDone",
+            "type": "Boolean",
+            "class": "Appointment"
+        },
+        {
+            "file": "Appointment.coffee",
+            "line": 103,
+            "itemtype": "property",
+            "name": "classes",
+            "final": 1,
+            "type": "String[]",
+            "class": "Appointment"
+        },
+        {
+            "file": "Appointment.coffee",
+            "line": 109,
+            "itemtype": "property",
+            "name": "teachers",
+            "final": 1,
+            "type": "Person[]",
+            "class": "Appointment"
+        },
+        {
+            "file": "Appointment.coffee",
+            "line": 115,
+            "itemtype": "property",
+            "name": "classRooms",
+            "final": 1,
+            "type": "String[]",
+            "class": "Appointment"
+        },
+        {
+            "file": "Appointment.coffee",
+            "line": 121,
+            "itemtype": "property",
+            "name": "groups",
+            "final": 1,
+            "type": "String[]",
+            "class": "Appointment"
+        },
+        {
+            "file": "Appointment.coffee",
+            "line": 127,
+            "itemtype": "property",
+            "name": "appointmentId",
+            "final": 1,
+            "type": "Number",
+            "class": "Appointment"
+        },
+        {
+            "file": "Appointment.coffee",
+            "line": 133,
+            "itemtype": "property",
+            "name": "attachments",
+            "final": 1,
+            "type": "File[]",
+            "class": "Appointment"
+        },
+        {
+            "file": "Appointment.coffee",
+            "line": 139,
+            "itemtype": "property",
+            "name": "url",
+            "final": 1,
+            "type": "String",
+            "class": "Appointment"
+        },
+        {
+            "file": "Appointment.coffee",
+            "line": 145,
+            "itemtype": "property",
+            "name": "scrapped",
+            "final": 1,
+            "type": "Boolean",
+            "class": "Appointment"
+        },
+        {
+            "file": "Appointment.coffee",
+            "line": 151,
+            "itemtype": "property",
+            "name": "absenceInfo",
+            "final": 1,
+            "type": "Object",
+            "class": "Appointment"
+        },
+        {
+            "file": "Course.coffee",
+            "line": 10,
+            "itemtype": "property",
+            "name": "id",
+            "final": 1,
+            "type": "Number",
+            "class": "Course"
+        },
+        {
+            "file": "Course.coffee",
+            "line": 16,
+            "itemtype": "property",
+            "name": "begin",
+            "final": 1,
+            "type": "Date",
+            "class": "Course"
+        },
+        {
+            "file": "Course.coffee",
+            "line": 22,
+            "itemtype": "property",
+            "name": "end",
+            "final": 1,
+            "type": "Date",
+            "class": "Course"
+        },
+        {
+            "file": "Course.coffee",
+            "line": 28,
+            "itemtype": "property",
+            "name": "schoolPeriod",
+            "final": 1,
+            "type": "String",
+            "class": "Course"
+        },
+        {
+            "file": "Course.coffee",
+            "line": 34,
+            "itemtype": "property",
+            "name": "type",
+            "final": 1,
+            "type": "Number",
+            "class": "Course"
+        },
+        {
+            "file": "Course.coffee",
+            "line": 40,
+            "itemtype": "property",
+            "name": "group",
+            "final": 1,
+            "type": "String",
+            "class": "Course"
+        },
+        {
+            "file": "Course.coffee",
+            "line": 46,
+            "itemtype": "property",
+            "name": "profile",
+            "final": 1,
+            "type": "String",
+            "class": "Course"
+        },
+        {
+            "file": "Course.coffee",
+            "line": 52,
+            "itemtype": "property",
+            "name": "alternativeProfile",
+            "final": 1,
+            "type": "String",
+            "class": "Course"
+        },
+        {
+            "file": "Course.coffee",
+            "line": 59,
+            "description": "Gets the classes of this Course.",
+            "itemtype": "method",
+            "name": "classes",
+            "async": 1,
+            "params": [
+                {
+                    "name": "callback",
+                    "description": "A standard callback.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "error",
+                            "description": "The error, if it exists.",
+                            "type": "Object",
+                            "optional": true
+                        },
+                        {
+                            "name": "result",
+                            "description": "An array containing the Classes.",
+                            "type": "Object[]",
+                            "optional": true
+                        }
+                    ]
+                }
+            ],
+            "class": "Course"
+        },
+        {
+            "file": "Course.coffee",
+            "line": 83,
+            "description": "Gets the grades of this Course.",
+            "itemtype": "method",
+            "name": "grades",
+            "async": 1,
+            "params": [
+                {
+                    "name": "download",
+                    "description": "Whether or not to download the users from the server.",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "true"
+                },
+                {
+                    "name": "callback",
+                    "description": "A standard callback.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "error",
+                            "description": "The error, if it exists.",
+                            "type": "Object",
+                            "optional": true
+                        },
+                        {
+                            "name": "result",
+                            "description": "An array containing the Grades.",
+                            "type": "Object[]",
+                            "optional": true
+                        }
+                    ]
+                }
+            ],
+            "class": "Course"
+        },
+        {
+            "file": "File.coffee",
+            "line": 10,
+            "itemtype": "property",
+            "name": "id",
+            "final": 1,
+            "type": "Number",
+            "class": "FileFolder"
+        },
+        {
+            "file": "File.coffee",
+            "line": 16,
+            "itemtype": "property",
+            "name": "name",
+            "final": 1,
+            "type": "String",
+            "class": "FileFolder"
+        },
+        {
+            "file": "File.coffee",
+            "line": 22,
+            "description": "The rights the current user has on this FileFolder.",
+            "itemtype": "property",
+            "name": "rights",
+            "final": 1,
+            "type": "Number",
+            "class": "FileFolder"
+        },
+        {
+            "file": "File.coffee",
+            "line": 29,
+            "description": "The ID of the parent FileFolder of this FileFolder.",
+            "itemtype": "property",
+            "name": "parentId",
+            "final": 1,
+            "type": "Number",
+            "class": "FileFolder"
+        },
+        {
+            "file": "File.coffee",
+            "line": 37,
+            "description": "Gets all the files in the current FileFolder.",
+            "itemtype": "method",
+            "name": "files",
+            "async": 1,
+            "params": [
+                {
+                    "name": "callback",
+                    "description": "A standard callback.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "error",
+                            "description": "The error, if it exists.",
+                            "type": "Object",
+                            "optional": true
+                        },
+                        {
+                            "name": "result",
+                            "description": "The results as an Array.",
+                            "type": "File[]",
+                            "optional": true
+                        }
+                    ]
+                }
+            ],
+            "class": "FileFolder"
+        },
+        {
+            "file": "File.coffee",
+            "line": 77,
+            "itemtype": "property",
+            "name": "id",
+            "final": 1,
+            "type": "Number",
+            "class": "File"
+        },
+        {
+            "file": "File.coffee",
+            "line": 83,
+            "itemtype": "property",
+            "name": "type",
+            "final": 1,
+            "type": "Number",
+            "class": "File"
+        },
+        {
+            "file": "File.coffee",
+            "line": 89,
+            "itemtype": "property",
+            "name": "name",
+            "type": "String",
+            "class": "File"
+        },
+        {
+            "file": "File.coffee",
+            "line": 94,
+            "itemtype": "property",
+            "name": "uri",
+            "final": 1,
+            "type": "String",
+            "class": "File"
+        },
+        {
+            "file": "File.coffee",
+            "line": 100,
+            "description": "The size of this file in bytes.",
+            "itemtype": "property",
+            "name": "size",
+            "final": 1,
+            "type": "Number",
+            "class": "File"
+        },
+        {
+            "file": "File.coffee",
+            "line": 107,
+            "description": "The rights the current user has on this File.",
+            "itemtype": "property",
+            "name": "rights",
+            "final": 1,
+            "type": "Number",
+            "class": "File"
+        },
+        {
+            "file": "File.coffee",
+            "line": 114,
+            "itemtype": "property",
+            "name": "mime",
+            "final": 1,
+            "type": "String",
+            "class": "File"
+        },
+        {
+            "file": "File.coffee",
+            "line": 120,
+            "itemtype": "property",
+            "name": "changedDate",
+            "final": 1,
+            "type": "Date",
+            "class": "File"
+        },
+        {
+            "file": "File.coffee",
+            "line": 126,
+            "itemtype": "property",
+            "name": "creationDate",
+            "final": 1,
+            "type": "Date",
+            "class": "File"
+        },
+        {
+            "file": "File.coffee",
+            "line": 132,
+            "itemtype": "property",
+            "name": "addedBy",
+            "final": 1,
+            "type": "Person",
+            "class": "File"
+        },
+        {
+            "file": "File.coffee",
+            "line": 138,
+            "itemtype": "property",
+            "name": "fileBlobId",
+            "final": 1,
+            "type": "Number",
+            "class": "File"
+        },
+        {
+            "file": "File.coffee",
+            "line": 144,
+            "description": "The FileFolder this File is in.",
+            "itemtype": "property",
+            "name": "fileFolder",
+            "type": "FileFolder",
+            "class": "File"
+        },
+        {
+            "file": "File.coffee",
+            "line": 150,
+            "itemtype": "property",
+            "name": "uniqueId",
+            "final": 1,
+            "type": "String",
+            "class": "File"
+        },
+        {
+            "file": "File.coffee",
+            "line": 157,
+            "description": "Downloads the current file",
+            "itemtype": "method",
+            "name": "download",
+            "async": 1,
+            "params": [
+                {
+                    "name": "downloadFile",
+                    "description": "Whether or not to download the file directly. Only works client-side.",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "true"
+                },
+                {
+                    "name": "callback",
+                    "description": "A standard callback.",
+                    "type": "Function",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "error",
+                            "description": "The error, if it exists.",
+                            "type": "Object",
+                            "optional": true
+                        },
+                        {
+                            "name": "result",
+                            "description": "A string containing the binary data of the downloaded file.",
+                            "type": "String",
+                            "optional": true
+                        }
+                    ]
+                }
+            ],
+            "class": "File"
+        },
+        {
+            "file": "File.coffee",
+            "line": 178,
+            "description": "Moves the current File to another FileFolder",
+            "itemtype": "method",
+            "name": "move",
+            "params": [
+                {
+                    "name": "fileFolder",
+                    "description": "A FileFolder, an ID of a FileFolder or (a part of) the name of a FileFolder.",
+                    "type": "FileFolder|Number|String"
+                }
+            ],
+            "class": "File"
+        },
+        {
+            "file": "File.coffee",
+            "line": 193,
+            "description": "WARNING. Removes the current File.",
+            "itemtype": "method",
+            "name": "remove",
+            "class": "File"
+        },
+        {
+            "file": "File.coffee",
+            "line": 200,
+            "description": "Updates the current File on the Magister servers.",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "_update",
+            "class": "File"
+        },
+        {
+            "file": "Magister.coffee",
+            "line": 19,
+            "description": "Get the appoinments of the current User between the two given Dates.",
+            "itemtype": "method",
+            "name": "appointments",
+            "async": 1,
+            "params": [
+                {
+                    "name": "from",
+                    "description": "The start date for the Appointments, you won't get appointments from before this date.",
+                    "type": "Date"
+                },
+                {
+                    "name": "to",
+                    "description": "The end date for the Appointments, you won't get appointments from after this date.",
+                    "type": "Date",
+                    "optional": true
+                },
+                {
+                    "name": "download",
+                    "description": "Whether or not to download the users from the server.",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "true"
+                },
+                {
+                    "name": "callback",
+                    "description": "A standard callback.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "error",
+                            "description": "The error, if it exists.",
+                            "type": "Object",
+                            "optional": true
+                        },
+                        {
+                            "name": "result",
+                            "description": "An array containing the Appointments.",
+                            "type": "Appointment[]",
+                            "optional": true
+                        }
+                    ]
+                }
+            ],
+            "class": "Magister"
+        },
+        {
+            "file": "Magister.coffee",
+            "line": 88,
+            "description": "Gets the MessageFolders that matches the given query. Or if no query is given, all MessageFolders",
+            "itemtype": "method",
+            "name": "messageFolders",
+            "params": [
+                {
+                    "name": "query",
+                    "description": "A case insensetive query the MessageFolder need to match.",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "Not useful at all, just here to prevent possible mistakes.",
+                    "type": "Function",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "error",
+                            "description": "Will always be null",
+                            "type": "Null",
+                            "optional": true
+                        },
+                        {
+                            "name": "result",
+                            "description": "An array containing the matching MessageFolders.",
+                            "type": "MessageFolder[]",
+                            "optional": true
+                        }
+                    ]
+                }
+            ],
+            "return": {
+                "description": "An array containing the matching messageFolders.",
+                "type": "MessageFolder[]"
+            },
+            "class": "Magister"
+        },
+        {
+            "file": "Magister.coffee",
+            "line": 109,
+            "itemtype": "method",
+            "name": "inbox",
+            "return": {
+                "description": "The inbox of the current user.",
+                "type": "MessageFolder"
+            },
+            "class": "Magister"
+        },
+        {
+            "file": "Magister.coffee",
+            "line": 114,
+            "itemtype": "method",
+            "name": "sentItems",
+            "return": {
+                "description": "The sent items folder of the current user.",
+                "type": "MessageFolder"
+            },
+            "class": "Magister"
+        },
+        {
+            "file": "Magister.coffee",
+            "line": 119,
+            "itemtype": "method",
+            "name": "bin",
+            "return": {
+                "description": "The bin of the current user.",
+                "type": "MessageFolder"
+            },
+            "class": "Magister"
+        },
+        {
+            "file": "Magister.coffee",
+            "line": 124,
+            "itemtype": "method",
+            "name": "alerts",
+            "return": {
+                "description": "The alerts folder of the current user.",
+                "type": "MessageFolder"
+            },
+            "class": "Magister"
+        },
+        {
+            "file": "Magister.coffee",
+            "line": 130,
+            "description": "Gets the courses of the current User.",
+            "itemtype": "method",
+            "name": "courses",
+            "async": 1,
+            "params": [
+                {
+                    "name": "callback",
+                    "description": "A standard callback.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "error",
+                            "description": "The error, if it exists.",
+                            "type": "Object",
+                            "optional": true
+                        },
+                        {
+                            "name": "result",
+                            "description": "An array containing the Courses.",
+                            "type": "Course[]",
+                            "optional": true
+                        }
+                    ]
+                }
+            ],
+            "class": "Magister"
+        },
+        {
+            "file": "Magister.coffee",
+            "line": 152,
+            "description": "Gets an Array of Persons that matches the given profile.",
+            "itemtype": "method",
+            "name": "getPersons",
+            "async": 1,
+            "params": [
+                {
+                    "name": "query",
+                    "description": "The query the persons must match to (e.g: Surname, Name, ...). Should at least be 3 chars long.",
+                    "type": "String"
+                },
+                {
+                    "name": "type",
+                    "description": "The type the person must have. If none is given it will search for both Teachers and Pupils.",
+                    "type": "String|Number",
+                    "optional": true
+                },
+                {
+                    "name": "callback",
+                    "description": "A standard callback.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "error",
+                            "description": "The error, if it exists.",
+                            "type": "Object",
+                            "optional": true
+                        },
+                        {
+                            "name": "result",
+                            "description": "An array containing the Persons.",
+                            "type": "Person[]",
+                            "optional": true
+                        }
+                    ]
+                }
+            ],
+            "class": "Magister"
+        },
+        {
+            "file": "Magister.coffee",
+            "line": 204,
+            "description": "Fills the given person(s) by downloading the person from Magister and replacing the local instance.",
+            "itemtype": "method",
+            "name": "fillPersons",
+            "async": 1,
+            "params": [
+                {
+                    "name": "persons",
+                    "description": "A Person or an Array of Persons to fetch more information for.",
+                    "type": "Person[]|Person"
+                },
+                {
+                    "name": "callback",
+                    "description": "A standard callback.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "error",
+                            "description": "The error, if it exists.",
+                            "type": "Object",
+                            "optional": true
+                        },
+                        {
+                            "name": "result",
+                            "description": "An array containing the fetched Persons.",
+                            "type": "Person[]",
+                            "optional": true
+                        }
+                    ]
+                },
+                {
+                    "name": "overwriteType",
+                    "description": "The type used to search the persons for. Not recommended for usage.",
+                    "type": "Number|String",
+                    "optional": true
+                }
+            ],
+            "class": "Magister"
+        },
+        {
+            "file": "Magister.coffee",
+            "line": 239,
+            "description": "Shortcut for composing and sending a Message.",
+            "itemtype": "method",
+            "name": "composeAndSendMessage",
+            "params": [
+                {
+                    "name": "subject",
+                    "description": "The subject of the message",
+                    "type": "String"
+                },
+                {
+                    "name": "body",
+                    "description": "The body of the message, if none is given the body will be empty.",
+                    "type": "String",
+                    "optional": true
+                },
+                {
+                    "name": "recipients",
+                    "description": "An array of Persons or Strings the message will be send to.",
+                    "type": "Person[]|String[]"
+                }
+            ],
+            "class": "Magister"
+        },
+        {
+            "file": "Magister.coffee",
+            "line": 257,
+            "description": "Gets the FileFolders of the current User.",
+            "itemtype": "method",
+            "name": "fileFolders",
+            "async": 1,
+            "params": [
+                {
+                    "name": "callback",
+                    "description": "A standard callback.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "error",
+                            "description": "The error, if it exists.",
+                            "type": "Object",
+                            "optional": true
+                        },
+                        {
+                            "name": "result",
+                            "description": "An array containing FileFolders.",
+                            "type": "FileFolder[]",
+                            "optional": true
+                        }
+                    ]
+                }
+            ],
+            "class": "Magister"
+        },
+        {
+            "file": "Magister.coffee",
+            "line": 271,
+            "description": "Returns the profile for the current logged in user.",
+            "itemtype": "method",
+            "name": "profileInfo",
+            "params": [
+                {
+                    "name": "callback",
+                    "description": "Not useful at all, just here to prevent possible mistakes.",
+                    "type": "Function",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "error",
+                            "description": "Will always be null",
+                            "type": "Null",
+                            "optional": true
+                        },
+                        {
+                            "name": "result",
+                            "description": "The profile of the current logged in user.",
+                            "type": "ProfileInfo",
+                            "optional": true
+                        }
+                    ]
+                }
+            ],
+            "return": {
+                "description": "The profile of the current logged in user.",
+                "type": "ProfileInfo"
+            },
+            "class": "Magister"
+        },
+        {
+            "file": "Magister.coffee",
+            "line": 286,
+            "description": "Checks if this Magister instance is done logging in.\nYou can also provide a callback, which will be called when this instance is done logging in.",
+            "itemtype": "method",
+            "name": "ready",
+            "params": [
+                {
+                    "name": "callback",
+                    "description": "The callback which will be called if the current instance is done logging in.",
+                    "type": "Function",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "magister",
+                            "description": "The current Magister instance.",
+                            "type": "Magister"
+                        }
+                    ]
+                }
+            ],
+            "return": {
+                "description": "Whether or not the current Magister instance is done logging in.",
+                "type": "Boolean"
+            },
+            "class": "Magister"
+        },
+        {
+            "file": "Message.coffee",
+            "line": 31,
+            "itemtype": "property",
+            "name": "id",
+            "final": 1,
+            "type": "Number",
+            "class": "Message"
+        },
+        {
+            "file": "Message.coffee",
+            "line": 37,
+            "itemtype": "property",
+            "name": "body",
+            "type": "String",
+            "default": "\"\"",
+            "class": "Message"
+        },
+        {
+            "file": "Message.coffee",
+            "line": 43,
+            "itemtype": "property",
+            "name": "attachments",
+            "final": 1,
+            "type": "File[]",
+            "class": "Message"
+        },
+        {
+            "file": "Message.coffee",
+            "line": 49,
+            "description": "The MessageFolder this Message in, changing this will move the Message.",
+            "itemtype": "property",
+            "name": "messageFolder",
+            "type": "MessageFolder",
+            "class": "Message"
+        },
+        {
+            "file": "Message.coffee",
+            "line": 55,
+            "itemtype": "property",
+            "name": "subject",
+            "type": "String",
+            "default": "\"\"",
+            "class": "Message"
+        },
+        {
+            "file": "Message.coffee",
+            "line": 61,
+            "itemtype": "property",
+            "name": "sender",
+            "final": 1,
+            "type": "Person",
+            "class": "Message"
+        },
+        {
+            "file": "Message.coffee",
+            "line": 67,
+            "itemtype": "property",
+            "name": "recipients",
+            "final": 1,
+            "type": "Person[]",
+            "default": "[]",
+            "class": "Message"
+        },
+        {
+            "file": "Message.coffee",
+            "line": 74,
+            "itemtype": "property",
+            "name": "sendDate",
+            "final": 1,
+            "type": "Date",
+            "default": "new Date()",
+            "class": "Message"
+        },
+        {
+            "file": "Message.coffee",
+            "line": 81,
+            "itemtype": "property",
+            "name": "begin",
+            "final": 1,
+            "type": "Date",
+            "class": "Message"
+        },
+        {
+            "file": "Message.coffee",
+            "line": 87,
+            "itemtype": "property",
+            "name": "end",
+            "final": 1,
+            "type": "Date",
+            "class": "Message"
+        },
+        {
+            "file": "Message.coffee",
+            "line": 93,
+            "itemtype": "property",
+            "name": "isRead",
+            "type": "Boolean",
+            "default": "false",
+            "class": "Message"
+        },
+        {
+            "file": "Message.coffee",
+            "line": 103,
+            "itemtype": "property",
+            "name": "state",
+            "final": 1,
+            "type": "Number",
+            "class": "Message"
+        },
+        {
+            "file": "Message.coffee",
+            "line": 109,
+            "itemtype": "property",
+            "name": "isFlagged",
+            "final": 1,
+            "type": "Boolean",
+            "class": "Message"
+        },
+        {
+            "file": "Message.coffee",
+            "line": 115,
+            "itemtype": "property",
+            "name": "type",
+            "final": 1,
+            "type": "Number",
+            "class": "Message"
+        },
+        {
+            "file": "Message.coffee",
+            "line": 128,
+            "description": "Adds (a) recipient(s) to the current Message.",
+            "itemtype": "method",
+            "name": "addRecipient",
+            "params": [
+                {
+                    "name": "recipient",
+                    "description": "The recipient(s) to add.",
+                    "type": "String|Person|String[]|Person[]"
+                },
+                {
+                    "name": "type",
+                    "description": "The type of the recipient, if none is provided and recipient is a String it will search for both Teachers and Pupils.",
+                    "type": "String|Number",
+                    "optional": true
+                }
+            ],
+            "class": "Message"
+        },
+        {
+            "file": "Message.coffee",
+            "line": 156,
+            "description": "Sends the current Message. Sending will be delayed if there are processes running in the background.",
+            "itemtype": "method",
+            "name": "send",
+            "class": "Message"
+        },
+        {
+            "file": "Message.coffee",
+            "line": 173,
+            "description": "Move the current message to the given position.",
+            "itemtype": "method",
+            "name": "move",
+            "params": [
+                {
+                    "name": "destination",
+                    "description": "The MessageFolder of the ID of a MessageFolder where to move this Message to.",
+                    "type": "Number|MessageFolder"
+                }
+            ],
+            "class": "Message"
+        },
+        {
+            "file": "MessageFolder.coffee",
+            "line": 24,
+            "itemtype": "property",
+            "name": "name",
+            "final": 1,
+            "type": "String",
+            "class": "MessageFolder"
+        },
+        {
+            "file": "MessageFolder.coffee",
+            "line": 30,
+            "itemtype": "property",
+            "name": "unreadMessagesCount",
+            "final": 1,
+            "type": "Number",
+            "class": "MessageFolder"
+        },
+        {
+            "file": "MessageFolder.coffee",
+            "line": 36,
+            "itemtype": "property",
+            "name": "id",
+            "final": 1,
+            "type": "Number",
+            "class": "MessageFolder"
+        },
+        {
+            "file": "MessageFolder.coffee",
+            "line": 42,
+            "itemtype": "property",
+            "name": "parentId",
+            "final": 1,
+            "type": "Number",
+            "class": "MessageFolder"
+        },
+        {
+            "file": "MessageFolder.coffee",
+            "line": 49,
+            "description": "Gets the Messages of this MessageFolder.",
+            "itemtype": "method",
+            "name": "messages",
+            "async": 1,
+            "params": [
+                {
+                    "name": "limit",
+                    "description": "The limit of the amount of Messages to fetch.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "10"
+                },
+                {
+                    "name": "queries",
+                    "description": "Queries to do on the message (e.g: \"unread, skip 5\")",
+                    "type": "String",
+                    "optional": true,
+                    "optdefault": "\"\""
+                },
+                {
+                    "name": "download",
+                    "description": "Whether or not to download the users from the server.",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "true"
+                },
+                {
+                    "name": "callback",
+                    "description": "A standard callback.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "error",
+                            "description": "The error, if it exists.",
+                            "type": "Object",
+                            "optional": true
+                        },
+                        {
+                            "name": "result",
+                            "description": "An array containing the Messages.",
+                            "type": "Message[]",
+                            "optional": true
+                        }
+                    ]
+                }
+            ],
+            "class": "MessageFolder"
+        },
+        {
+            "file": "MessageFolder.coffee",
+            "line": 99,
+            "description": "Gets the MessageFolders in this MessageFolder that matches the given query. Or if no query is given, all MessageFolders",
+            "itemtype": "method",
+            "name": "messageFolders",
+            "async": 1,
+            "params": [
+                {
+                    "name": "query",
+                    "description": "A case insensetive query the MessageFolder need to match.",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "A standard callback.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "error",
+                            "description": "The error, if it exists.",
+                            "type": "Object",
+                            "optional": true
+                        },
+                        {
+                            "name": "result",
+                            "description": "An array containing the matching MessageFolders.",
+                            "type": "MessageFolder[]",
+                            "optional": true
+                        }
+                    ]
+                }
+            ],
+            "return": {
+                "description": "An array containing the matching messageFolders.",
+                "type": "MessageFolder[]"
+            },
+            "class": "MessageFolder"
+        },
+        {
+            "file": "MessageFolder.coffee",
+            "line": 127,
+            "description": "DANGER. Removes ALL messages from the current MessageFolder.",
+            "itemtype": "method",
+            "name": "removeAllMessages",
+            "class": "MessageFolder"
+        },
+        {
+            "file": "MessageFolder.coffee",
+            "line": 133,
+            "description": "Creates a new MessageFolder inside of this MessageFolder with the given name.",
+            "itemtype": "method",
+            "name": "createMessageFolder",
+            "async": 1,
+            "params": [
+                {
+                    "name": "name",
+                    "description": "The name of the MessageFolder.",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "A standard callback.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "error",
+                            "description": "The error, if it exists.",
+                            "type": "Object",
+                            "optional": true
+                        },
+                        {
+                            "name": "result",
+                            "description": "The new MessageFolder.",
+                            "type": "MessageFolder",
+                            "optional": true
+                        }
+                    ]
+                }
+            ],
+            "class": "MessageFolder"
+        },
+        {
+            "file": "MessageFolder.coffee",
+            "line": 154,
+            "description": "DANGER. Removes the current MessageFolder.",
+            "itemtype": "method",
+            "name": "remove",
+            "class": "MessageFolder"
+        },
+        {
+            "file": "Person.coffee",
+            "line": 16,
+            "itemtype": "property",
+            "name": "id",
+            "final": 1,
+            "type": "Number",
+            "class": "Person"
+        },
+        {
+            "file": "Person.coffee",
+            "line": 22,
+            "itemtype": "property",
+            "name": "type",
+            "type": "String",
+            "class": "Person"
+        },
+        {
+            "file": "Person.coffee",
+            "line": 27,
+            "itemtype": "property",
+            "name": "firstName",
+            "final": 1,
+            "type": "String",
+            "class": "Person"
+        },
+        {
+            "file": "Person.coffee",
+            "line": 33,
+            "itemtype": "property",
+            "name": "lastName",
+            "final": 1,
+            "type": "String",
+            "class": "Person"
+        },
+        {
+            "file": "Person.coffee",
+            "line": 39,
+            "itemtype": "property",
+            "name": "namePrefix",
+            "final": 1,
+            "type": "String",
+            "class": "Person"
+        },
+        {
+            "file": "Person.coffee",
+            "line": 45,
+            "itemtype": "property",
+            "name": "fullName",
+            "final": 1,
+            "type": "String",
+            "class": "Person"
+        },
+        {
+            "file": "Person.coffee",
+            "line": 51,
+            "itemtype": "property",
+            "name": "description",
+            "final": 1,
+            "type": "String",
+            "class": "Person"
+        },
+        {
+            "file": "Person.coffee",
+            "line": 57,
+            "itemtype": "property",
+            "name": "group",
+            "final": 1,
+            "type": "String",
+            "class": "Person"
+        },
+        {
+            "file": "Person.coffee",
+            "line": 63,
+            "itemtype": "property",
+            "name": "teacherCode",
+            "final": 1,
+            "type": "String",
+            "class": "Person"
+        },
+        {
+            "file": "Person.coffee",
+            "line": 69,
+            "itemtype": "property",
+            "name": "emailAddress",
+            "final": 1,
+            "type": "String",
+            "class": "Person"
+        },
+        {
+            "file": "ProfileInfo.coffee",
+            "line": 13,
+            "itemtype": "property",
+            "name": "id",
+            "final": 1,
+            "type": "Number",
+            "class": "ProfileInfo"
+        },
+        {
+            "file": "ProfileInfo.coffee",
+            "line": 19,
+            "itemtype": "property",
+            "name": "officialFirstNames",
+            "final": 1,
+            "type": "String",
+            "class": "ProfileInfo"
+        },
+        {
+            "file": "ProfileInfo.coffee",
+            "line": 25,
+            "itemtype": "property",
+            "name": "initials",
+            "final": 1,
+            "type": "String",
+            "class": "ProfileInfo"
+        },
+        {
+            "file": "ProfileInfo.coffee",
+            "line": 31,
+            "itemtype": "property",
+            "name": "namePrefix",
+            "final": 1,
+            "type": "String",
+            "class": "ProfileInfo"
+        },
+        {
+            "file": "ProfileInfo.coffee",
+            "line": 37,
+            "itemtype": "property",
+            "name": "officialSurname",
+            "final": 1,
+            "type": "String",
+            "class": "ProfileInfo"
+        },
+        {
+            "file": "ProfileInfo.coffee",
+            "line": 43,
+            "itemtype": "property",
+            "name": "birthSurname",
+            "final": 1,
+            "type": "String",
+            "class": "ProfileInfo"
+        },
+        {
+            "file": "ProfileInfo.coffee",
+            "line": 49,
+            "itemtype": "property",
+            "name": "birthNamePrefix",
+            "final": 1,
+            "type": "String",
+            "class": "ProfileInfo"
+        },
+        {
+            "file": "ProfileInfo.coffee",
+            "line": 55,
+            "itemtype": "property",
+            "name": "useBirthname",
+            "final": 1,
+            "type": "Boolean",
+            "class": "ProfileInfo"
+        },
+        {
+            "file": "ProfileInfo.coffee",
+            "line": 61,
+            "itemtype": "property",
+            "name": "firstName",
+            "final": 1,
+            "type": "String",
+            "class": "ProfileInfo"
+        },
+        {
+            "file": "ProfileInfo.coffee",
+            "line": 67,
+            "itemtype": "property",
+            "name": "lastName",
+            "final": 1,
+            "type": "String",
+            "class": "ProfileInfo"
+        },
+        {
+            "file": "ProfileInfo.coffee",
+            "line": 73,
+            "description": "The profile picture of the current User.",
+            "itemtype": "method",
+            "name": "profilePicture",
+            "params": [
+                {
+                    "name": "width",
+                    "description": "The width of the picture.",
+                    "optional": true,
+                    "optdefault": "640"
+                },
+                {
+                    "name": "height",
+                    "description": "The height of the picture.",
+                    "optional": true,
+                    "optdefault": "640"
+                },
+                {
+                    "name": "crop",
+                    "description": "Whether or not to crop the image.",
+                    "optional": true,
+                    "optdefault": "false"
+                }
+            ],
+            "return": {
+                "description": "The URL to the picture, including the given options.",
+                "type": "String"
+            },
+            "class": "ProfileInfo"
+        },
+        {
+            "file": "School.coffee",
+            "line": 12,
+            "description": "Gets the schools that matches the given query.",
+            "itemtype": "method",
+            "name": "getSchools",
+            "async": 1,
+            "static": 1,
+            "params": [
+                {
+                    "name": "query",
+                    "description": "The query the school should match to. Should be at least 3 chars long.",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "A standard callback.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "error",
+                            "description": "The error, if it exists.",
+                            "type": "Object",
+                            "optional": true
+                        },
+                        {
+                            "name": "result",
+                            "description": "An array containing the MagisterSchools.",
+                            "type": "MagisterSchool[]",
+                            "optional": true
+                        }
+                    ]
+                }
+            ],
+            "class": "MagisterSchool"
+        }
+    ],
+    "warnings": []
+}
