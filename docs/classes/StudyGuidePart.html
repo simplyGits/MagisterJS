@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>MagisterSchool - Magister.js Docs</title>
+    <title>StudyGuidePart - Magister.js Docs</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -118,7 +118,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>MagisterSchool Class</h1>
+                        <h1>StudyGuidePart Class</h1>
 <div class="box meta">
     
 
@@ -126,7 +126,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/School.coffee.html#l1"><code>School.coffee:1</code></a>
+            Defined in: <a href="../files/StudyGuide.coffee.html#l83"><code>StudyGuide.coffee:83</code></a>
         </div>
     
 
@@ -142,15 +142,15 @@
 
 
 <div class="box intro">
-    <p>A Magister school.</p>
+    <p>A part of a StudyGuide.</p>
 
 </div>
 
 
     <div class="constructor">
         <h2>Constructor</h2>
-        <div id="method_MagisterSchool" class="method item">
-    <h3 class="name"><code>MagisterSchool</code></h3>
+        <div id="method_StudyGuidePart" class="method item private">
+    <h3 class="name"><code>StudyGuidePart</code></h3>
 
     
         <div class="args">
@@ -158,13 +158,7 @@
             
                 <li class="arg">
                     
-                        <code>name</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>url</code>
+                        <code>_magisterObj</code>
                     
                 </li>
             
@@ -176,6 +170,8 @@
 
     
 
+    
+        <span class="flag private">private</span>
     
 
     
@@ -197,7 +193,7 @@
             
         
         
-        <a href="../files/School.coffee.html#l1"><code>School.coffee:1</code></a>
+        <a href="../files/StudyGuide.coffee.html#l83"><code>StudyGuide.coffee:83</code></a>
         
         </p>
 
@@ -219,30 +215,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">name</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                        <code class="param-name">_magisterObj</code>
+                        <span class="type"><a href="../classes/Magister.html" class="crosslink">Magister</a></span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>The name of the school.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">url</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The URL of the school.</p>
+                        <p>A Magister object this StudyGuidePart is child of.</p>
 
                     </div>
 
@@ -266,8 +246,6 @@
         <li class="api-class-tab index"><a href="#index">Index</a></li>
 
         
-            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
-        
         
             <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
         
@@ -280,29 +258,40 @@
             <h2 class="off-left">Item Index</h2>
 
             
-                <div class="index-section methods">
-                    <h3>Methods</h3>
-
-                    <ul class="index-list methods">
-                        
-                            <li class="index-item method">
-                                <a href="#method_getSchools">getSchools</a>
-
-                                
-                                    <span class="flag static">static</span>
-                                
-                                
-                            </li>
-                        
-                    </ul>
-                </div>
-            
 
             
                 <div class="index-section properties">
                     <h3>Properties</h3>
 
                     <ul class="index-list properties">
+                        
+                            <li class="index-item property">
+                                <a href="#property_description">description</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_files">files</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_from">from</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_id">id</a>
+
+                                
+                                
+                            </li>
                         
                             <li class="index-item property">
                                 <a href="#property_name">name</a>
@@ -312,7 +301,21 @@
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_url">url</a>
+                                <a href="#property_number">number</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_to">to</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_visible">visible</a>
 
                                 
                                 
@@ -328,49 +331,24 @@
         </div>
 
         
-            <div id="methods" class="api-class-tabpanel">
-                <h2 class="off-left">Methods</h2>
+
+        
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
 
                 
-                    <div id="method_getSchools" class="method item">
-    <h3 class="name"><code>getSchools</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>query</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>callback</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
+                    <div id="property_description" class="property item">
+    <h3 class="name"><code>description</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
 
     
 
     
 
     
-
+        <span class="flag final">final</span>
     
 
-    
-        <span class="flag static">static</span>
-    
-
-    
-
-    
-        <span class="flag async">async</span>
     
 
     <div class="meta">
@@ -384,10 +362,9 @@
             
         
         
-        <a href="../files/School.coffee.html#l22"><code>School.coffee:22</code></a>
+        <a href="../files/StudyGuide.coffee.html#l117"><code>StudyGuide.coffee:117</code></a>
         
         </p>
-
 
         
 
@@ -395,84 +372,9 @@
     </div>
 
     <div class="description">
-        <p>Gets the schools that matches the given query.</p>
-
+        
     </div>
 
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">query</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The query the school should match to. Should be at least 3 chars long.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">callback</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>A standard callback.</p>
-
-                    </div>
-
-                    
-                        <ul class="params-list">
-                            
-                            <li class="param">
-                                
-                                    <code class="param-name optional">[error]</code>
-                                    <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
-                                    <span class="flag optional" title="This parameter is optional.">optional</span>
-                                
-
-                                <div class="param-description">
-                                    <p>The error, if it exists.</p>
-
-                                </div>
-
-                                
-                            </li>
-                            
-                            <li class="param">
-                                
-                                    <code class="param-name optional">[result]</code>
-                                    <span class="type"><a href="../classes/MagisterSchool.html" class="crosslink">MagisterSchool[]</a></span>
-                                    <span class="flag optional" title="This parameter is optional.">optional</span>
-                                
-
-                                <div class="param-description">
-                                    <p>An array containing the MagisterSchools.</p>
-
-                                </div>
-
-                                
-                            </li>
-                            
-                        </ul>
-                    
-                </li>
-            
-            </ul>
-        </div>
     
 
     
@@ -481,12 +383,142 @@
 </div>
 
                 
-            </div>
+                    <div id="property_files" class="property item">
+    <h3 class="name"><code>files</code></h3>
+    <span class="type"><a href="../classes/File.html" class="crosslink">File[]</a></span>
+
+    
+
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/StudyGuide.coffee.html#l135"><code>StudyGuide.coffee:135</code></a>
+        
+        </p>
+
         
 
         
-            <div id="properties" class="api-class-tabpanel">
-                <h2 class="off-left">Properties</h2>
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_from" class="property item">
+    <h3 class="name"><code>from</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Date" class="crosslink external" target="_blank">Date</a></span>
+
+    
+
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/StudyGuide.coffee.html#l99"><code>StudyGuide.coffee:99</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_id" class="property item">
+    <h3 class="name"><code>id</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+
+    
+
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/StudyGuide.coffee.html#l93"><code>StudyGuide.coffee:93</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+    
+
+    
+
+    
+</div>
 
                 
                     <div id="property_name" class="property item">
@@ -514,7 +546,7 @@
             
         
         
-        <a href="../files/School.coffee.html#l10"><code>School.coffee:10</code></a>
+        <a href="../files/StudyGuide.coffee.html#l111"><code>StudyGuide.coffee:111</code></a>
         
         </p>
 
@@ -535,9 +567,9 @@
 </div>
 
                 
-                    <div id="property_url" class="property item">
-    <h3 class="name"><code>url</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                    <div id="property_number" class="property item">
+    <h3 class="name"><code>number</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
 
     
 
@@ -560,7 +592,99 @@
             
         
         
-        <a href="../files/School.coffee.html#l15"><code>School.coffee:15</code></a>
+        <a href="../files/StudyGuide.coffee.html#l129"><code>StudyGuide.coffee:129</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_to" class="property item">
+    <h3 class="name"><code>to</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Date" class="crosslink external" target="_blank">Date</a></span>
+
+    
+
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/StudyGuide.coffee.html#l105"><code>StudyGuide.coffee:105</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_visible" class="property item">
+    <h3 class="name"><code>visible</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+
+    
+
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/StudyGuide.coffee.html#l123"><code>StudyGuide.coffee:123</code></a>
         
         </p>
 

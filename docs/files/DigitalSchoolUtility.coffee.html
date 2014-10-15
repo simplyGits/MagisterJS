@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Appointment.coffee - Magister.js Docs</title>
+    <title>DigitalSchoolUtility.coffee - Magister.js Docs</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -118,19 +118,19 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: Appointment.coffee</h1>
+                        <h1 class="file-heading">File: DigitalSchoolUtility.coffee</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
 ###*
-# An appointment.
+# A Digital school utility, usually things like a gateway to an online platform of a book used by a school.
 #
-# @class Appointment
+# @class DigitalSchoolUtility
 # @private
-# @param _magisterObj {Magister} A Magister object this Appointment is child of.
 # @constructor
+# @param _magisterObj {Magister} A Magister object this DigitalSchoolUtility is child of.
 ###
-class @Appointment
+class @DigitalSchoolUtility
 	constructor: (@_magisterObj) -&gt;
 		###*
 		# @property id
@@ -138,6 +138,30 @@ class @Appointment
 		# @type Number
 		###
 		@id = _getset &quot;_id&quot;
+		###*
+		# @property type
+		# @final
+		# @type Number
+		###
+		@type = _getset &quot;_type&quot;
+		###*
+		# @property name
+		# @final
+		# @type String
+		###
+		@name = _getset &quot;_name&quot;
+		###*
+		# @property publisher
+		# @final
+		# @type String
+		###
+		@publisher = _getset &quot;_publisher&quot;
+		###*
+		# @property state
+		# @final
+		# @type Number
+		###
+		@state = _getset &quot;_state&quot;
 		###*
 		# @property begin
 		# @final
@@ -151,116 +175,11 @@ class @Appointment
 		###
 		@end = _getset &quot;_end&quot;
 		###*
-		# @property beginBySchoolHour
+		# @property EAN
 		# @final
 		# @type Number
 		###
-		@beginBySchoolHour = _getset &quot;_beginBySchoolHour&quot;
-		###*
-		# @property endBySchoolHour
-		# @final
-		# @type Number
-		###
-		@endBySchoolHour = _getset &quot;_endBySchoolHour&quot;
-		###*
-		# @property fullDay
-		# @final
-		# @type Boolean
-		###
-		@fullDay = _getset &quot;_fullDay&quot;
-		###*
-		# @property description
-		# @final
-		# @type String
-		###
-		@description = _getset &quot;_description&quot;
-		###*
-		# @property location
-		# @final
-		# @type String
-		###
-		@location = _getset &quot;_location&quot;
-		###*
-		# @property status
-		# @final
-		# @type Number
-		###
-		@status = _getset &quot;_status&quot;
-		###*
-		# @property type
-		# @final
-		# @type Number
-		###
-		@type = _getset &quot;_type&quot;
-		###*
-		# @property displayType
-		# @final
-		# @type Number
-		###
-		@displayType = _getset &quot;_displayType&quot;
-		###*
-		# @property content
-		# @final
-		# @type String
-		###
-		@content = _getset &quot;_content&quot;, null, (x) -&gt; if x? then x.replace(/&lt;br ?\/?&gt;/g, &quot;\n&quot;).replace(/(&lt;[^&gt;]*&gt;)|(&amp;nbsp;)/g, &quot;&quot;) else x
-		###*
-		# @property infoType
-		# @final
-		# @type Number
-		###
-		@infoType = _getset &quot;_infoType&quot;
-		###*
-		# @property notes
-		# @final
-		# @type String
-		###
-		@notes = _getset &quot;_notes&quot;
-		###*
-		# @property isDone
-		# @type Boolean
-		###
-		@isDone = _getset &quot;_isDone&quot;, (d) =&gt;
-			return if @_isDone is d
-
-			@_isDone = d
-			@_magisterObj.http.put @url(), @_toMagisterStyle(), {}, (-&gt;)
-		###*
-		# @property classes
-		# @final
-		# @type String[]
-		###
-		@classes = _getset &quot;_classes&quot;
-		###*
-		# @property teachers
-		# @final
-		# @type Person[]
-		###
-		@teachers = _getset &quot;_teachers&quot;
-		###*
-		# @property classRooms
-		# @final
-		# @type String[]
-		###
-		@classRooms = _getset &quot;_classRooms&quot;
-		###*
-		# @property groups
-		# @final
-		# @type String[]
-		###
-		@groups = _getset &quot;_groups&quot;
-		###*
-		# @property appointmentId
-		# @final
-		# @type Number
-		###
-		@appointmentId = _getset &quot;_appointmentId&quot;
-		###*
-		# @property attachments
-		# @final
-		# @type File[]
-		###
-		@attachments = _getset &quot;_attachments&quot;
+		@EAN = _getset &quot;_EAN&quot;
 		###*
 		# @property url
 		# @final
@@ -268,82 +187,27 @@ class @Appointment
 		###
 		@url = _getset &quot;_url&quot;
 		###*
-		# @property scrapped
+		# This should be a Class object, if no class was found this will be undefined.
+		# @property class
 		# @final
-		# @type Boolean
+		# @type Class|undefined
 		###
-		@scrapped = _getset &quot;_scrapped&quot;
-		###*
-		# @property absenceInfo
-		# @final
-		# @type Object
-		###
-		@absenceInfo = _getset &quot;_absenceInfo&quot;
-
-	_toMagisterStyle: -&gt;
-		obj = {}
-
-		obj.Id = @_id
-		obj.Start = _helpers.toUtcString @_begin
-		obj.Einde = _helpers.toUtcString @_end
-		obj.LesuurVan = @_beginBySchoolHour
-		obj.LesuurTotMet = @_endBySchoolHour
-		obj.DuurtHeleDag = @_fullDay
-		obj.Omschrijving = @_description
-		obj.Lokatie = @_location
-		obj.Status = @_status
-		obj.Type = @_type
-		obj.WeergaveType = @_displayType
-		obj.Inhoud = @_content
-		obj.InfoType = @_infoType
-		obj.Aantekening = @_notes
-		obj.Afgerond = @_isDone
-		obj.Lokalen = ( { Naam: c } for c in @_classRooms )
-		obj.Docenten = ( p._toMagisterStyle() for p in @_teachers )
-		obj.Vakken = ( { Naam: c } for c in @_classes )
-		obj.Groepen = @_groups
-		obj.OpdrachtId = @_appointmentId
-		obj.Bijlagen = @_attachments ? []
-
-		console.log obj
-		return obj
-
-	_makeStorable: -&gt; _.omit @, &quot;_magisterObj&quot;
+		@class = _getset &quot;_class&quot;
 
 	@_convertRaw: (magisterObj, raw) -&gt;
-		obj = new Appointment magisterObj
+		obj = new DigitalSchoolUtility magisterObj
 
 		obj._id = raw.Id
+		obj._type = raw.MateriaalType
+		obj._name = raw.Titel
+		obj._publisher = raw.Uitgeverij
+		obj._state = raw.Status
 		obj._begin = new Date Date.parse raw.Start
-		obj._end = new Date Date.parse raw.Einde
-		obj._beginBySchoolHour = raw.LesuurVan
-		obj._endBySchoolHour = raw.LesuurTotMet
-		obj._fullDay = raw.DuurtHeleDag
-		obj._description = raw.Omschrijving
-		obj._location = raw.Lokatie
-		obj._status = raw.Status
-		obj._type = raw.Type
-		obj._displayType = raw.WeergaveType
-		obj._content = raw.Inhoud
-		obj._infoType = raw.InfoType
-		obj._notes = raw.Aantekening
-		obj._isDone = raw.Afgerond
-		obj._classes = if raw.Vakken? then (c.Naam for c in raw.Vakken) else undefined
-		obj._teachers = if raw.Docenten? then (Person._convertRaw(magisterObj, p) for p in raw.Docenten) else undefined
-		obj._classRooms = if raw.Lokalen? then (c.Naam for c in raw.Lokalen) else undefined
-		obj._groups = raw.Groepen # ?
-		obj._appointmentId = raw.OpdrachtId
-		obj._attachments = raw.Bijlagen
-		obj._url = &quot;#{magisterObj._personUrl}/afspraken/#{obj._id}&quot;
-		obj._scrapped = raw.Status is 0
+		obj._end = new Date Date.parse raw.Eind
+		obj._EAN = (Number) raw.EAN
+		obj._url = raw.Url
+		obj._class = raw.Vak # Will be replace with a Class object by Magister.digitalSchoolUtitlies(...) if everything goes correctly.
 
-		return obj
-
-	@_convertStored: (magisterObj, raw) -&gt;
-		obj = _.extend raw, new Appointment magisterObj
-		obj._magisterObj = magisterObj
-		obj._begin = new Date Date.parse raw._begin
-		obj._end = new Date Date.parse raw._end
 		return obj
     </pre>
 </div>

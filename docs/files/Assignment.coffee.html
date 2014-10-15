@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Appointment.coffee - Magister.js Docs</title>
+    <title>Assignment.coffee - Magister.js Docs</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -118,19 +118,19 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: Appointment.coffee</h1>
+                        <h1 class="file-heading">File: Assignment.coffee</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
 ###*
-# An appointment.
+# An Assignment.
 #
-# @class Appointment
+# @class Assignment
 # @private
-# @param _magisterObj {Magister} A Magister object this Appointment is child of.
 # @constructor
+# @param _magisterObj {Magister} A Magister object this Assignment is child of.
 ###
-class @Appointment
+class @Assignment
 	constructor: (@_magisterObj) -&gt;
 		###*
 		# @property id
@@ -139,35 +139,11 @@ class @Appointment
 		###
 		@id = _getset &quot;_id&quot;
 		###*
-		# @property begin
+		# @property name
 		# @final
-		# @type Date
+		# @type String
 		###
-		@begin = _getset &quot;_begin&quot;
-		###*
-		# @property end
-		# @final
-		# @type Date
-		###
-		@end = _getset &quot;_end&quot;
-		###*
-		# @property beginBySchoolHour
-		# @final
-		# @type Number
-		###
-		@beginBySchoolHour = _getset &quot;_beginBySchoolHour&quot;
-		###*
-		# @property endBySchoolHour
-		# @final
-		# @type Number
-		###
-		@endBySchoolHour = _getset &quot;_endBySchoolHour&quot;
-		###*
-		# @property fullDay
-		# @final
-		# @type Boolean
-		###
-		@fullDay = _getset &quot;_fullDay&quot;
+		@name = _getset &quot;_name&quot;
 		###*
 		# @property description
 		# @final
@@ -175,62 +151,29 @@ class @Appointment
 		###
 		@description = _getset &quot;_description&quot;
 		###*
-		# @property location
+		# @property class
 		# @final
-		# @type String
+		# @type Class
 		###
-		@location = _getset &quot;_location&quot;
+		@class = _getset &quot;_class&quot;
 		###*
-		# @property status
+		# @property deadline
 		# @final
-		# @type Number
+		# @type Date
 		###
-		@status = _getset &quot;_status&quot;
+		@deadline = _getset &quot;_deadline&quot;
 		###*
-		# @property type
+		# @property handedInOn
 		# @final
-		# @type Number
+		# @type Date
 		###
-		@type = _getset &quot;_type&quot;
+		@handedInOn = _getset &quot;_handedInOn&quot;
 		###*
-		# @property displayType
+		# @property files
 		# @final
-		# @type Number
+		# @type File[]
 		###
-		@displayType = _getset &quot;_displayType&quot;
-		###*
-		# @property content
-		# @final
-		# @type String
-		###
-		@content = _getset &quot;_content&quot;, null, (x) -&gt; if x? then x.replace(/&lt;br ?\/?&gt;/g, &quot;\n&quot;).replace(/(&lt;[^&gt;]*&gt;)|(&amp;nbsp;)/g, &quot;&quot;) else x
-		###*
-		# @property infoType
-		# @final
-		# @type Number
-		###
-		@infoType = _getset &quot;_infoType&quot;
-		###*
-		# @property notes
-		# @final
-		# @type String
-		###
-		@notes = _getset &quot;_notes&quot;
-		###*
-		# @property isDone
-		# @type Boolean
-		###
-		@isDone = _getset &quot;_isDone&quot;, (d) =&gt;
-			return if @_isDone is d
-
-			@_isDone = d
-			@_magisterObj.http.put @url(), @_toMagisterStyle(), {}, (-&gt;)
-		###*
-		# @property classes
-		# @final
-		# @type String[]
-		###
-		@classes = _getset &quot;_classes&quot;
+		@files = _getset &quot;_files&quot;
 		###*
 		# @property teachers
 		# @final
@@ -238,112 +181,178 @@ class @Appointment
 		###
 		@teachers = _getset &quot;_teachers&quot;
 		###*
-		# @property classRooms
-		# @final
-		# @type String[]
-		###
-		@classRooms = _getset &quot;_classRooms&quot;
-		###*
-		# @property groups
-		# @final
-		# @type String[]
-		###
-		@groups = _getset &quot;_groups&quot;
-		###*
-		# @property appointmentId
-		# @final
-		# @type Number
-		###
-		@appointmentId = _getset &quot;_appointmentId&quot;
-		###*
-		# @property attachments
-		# @final
-		# @type File[]
-		###
-		@attachments = _getset &quot;_attachments&quot;
-		###*
-		# @property url
+		# @property grade
 		# @final
 		# @type String
 		###
-		@url = _getset &quot;_url&quot;
+		@grade = _getset &quot;_grade&quot;
 		###*
-		# @property scrapped
+		# @property markedOn
+		# @final
+		# @type Date
+		###
+		@markedOn = _getset &quot;_markedOn&quot;
+		###*
+		# @property handInAgain
 		# @final
 		# @type Boolean
 		###
-		@scrapped = _getset &quot;_scrapped&quot;
+		@handInAgain = _getset &quot;_handInAgain&quot;
 		###*
-		# @property absenceInfo
+		# @property finished
 		# @final
-		# @type Object
+		# @type Boolean
 		###
-		@absenceInfo = _getset &quot;_absenceInfo&quot;
+		@finished = _getset &quot;_finished&quot;
+		###*
+		# @property canHandIn
+		# @final
+		# @type Boolean
+		###
+		@canHandIn = _getset &quot;_canHandIn&quot;
 
-	_toMagisterStyle: -&gt;
-		obj = {}
-
-		obj.Id = @_id
-		obj.Start = _helpers.toUtcString @_begin
-		obj.Einde = _helpers.toUtcString @_end
-		obj.LesuurVan = @_beginBySchoolHour
-		obj.LesuurTotMet = @_endBySchoolHour
-		obj.DuurtHeleDag = @_fullDay
-		obj.Omschrijving = @_description
-		obj.Lokatie = @_location
-		obj.Status = @_status
-		obj.Type = @_type
-		obj.WeergaveType = @_displayType
-		obj.Inhoud = @_content
-		obj.InfoType = @_infoType
-		obj.Aantekening = @_notes
-		obj.Afgerond = @_isDone
-		obj.Lokalen = ( { Naam: c } for c in @_classRooms )
-		obj.Docenten = ( p._toMagisterStyle() for p in @_teachers )
-		obj.Vakken = ( { Naam: c } for c in @_classes )
-		obj.Groepen = @_groups
-		obj.OpdrachtId = @_appointmentId
-		obj.Bijlagen = @_attachments ? []
-
-		console.log obj
-		return obj
-
-	_makeStorable: -&gt; _.omit @, &quot;_magisterObj&quot;
+	###*
+	# Gets the versions of this Assigment.
+	#
+	# @method versions
+	# @async
+	# @param callback {Function} A standard callback.
+	# 	@param [callback.error] {Object} The error, if it exists.
+	# 	@param [callback.result] {AssignmentVersion[]} An array containing AssignmentVersions.
+	###
+	versions: (callback) -&gt;
+		pushResult = _helpers.asyncResultWaiter @_versionIds.length, (r) -&gt; callback null, r
+		for id in @_versionIds
+			@_magisterObj.http.get &quot;#{@_magisterObj._personUrl}/opdrachten/versie/#{id}&quot;, {}, (error, result) =&gt;
+				if error? then callback error, null
+				else pushResult AssignmentVersion._convertRaw @_magisterObj, @, EJSON.parse(result.content)
 
 	@_convertRaw: (magisterObj, raw) -&gt;
-		obj = new Appointment magisterObj
+		obj = new Assignment magisterObj
 
 		obj._id = raw.Id
-		obj._begin = new Date Date.parse raw.Start
-		obj._end = new Date Date.parse raw.Einde
-		obj._beginBySchoolHour = raw.LesuurVan
-		obj._endBySchoolHour = raw.LesuurTotMet
-		obj._fullDay = raw.DuurtHeleDag
+		obj._name = raw.Titel
 		obj._description = raw.Omschrijving
-		obj._location = raw.Lokatie
-		obj._status = raw.Status
-		obj._type = raw.Type
-		obj._displayType = raw.WeergaveType
-		obj._content = raw.Inhoud
-		obj._infoType = raw.InfoType
-		obj._notes = raw.Aantekening
-		obj._isDone = raw.Afgerond
-		obj._classes = if raw.Vakken? then (c.Naam for c in raw.Vakken) else undefined
+		obj._class = raw.Vak
+		obj._deadline = new Date Date.parse raw.InleverenVoor
+		obj._handedInOn = new Date Date.parse raw.IngeleverdOp
+		obj._files = ( File._convertRaw magisterObj, undefined, f for f in raw.Bijlagen )
 		obj._teachers = if raw.Docenten? then (Person._convertRaw(magisterObj, p) for p in raw.Docenten) else undefined
-		obj._classRooms = if raw.Lokalen? then (c.Naam for c in raw.Lokalen) else undefined
-		obj._groups = raw.Groepen # ?
-		obj._appointmentId = raw.OpdrachtId
-		obj._attachments = raw.Bijlagen
-		obj._url = &quot;#{magisterObj._personUrl}/afspraken/#{obj._id}&quot;
-		obj._scrapped = raw.Status is 0
+		obj._versionIds = ( v.Id for v in raw.VersieNavigatieItems )
+		obj._grade = raw.Beoordeling
+		obj._markedOn = new Date Date.parse raw.BeoordeeldOp
+		obj._handInAgain = raw.OpnieuwInleveren
+		obj._finished = raw.Afgesloten
+		obj._canHandIn = raw.MagInleveren
 
 		return obj
 
-	@_convertStored: (magisterObj, raw) -&gt;
-		obj = _.extend raw, new Appointment magisterObj
-		obj._magisterObj = magisterObj
-		obj._begin = new Date Date.parse raw._begin
-		obj._end = new Date Date.parse raw._end
+###*
+# An (handed in) version of an Assignment.
+#
+# @class AssignmentVersion
+# @private
+# @constructor
+# @param _magisterObj {Magister} A Magister object this AssignmentVersion is child of.
+###
+class @AssignmentVersion
+	constructor: (@_magisterObj) -&gt;
+		###*
+		# @property id
+		# @final
+		# @type Number
+		###
+		@id = _getset &quot;_id&quot;
+		###*
+		# @property class
+		# @final
+		# @type Class
+		###
+		@class = _getset &quot;_class&quot;
+		###*
+		# @property state
+		# @final
+		# @type Number
+		###
+		@state = _getset &quot;_state&quot;
+		###*
+		# @property pupilMessage
+		# @final
+		# @type String
+		###
+		@pupilMessage = _getset &quot;_pupilMessage&quot;
+		###*
+		# @property teacherNotice
+		# @final
+		# @type String
+		###
+		@teacherNotice = _getset &quot;_teacherNotice&quot;
+		###*
+		# @property handedInFiles
+		# @final
+		# @type File[]
+		###
+		@handedInFiles = _getset &quot;_handedInFiles&quot;
+		###*
+		# @property feedbackFiles
+		# @final
+		# @type File[]
+		###
+		@feedbackFiles = _getset &quot;_feedbackFiles&quot;
+		###*
+		# @property deadline
+		# @final
+		# @type Date
+		###
+		@deadline = _getset &quot;_deadline&quot;
+		###*
+		# @property handedInOn
+		# @final
+		# @type Date
+		###
+		@handedInOn = _getset &quot;_handedInOn&quot;
+		###*
+		# @property grade
+		# @final
+		# @type String
+		###
+		@grade = _getset &quot;_grade&quot;
+		###*
+		# @property markedOn
+		# @final
+		# @type Date
+		###
+		@markedOn = _getset &quot;_markedOn&quot;
+		###*
+		# @property version
+		# @final
+		# @type Number
+		###
+		@version = _getset &quot;_version&quot;
+		###*
+		# @property tooLate
+		# @final
+		# @type Boolean
+		###
+		@tooLate = _getset &quot;_tooLate&quot;
+
+	@_convertRaw: (magisterObj, sender, raw) -&gt;
+		obj = new AssignmentVersion magisterObj
+
+		obj._id = raw.Id
+		obj._class = sender._class
+		obj._state = raw.Status
+		obj._pupilMessage = raw.LeerlingOpmerking
+		obj._teacherNotice = raw.DocentOpmerking
+		obj._handedInFiles = ( File._convertRaw magisterObj, undefined, f for f in raw.LeerlingBijlagen )
+		obj._feedbackFiles = ( File._convertRaw magisterObj, undefined, f for f in raw.FeedbackBijlagen )
+		obj._deadline = new Date Date.parse raw.InleverenVoor
+		obj._handedInOn = new Date Date.parse raw.IngeleverdOp
+		obj._grade = raw.Beoordeling
+		obj._markedOn = new Date Date.parse raw.BeoordeeldOp
+		obj._version = raw.VersieNummer
+		obj._tooLate = raw.IsTeLaat
+
 		return obj
     </pre>
 </div>

@@ -2,17 +2,33 @@ YUI.add("yuidoc-meta", function(Y) {
    Y.YUIDoc = { meta: {
     "classes": [
         "Appointment",
+        "Assignment",
+        "AssignmentVersion",
+        "Class",
         "Course",
+        "DigitalSchoolUtility",
         "File",
         "FileFolder",
+        "Grade",
+        "GradeType",
         "Magister",
         "MagisterSchool",
         "Message",
         "MessageFolder",
         "Person",
-        "ProfileInfo"
+        "ProfileInfo",
+        "StudyGuide",
+        "StudyGuidePart"
     ],
-    "modules": [],
-    "allModules": []
+    "modules": [
+        "Magister"
+    ],
+    "allModules": [
+        {
+            "displayName": "Magister",
+            "name": "Magister",
+            "description": "A JavaScript implementation of the Magister 6 API."
+        }
+    ]
 } };
 });

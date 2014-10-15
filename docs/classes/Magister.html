@@ -43,11 +43,23 @@
             
                 <li><a href="../classes/Appointment.html">Appointment</a></li>
             
+                <li><a href="../classes/Assignment.html">Assignment</a></li>
+            
+                <li><a href="../classes/AssignmentVersion.html">AssignmentVersion</a></li>
+            
+                <li><a href="../classes/Class.html">Class</a></li>
+            
                 <li><a href="../classes/Course.html">Course</a></li>
+            
+                <li><a href="../classes/DigitalSchoolUtility.html">DigitalSchoolUtility</a></li>
             
                 <li><a href="../classes/File.html">File</a></li>
             
                 <li><a href="../classes/FileFolder.html">FileFolder</a></li>
+            
+                <li><a href="../classes/Grade.html">Grade</a></li>
+            
+                <li><a href="../classes/GradeType.html">GradeType</a></li>
             
                 <li><a href="../classes/Magister.html">Magister</a></li>
             
@@ -61,9 +73,15 @@
             
                 <li><a href="../classes/ProfileInfo.html">ProfileInfo</a></li>
             
+                <li><a href="../classes/StudyGuide.html">StudyGuide</a></li>
+            
+                <li><a href="../classes/StudyGuidePart.html">StudyGuidePart</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/Magister.html">Magister</a></li>
             
             </ul>
         </div>
@@ -108,10 +126,14 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/Magister.coffee.html#l1"><code>Magister.coffee:1</code></a>
+            Defined in: <a href="../files/Magister.coffee.html#l7"><code>Magister.coffee:7</code></a>
         </div>
     
 
+    
+        
+            Module: <a href="../modules/Magister.html">Magister</a>
+        
     
 
     
@@ -187,7 +209,7 @@
             
         
         
-        <a href="../files/Magister.coffee.html#l1"><code>Magister.coffee:1</code></a>
+        <a href="../files/Magister.coffee.html#l7"><code>Magister.coffee:7</code></a>
         
         </p>
 
@@ -320,6 +342,13 @@
                             </li>
                         
                             <li class="index-item method">
+                                <a href="#method_assignments">assignments</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
                                 <a href="#method_bin">bin</a>
 
                                 
@@ -335,6 +364,13 @@
                         
                             <li class="index-item method">
                                 <a href="#method_courses">courses</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_digitalSchoolUtilities">digitalSchoolUtilities</a>
 
                                 
                                 
@@ -389,8 +425,24 @@
                                 
                             </li>
                         
+                            <li class="index-item method deprecated">
+                                <a href="#method_reLogin">reLogin</a>
+
+                                
+                                
+                                    <span class="flag deprecated">deprecated</span>
+                                
+                            </li>
+                        
                             <li class="index-item method">
                                 <a href="#method_sentItems">sentItems</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_studyGuides">studyGuides</a>
 
                                 
                                 
@@ -448,7 +500,7 @@
             
         
         
-        <a href="../files/Magister.coffee.html#l124"><code>Magister.coffee:124</code></a>
+        <a href="../files/Magister.coffee.html#l130"><code>Magister.coffee:130</code></a>
         
         </p>
 
@@ -546,7 +598,7 @@
             
         
         
-        <a href="../files/Magister.coffee.html#l19"><code>Magister.coffee:19</code></a>
+        <a href="../files/Magister.coffee.html#l25"><code>Magister.coffee:25</code></a>
         
         </p>
 
@@ -677,6 +729,200 @@
 </div>
 
                 
+                    <div id="method_assignments" class="method item">
+    <h3 class="name"><code>assignments</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code class="optional">[amount=25]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[skip=0]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[download=true]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>callback</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <span class="flag async">async</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/Magister.coffee.html#l295"><code>Magister.coffee:295</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Gets the Assignments for the current user.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[amount=25]</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The amount of Assignments to fetch from the server.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[skip=0]</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The amount of Assignments to skip.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[download=true]</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Whether or not to download the users from the server.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">callback</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>A standard callback.</p>
+
+                    </div>
+
+                    
+                        <ul class="params-list">
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[error]</code>
+                                    <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    <p>The error, if it exists.</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[result]</code>
+                                    <span class="type"><a href="../classes/Assignment.html" class="crosslink">Assignment[]</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    <p>An array containing Assignments.</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                        </ul>
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="method_bin" class="method item">
     <h3 class="name"><code>bin</code></h3>
 
@@ -713,7 +959,7 @@
             
         
         
-        <a href="../files/Magister.coffee.html#l119"><code>Magister.coffee:119</code></a>
+        <a href="../files/Magister.coffee.html#l125"><code>Magister.coffee:125</code></a>
         
         </p>
 
@@ -803,7 +1049,7 @@
             
         
         
-        <a href="../files/Magister.coffee.html#l239"><code>Magister.coffee:239</code></a>
+        <a href="../files/Magister.coffee.html#l249"><code>Magister.coffee:249</code></a>
         
         </p>
 
@@ -927,7 +1173,7 @@
             
         
         
-        <a href="../files/Magister.coffee.html#l130"><code>Magister.coffee:130</code></a>
+        <a href="../files/Magister.coffee.html#l136"><code>Magister.coffee:136</code></a>
         
         </p>
 
@@ -1008,6 +1254,131 @@
 </div>
 
                 
+                    <div id="method_digitalSchoolUtilities" class="method item">
+    <h3 class="name"><code>digitalSchoolUtilities</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>callback</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <span class="flag async">async</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/Magister.coffee.html#l345"><code>Magister.coffee:345</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Gets the Digital school utilities for the current user.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">callback</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>A standard callback.</p>
+
+                    </div>
+
+                    
+                        <ul class="params-list">
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[error]</code>
+                                    <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    <p>The error, if it exists.</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[result]</code>
+                                    <span class="type"><a href="../classes/DigitalSchoolUtility.html" class="crosslink">DigitalSchoolUtility[]</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    <p>An array containing DigitalSchoolUtilities.</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                        </ul>
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="method_fileFolders" class="method item">
     <h3 class="name"><code>fileFolders</code></h3>
 
@@ -1052,7 +1423,7 @@
             
         
         
-        <a href="../files/Magister.coffee.html#l257"><code>Magister.coffee:257</code></a>
+        <a href="../files/Magister.coffee.html#l267"><code>Magister.coffee:267</code></a>
         
         </p>
 
@@ -1063,7 +1434,7 @@
     </div>
 
     <div class="description">
-        <p>Gets the FileFolders of the current User.</p>
+        <p>Gets the FileFolders of the current user.</p>
 
     </div>
 
@@ -1189,7 +1560,7 @@
             
         
         
-        <a href="../files/Magister.coffee.html#l204"><code>Magister.coffee:204</code></a>
+        <a href="../files/Magister.coffee.html#l210"><code>Magister.coffee:210</code></a>
         
         </p>
 
@@ -1213,7 +1584,7 @@
                 <li class="param">
                     
                         <code class="param-name">persons</code>
-                        <span class="type"><a href="../classes/Person.html" class="crosslink">Person[]</a> | <a href="../classes/Person.html" class="crosslink">Person</a></span>
+                        <span class="type"><a href="../classes/Person.html" class="crosslink">Person</a> | <a href="../classes/Person.html" class="crosslink">Person[]</a></span>
                     
 
                     
@@ -1260,12 +1631,12 @@
                             <li class="param">
                                 
                                     <code class="param-name optional">[result]</code>
-                                    <span class="type"><a href="../classes/Person.html" class="crosslink">Person[]</a></span>
+                                    <span class="type"><a href="../classes/Person.html" class="crosslink">Person</a> | <a href="../classes/Person.html" class="crosslink">Person[]</a></span>
                                     <span class="flag optional" title="This parameter is optional.">optional</span>
                                 
 
                                 <div class="param-description">
-                                    <p>An array containing the fetched Persons.</p>
+                                    <p>A fetched person or an array containing the fetched Persons, according to the type of the given persons parameter.</p>
 
                                 </div>
 
@@ -1359,7 +1730,7 @@
             
         
         
-        <a href="../files/Magister.coffee.html#l152"><code>Magister.coffee:152</code></a>
+        <a href="../files/Magister.coffee.html#l158"><code>Magister.coffee:158</code></a>
         
         </p>
 
@@ -1509,7 +1880,7 @@
             
         
         
-        <a href="../files/Magister.coffee.html#l109"><code>Magister.coffee:109</code></a>
+        <a href="../files/Magister.coffee.html#l115"><code>Magister.coffee:115</code></a>
         
         </p>
 
@@ -1597,7 +1968,7 @@
             
         
         
-        <a href="../files/Magister.coffee.html#l88"><code>Magister.coffee:88</code></a>
+        <a href="../files/Magister.coffee.html#l94"><code>Magister.coffee:94</code></a>
         
         </p>
 
@@ -1755,7 +2126,7 @@
             
         
         
-        <a href="../files/Magister.coffee.html#l271"><code>Magister.coffee:271</code></a>
+        <a href="../files/Magister.coffee.html#l382"><code>Magister.coffee:382</code></a>
         
         </p>
 
@@ -1897,7 +2268,7 @@
             
         
         
-        <a href="../files/Magister.coffee.html#l286"><code>Magister.coffee:286</code></a>
+        <a href="../files/Magister.coffee.html#l397"><code>Magister.coffee:397</code></a>
         
         </p>
 
@@ -1908,8 +2279,8 @@
     </div>
 
     <div class="description">
-        <p>Checks if this Magister instance is done logging in.
-You can also provide a callback, which will be called when this instance is done logging in.</p>
+        <p>Checks if this Magister instance is done logging in.</p>
+<p>You can also provide a callback, which will be called when this instance is done logging in.</p>
 
     </div>
 
@@ -1978,6 +2349,64 @@ You can also provide a callback, which will be called when this instance is done
 </div>
 
                 
+                    <div id="method_reLogin" class="method item deprecated">
+    <h3 class="name"><code>reLogin</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+        <span class="flag deprecated">deprecated</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/Magister.coffee.html#l421"><code>Magister.coffee:421</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>(Re-)Login the current Magister instance.</p>
+<p>Usually not needed to call manually.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="method_sentItems" class="method item">
     <h3 class="name"><code>sentItems</code></h3>
 
@@ -2014,7 +2443,7 @@ You can also provide a callback, which will be called when this instance is done
             
         
         
-        <a href="../files/Magister.coffee.html#l114"><code>Magister.coffee:114</code></a>
+        <a href="../files/Magister.coffee.html#l120"><code>Magister.coffee:120</code></a>
         
         </p>
 
@@ -2044,6 +2473,131 @@ You can also provide a callback, which will be called when this instance is done
                 
             </div>
         </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_studyGuides" class="method item">
+    <h3 class="name"><code>studyGuides</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>callback</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <span class="flag async">async</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/Magister.coffee.html#l281"><code>Magister.coffee:281</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Gets the StudyGuides of the current user.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">callback</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>A standard callback.</p>
+
+                    </div>
+
+                    
+                        <ul class="params-list">
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[error]</code>
+                                    <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    <p>The error, if it exists.</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[result]</code>
+                                    <span class="type"><a href="../classes/StudyGuide.html" class="crosslink">StudyGuide[]</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    <p>An array containing StudyGuides.</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                        </ul>
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
     
 
     

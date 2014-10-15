@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>ProfileInfo.coffee - Magister.js Docs</title>
+    <title>Magister - Magister.js Docs</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -118,113 +118,152 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: ProfileInfo.coffee</h1>
+                        <h1>Magister Module</h1>
+<div class="box clearfix meta">
+    
 
-<div class="file">
-    <pre class="code prettyprint linenums">
-###*
-# Information of the logged in user.
-#
-# @class ProfileInfo
-# @private
-# @param _magisterObj {Magister} A Magister object this ProfileInfo is child of.
-# @param _firstName {String} The first name of the user.
-# @param _lastName {String} The last name of the user.
-# @param _birthDate {Date} The date of birth of the user.
-# @constructor
-###
-class @ProfileInfo
-	constructor: (@_magisterObj, @_firstName, @_lastName, @_birthDate) -&gt;
-		###*
-		# @property id
-		# @final
-		# @type Number
-		###
-		@id = _getset &quot;_id&quot;
-		###*
-		# @property officialFirstNames
-		# @final
-		# @type String
-		###
-		@officialFirstNames = _getset &quot;_officialFirstNames&quot;
-		###*
-		# @property initials
-		# @final
-		# @type String
-		###
-		@initials = _getset &quot;_initials&quot;
-		###*
-		# @property namePrefix
-		# @final
-		# @type String
-		###
-		@namePrefix = _getset &quot;_namePrefix&quot;
-		###*
-		# @property officialSurname
-		# @final
-		# @type String
-		###
-		@officialSurname = _getset &quot;_officialSurname&quot;
-		###*
-		# @property birthSurname
-		# @final
-		# @type String
-		###
-		@birthSurname = _getset &quot;_birthSurname&quot;
-		###*
-		# @property birthNamePrefix
-		# @final
-		# @type String
-		###
-		@birthNamePrefix = _getset &quot;_birthNamePrefix&quot;
-		###*
-		# @property useBirthname
-		# @final
-		# @type Boolean
-		###
-		@useBirthname = _getset &quot;_useBirthname&quot;
-		###*
-		# @property firstName
-		# @final
-		# @type String
-		###
-		@firstName = _getset &quot;_firstName&quot;
-		###*
-		# @property lastName
-		# @final
-		# @type String
-		###
-		@lastName = _getset &quot;_lastName&quot;
+    
 
-	###*
-	# The profile picture of the current User.
-	#
-	# @method profilePicture
-	# @param [width=640] The width of the picture.
-	# @param [height=640] The height of the picture.
-	# @param [crop=false] Whether or not to crop the image.
-	# @return {String} The URL to the picture, including the given options.
-	###
-	profilePicture: (width = 640, height = 640, crop = no) -&gt; &quot;#{@_profilePicture}?width=#{width}&amp;height=#{height}&amp;crop=#{crop}&quot;
+    
+        <div class="foundat">
+            Defined in: <a href="../files/StudyGuide.coffee.html#l83"><code>StudyGuide.coffee:83</code></a>
+        </div>
+    
 
-	@_convertRaw: (magisterObj, raw) -&gt;
-		foto = magisterObj.magisterSchool.url + _.find(raw.Links, Rel: &quot;Foto&quot;).Href
+    
+</div>
 
-		raw = raw.Persoon
-		obj = new ProfileInfo magisterObj, raw.Roepnaam, raw.Achternaam, new Date Date.parse raw.Geboortedatum
-		
-		obj._id = raw.Id
-		obj._officialFirstNames = raw.OfficieleVoornamen
-		obj._initials = raw.Voorletters
-		obj._namePrefix = raw.Tussenvoegsel
-		obj._officialSurname = raw.OfficieleAchternaam
-		obj._birthSurname = raw.GeboorteAchternaam
-		obj._birthNamePrefix = raw.GeboortenaamTussenvoegsel
-		obj._useBirthname = raw.GebruikGeboortenaam
-		obj._profilePicture = foto
 
-		return obj
-    </pre>
+
+<div class="box intro">
+    <p>A JavaScript implementation of the Magister 6 API.</p>
+
+</div>
+
+
+
+<div class="yui3-g">
+    <div class="yui3-u-1-2">
+        
+            <p>This module provides the following classes:</p>
+
+            <ul class="module-classes">
+            
+                <li class="module-class">
+                    <a href="../classes/Appointment.html">
+                        Appointment
+                    </a>
+                </li>
+            
+                <li class="module-class">
+                    <a href="../classes/Assignment.html">
+                        Assignment
+                    </a>
+                </li>
+            
+                <li class="module-class">
+                    <a href="../classes/AssignmentVersion.html">
+                        AssignmentVersion
+                    </a>
+                </li>
+            
+                <li class="module-class">
+                    <a href="../classes/Class.html">
+                        Class
+                    </a>
+                </li>
+            
+                <li class="module-class">
+                    <a href="../classes/Course.html">
+                        Course
+                    </a>
+                </li>
+            
+                <li class="module-class">
+                    <a href="../classes/DigitalSchoolUtility.html">
+                        DigitalSchoolUtility
+                    </a>
+                </li>
+            
+                <li class="module-class">
+                    <a href="../classes/File.html">
+                        File
+                    </a>
+                </li>
+            
+                <li class="module-class">
+                    <a href="../classes/FileFolder.html">
+                        FileFolder
+                    </a>
+                </li>
+            
+                <li class="module-class">
+                    <a href="../classes/Grade.html">
+                        Grade
+                    </a>
+                </li>
+            
+                <li class="module-class">
+                    <a href="../classes/GradeType.html">
+                        GradeType
+                    </a>
+                </li>
+            
+                <li class="module-class">
+                    <a href="../classes/Magister.html">
+                        Magister
+                    </a>
+                </li>
+            
+                <li class="module-class">
+                    <a href="../classes/MagisterSchool.html">
+                        MagisterSchool
+                    </a>
+                </li>
+            
+                <li class="module-class">
+                    <a href="../classes/Message.html">
+                        Message
+                    </a>
+                </li>
+            
+                <li class="module-class">
+                    <a href="../classes/MessageFolder.html">
+                        MessageFolder
+                    </a>
+                </li>
+            
+                <li class="module-class">
+                    <a href="../classes/Person.html">
+                        Person
+                    </a>
+                </li>
+            
+                <li class="module-class">
+                    <a href="../classes/ProfileInfo.html">
+                        ProfileInfo
+                    </a>
+                </li>
+            
+                <li class="module-class">
+                    <a href="../classes/StudyGuide.html">
+                        StudyGuide
+                    </a>
+                </li>
+            
+                <li class="module-class">
+                    <a href="../classes/StudyGuidePart.html">
+                        StudyGuidePart
+                    </a>
+                </li>
+            
+            </ul>
+        
+    </div>
+
+    <div class="yui3-u-1-2">
+        
+    </div>
 </div>
 
                     </div>

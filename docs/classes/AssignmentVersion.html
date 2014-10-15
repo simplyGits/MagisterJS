@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Message - Magister.js Docs</title>
+    <title>AssignmentVersion - Magister.js Docs</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -118,7 +118,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>Message Class</h1>
+                        <h1>AssignmentVersion Class</h1>
 <div class="box meta">
     
 
@@ -126,7 +126,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/Message.coffee.html#l11"><code>Message.coffee:11</code></a>
+            Defined in: <a href="../files/Assignment.coffee.html#l126"><code>Assignment.coffee:126</code></a>
         </div>
     
 
@@ -142,15 +142,15 @@
 
 
 <div class="box intro">
-    <p>A Magister message.</p>
+    <p>An (handed in) version of an Assignment.</p>
 
 </div>
 
 
     <div class="constructor">
         <h2>Constructor</h2>
-        <div id="method_Message" class="method item">
-    <h3 class="name"><code>Message</code></h3>
+        <div id="method_AssignmentVersion" class="method item private">
+    <h3 class="name"><code>AssignmentVersion</code></h3>
 
     
         <div class="args">
@@ -170,6 +170,8 @@
 
     
 
+    
+        <span class="flag private">private</span>
     
 
     
@@ -191,7 +193,7 @@
             
         
         
-        <a href="../files/Message.coffee.html#l11"><code>Message.coffee:11</code></a>
+        <a href="../files/Assignment.coffee.html#l126"><code>Assignment.coffee:126</code></a>
         
         </p>
 
@@ -220,7 +222,7 @@
                     
 
                     <div class="param-description">
-                        <p>A Magister object this Message is child of.</p>
+                        <p>A Magister object this AssignmentVersion is child of.</p>
 
                     </div>
 
@@ -244,8 +246,6 @@
         <li class="api-class-tab index"><a href="#index">Index</a></li>
 
         
-            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
-        
         
             <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
         
@@ -258,35 +258,6 @@
             <h2 class="off-left">Item Index</h2>
 
             
-                <div class="index-section methods">
-                    <h3>Methods</h3>
-
-                    <ul class="index-list methods">
-                        
-                            <li class="index-item method">
-                                <a href="#method_addRecipient">addRecipient</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_move">move</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_send">send</a>
-
-                                
-                                
-                            </li>
-                        
-                    </ul>
-                </div>
-            
 
             
                 <div class="index-section properties">
@@ -295,28 +266,42 @@
                     <ul class="index-list properties">
                         
                             <li class="index-item property">
-                                <a href="#property_attachments">attachments</a>
+                                <a href="#property_class">class</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_begin">begin</a>
+                                <a href="#property_deadline">deadline</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_body">body</a>
+                                <a href="#property_feedbackFiles">feedbackFiles</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_end">end</a>
+                                <a href="#property_grade">grade</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_handedInFiles">handedInFiles</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_handedInOn">handedInOn</a>
 
                                 
                                 
@@ -330,42 +315,14 @@
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_isFlagged">isFlagged</a>
+                                <a href="#property_markedOn">markedOn</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_isRead">isRead</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_messageFolder">messageFolder</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_recipients">recipients</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_sendDate">sendDate</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_sender">sender</a>
+                                <a href="#property_pupilMessage">pupilMessage</a>
 
                                 
                                 
@@ -379,14 +336,21 @@
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_subject">subject</a>
+                                <a href="#property_teacherNotice">teacherNotice</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_type">type</a>
+                                <a href="#property_tooLate">tooLate</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_version">version</a>
 
                                 
                                 
@@ -402,276 +366,106 @@
         </div>
 
         
-            <div id="methods" class="api-class-tabpanel">
-                <h2 class="off-left">Methods</h2>
-
-                
-                    <div id="method_addRecipient" class="method item">
-    <h3 class="name"><code>addRecipient</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>recipient</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code class="optional">[type]</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/Message.coffee.html#l128"><code>Message.coffee:128</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Adds (a) recipient(s) to the current Message.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">recipient</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a> | <a href="../classes/Person.html" class="crosslink">Person</a> | <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String[]</a> | <a href="../classes/Person.html" class="crosslink">Person[]</a></span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The recipient(s) to add.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name optional">[type]</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a> | <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The type of the recipient, if none is provided and recipient is a String it will search for both Teachers and Pupils.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_move" class="method item">
-    <h3 class="name"><code>move</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>destination</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/Message.coffee.html#l173"><code>Message.coffee:173</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Move the current message to the given position.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">destination</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a> | <a href="../classes/MessageFolder.html" class="crosslink">MessageFolder</a></span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The MessageFolder of the ID of a MessageFolder where to move this Message to.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_send" class="method item">
-    <h3 class="name"><code>send</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/Message.coffee.html#l156"><code>Message.coffee:156</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Sends the current Message. Sending will be delayed if there are processes running in the background.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-            </div>
-        
 
         
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
 
                 
-                    <div id="property_attachments" class="property item">
-    <h3 class="name"><code>attachments</code></h3>
+                    <div id="property_class" class="property item">
+    <h3 class="name"><code>class</code></h3>
+    <span class="type"><a href="../classes/Class.html" class="crosslink">Class</a></span>
+
+    
+
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/Assignment.coffee.html#l142"><code>Assignment.coffee:142</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_deadline" class="property item">
+    <h3 class="name"><code>deadline</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Date" class="crosslink external" target="_blank">Date</a></span>
+
+    
+
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/Assignment.coffee.html#l178"><code>Assignment.coffee:178</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_feedbackFiles" class="property item">
+    <h3 class="name"><code>feedbackFiles</code></h3>
     <span class="type"><a href="../classes/File.html" class="crosslink">File[]</a></span>
 
     
@@ -695,7 +489,7 @@
             
         
         
-        <a href="../files/Message.coffee.html#l43"><code>Message.coffee:43</code></a>
+        <a href="../files/Assignment.coffee.html#l172"><code>Assignment.coffee:172</code></a>
         
         </p>
 
@@ -716,54 +510,8 @@
 </div>
 
                 
-                    <div id="property_begin" class="property item">
-    <h3 class="name"><code>begin</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Date" class="crosslink external" target="_blank">Date</a></span>
-
-    
-
-    
-
-    
-        <span class="flag final">final</span>
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/Message.coffee.html#l81"><code>Message.coffee:81</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_body" class="property item">
-    <h3 class="name"><code>body</code></h3>
+                    <div id="property_grade" class="property item">
+    <h3 class="name"><code>grade</code></h3>
     <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
 
     
@@ -771,6 +519,8 @@
     
 
     
+        <span class="flag final">final</span>
+    
 
     
 
@@ -785,7 +535,7 @@
             
         
         
-        <a href="../files/Message.coffee.html#l37"><code>Message.coffee:37</code></a>
+        <a href="../files/Assignment.coffee.html#l190"><code>Assignment.coffee:190</code></a>
         
         </p>
 
@@ -799,7 +549,51 @@
     </div>
 
     
-        <p><strong>Default:</strong> &quot;&quot;</p>
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_handedInFiles" class="property item">
+    <h3 class="name"><code>handedInFiles</code></h3>
+    <span class="type"><a href="../classes/File.html" class="crosslink">File[]</a></span>
+
+    
+
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/Assignment.coffee.html#l166"><code>Assignment.coffee:166</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
+    </div>
+
     
 
     
@@ -808,8 +602,8 @@
 </div>
 
                 
-                    <div id="property_end" class="property item">
-    <h3 class="name"><code>end</code></h3>
+                    <div id="property_handedInOn" class="property item">
+    <h3 class="name"><code>handedInOn</code></h3>
     <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Date" class="crosslink external" target="_blank">Date</a></span>
 
     
@@ -833,7 +627,7 @@
             
         
         
-        <a href="../files/Message.coffee.html#l87"><code>Message.coffee:87</code></a>
+        <a href="../files/Assignment.coffee.html#l184"><code>Assignment.coffee:184</code></a>
         
         </p>
 
@@ -879,7 +673,7 @@
             
         
         
-        <a href="../files/Message.coffee.html#l31"><code>Message.coffee:31</code></a>
+        <a href="../files/Assignment.coffee.html#l136"><code>Assignment.coffee:136</code></a>
         
         </p>
 
@@ -900,193 +694,8 @@
 </div>
 
                 
-                    <div id="property_isFlagged" class="property item">
-    <h3 class="name"><code>isFlagged</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
-
-    
-
-    
-
-    
-        <span class="flag final">final</span>
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/Message.coffee.html#l109"><code>Message.coffee:109</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_isRead" class="property item">
-    <h3 class="name"><code>isRead</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/Message.coffee.html#l93"><code>Message.coffee:93</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-        <p><strong>Default:</strong> false</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_messageFolder" class="property item">
-    <h3 class="name"><code>messageFolder</code></h3>
-    <span class="type"><a href="../classes/MessageFolder.html" class="crosslink">MessageFolder</a></span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/Message.coffee.html#l49"><code>Message.coffee:49</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The MessageFolder this Message in, changing this will move the Message.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_recipients" class="property item">
-    <h3 class="name"><code>recipients</code></h3>
-    <span class="type"><a href="../classes/Person.html" class="crosslink">Person[]</a></span>
-
-    
-
-    
-
-    
-        <span class="flag final">final</span>
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/Message.coffee.html#l67"><code>Message.coffee:67</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-        <p><strong>Default:</strong> []</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_sendDate" class="property item">
-    <h3 class="name"><code>sendDate</code></h3>
+                    <div id="property_markedOn" class="property item">
+    <h3 class="name"><code>markedOn</code></h3>
     <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Date" class="crosslink external" target="_blank">Date</a></span>
 
     
@@ -1110,7 +719,7 @@
             
         
         
-        <a href="../files/Message.coffee.html#l74"><code>Message.coffee:74</code></a>
+        <a href="../files/Assignment.coffee.html#l196"><code>Assignment.coffee:196</code></a>
         
         </p>
 
@@ -1124,8 +733,6 @@
     </div>
 
     
-        <p><strong>Default:</strong> new Date()</p>
-    
 
     
 
@@ -1133,9 +740,9 @@
 </div>
 
                 
-                    <div id="property_sender" class="property item">
-    <h3 class="name"><code>sender</code></h3>
-    <span class="type"><a href="../classes/Person.html" class="crosslink">Person</a></span>
+                    <div id="property_pupilMessage" class="property item">
+    <h3 class="name"><code>pupilMessage</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
 
     
 
@@ -1158,7 +765,7 @@
             
         
         
-        <a href="../files/Message.coffee.html#l61"><code>Message.coffee:61</code></a>
+        <a href="../files/Assignment.coffee.html#l154"><code>Assignment.coffee:154</code></a>
         
         </p>
 
@@ -1204,7 +811,7 @@
             
         
         
-        <a href="../files/Message.coffee.html#l103"><code>Message.coffee:103</code></a>
+        <a href="../files/Assignment.coffee.html#l148"><code>Assignment.coffee:148</code></a>
         
         </p>
 
@@ -1225,14 +832,16 @@
 </div>
 
                 
-                    <div id="property_subject" class="property item">
-    <h3 class="name"><code>subject</code></h3>
+                    <div id="property_teacherNotice" class="property item">
+    <h3 class="name"><code>teacherNotice</code></h3>
     <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
 
     
 
     
 
+    
+        <span class="flag final">final</span>
     
 
     
@@ -1248,7 +857,7 @@
             
         
         
-        <a href="../files/Message.coffee.html#l55"><code>Message.coffee:55</code></a>
+        <a href="../files/Assignment.coffee.html#l160"><code>Assignment.coffee:160</code></a>
         
         </p>
 
@@ -1262,7 +871,51 @@
     </div>
 
     
-        <p><strong>Default:</strong> &quot;&quot;</p>
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_tooLate" class="property item">
+    <h3 class="name"><code>tooLate</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+
+    
+
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/Assignment.coffee.html#l208"><code>Assignment.coffee:208</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
+    </div>
+
     
 
     
@@ -1271,8 +924,8 @@
 </div>
 
                 
-                    <div id="property_type" class="property item">
-    <h3 class="name"><code>type</code></h3>
+                    <div id="property_version" class="property item">
+    <h3 class="name"><code>version</code></h3>
     <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
 
     
@@ -1296,7 +949,7 @@
             
         
         
-        <a href="../files/Message.coffee.html#l115"><code>Message.coffee:115</code></a>
+        <a href="../files/Assignment.coffee.html#l202"><code>Assignment.coffee:202</code></a>
         
         </p>
 

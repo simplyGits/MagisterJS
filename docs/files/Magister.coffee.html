@@ -43,11 +43,23 @@
             
                 <li><a href="../classes/Appointment.html">Appointment</a></li>
             
+                <li><a href="../classes/Assignment.html">Assignment</a></li>
+            
+                <li><a href="../classes/AssignmentVersion.html">AssignmentVersion</a></li>
+            
+                <li><a href="../classes/Class.html">Class</a></li>
+            
                 <li><a href="../classes/Course.html">Course</a></li>
+            
+                <li><a href="../classes/DigitalSchoolUtility.html">DigitalSchoolUtility</a></li>
             
                 <li><a href="../classes/File.html">File</a></li>
             
                 <li><a href="../classes/FileFolder.html">FileFolder</a></li>
+            
+                <li><a href="../classes/Grade.html">Grade</a></li>
+            
+                <li><a href="../classes/GradeType.html">GradeType</a></li>
             
                 <li><a href="../classes/Magister.html">Magister</a></li>
             
@@ -61,9 +73,15 @@
             
                 <li><a href="../classes/ProfileInfo.html">ProfileInfo</a></li>
             
+                <li><a href="../classes/StudyGuide.html">StudyGuide</a></li>
+            
+                <li><a href="../classes/StudyGuidePart.html">StudyGuidePart</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/Magister.html">Magister</a></li>
             
             </ul>
         </div>
@@ -105,6 +123,12 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 ###*
+# A JavaScript implementation of the Magister 6 API.
+# @author Lieuwe Rooijakkers
+# @module Magister
+###
+
+###*
 # Class to communicate with Magister.
 #
 # @class Magister
@@ -141,7 +165,7 @@ class @Magister
 		to ?= from
 
 		@_forceReady()
-		dateConvert = (date) -&gt; &quot;#{date.getUTCFullYear()}-#{_helpers.addZero(date.getMonth() + 1)}-#{_helpers.addZero(date.getDate())}&quot;
+		dateConvert = _helpers.urlDateConvert
 		url = &quot;#{@_personUrl}/afspraken?tot=#{dateConvert(to)}&amp;van=#{dateConvert(from)}&quot;
 		@http.get url, {},
 			(error, result) =&gt;
@@ -156,6 +180,7 @@ class @Magister
 						for a in appointments
 							do (a) -&gt; a._absenceInfo = _.find absences, (absence) -&gt; absence.appointmentId is a.id()
 
+						_.remove appointments, (a) -&gt; _helpers.date(a.begin()) &lt; _helpers.date(from) or _helpers.date(a.end()) &gt; _helpers.date(to)
 						callback null, _.sortBy appointments, (x) -&gt; x.begin()
 
 					@http.get &quot;#{@_personUrl}/roosterwijzigingen?tot=#{dateConvert(to)}&amp;van=#{dateConvert(from)}&quot;, {}, (error, result) =&gt;
@@ -183,11 +208,10 @@ class @Magister
 						for a in appointments
 							do (a) =&gt;
 								teachers = a.teachers() ? []
-								pushPeople = _helpers.asyncResultWaiter teachers.length, (r) -&gt; pushResult a
 
 								@fillPersons teachers, ((e, r) -&gt;
 									a._teachers = r
-									pushPeople r
+									pushResult()
 								), 3
 					else hit()
 
@@ -197,7 +221,7 @@ class @Magister
 	# @method messageFolders
 	# @param query {String} A case insensetive query the MessageFolder need to match.
 	# @param [callback] {Function} Not useful at all, just here to prevent possible mistakes.
-	#	@param [callback.error] {Null} Will always be null
+	#	@param [callback.error] {null} Will always be null
 	#	@param [callback.result] {MessageFolder[]} An array containing the matching MessageFolders.
 	# @return {MessageFolder[]} An array containing the matching messageFolders.
 	###
@@ -252,7 +276,7 @@ class @Magister
 					callback error, null
 				else
 					result = EJSON.parse result.content
-					callback null, (Course._convertRaw(@, c) for c in result.Items)
+					callback null, _.sortBy (Course._convertRaw(@, c) for c in result.Items), (c) -&gt; c.begin()
 
 	@_cachedPersons: {}
 	###*
@@ -312,27 +336,31 @@ class @Magister
 	#
 	# @method fillPersons
 	# @async
-	# @param persons {Person[]|Person} A Person or an Array of Persons to fetch more information for.
+	# @param persons {Person|Person[]} A Person or an Array of Persons to fetch more information for.
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
-	# 	@param [callback.result] {Person[]} An array containing the fetched Persons.
+	# 	@param [callback.result] {Person|Person[]} A fetched person or an array containing the fetched Persons, according to the type of the given persons parameter.
 	# @param [overwriteType] {Number|String} The type used to search the persons for. Not recommended for usage.
 	###
 	fillPersons: (persons, callback, overwriteType) -&gt;
 		if _.isArray persons
-			return [] if persons.length is 0
+			if persons.length is 0
+				callback null, []
+				return undefined
 			pushResult = _helpers.asyncResultWaiter persons.length, (r) -&gt; callback null, r
 			
 			for p in persons
 				try
-					@getPersons _.last(p.fullName().split &quot; &quot;), (p._type ? overwriteType), (e, r) -&gt; pushResult r[0] ? p
+					@getPersons _.last(p.fullName().split &quot; &quot;), (p._type ? overwriteType), (e, r) -&gt;
+						if e? or !r? then throw e
+						else pushResult r[0] ? p
 				catch
 					pushResult p
 
 		else if _.isObject persons
 			try
 				@getPersons _.last(persons.fullName().split &quot; &quot;), (persons._type ? overwriteType), (e, r) -&gt;
-					if e? then callback e, null
+					if e? or !r? then throw e
 					else callback null, r[0] ? persons
 			catch
 				callback persons
@@ -361,7 +389,7 @@ class @Magister
 		m.send()
 
 	###*
-	# Gets the FileFolders of the current User.
+	# Gets the FileFolders of the current user.
 	#
 	# @method fileFolders
 	# @async
@@ -373,6 +401,107 @@ class @Magister
 		@http.get &quot;#{@_personUrl}/bronnen?soort=0&quot;, {}, (error, result) =&gt;
 			if error? then callback error, null
 			else callback null, ( FileFolder._convertRaw @, f for f in EJSON.parse(result.content).Items )
+
+	###*
+	# Gets the StudyGuides of the current user.
+	#
+	# @method studyGuides
+	# @async
+	# @param callback {Function} A standard callback.
+	# 	@param [callback.error] {Object} The error, if it exists.
+	# 	@param [callback.result] {StudyGuide[]} An array containing StudyGuides.
+	###
+	studyGuides: (callback) -&gt;
+		@http.get &quot;#{@_pupilUrl}/studiewijzers?peildatum=#{_helpers.urlDateConvert new Date}&quot;, {}, (error, result) =&gt;
+			if error? then callback error, null
+			else callback null, ( StudyGuide._convertRaw @, s for s in EJSON.parse(result.content).Items )
+
+	###*
+	# Gets the Assignments for the current user.
+	#
+	# @method assignments
+	# @async
+	# @param [amount=25] {Number} The amount of Assignments to fetch from the server.
+	# @param [skip=0] {Number} The amount of Assignments to skip.
+	# @param [download=true] {Boolean} Whether or not to download the users from the server.
+	# @param callback {Function} A standard callback.
+	# 	@param [callback.error] {Object} The error, if it exists.
+	# 	@param [callback.result] {Assignment[]} An array containing Assignments.
+	###
+	assignments: -&gt;
+		[amount, skip] = _.filter arguments, (a) -&gt; _.isNumber a
+		download = _.find arguments, (a) -&gt; _.isBoolean a
+		callback = _.find arguments, (a) -&gt; _.isFunction a
+
+		return unless callback?
+		download ?= yes
+		amount ?= 25
+		skip ?= 0
+
+		classes = null
+		@courses (e, r) =&gt;
+			if r? and r.length isnt 0
+				_.last(r).classes (e, r) -&gt;
+					classes = r if r? and r.length isnt 0
+
+			@http.get &quot;#{@_personUrl}/opdrachten?skip=0&amp;top=25&amp;startdatum=#{_helpers.urlDateConvert new Date}&amp;status=alle&quot;, {}, (error, result) =&gt;
+				if error? then callback error, null
+				else
+					result = (e.Id for e in EJSON.parse(result.content).Items)
+					pushResult = _helpers.asyncResultWaiter result.length, (r) -&gt; callback null, r
+
+					for id in result
+						@http.get &quot;#{@_personUrl}/opdrachten/#{id}&quot;, {}, (error, result) =&gt;
+							assignment = Assignment._convertRaw @, EJSON.parse(result.content)
+
+							if classes? then assignment._class = _.find classes, (c) -&gt; c.abbreviation() is assignment._class
+
+							if download
+								teachers = assignment.teachers() ? []
+
+								@fillPersons teachers, ((e, r) -&gt;
+									assignment._teachers = r
+									pushResult assignment
+								), 3
+
+							else pushResult assignment
+
+	###*
+	# Gets the Digital school utilities for the current user.
+	#
+	# @method digitalSchoolUtilities
+	# @async
+	# @fixme /NOT WORKING/ (Weird ID mismatch) @param [class] {Class|Number} The class or ID of a class to get the Digital school utitlities for. If none is given it will return every DigitalSchoolUtility.
+	# @param callback {Function} A standard callback.
+	# 	@param [callback.error] {Object} The error, if it exists.
+	# 	@param [callback.result] {DigitalSchoolUtility[]} An array containing DigitalSchoolUtilities.
+	###
+	digitalSchoolUtilities: -&gt;
+		#_class = _.find arguments, (a) -&gt; _.isNumber a or _.isObject a
+
+		callback = _.find arguments, (a) -&gt; _.isFunction a
+		return unless callback?
+
+		_class = _class.id() if _.isObject _class
+
+		url = if _class? then &quot;#{@_personUrl}/lesmateriaal?vakken=#{_class}&quot; else &quot;#{@_personUrl}/lesmateriaal&quot;
+
+		classes = null
+		@courses (e, r) =&gt;
+			if r? and r.length isnt 0
+				_.last(r).classes (e, r) -&gt;
+					classes = r if r? and r.length isnt 0
+			
+			@http.get url, {}, (error, result) =&gt;
+				if error? then callback error, null
+				else
+					utilities = ( DigitalSchoolUtility._convertRaw @, u for u in EJSON.parse(result.content).Items )
+
+					if classes? then for u in utilities
+						do (u) -&gt;
+							u._class = _.find classes, (c) -&gt; c.abbreviation() is u._class.Afkorting and c.description() is u._class.Omschrijving
+
+					callback null, utilities
 
 	###*
 	# Returns the profile for the current logged in user.
@@ -391,6 +520,7 @@ class @Magister
 
 	###*
 	# Checks if this Magister instance is done logging in.
+	#
 	# You can also provide a callback, which will be called when this instance is done logging in.
 	#
 	# @method ready
@@ -412,6 +542,14 @@ class @Magister
 
 	_readyCallbacks: []
 
+	###*
+	# (Re-)Login the current Magister instance.
+	#
+	# Usually not needed to call manually.
+	#
+	# @method reLogin
+	# @deprecated
+	###
 	reLogin: -&gt;
 		@_ready = no
 		url = &quot;#{@magisterSchool.url}/api/sessie&quot;
@@ -433,6 +571,7 @@ class @Magister
 						@_group = result.Groep[0]
 						@_id = result.Persoon.Id
 						@_personUrl = &quot;#{@magisterSchool.url}/api/personen/#{@_id}&quot;
+						@_pupilUrl = &quot;#{@magisterSchool.url}/api/leerlingen/#{@_id}&quot;
 						@_profileInfo = ProfileInfo._convertRaw @, result
 
 						@http.get &quot;#{@_personUrl}/berichten/mappen&quot;, {}, (error, result) =&gt;

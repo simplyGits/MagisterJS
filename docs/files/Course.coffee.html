@@ -43,11 +43,23 @@
             
                 <li><a href="../classes/Appointment.html">Appointment</a></li>
             
+                <li><a href="../classes/Assignment.html">Assignment</a></li>
+            
+                <li><a href="../classes/AssignmentVersion.html">AssignmentVersion</a></li>
+            
+                <li><a href="../classes/Class.html">Class</a></li>
+            
                 <li><a href="../classes/Course.html">Course</a></li>
+            
+                <li><a href="../classes/DigitalSchoolUtility.html">DigitalSchoolUtility</a></li>
             
                 <li><a href="../classes/File.html">File</a></li>
             
                 <li><a href="../classes/FileFolder.html">FileFolder</a></li>
+            
+                <li><a href="../classes/Grade.html">Grade</a></li>
+            
+                <li><a href="../classes/GradeType.html">GradeType</a></li>
             
                 <li><a href="../classes/Magister.html">Magister</a></li>
             
@@ -61,9 +73,15 @@
             
                 <li><a href="../classes/ProfileInfo.html">ProfileInfo</a></li>
             
+                <li><a href="../classes/StudyGuide.html">StudyGuide</a></li>
+            
+                <li><a href="../classes/StudyGuidePart.html">StudyGuidePart</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/Magister.html">Magister</a></li>
             
             </ul>
         </div>
@@ -105,9 +123,76 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 ###*
+# A Class (ex. English class)
+#
+# @class Class
+# @private
+# @constructor
+# @param _magisterObj {Magister} A Magister object this Class is child of.
+###
+class @Class
+	constructor: (@_magisterObj) -&gt;
+		###*
+		# @property id
+		# @final
+		# @type Number
+		###
+		@id = _getset &quot;_id&quot;
+		###*
+		# @property beginDate
+		# @final
+		# @type Date
+		###
+		@beginDate = _getset &quot;_beginDate&quot;
+		###*
+		# @property endDate
+		# @final
+		# @type Date
+		###
+		@endDate = _getset &quot;_endDate&quot;
+		###*
+		# @property licenseUrl
+		# @final
+		# @type String
+		###
+		@licenseUrl = _getset &quot;_licenseUrl&quot;
+		###*
+		# @property abbreviation
+		# @final
+		# @type String
+		###
+		@abbreviation = _getset &quot;_abbreviation&quot;
+		###*
+		# @property description
+		# @final
+		# @type String
+		###
+		@description = _getset &quot;_description&quot;
+		###*
+		# @property number
+		# @final
+		# @type Number
+		###
+		@number = _getset &quot;_number&quot;
+
+	@_convertRaw: (magisterObj, raw) -&gt;
+		obj = new Class magisterObj
+
+		obj._id = raw.Id
+		obj._beginDate = new Date Date.parse raw.Begindatum
+		obj._endDate = new Date Date.parse raw.Einddatum
+		obj._licenseUrl = raw.LicentieUrl
+		obj._abbreviation = raw.Afkorting
+		obj._description = raw.Omschrijving
+		obj._number = raw.Volgnr
+
+		return obj
+
+###*
 # A Course (like: 4 VWO E/M 14-15).
 #
 # @class Course
+# @private
 # @param _magisterObj {Magister} A Magister object this Course is child of.
 # @constructor
 ###
@@ -172,19 +257,11 @@ class @Course
 	# 	@param [callback.result] {Object[]} An array containing the Classes.
 	###
 	classes: (callback) -&gt;
-		@_magisterObj.http.get @_classesUrl, {}, (error, result) -&gt;
+		@_magisterObj.http.get @_classesUrl, {}, (error, result) =&gt;
 			if error?
 				callback error, null
 			else
-				callback null, ({
-					beginDate: -&gt; new Date Date.parse c.Begindatum
-					endDate: -&gt; new Date Date.parse c.Einddatum
-					licenseUrl: -&gt; c.LicentieUrl
-					id: -&gt; c.Id
-					abbreviation: -&gt; c.Afkorting
-					description: -&gt; c.Omschrijving
-					number: -&gt; c.Volgnr
-				} for c in EJSON.parse(result.content).Items)
+				callback null, (Class._convertRaw @_magisterObj, c for c in EJSON.parse(result.content).Items)
 
 	###*
 	# Gets the grades of this Course.
@@ -205,45 +282,20 @@ class @Course
 			if error?
 				callback error, null
 			else
-				convert = (g, teacher) -&gt;
-					id: -&gt; g.CijferId
-					grade: -&gt; g.CijferStr
-					passed: -&gt; g.IsVoldoende
-					dateFilledIn: -&gt; new Date Date.parse g.DatumIngevoerd
-					gradePeriod: -&gt; { id: g.CijferPeriode.Id, abbreviation: g.CijferPeriode.Afkorting }
-					class: -&gt; { id: g.Vak.Id, abbreviation: g.Vak.Afkorting, description: g.Vak.Omschrijving }
-					atLaterDate: -&gt; g.Inhalen
-					exemption: -&gt; g.Vrijstelling
-					counts: -&gt; g.TeltMee
-					type: -&gt;
-						id: g.CijferKolom.Id
-						name: g.CijferKolom.KolomNaam
-						number: g.CijferKolom.KolomNummer
-						header: g.CijferKolom.KolomKop
-						description: g.CijferKolom.KolomOmschrijving
-						type: g.CijferKolom.KolomSoort
-						isAtLaterDate: g.CijferKolom.IsHerkansingKolom
-						isTeacher: g.CijferKolom.IsDocentKolom
-						hasNestedTypes: g.CijferKolom.HeeftOndeliggendeKolommen
-						isPTA: g.CijferKolom.IsPTAKolom
-					assignmentId: -&gt; g.CijferKolomIdEloOpdracht
-					teacher: -&gt; teacher
-					classExemption: -&gt; g.VakDispensatie or g.VakVrijstelling
-
 				result = EJSON.parse(result.content).Items
 				pushResult = _helpers.asyncResultWaiter result.length, (r) -&gt; callback null, r
 
 				for g in result
 					do (g) =&gt;
-						teacher = Person._convertRaw @_magisterObj, Docentcode: g.Docent
-						teacher._type = 3
+						g.teacher = Person._convertRaw @_magisterObj, Docentcode: g.Docent
+						g.teacher._type = 3
 
 						if download
 							@_magisterObj.getPersons g.Docent, 3, (e, r) -&gt;
 								unless e? or !r[0]? then teacher = r[0]
-								pushResult convert g, teacher
+								pushResult Grade._convertRaw g
 						else
-							pushResult convert g, teacher
+							pushResult Grade._convertRaw g
 
 
 	@_convertRaw: (magisterObj, raw) -&gt;
