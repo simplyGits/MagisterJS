@@ -12,6 +12,10 @@ Works on:
 Programming style
 ==========
 [<img src="http://i.imgur.com/yPYusgq.jpg" width="300"/>](http://www.reddit.com/r/ProgrammerHumor/comments/2c67bs/my_manager_sent_me_a_picture_good_programming/)
-* Document your code with [YUIDoc](yui.github.io/yuidoc/syntax/index.html).
+* Document your code with [YUIDoc](http://yui.github.io/yuidoc/syntax/index.html).
 * Respect and follow the current programming stlyle.
 * Test your changes.
+
+License
+==========
+[GPLv3](LICENSE)
