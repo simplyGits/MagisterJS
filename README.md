@@ -25,6 +25,7 @@ Programming style
 * Document your code with [YUIDoc](http://yui.github.io/yuidoc/syntax/index.html).
 * Respect and follow the current programming stlyle.
 * Test your changes.
+* Compile before submitting a pull request (`npm install` and `grunt`).
 
 License
 ==========
