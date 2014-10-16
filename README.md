@@ -16,7 +16,7 @@ Works on:
 How to compile from source
 ==========
 1. Be sure you have grunt-cli installed.
-2. run `grunt` from the project directory.
+2. Run `npm install` and `grunt` from the project directory.
 
 
 Programming style
