@@ -38,7 +38,7 @@ class @Magister
 		callback = _.find arguments, (a) -> _.isFunction a
 		download = _.find(arguments, (a) -> _.isBoolean a) ? yes
 		[from, to] = _.where arguments, (a) -> _.isDate a
-		to ?= from
+		unless _.isDate(to) then to = from
 
 		@_forceReady()
 		dateConvert = _helpers.urlDateConvert

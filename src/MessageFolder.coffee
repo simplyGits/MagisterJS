@@ -84,7 +84,7 @@ class @MessageFolder
 					do (m) =>
 						url = "#{@_magisterObj._personUrl}/berichten/#{m.id()}?berichtSoort=#{m.type()}"
 						@_magisterObj.http.get url, {}, (error, result) =>
-							m._content = EJSON.parse(result.content).Inhoud
+							m._body = EJSON.parse(result.content).Inhoud
 							if download
 								pushPeople = _helpers.asyncResultWaiter m.recipients().length + 1, -> pushMessage m
 								

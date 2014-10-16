@@ -181,7 +181,6 @@ class @Appointment
 		obj.OpdrachtId = @_appointmentId
 		obj.Bijlagen = @_attachments ? []
 
-		console.log obj
 		return obj
 
 	_makeStorable: -> _.omit @, "_magisterObj"

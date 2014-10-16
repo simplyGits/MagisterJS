@@ -1,22 +1,17 @@
 {
-  "name": "Magister.js",
+  "name": "magister.js",
   "description": "A JavaScript implementation of the Magister 6 API",
   "version": "1.0.0",
-  "author": {
-    "name": "simplyApps"
-  },
+  "author": "simplyApps",
   "maintainers": [
-    {
-      "name": "Lieuwe Rooijakkers",
-      "email": "lieuwerooijakkers@gmail.com"
-    }
+    "Lieuwe Rooijakkers <lieuwerooijakkers@gmail.com>"
   ],
   "homepage": "http://simplyGits.github.io/MagisterJS",
   "repository": {
     "type": "git",
     "url": "http://github.com/simplyGits/MagisterJS.git"
   },
-  "main": "./lib/Magister",
+  "main": "./lib/magister-node.min.js",
   "licenses": [
     {
       "type": "GPLv3",
@@ -24,14 +19,14 @@
     }
   ],
   "dependencies": {
-    "underscore": ">=1.7.0",
+    "lodash": ">=2.4.1",
     "ejson": ">=1.0.1",
     "request": ">=2.45.0"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-contrib-coffee": "^0.12.0",
-    "grunt-contrib-concat": "^0.5.0",
+    "grunt-contrib-compress": "^0.12.0",
     "grunt-contrib-uglify": "^0.6.0"
   },
   "scripts": {
@@ -46,8 +41,8 @@
     "school",
     "simplyApps"
   ],
-  "readmeFilename": "README.md",
   "bugs": {
     "url": "https://github.com/simplyGits/MagisterJS/issues"
-  }
+  },
+  "license": "GPLv3"
 }

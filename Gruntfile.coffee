@@ -1,4 +1,6 @@
 module.exports = (grunt) ->
+	head = '/* Magister.js (browser version) by simplyApps. Built on: <%= grunt.template.today("dd-mm-yyyy") %> */\n'
+
 	grunt.initConfig
 		pkg: grunt.file.readJSON "package.json"
 		coffee:
@@ -13,18 +15,33 @@ module.exports = (grunt) ->
 				mangle: no
 			default:
 				files:
-					"build/magister-browser.min.js": "build/magister-browser.js"
+					"lib/separateHttp/magister-browser-noHttp.min.js": "build/magister-browser.js"
 
 		concat:
 			options:
-				banner: '/* Magister.js by simplyApps. Built on: <%= grunt.template.today("dd-mm-yyyy") %> */\n'
+				banner: head
 			files:
-				src: ["src/http/http.js", "build/magister-browser.min.js"]
-				dest: "magister-browser.min.js"
+				src: ["src/http/http.js", "lib/separateHttp/magister-browser-noHttp.min.js"]
+				dest: "lib/magister-browser.min.js"
+
+		compress:
+			main:
+				options:
+					archive: "lib.zip"
+				files: [
+					{ expand: yes, cwd: "lib/", src: ["**"] }
+				]
 
 	grunt.loadNpmTasks "grunt-contrib-coffee"
 	grunt.loadNpmTasks "grunt-contrib-uglify"
 	grunt.loadNpmTasks "grunt-contrib-concat"
+	grunt.loadNpmTasks "grunt-contrib-compress"
 
 	grunt.registerTask "clear", -> grunt.file.delete "./build", force: yes
-	grunt.registerTask "default", [ "coffee", "uglify", "concat", "clear" ]
+	grunt.registerTask "copy", ->
+		grunt.file.copy "src/http/http.js", "lib/separateHttp/http.js"
+		
+		grunt.file.write "lib/separateHttp/http.js", grunt.template.process(head) + grunt.file.read "lib/separateHttp/http.js"
+		grunt.file.write "lib/separateHttp/magister-browser-noHttp.min.js", grunt.template.process(head) + grunt.file.read "lib/separateHttp/magister-browser-noHttp.min.js"
+	
+	grunt.registerTask "default", [ "coffee", "uglify", "concat", "copy", "compress", "clear" ]
