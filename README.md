@@ -5,9 +5,19 @@
 A JavaScript implementation of the [Magister 6](http://magister6.nl/) API.
 
 Works on:
-* Node.JS
+* [Node.JS](https://github.com/simplyGits/NodeMagisterJS)
 * Meteor
 * Browserside with a serverside proxy to circumvent Magister's same-origin policy.
+
+[Admire our project page](http://simplygits.github.io/MagisterJS)
+
+[Read the Documentation](http://simplygits.github.io/MagisterJS/docs/index.html)
+
+How to compile from source
+==========
+1. Be sure you have grunt-cli installed.
+2. run `grunt` from the project directory.
+
 
 Programming style
 ==========
@@ -19,5 +29,3 @@ Programming style
 License
 ==========
 [GPLv3](LICENSE)
-
-[![Analytics](https://ga-beacon.appspot.com/UA-52373748-2/Magister.js/)](#)
