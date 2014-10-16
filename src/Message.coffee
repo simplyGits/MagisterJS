@@ -164,7 +164,7 @@ class @Message
 			return no
 		throw new Error "This message is marked as unsendable" unless @_canSend
 		throw new Error "Sender and/or recipients cannot be null" unless @recipients()? and @sender()
-		throw new Error "Body cannot be null" unless !@body()?
+		throw new Error "Body cannot be null" unless @body()?
 		throw new Error "Subject cannot be null or empty" if !@subject()? or @subject().length is 0
 
 		@_magisterObj.http.post "#{@_magisterObj._personUrl}/berichten", @_toMagisterStyle(), {}, (e, r) -> throw e if e?
