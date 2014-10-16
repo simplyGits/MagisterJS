@@ -27,7 +27,7 @@ module.exports = (grunt) ->
 		compress:
 			main:
 				options:
-					archive: "lib.zip"
+					archive: "Magister.js.zip"
 				files: [
 					{ expand: yes, cwd: "lib/", src: ["**"] }
 				]
