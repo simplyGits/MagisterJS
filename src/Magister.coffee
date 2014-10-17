@@ -11,7 +11,7 @@
 # @param magisterSchool {MagisterSchool} A MagisterSchool to logon to.
 # @param username {String} The username of the user to login to.
 # @param password {String} The password of the user to login to.
-# @param _keepLoggedIn {Boolean} Whether or not to keep the user logged in.
+# @param [_keepLoggedIn=true] {Boolean} Whether or not to keep the user logged in.
 # @constructor
 ###
 class @Magister
