@@ -99,7 +99,7 @@ class @Message
 			return if @_isRead is x
 
 			@_isRead = x
-			@_magisterObj.http.put "#{_magisterObj._personUrl}/berichten/#{@id()}?berichtSoort=#{type()}", @_toMagisterStyle(), {}, (->)
+			@_magisterObj.http.put "#{_magisterObj._personUrl}/berichten/#{@id()}?berichtSoort=#{@type()}", @_toMagisterStyle(), {}, (->)
 		###*
 		# @property state
 		# @final
