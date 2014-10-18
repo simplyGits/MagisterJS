@@ -2,7 +2,7 @@
     "project": {
         "name": "Magister.js Docs",
         "description": "A JavaScript implementation of the Magister 6 API.",
-        "version": "1.0.0",
+        "version": "1.0.3",
         "url": "http://simplyGits.github.io/MagisterJS",
         "logo": "http://i.imgur.com/Lrg80ax.png"
     },
@@ -428,7 +428,9 @@
                 {
                     "name": "_keepLoggedIn",
                     "description": "Whether or not to keep the user logged in.",
-                    "type": "Boolean"
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "true"
                 }
             ],
             "is_constructor": 1
@@ -1920,7 +1922,8 @@
                 {
                     "name": "query",
                     "description": "A case insensetive query the MessageFolder need to match.",
-                    "type": "String"
+                    "type": "String",
+                    "optional": true
                 },
                 {
                     "name": "callback",

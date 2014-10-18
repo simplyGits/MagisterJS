@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.0.0</em>
+            <em>API Docs for: 1.0.3</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -223,7 +223,7 @@ class @Message
 			return if @_isRead is x
 
 			@_isRead = x
-			@_magisterObj.http.put &quot;#{_magisterObj._personUrl}/berichten/#{@id()}?berichtSoort=#{type()}&quot;, @_toMagisterStyle(), {}, (-&gt;)
+			@_magisterObj.http.put &quot;#{_magisterObj._personUrl}/berichten/#{@id()}?berichtSoort=#{@type()}&quot;, @_toMagisterStyle(), {}, (-&gt;)
 		###*
 		# @property state
 		# @final
@@ -288,7 +288,7 @@ class @Message
 			return no
 		throw new Error &quot;This message is marked as unsendable&quot; unless @_canSend
 		throw new Error &quot;Sender and/or recipients cannot be null&quot; unless @recipients()? and @sender()
-		throw new Error &quot;Body cannot be null&quot; unless !@body()?
+		throw new Error &quot;Body cannot be null&quot; unless @body()?
 		throw new Error &quot;Subject cannot be null or empty&quot; if !@subject()? or @subject().length is 0
 
 		@_magisterObj.http.post &quot;#{@_magisterObj._personUrl}/berichten&quot;, @_toMagisterStyle(), {}, (e, r) -&gt; throw e if e?

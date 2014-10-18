@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.0.0</em>
+            <em>API Docs for: 1.0.3</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -135,7 +135,7 @@
 # @param magisterSchool {MagisterSchool} A MagisterSchool to logon to.
 # @param username {String} The username of the user to login to.
 # @param password {String} The password of the user to login to.
-# @param _keepLoggedIn {Boolean} Whether or not to keep the user logged in.
+# @param [_keepLoggedIn=true] {Boolean} Whether or not to keep the user logged in.
 # @constructor
 ###
 class @Magister
@@ -162,7 +162,7 @@ class @Magister
 		callback = _.find arguments, (a) -&gt; _.isFunction a
 		download = _.find(arguments, (a) -&gt; _.isBoolean a) ? yes
 		[from, to] = _.where arguments, (a) -&gt; _.isDate a
-		to ?= from
+		unless _.isDate(to) then to = from
 
 		@_forceReady()
 		dateConvert = _helpers.urlDateConvert
@@ -219,7 +219,7 @@ class @Magister
 	# Gets the MessageFolders that matches the given query. Or if no query is given, all MessageFolders
 	#
 	# @method messageFolders
-	# @param query {String} A case insensetive query the MessageFolder need to match.
+	# @param [query] {String} A case insensetive query the MessageFolder need to match.
 	# @param [callback] {Function} Not useful at all, just here to prevent possible mistakes.
 	#	@param [callback.error] {null} Will always be null
 	#	@param [callback.result] {MessageFolder[]} An array containing the matching MessageFolders.

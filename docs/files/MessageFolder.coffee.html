@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.0.0</em>
+            <em>API Docs for: 1.0.3</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -208,7 +208,7 @@ class @MessageFolder
 					do (m) =&gt;
 						url = &quot;#{@_magisterObj._personUrl}/berichten/#{m.id()}?berichtSoort=#{m.type()}&quot;
 						@_magisterObj.http.get url, {}, (error, result) =&gt;
-							m._content = EJSON.parse(result.content).Inhoud
+							m._body = EJSON.parse(result.content).Inhoud
 							if download
 								pushPeople = _helpers.asyncResultWaiter m.recipients().length + 1, -&gt; pushMessage m
 								

@@ -1,0 +1,53 @@
+body {
+    -webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+	overflow: hidden;
+}
+
+h1 {
+	text-align: center;
+	width: 100vw;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 100;
+	font-size: 50px;
+	
+	margin-top: 0px;
+}
+
+h1, input {
+	opacity: 0;
+	transform: translateY(75px);
+	
+	transition: 1s opacity, 1s transform cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+h1.animate, input.animate {
+	opacity: 1;
+	transform: none;
+}
+
+div#buttonContainer {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	height: 75px;
+	text-align: center;
+}
+
+div#buttonContainer > input[type="button"] {
+	margin-top: 10px;
+	font-size: 25px;
+}
+
+#editor {
+	border-top: 1px lightgray solid;
+	
+	position: absolute;
+	top: 75px;
+	bottom: 75px;
+	left: 0;
+	right: 0;
+	font-size: 15px;
+}
