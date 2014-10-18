@@ -95,7 +95,7 @@ class @Magister
 	# Gets the MessageFolders that matches the given query. Or if no query is given, all MessageFolders
 	#
 	# @method messageFolders
-	# @param query {String} A case insensetive query the MessageFolder need to match.
+	# @param [query] {String} A case insensetive query the MessageFolder need to match.
 	# @param [callback] {Function} Not useful at all, just here to prevent possible mistakes.
 	#	@param [callback.error] {null} Will always be null
 	#	@param [callback.result] {MessageFolder[]} An array containing the matching MessageFolders.
