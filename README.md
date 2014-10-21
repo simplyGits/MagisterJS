@@ -31,4 +31,4 @@ License
 ==========
 [GPLv3](LICENSE)
 
-+[![Analytics](https://ga-beacon.appspot.com/UA-52373748-2/Magister.js/)](#)
+[![Analytics](https://ga-beacon.appspot.com/UA-52373748-2/Magister.js/)](#)
