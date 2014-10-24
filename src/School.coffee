@@ -8,6 +8,11 @@
 ###
 class @MagisterSchool
 	###*
+	# @property id
+	# @final
+	# @type String
+	###
+	###*
 	# @property name
 	# @final
 	# @type String
@@ -17,7 +22,7 @@ class @MagisterSchool
 	# @final
 	# @type String
 	###
-	constructor: (@name, @url) ->
+	constructor: (@id, @name, @url) ->
 
 	###*
 	# Gets the schools that matches the given query.
@@ -33,10 +38,10 @@ class @MagisterSchool
 	@getSchools: (query, callback) ->
 		if !query? or _helpers.trim(query).length < 3 then return []
 
-		new MagisterHttp().get "https://schoolkiezer.magister.net/home/query?filter=#{query}", {}, (error, result) =>
+		new MagisterHttp().get "https://mijn.magister.net/api/schools?filter=#{query}", {}, (error, result) =>
 			if error?
 				callback error, null
 			else
 				callback null, (@_convertRaw s for s in EJSON.parse result.content)
 
-	@_convertRaw: (raw) -> new MagisterSchool raw.Licentie, "https://#{raw.Url[5..]}"
+	@_convertRaw: (raw) -> new MagisterSchool raw.Id, raw.Name, raw.Url
