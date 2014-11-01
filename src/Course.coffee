@@ -130,7 +130,7 @@ class @Course
 	# @async
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
-	# 	@param [callback.result] {Object[]} An array containing the Classes.
+	# 	@param [callback.result] {Class[]} An array containing the Classes.
 	###
 	classes: (callback) ->
 		@_magisterObj.http.get @_classesUrl, {}, (error, result) =>
@@ -147,7 +147,7 @@ class @Course
 	# @param [download=true] {Boolean} Whether or not to download the users from the server.
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
-	# 	@param [callback.result] {Object[]} An array containing the Grades.
+	# 	@param [callback.result] {Grade[]} An array containing the Grades.
 	###
 	grades: ->
 		download = _.find(arguments, (a) -> _.isBoolean a) ? yes
