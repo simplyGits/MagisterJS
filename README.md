@@ -1,6 +1,7 @@
 [<img src="http://i.imgur.com/Lrg80ax.png" alt="Magister.js" align="left" width="200"/>](https://simplyGits.github.io/MagisterJS)
 
 ==========
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/simplyGits/MagisterJS?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 A JavaScript implementation of the [Magister 6](http://magister6.nl/) API.
 
