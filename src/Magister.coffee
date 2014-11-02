@@ -8,7 +8,7 @@
 # Class to communicate with Magister.
 #
 # @class Magister
-# @param magisterSchool {MagisterSchool} A MagisterSchool to logon to.
+# @param magisterSchool {MagisterSchool|String} A MagisterSchool to logon to. If this is a String it will use that String as a query to search for a possible school.
 # @param username {String} The username of the user to login to.
 # @param password {String} The password of the user to login to.
 # @param [_keepLoggedIn=true] {Boolean} Whether or not to keep the user logged in.
@@ -17,10 +17,17 @@
 class @Magister
 	constructor: (@magisterSchool, @username, @password, @_keepLoggedIn = yes) ->
 		throw new Error "Expected 3 or 4 arguments, got #{arguments.length}" unless arguments.length is 3 or arguments.length is 4
-
 		@_readyCallbacks = [] #Fixes weird bug where callbacks from previous Magister objects were mixed with the new ones.
 		@http = new MagisterHttp()
-		@reLogin()
+
+		if _.isString(@magisterSchool)
+			MagisterSchool.getSchools @magisterSchool, (e, r) =>
+				if e? then throw e
+				else
+					@magisterSchool = r[0]
+					@reLogin()
+
+		else @reLogin()
 
 	###*
 	# Get the appoinments of the current User between the two given Dates.
@@ -180,10 +187,11 @@ class @Magister
 		unless type? # Try both Teachers and Pupils
 			@getPersons query, 3, (e, r) =>
 				if e? then callback e, null
-				else if r.length isnt 0 then callback null, r
-				else @getPersons query, 4, (e, r) ->
-					if e? then callback e, null
-					else callback null, r
+				else
+					teachers = r
+					@getPersons query, 4, (e, r) ->
+						if e? then callback e, null
+						else callback null, _helpers.pushMore r, teachers
 			return undefined
 
 		type = switch Person._convertType type
@@ -216,7 +224,7 @@ class @Magister
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
 	# 	@param [callback.result] {Person|Person[]} A fetched person or an array containing the fetched Persons, according to the type of the given persons parameter.
-	# @param [overwriteType] {Number|String} The type used to search the persons for. Not recommended for usage.
+	# @param [overwriteType] {Number|String} Not recommended. Forces the type used to search the persons for.
 	###
 	fillPersons: (persons, callback, overwriteType) ->
 		if _.isArray persons
