@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.0.3</em>
+            <em>API Docs for: 1.0.4</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -132,6 +132,11 @@
 ###
 class @MagisterSchool
 	###*
+	# @property id
+	# @final
+	# @type String
+	###
+	###*
 	# @property name
 	# @final
 	# @type String
@@ -141,7 +146,7 @@ class @MagisterSchool
 	# @final
 	# @type String
 	###
-	constructor: (@name, @url) -&gt;
+	constructor: (@id, @name, @url) -&gt;
 
 	###*
 	# Gets the schools that matches the given query.
@@ -157,13 +162,13 @@ class @MagisterSchool
 	@getSchools: (query, callback) -&gt;
 		if !query? or _helpers.trim(query).length &lt; 3 then return []
 
-		new MagisterHttp().get &quot;https://schoolkiezer.magister.net/home/query?filter=#{query}&quot;, {}, (error, result) =&gt;
+		new MagisterHttp().get &quot;https://mijn.magister.net/api/schools?filter=#{query}&quot;, {}, (error, result) =&gt;
 			if error?
 				callback error, null
 			else
 				callback null, (@_convertRaw s for s in EJSON.parse result.content)
 
-	@_convertRaw: (raw) -&gt; new MagisterSchool raw.Licentie, &quot;https://#{raw.Url[5..]}&quot;
+	@_convertRaw: (raw) -&gt; new MagisterSchool raw.Id, raw.Name, raw.Url
     </pre>
 </div>
 

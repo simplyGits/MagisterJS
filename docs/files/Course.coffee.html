@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.0.3</em>
+            <em>API Docs for: 1.0.4</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -254,7 +254,7 @@ class @Course
 	# @async
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
-	# 	@param [callback.result] {Object[]} An array containing the Classes.
+	# 	@param [callback.result] {Class[]} An array containing the Classes.
 	###
 	classes: (callback) -&gt;
 		@_magisterObj.http.get @_classesUrl, {}, (error, result) =&gt;
@@ -271,7 +271,7 @@ class @Course
 	# @param [download=true] {Boolean} Whether or not to download the users from the server.
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
-	# 	@param [callback.result] {Object[]} An array containing the Grades.
+	# 	@param [callback.result] {Grade[]} An array containing the Grades.
 	###
 	grades: -&gt;
 		download = _.find(arguments, (a) -&gt; _.isBoolean a) ? yes
