@@ -8,7 +8,7 @@ function smartTrans (selector, className) {
 $(function () {
 	var editor = ace.edit("editor");
 	editor.getSession().setMode("ace/mode/javascript");
-	editor.moveCursorTo(0, 30);
+	editor.moveCursorTo(0, 14);
 	editor.focus();
 	
 	setTimeout(function () {
