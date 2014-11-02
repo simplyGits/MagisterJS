@@ -12,7 +12,7 @@ module.exports = (grunt) ->
 		uglify:
 			options:
 				compress: yes
-				mangle: no
+				mangle: yes
 			default:
 				files:
 					"lib/separateHttp/magister-browser-noHttp.min.js": "build/magister-browser.js"
