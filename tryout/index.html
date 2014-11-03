@@ -14,7 +14,8 @@
 	<body>
 		<h1>Try Magister.js for <span style="color: red;">FREE</span>!</h1>
 		
-<div id="editor">new Magister("&lt;schoolname&gt;", "&lt;username&gt;", "&lt;password&gt;").ready(function (m) {
+<div id="editor">// First parameter should be a query as String (e.g "Adelbert") or { url: String } (e.g { url: "https://adelbert.magister.net" })
+new Magister("&lt;schoolname&gt;", "&lt;username&gt;", "&lt;password&gt;").ready(function (m) {
     alert("Hey, " + m.profileInfo().firstName() + "!");
 });</div>
 			
