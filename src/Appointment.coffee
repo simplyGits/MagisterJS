@@ -203,9 +203,9 @@ class @Appointment
 		obj._infoType = raw.InfoType
 		obj._notes = raw.Aantekening
 		obj._isDone = raw.Afgerond
-		obj._classes = if raw.Vakken? then (c.Naam for c in raw.Vakken) else undefined
-		obj._teachers = if raw.Docenten? then (Person._convertRaw(magisterObj, p) for p in raw.Docenten) else undefined
-		obj._classRooms = if raw.Lokalen? then (c.Naam for c in raw.Lokalen) else undefined
+		obj._classes = if raw.Vakken? then (c.Naam for c in raw.Vakken) else []
+		obj._teachers = if raw.Docenten? then (Person._convertRaw(magisterObj, p) for p in raw.Docenten) else []
+		obj._classRooms = if raw.Lokalen? then (c.Naam for c in raw.Lokalen) else []
 		obj._groups = raw.Groepen # ?
 		obj._appointmentId = raw.OpdrachtId
 		obj._attachments = raw.Bijlagen

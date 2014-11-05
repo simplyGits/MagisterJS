@@ -23,6 +23,7 @@ class @Magister
 		if _.isString(@magisterSchool)
 			MagisterSchool.getSchools @magisterSchool, (e, r) =>
 				if e? then throw e
+				else if r.length is 0 then throw new Error "No school with the query #{@magisterSchool} found."
 				else
 					@magisterSchool = r[0]
 					@reLogin()
@@ -260,11 +261,11 @@ class @Magister
 	# @method composeAndSendMessage
 	# @param subject {String} The subject of the message
 	# @param [body] {String} The body of the message, if none is given the body will be empty.
-	# @param recipients {Person[]|String[]} An array of Persons or Strings the message will be send to.
+	# @param recipients {Person[]|String[]|Person|String} The recipient(s) the message will be sent to.
 	###
 	composeAndSendMessage: ->
 		[subject, body] = _.filter arguments, (a) -> _.isString a
-		recipients = _.find arguments, (a) -> not _.isString a
+		recipients = _.last arguments
 
 		m = new Message @
 		m.subject subject
