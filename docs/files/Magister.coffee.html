@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.0.4</em>
+            <em>API Docs for: 1.1.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -147,6 +147,7 @@ class @Magister
 		if _.isString(@magisterSchool)
 			MagisterSchool.getSchools @magisterSchool, (e, r) =&gt;
 				if e? then throw e
+				else if r.length is 0 then throw new Error &quot;No school with the query #{@magisterSchool} found.&quot;
 				else
 					@magisterSchool = r[0]
 					@reLogin()
@@ -384,11 +385,12 @@ class @Magister
 	# @method composeAndSendMessage
 	# @param subject {String} The subject of the message
 	# @param [body] {String} The body of the message, if none is given the body will be empty.
-	# @param recipients {Person[]|String[]} An array of Persons or Strings the message will be send to.
+	# @param recipients {Person[]|String[]|Person|String} The recipient(s) the message will be sent to.
 	###
 	composeAndSendMessage: -&gt;
 		[subject, body] = _.filter arguments, (a) -&gt; _.isString a
-		recipients = _.find arguments, (a) -&gt; not _.isString a
+		recipients = _.last arguments
+		if arguments.length is 2 then body = &quot;&quot;
 
 		m = new Message @
 		m.subject subject
@@ -585,6 +587,7 @@ class @Magister
 						@http.get &quot;#{@_personUrl}/berichten/mappen&quot;, {}, (error, result) =&gt;
 							@_messageFolders = (MessageFolder._convertRaw(@, m) for m in EJSON.parse(result.content).Items)
 							@_setReady()
+
     </pre>
 </div>
 

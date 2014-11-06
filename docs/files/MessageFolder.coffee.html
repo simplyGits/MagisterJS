@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.0.4</em>
+            <em>API Docs for: 1.1.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -253,7 +253,7 @@ class @MessageFolder
 	# DANGER. Removes ALL messages from the current MessageFolder.
 	# @method removeAllMessages
 	###
-	removeAllMessages: -&gt; @_magisterObj.http.delete &quot;#{@_magisterObj._personUrl}/berichten/map/#{@id()}&quot;, {}, (error, result) -&gt; throw error if error?
+	removeAllMessages: -&gt; @_magisterObj.http.delete &quot;#{@_magisterObj._personUrl}/berichten/map/#{@id()}&quot;, {}, (e, r) -&gt; throw e if e?
 
 	###*
 	# Creates a new MessageFolder inside of this MessageFolder with the given name.
