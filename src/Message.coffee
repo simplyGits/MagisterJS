@@ -7,7 +7,7 @@ messageFolder = (magisterObj, x) ->
 
 		else MessageFolder._convertRaw { Id: x }
 
-#TODO: Support Attachments.
+#TODO: Support sending Attachments.
 ###*
 # A Magister message.
 #
@@ -218,7 +218,6 @@ class @Message
 
 		obj._id = raw.Id
 		obj._body = raw.Inhoud ? ""
-		obj._attachments = ( Attachment._convertRaw magisterObj, a for a in (raw.Bijlagen ? []) )
 		obj._folderId = raw.MapId
 		obj._subject = raw.Onderwerp
 		obj._sender = Person._convertRaw magisterObj, raw.Afzender

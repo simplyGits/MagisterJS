@@ -244,6 +244,9 @@ class @File
 		obj._fileBlobId = raw.FileBlobId
 		obj._fileFolder = sender
 		obj._uniqueId = raw.UniqueId
-		obj._downloadUrl = magisterObj.magisterSchool.url + _.find(raw.Links, Rel: "Contents").Href
+
+		l = _.find(raw.Links, Rel: "Contents")
+		l ?= _.find(raw.Links, Rel: "Self")
+		obj._downloadUrl = magisterObj.magisterSchool.url + l.Href
 
 		return obj
