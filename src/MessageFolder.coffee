@@ -129,7 +129,7 @@ class @MessageFolder
 	# DANGER. Removes ALL messages from the current MessageFolder.
 	# @method removeAllMessages
 	###
-	removeAllMessages: -> @_magisterObj.http.delete "#{@_magisterObj._personUrl}/berichten/map/#{@id()}", {}, (error, result) -> throw error if error?
+	removeAllMessages: -> @_magisterObj.http.delete "#{@_magisterObj._personUrl}/berichten/map/#{@id()}", {}, (e, r) -> throw e if e?
 
 	###*
 	# Creates a new MessageFolder inside of this MessageFolder with the given name.

@@ -96,10 +96,10 @@ class @Message
 		# @default false
 		###
 		@isRead = _getset "_isRead", (x) =>
-			return if @_isRead is x
+			return if @_isRead is x or @_canSend
 
 			@_isRead = x
-			@_magisterObj.http.put "#{_magisterObj._personUrl}/berichten/#{@id()}?berichtSoort=#{@type()}", @_toMagisterStyle(), {}, (->)
+			@_update()
 		###*
 		# @property state
 		# @final
@@ -157,15 +157,16 @@ class @Message
 	# Sends the current Message. Sending will be delayed if there are processes running in the background.
 	#
 	# @method send
+	# @return {Boolean} False if the sending is delayed, otherwise true.
 	###
 	send: ->
 		if @_working()
 			@_sendAfterFinished = yes
 			return no
 		throw new Error "This message is marked as unsendable" unless @_canSend
-		throw new Error "Sender and/or recipients cannot be null" unless @recipients()? and @sender()
-		throw new Error "Body cannot be null" unless @body()?
-		throw new Error "Subject cannot be null or empty" if !@subject()? or @subject().length is 0
+		throw new Error "Sender and/or recipients cannot be null" unless @recipients()? and @sender()?
+		throw new Error "Subject cannot be null or empty" if _.isEmpty @subject()
+		@body "" unless @body()?
 
 		@_magisterObj.http.post "#{@_magisterObj._personUrl}/berichten", @_toMagisterStyle(), {}, (e, r) -> throw e if e?
 		return yes
@@ -174,9 +175,24 @@ class @Message
 	# Move the current message to the given position.
 	#
 	# @method move
-	# @param destination {Number|MessageFolder} The MessageFolder of the ID of a MessageFolder where to move this Message to.
+	# @param destination {Number|MessageFolder} The MessageFolder of the ID of a MessageFolder or the MessageFolder itself where to move this Message to.
 	###
-	move: ->
+	move: (destination) ->
+		destination = destination.id() if _.isObject(destination)
+		throw new Error("Could not resolve MessageFolder form the given destination.") unless _.isNumber(destination)
+		return if @_folderId is destination
+
+		@_folderId = destination
+		@_update()
+
+	###*
+	# WARNING. Removes the current Message.
+	#
+	# @method remove
+	###
+	remove: -> @_magisterObj.http.delete "#{@_magisterObj._personUrl}/berichten/#{@id()}", {}, (error, result) -> throw error if error?
+
+	_update: -> @_magisterObj.http.put "#{@_magisterObj._personUrl}/berichten/#{@id()}?berichtSoort=#{@type()}", @_toMagisterStyle(), {}, (->)
 
 	_toMagisterStyle: ->
 		obj = {}
@@ -201,7 +217,7 @@ class @Message
 		obj = new Message magisterObj
 
 		obj._id = raw.Id
-		obj._body = raw.Inhoud
+		obj._body = raw.Inhoud ? ""
 		obj._attachments = ( Attachment._convertRaw magisterObj, a for a in (raw.Bijlagen ? []) )
 		obj._folderId = raw.MapId
 		obj._subject = raw.Onderwerp

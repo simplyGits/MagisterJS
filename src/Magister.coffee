@@ -266,6 +266,7 @@ class @Magister
 	composeAndSendMessage: ->
 		[subject, body] = _.filter arguments, (a) -> _.isString a
 		recipients = _.last arguments
+		if arguments.length is 2 then body = ""
 
 		m = new Message @
 		m.subject subject
