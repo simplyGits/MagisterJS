@@ -78,7 +78,7 @@ class @MessageFolder
 				callback error, null
 			else
 				messages = ( Message._convertRaw(@_magisterObj, m) for m in EJSON.parse(result.content).Items )
-				pushMessage = _helpers.asyncResultWaiter messages.length, (r) -> callback null, _.sortBy(r, (m) -> m.sendDate())
+				pushMessage = _helpers.asyncResultWaiter messages.length, (r) -> callback null, _.sortBy(r, (m) -> m.sendDate()).reverse()
 
 				for m in messages
 					do (m) =>
