@@ -15,7 +15,7 @@ class @_helpers
 	###
 	@addZero: (original) -> return if original < 10 then "0#{original}" else original.toString()
 
-	@toUtcString: (original) -> "#{_helpers.addZero d.getUTCFullYear()}-#{_helpers.addZero d.getMonth() + 1}-#{_helpers.addZero d.getDate()}T#{_helpers.addZero d.getHours()}:#{_helpers.addZero d.getMinutes()}:#{_helpers.addZero d.getSeconds()}.0000000Z"
+	@toUtcString: (d) -> "#{_helpers.addZero d.getUTCFullYear()}-#{_helpers.addZero d.getMonth() + 1}-#{_helpers.addZero d.getDate()}T#{_helpers.addZero d.getHours()}:#{_helpers.addZero d.getMinutes()}:#{_helpers.addZero d.getSeconds()}.0000000Z"
 	
 	@pushMore = (arr, items) -> [].push.apply arr, items; return arr
 
