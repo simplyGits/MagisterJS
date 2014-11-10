@@ -79,7 +79,7 @@ class @Appointment
 		# @final
 		# @type String
 		###
-		@content = _getset "_content", null, (x) -> if x? then x.replace(/<br ?\/?>/g, "\n").replace(/(<[^>]*>)|(&nbsp;)/g, "") else x
+		@content = _getset "_content", null, (x) -> if x? then x.replace(/<br ?\/?>/g, "\n").replace(/(<[^>]*>)|(&nbsp;)/g, "") else ""
 		###*
 		# @property infoType
 		# @final
