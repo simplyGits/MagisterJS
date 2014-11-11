@@ -64,7 +64,7 @@ class @Magister
 						for a in appointments
 							do (a) -> a._absenceInfo = _.find absences, (absence) -> absence.appointmentId is a.id()
 
-						_.remove appointments, (a) -> (_helpers.date(a.begin()) < _helpers.date(from) or _helpers.date(a.end()) > _helpers.date(to)) and not a.fullDay()
+						_.remove appointments, (a) -> _helpers.date(a.begin()) < _helpers.date(from) or _helpers.date(a.end()) > _helpers.date(to)
 						callback null, _.sortBy appointments, (x) -> x.begin()
 
 					@http.get "#{@_personUrl}/roosterwijzigingen?tot=#{dateConvert(to)}&van=#{dateConvert(from)}", {}, (error, result) =>
