@@ -36,7 +36,9 @@ class @MagisterSchool
 	# 	@param [callback.result] {MagisterSchool[]} An array containing the MagisterSchools.
 	###
 	@getSchools: (query, callback) ->
-		if !query? or _helpers.trim(query).length < 3 then return []
+		if !query? or _helpers.trim(query).length < 3
+			callback null, []
+			return
 
 		new MagisterHttp().get "https://mijn.magister.net/api/schools?filter=#{query}", {}, (error, result) =>
 			if error?
