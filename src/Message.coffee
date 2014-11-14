@@ -18,6 +18,7 @@ messageFolder = (magisterObj, x) ->
 class @Message
 	constructor: (@_magisterObj) ->
 		throw new Error "Magister instance is null!" unless @_magisterObj?
+		@_magisterObj._forceReady()
 
 		@_canSend = yes
 		@_sender = @_magisterObj.profileInfo()
@@ -39,7 +40,7 @@ class @Message
 		# @type String
 		# @default ""
 		###
-		@body = _getset "_body", ((x) => @_body = x), (x) -> if x? then x.replace(/<br ?\/?>/g, "\n").replace(/(<[^>]*>)|(&nbsp;)/g, "") else x
+		@body = _getset "_body", ((x) => @_body = x), (x) -> if x? then x.replace(/<br ?\/?>/g, "\n").replace(/(<[^>]*>)|(&nbsp;)/g, "") else ""
 		###*
 		# @property attachments
 		# @final
@@ -221,7 +222,7 @@ class @Message
 		obj._folderId = raw.MapId
 		obj._subject = raw.Onderwerp
 		obj._sender = Person._convertRaw magisterObj, raw.Afzender
-		obj._recipients = ( Person._convertRaw magisterObj, o for o in raw.Ontvangers )
+		obj._recipients = ( Person._convertRaw magisterObj, o for o in (raw.Ontvangers ? []) )
 		obj._sendDate = new Date Date.parse raw.VerstuurdOp
 		obj._begin = new Date Date.parse raw.Begin
 		obj._end = new Date Date.parse raw.Einde
