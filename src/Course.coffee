@@ -137,7 +137,7 @@ class @Course
 			if error?
 				callback error, null
 			else
-				callback null, (Class._convertRaw @_magisterObj, c for c in EJSON.parse(result.content).Items)
+				callback null, (Class._convertRaw @_magisterObj, c for c in EJSON.parse(result.content))
 
 	###*
 	# Gets the grades of this Course.
