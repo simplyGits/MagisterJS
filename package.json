@@ -14,7 +14,7 @@
   "main": "./lib/magister-node.min.js",
   "licenses": [
     {
-      "type": "GPLv3",
+      "type": "LGPLv3",
       "url": "http://github.com/simplyGits/MagisterJS/blob/master/LICENSE"
     }
   ],
