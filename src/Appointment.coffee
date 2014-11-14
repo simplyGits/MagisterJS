@@ -194,8 +194,8 @@ class @Appointment
 		obj._beginBySchoolHour = raw.LesuurVan
 		obj._endBySchoolHour = raw.LesuurTotMet
 		obj._fullDay = raw.DuurtHeleDag
-		obj._description = raw.Omschrijving
-		obj._location = raw.Lokatie
+		obj._description = raw.Omschrijving ? ""
+		obj._location = raw.Lokatie ? ""
 		obj._status = raw.Status
 		obj._type = raw.Type
 		obj._displayType = raw.WeergaveType

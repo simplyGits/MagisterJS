@@ -68,7 +68,10 @@ class @Magister
 						callback null, _.sortBy appointments, (x) -> x.begin()
 
 					@http.get "#{@_personUrl}/roosterwijzigingen?tot=#{dateConvert(to)}&van=#{dateConvert(from)}", {}, (error, result) =>
-						appointments = _helpers.pushMore appointments, ( Appointment._convertRaw(@, c) for c in EJSON.parse(result.content).Items )
+						for c in EJSON.parse(result.content).Items
+							appointment = Appointment._convertRaw(@, c)
+							_.remove appointments, (a) -> a.id() is appointment.id()
+							appointments.push appointment
 						hit()
 
 					@http.get "#{@_personUrl}/absenties?tot=#{dateConvert(to)}&van=#{dateConvert(from)}", {}, (error, result) ->
@@ -109,9 +112,8 @@ class @Magister
 	#	@param [callback.result] {MessageFolder[]} An array containing the matching MessageFolders.
 	# @return {MessageFolder[]} An array containing the matching messageFolders.
 	###
-	messageFolders: (query, callback) ->
+	messageFolders: (query, callback = ->) ->
 		@_forceReady()
-		callback ?= (->)
 
 		if _.isString(query) and query isnt ""
 			result = _.where @_messageFolders, (mF) -> _helpers.contains mF.name(), query, yes
@@ -228,6 +230,8 @@ class @Magister
 	# @param [overwriteType] {Number|String} Not recommended. Forces the type used to search the persons for.
 	###
 	fillPersons: (persons, callback, overwriteType) ->
+		@_forceReady()
+
 		if _.isArray persons
 			if persons.length is 0
 				callback null, []
@@ -264,6 +268,8 @@ class @Magister
 	# @param recipients {Person[]|String[]|Person|String} The recipient(s) the message will be sent to.
 	###
 	composeAndSendMessage: ->
+		@_forceReady()
+
 		[subject, body] = _.filter arguments, (a) -> _.isString a
 		recipients = _.last arguments
 		if arguments.length is 2 then body = ""
@@ -284,6 +290,8 @@ class @Magister
 	# 	@param [callback.result] {FileFolder[]} An array containing FileFolders.
 	###
 	fileFolders: (callback) ->
+		@_forceReady()
+
 		@http.get "#{@_personUrl}/bronnen?soort=0", {}, (error, result) =>
 			if error? then callback error, null
 			else callback null, ( FileFolder._convertRaw @, f for f in EJSON.parse(result.content).Items )
@@ -298,6 +306,8 @@ class @Magister
 	# 	@param [callback.result] {StudyGuide[]} An array containing StudyGuides.
 	###
 	studyGuides: (callback) ->
+		@_forceReady()
+
 		@http.get "#{@_pupilUrl}/studiewijzers?peildatum=#{_helpers.urlDateConvert new Date}", {}, (error, result) =>
 			if error? then callback error, null
 			else callback null, ( StudyGuide._convertRaw @, s for s in EJSON.parse(result.content).Items )
@@ -315,6 +325,8 @@ class @Magister
 	# 	@param [callback.result] {Assignment[]} An array containing Assignments.
 	###
 	assignments: ->
+		@_forceReady()
+
 		[amount, skip] = _.filter arguments, (a) -> _.isNumber a
 		download = _.find arguments, (a) -> _.isBoolean a
 		callback = _.find arguments, (a) -> _.isFunction a
@@ -363,6 +375,8 @@ class @Magister
 	# 	@param [callback.result] {DigitalSchoolUtility[]} An array containing DigitalSchoolUtilities.
 	###
 	digitalSchoolUtilities: ->
+		@_forceReady()
+
 		#_class = _.find arguments, (a) -> _.isNumber a or _.isObject a
 
 		callback = _.find arguments, (a) -> _.isFunction a
@@ -404,6 +418,17 @@ class @Magister
 		callback? null, @_profileInfo
 		return @_profileInfo
 
+	children: (callback) ->
+		@http.get "#{@_personUrl}/kinderen", {}, (error, result) =>
+			if error? then callback error, null
+			else
+				parsed = EJSON.parse(result.content)
+				if parsed.ExceptionId? and parsed.Reason is 1
+					callback new Error("User is not a parent."), null
+					return
+
+				callback null, ( ChildInfo._convertRaw @, c for c in parsed.Items )
+
 	###*
 	# Checks if this Magister instance is done logging in.
 	#
@@ -427,6 +452,7 @@ class @Magister
 		@_readyCallbacks = []
 
 	_readyCallbacks: []
+
 
 	###*
 	# (Re-)Login the current Magister instance.
