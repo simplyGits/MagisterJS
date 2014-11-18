@@ -162,7 +162,7 @@ class @Magister
 					callback error, null
 				else
 					result = EJSON.parse result.content
-					callback null, _.sortBy (Course._convertRaw(@, c) for c in result.Items), (c) -> c.begin()
+					callback null, _.sortBy((Course._convertRaw(@, c) for c in result.Items), (c) -> c.begin()).reverse()
 
 	@_cachedPersons: {}
 	###*
@@ -337,32 +337,32 @@ class @Magister
 		skip ?= 0
 
 		classes = null
-		@courses (e, r) =>
+		@courses (e, r) ->
 			if r? and r.length isnt 0
-				_.last(r).classes (e, r) ->
+				r[0].classes (e, r) ->
 					classes = r if r? and r.length isnt 0
 
-			@http.get "#{@_personUrl}/opdrachten?skip=0&top=25&startdatum=#{_helpers.urlDateConvert new Date}&status=alle", {}, (error, result) =>
-				if error? then callback error, null
-				else
-					result = (e.Id for e in EJSON.parse(result.content).Items)
-					pushResult = _helpers.asyncResultWaiter result.length, (r) -> callback null, r
+		@http.get "#{@_personUrl}/opdrachten?skip=0&top=50&status=alle", {}, (error, result) =>
+			if error? then callback error, null
+			else
+				result = (e.Id for e in EJSON.parse(result.content).Items)
+				pushResult = _helpers.asyncResultWaiter result.length, (r) -> callback null, r
 
-					for id in result
-						@http.get "#{@_personUrl}/opdrachten/#{id}", {}, (error, result) =>
-							assignment = Assignment._convertRaw @, EJSON.parse(result.content)
+				for id in result
+					@http.get "#{@_personUrl}/opdrachten/#{id}", {}, (error, result) =>
+						assignment = Assignment._convertRaw @, EJSON.parse(result.content)
 
-							if classes? then assignment._class = _.find classes, (c) -> c.abbreviation() is assignment._class
+						if classes? then assignment._class = _.find classes, (c) -> c.abbreviation() is assignment._class
 
-							if download
-								teachers = assignment.teachers() ? []
+						if download
+							teachers = assignment.teachers() ? []
 
-								@fillPersons teachers, ((e, r) ->
-									assignment._teachers = r
-									pushResult assignment
-								), 3
+							@fillPersons teachers, ((e, r) ->
+								assignment._teachers = r
+								pushResult assignment
+							), 3
 
-							else pushResult assignment
+						else pushResult assignment
 
 	###*
 	# Gets the Digital school utilities for the current user.
@@ -417,17 +417,6 @@ class @Magister
 		
 		callback? null, @_profileInfo
 		return @_profileInfo
-
-	children: (callback) ->
-		@http.get "#{@_personUrl}/kinderen", {}, (error, result) =>
-			if error? then callback error, null
-			else
-				parsed = EJSON.parse(result.content)
-				if parsed.ExceptionId? and parsed.Reason is 1
-					callback new Error("User is not a parent."), null
-					return
-
-				callback null, ( ChildInfo._convertRaw @, c for c in parsed.Items )
 
 	###*
 	# Checks if this Magister instance is done logging in.
