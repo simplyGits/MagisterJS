@@ -93,30 +93,35 @@ class @Course
 		###
 		@end = _getset "_end"
 		###*
+		# The 'school period' of this Course (e.g: "1415").
 		# @property schoolPeriod
 		# @final
 		# @type String
 		###
 		@schoolPeriod = _getset "_schoolPeriod"
 		###*
+		# Type of this Course (e.g: { description: "VWO 4", id: 420 }).
 		# @property type
 		# @final
-		# @type Number
+		# @type Object
 		###
 		@type = _getset "_type"
 		###*
+		# The group of this Course contains the class the user belongs to (e.g: { description: "Klas 4v3", id: 420, locationId: 0 }).
 		# @property group
 		# @final
-		# @type String
+		# @type Object
 		###
 		@group = _getset "_group"
 		###*
+		# The 'profile' of this Course (e.g: "A-EM").
 		# @property profile
 		# @final
 		# @type String
 		###
 		@profile = _getset "_profile"
 		###*
+		# An alternative profile, if it exists (e.g: "A-EM").
 		# @property alternativeProfile
 		# @final
 		# @type String
