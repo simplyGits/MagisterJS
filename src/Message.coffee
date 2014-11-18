@@ -40,7 +40,7 @@ class @Message
 		# @type String
 		# @default ""
 		###
-		@body = _getset "_body", ((x) => @_body = x), (x) -> if x? then x.replace(/<br ?\/?>/g, "\n").replace(/(<[^>]*>)|(&nbsp;)/g, "") else ""
+		@body = _getset "_body", ((x) => @_body = x.replace "\n", "<br>"), (x) -> if x? then x.replace(/<br ?\/?>/g, "\n").replace(/(<[^>]*>)|(&nbsp;)/g, "") else ""
 		###*
 		# @property attachments
 		# @final
