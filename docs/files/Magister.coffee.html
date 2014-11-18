@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.1.0</em>
+            <em>API Docs for: 1.1.7</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -46,6 +46,8 @@
                 <li><a href="../classes/Assignment.html">Assignment</a></li>
             
                 <li><a href="../classes/AssignmentVersion.html">AssignmentVersion</a></li>
+            
+                <li><a href="../classes/ChildInfo.html">ChildInfo</a></li>
             
                 <li><a href="../classes/Class.html">Class</a></li>
             
@@ -192,7 +194,10 @@ class @Magister
 						callback null, _.sortBy appointments, (x) -&gt; x.begin()
 
 					@http.get &quot;#{@_personUrl}/roosterwijzigingen?tot=#{dateConvert(to)}&amp;van=#{dateConvert(from)}&quot;, {}, (error, result) =&gt;
-						appointments = _helpers.pushMore appointments, ( Appointment._convertRaw(@, c) for c in EJSON.parse(result.content).Items )
+						for c in EJSON.parse(result.content).Items
+							appointment = Appointment._convertRaw(@, c)
+							_.remove appointments, (a) -&gt; a.id() is appointment.id()
+							appointments.push appointment
 						hit()
 
 					@http.get &quot;#{@_personUrl}/absenties?tot=#{dateConvert(to)}&amp;van=#{dateConvert(from)}&quot;, {}, (error, result) -&gt;
@@ -233,9 +238,8 @@ class @Magister
 	#	@param [callback.result] {MessageFolder[]} An array containing the matching MessageFolders.
 	# @return {MessageFolder[]} An array containing the matching messageFolders.
 	###
-	messageFolders: (query, callback) -&gt;
+	messageFolders: (query, callback = -&gt;) -&gt;
 		@_forceReady()
-		callback ?= (-&gt;)
 
 		if _.isString(query) and query isnt &quot;&quot;
 			result = _.where @_messageFolders, (mF) -&gt; _helpers.contains mF.name(), query, yes
@@ -284,7 +288,7 @@ class @Magister
 					callback error, null
 				else
 					result = EJSON.parse result.content
-					callback null, _.sortBy (Course._convertRaw(@, c) for c in result.Items), (c) -&gt; c.begin()
+					callback null, _.sortBy((Course._convertRaw(@, c) for c in result.Items), (c) -&gt; c.begin()).reverse()
 
 	@_cachedPersons: {}
 	###*
@@ -352,6 +356,8 @@ class @Magister
 	# @param [overwriteType] {Number|String} Not recommended. Forces the type used to search the persons for.
 	###
 	fillPersons: (persons, callback, overwriteType) -&gt;
+		@_forceReady()
+
 		if _.isArray persons
 			if persons.length is 0
 				callback null, []
@@ -388,6 +394,8 @@ class @Magister
 	# @param recipients {Person[]|String[]|Person|String} The recipient(s) the message will be sent to.
 	###
 	composeAndSendMessage: -&gt;
+		@_forceReady()
+
 		[subject, body] = _.filter arguments, (a) -&gt; _.isString a
 		recipients = _.last arguments
 		if arguments.length is 2 then body = &quot;&quot;
@@ -408,6 +416,8 @@ class @Magister
 	# 	@param [callback.result] {FileFolder[]} An array containing FileFolders.
 	###
 	fileFolders: (callback) -&gt;
+		@_forceReady()
+
 		@http.get &quot;#{@_personUrl}/bronnen?soort=0&quot;, {}, (error, result) =&gt;
 			if error? then callback error, null
 			else callback null, ( FileFolder._convertRaw @, f for f in EJSON.parse(result.content).Items )
@@ -422,6 +432,8 @@ class @Magister
 	# 	@param [callback.result] {StudyGuide[]} An array containing StudyGuides.
 	###
 	studyGuides: (callback) -&gt;
+		@_forceReady()
+
 		@http.get &quot;#{@_pupilUrl}/studiewijzers?peildatum=#{_helpers.urlDateConvert new Date}&quot;, {}, (error, result) =&gt;
 			if error? then callback error, null
 			else callback null, ( StudyGuide._convertRaw @, s for s in EJSON.parse(result.content).Items )
@@ -431,7 +443,7 @@ class @Magister
 	#
 	# @method assignments
 	# @async
-	# @param [amount=25] {Number} The amount of Assignments to fetch from the server.
+	# @param [amount=50] {Number} The amount of Assignments to fetch from the server.
 	# @param [skip=0] {Number} The amount of Assignments to skip.
 	# @param [download=true] {Boolean} Whether or not to download the users from the server.
 	# @param callback {Function} A standard callback.
@@ -439,42 +451,44 @@ class @Magister
 	# 	@param [callback.result] {Assignment[]} An array containing Assignments.
 	###
 	assignments: -&gt;
+		@_forceReady()
+
 		[amount, skip] = _.filter arguments, (a) -&gt; _.isNumber a
 		download = _.find arguments, (a) -&gt; _.isBoolean a
 		callback = _.find arguments, (a) -&gt; _.isFunction a
 
 		return unless callback?
 		download ?= yes
-		amount ?= 25
+		amount ?= 50
 		skip ?= 0
 
 		classes = null
-		@courses (e, r) =&gt;
+		@courses (e, r) -&gt;
 			if r? and r.length isnt 0
-				_.last(r).classes (e, r) -&gt;
+				r[0].classes (e, r) -&gt;
 					classes = r if r? and r.length isnt 0
 
-			@http.get &quot;#{@_personUrl}/opdrachten?skip=0&amp;top=25&amp;startdatum=#{_helpers.urlDateConvert new Date}&amp;status=alle&quot;, {}, (error, result) =&gt;
-				if error? then callback error, null
-				else
-					result = (e.Id for e in EJSON.parse(result.content).Items)
-					pushResult = _helpers.asyncResultWaiter result.length, (r) -&gt; callback null, r
+		@http.get &quot;#{@_personUrl}/opdrachten?skip=#{skip}&amp;top=#{amount}&amp;status=alle&quot;, {}, (error, result) =&gt;
+			if error? then callback error, null
+			else
+				result = (e.Id for e in EJSON.parse(result.content).Items)
+				pushResult = _helpers.asyncResultWaiter result.length, (r) -&gt; callback null, r
 
-					for id in result
-						@http.get &quot;#{@_personUrl}/opdrachten/#{id}&quot;, {}, (error, result) =&gt;
-							assignment = Assignment._convertRaw @, EJSON.parse(result.content)
+				for id in result
+					@http.get &quot;#{@_personUrl}/opdrachten/#{id}&quot;, {}, (error, result) =&gt;
+						assignment = Assignment._convertRaw @, EJSON.parse(result.content)
 
-							if classes? then assignment._class = _.find classes, (c) -&gt; c.abbreviation() is assignment._class
+						if classes? then assignment._class = _.find classes, (c) -&gt; c.abbreviation() is assignment._class
 
-							if download
-								teachers = assignment.teachers() ? []
+						if download
+							teachers = assignment.teachers() ? []
 
-								@fillPersons teachers, ((e, r) -&gt;
-									assignment._teachers = r
-									pushResult assignment
-								), 3
+							@fillPersons teachers, ((e, r) -&gt;
+								assignment._teachers = r
+								pushResult assignment
+							), 3
 
-							else pushResult assignment
+						else pushResult assignment
 
 	###*
 	# Gets the Digital school utilities for the current user.
@@ -487,6 +501,8 @@ class @Magister
 	# 	@param [callback.result] {DigitalSchoolUtility[]} An array containing DigitalSchoolUtilities.
 	###
 	digitalSchoolUtilities: -&gt;
+		@_forceReady()
+
 		#_class = _.find arguments, (a) -&gt; _.isNumber a or _.isObject a
 
 		callback = _.find arguments, (a) -&gt; _.isFunction a
@@ -551,6 +567,7 @@ class @Magister
 		@_readyCallbacks = []
 
 	_readyCallbacks: []
+
 
 	###*
 	# (Re-)Login the current Magister instance.

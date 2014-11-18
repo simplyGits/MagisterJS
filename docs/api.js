@@ -4,6 +4,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "Appointment",
         "Assignment",
         "AssignmentVersion",
+        "ChildInfo",
         "Class",
         "Course",
         "DigitalSchoolUtility",

@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.1.0</em>
+            <em>API Docs for: 1.1.7</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -46,6 +46,8 @@
                 <li><a href="../classes/Assignment.html">Assignment</a></li>
             
                 <li><a href="../classes/AssignmentVersion.html">AssignmentVersion</a></li>
+            
+                <li><a href="../classes/ChildInfo.html">ChildInfo</a></li>
             
                 <li><a href="../classes/Class.html">Class</a></li>
             
@@ -217,30 +219,35 @@ class @Course
 		###
 		@end = _getset &quot;_end&quot;
 		###*
+		# The &#x27;school period&#x27; of this Course (e.g: &quot;1415&quot;).
 		# @property schoolPeriod
 		# @final
 		# @type String
 		###
 		@schoolPeriod = _getset &quot;_schoolPeriod&quot;
 		###*
+		# Type of this Course (e.g: { description: &quot;VWO 4&quot;, id: 420 }).
 		# @property type
 		# @final
-		# @type Number
+		# @type Object
 		###
 		@type = _getset &quot;_type&quot;
 		###*
+		# The group of this Course contains the class the user belongs to (e.g: { description: &quot;Klas 4v3&quot;, id: 420, locationId: 0 }).
 		# @property group
 		# @final
-		# @type String
+		# @type Object
 		###
 		@group = _getset &quot;_group&quot;
 		###*
+		# The &#x27;profile&#x27; of this Course (e.g: &quot;A-EM&quot;).
 		# @property profile
 		# @final
 		# @type String
 		###
 		@profile = _getset &quot;_profile&quot;
 		###*
+		# An alternative profile, if it exists (e.g: &quot;A-EM&quot;).
 		# @property alternativeProfile
 		# @final
 		# @type String
@@ -261,7 +268,7 @@ class @Course
 			if error?
 				callback error, null
 			else
-				callback null, (Class._convertRaw @_magisterObj, c for c in EJSON.parse(result.content).Items)
+				callback null, (Class._convertRaw @_magisterObj, c for c in EJSON.parse(result.content))
 
 	###*
 	# Gets the grades of this Course.

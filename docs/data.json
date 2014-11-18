@@ -2,7 +2,7 @@
     "project": {
         "name": "Magister.js Docs",
         "description": "A JavaScript implementation of the Magister 6 API.",
-        "version": "1.1.0",
+        "version": "1.1.7",
         "url": "http://simplyGits.github.io/MagisterJS",
         "logo": "http://i.imgur.com/Lrg80ax.png"
     },
@@ -107,7 +107,8 @@
             "name": "ProfileInfo.coffee",
             "modules": {},
             "classes": {
-                "ProfileInfo": 1
+                "ProfileInfo": 1,
+                "ChildInfo": 1
             },
             "fors": {},
             "namespaces": {}
@@ -152,6 +153,7 @@
                 "MessageFolder": 1,
                 "Person": 1,
                 "ProfileInfo": 1,
+                "ChildInfo": 1,
                 "MagisterSchool": 1,
                 "StudyGuide": 1,
                 "StudyGuidePart": 1
@@ -554,6 +556,45 @@
                 {
                     "name": "_birthDate",
                     "description": "The date of birth of the user.",
+                    "type": "Date"
+                }
+            ],
+            "is_constructor": 1
+        },
+        "ChildInfo": {
+            "name": "ChildInfo",
+            "shortname": "ChildInfo",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Magister",
+            "namespace": "",
+            "file": "ProfileInfo.coffee",
+            "line": 111,
+            "description": "Information of a child of the logged in user.",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "_magisterObj",
+                    "description": "A Magister object this ChildInfo is child of.",
+                    "type": "Magister"
+                },
+                {
+                    "name": "_firstName",
+                    "description": "The first name of the child.",
+                    "type": "String"
+                },
+                {
+                    "name": "_lastName",
+                    "description": "The last name of the child.",
+                    "type": "String"
+                },
+                {
+                    "name": "_birthDate",
+                    "description": "The date of birth of the child.",
                     "type": "Date"
                 }
             ],
@@ -1208,6 +1249,7 @@
         {
             "file": "Course.coffee",
             "line": 95,
+            "description": "The 'school period' of this Course (e.g: \"1415\").",
             "itemtype": "property",
             "name": "schoolPeriod",
             "final": 1,
@@ -1216,25 +1258,28 @@
         },
         {
             "file": "Course.coffee",
-            "line": 101,
+            "line": 102,
+            "description": "Type of this Course (e.g: { description: \"VWO 4\", id: 420 }).",
             "itemtype": "property",
             "name": "type",
             "final": 1,
-            "type": "Number",
+            "type": "Object",
             "class": "Course"
         },
         {
             "file": "Course.coffee",
-            "line": 107,
+            "line": 109,
+            "description": "The group of this Course contains the class the user belongs to (e.g: { description: \"Klas 4v3\", id: 420, locationId: 0 }).",
             "itemtype": "property",
             "name": "group",
             "final": 1,
-            "type": "String",
+            "type": "Object",
             "class": "Course"
         },
         {
             "file": "Course.coffee",
-            "line": 113,
+            "line": 116,
+            "description": "The 'profile' of this Course (e.g: \"A-EM\").",
             "itemtype": "property",
             "name": "profile",
             "final": 1,
@@ -1243,7 +1288,8 @@
         },
         {
             "file": "Course.coffee",
-            "line": 119,
+            "line": 123,
+            "description": "An alternative profile, if it exists (e.g: \"A-EM\").",
             "itemtype": "property",
             "name": "alternativeProfile",
             "final": 1,
@@ -1252,7 +1298,7 @@
         },
         {
             "file": "Course.coffee",
-            "line": 126,
+            "line": 131,
             "description": "Gets the classes of this Course.",
             "itemtype": "method",
             "name": "classes",
@@ -1282,7 +1328,7 @@
         },
         {
             "file": "Course.coffee",
-            "line": 142,
+            "line": 147,
             "description": "Gets the grades of this Course.",
             "itemtype": "method",
             "name": "grades",
@@ -1914,7 +1960,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 102,
+            "line": 105,
             "description": "Gets the MessageFolders that matches the given query. Or if no query is given, all MessageFolders",
             "itemtype": "method",
             "name": "messageFolders",
@@ -1955,7 +2001,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 123,
+            "line": 125,
             "itemtype": "method",
             "name": "inbox",
             "return": {
@@ -1967,7 +2013,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 128,
+            "line": 130,
             "itemtype": "method",
             "name": "sentItems",
             "return": {
@@ -1979,7 +2025,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 133,
+            "line": 135,
             "itemtype": "method",
             "name": "bin",
             "return": {
@@ -1991,7 +2037,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 138,
+            "line": 140,
             "itemtype": "method",
             "name": "alerts",
             "return": {
@@ -2003,7 +2049,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 144,
+            "line": 146,
             "description": "Gets the courses of the current User.",
             "itemtype": "method",
             "name": "courses",
@@ -2034,7 +2080,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 166,
+            "line": 168,
             "description": "Gets an Array of Persons that matches the given profile.",
             "itemtype": "method",
             "name": "getPersons",
@@ -2076,7 +2122,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 219,
+            "line": 221,
             "description": "Fills the given person(s) by downloading the person from Magister and replacing the local instance.",
             "itemtype": "method",
             "name": "fillPersons",
@@ -2118,7 +2164,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 258,
+            "line": 262,
             "description": "Shortcut for composing and sending a Message.",
             "itemtype": "method",
             "name": "composeAndSendMessage",
@@ -2145,7 +2191,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 277,
+            "line": 283,
             "description": "Gets the FileFolders of the current user.",
             "itemtype": "method",
             "name": "fileFolders",
@@ -2176,7 +2222,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 291,
+            "line": 299,
             "description": "Gets the StudyGuides of the current user.",
             "itemtype": "method",
             "name": "studyGuides",
@@ -2207,7 +2253,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 305,
+            "line": 315,
             "description": "Gets the Assignments for the current user.",
             "itemtype": "method",
             "name": "assignments",
@@ -2218,7 +2264,7 @@
                     "description": "The amount of Assignments to fetch from the server.",
                     "type": "Number",
                     "optional": true,
-                    "optdefault": "25"
+                    "optdefault": "50"
                 },
                 {
                     "name": "skip",
@@ -2259,7 +2305,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 355,
+            "line": 367,
             "description": "Gets the Digital school utilities for the current user.",
             "itemtype": "method",
             "name": "digitalSchoolUtilities",
@@ -2291,7 +2337,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 392,
+            "line": 406,
             "description": "Returns the profile for the current logged in user.",
             "itemtype": "method",
             "name": "profileInfo",
@@ -2326,7 +2372,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 407,
+            "line": 421,
             "description": "Checks if this Magister instance is done logging in.\n\nYou can also provide a callback, which will be called when this instance is done logging in.",
             "itemtype": "method",
             "name": "ready",
@@ -2354,7 +2400,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 431,
+            "line": 446,
             "description": "(Re-)Login the current Magister instance.\n\nUsually not needed to call manually.",
             "itemtype": "method",
             "name": "reLogin",
@@ -2364,7 +2410,7 @@
         },
         {
             "file": "Message.coffee",
-            "line": 31,
+            "line": 32,
             "itemtype": "property",
             "name": "id",
             "final": 1,
@@ -2374,7 +2420,7 @@
         },
         {
             "file": "Message.coffee",
-            "line": 37,
+            "line": 38,
             "itemtype": "property",
             "name": "body",
             "type": "String",
@@ -2384,7 +2430,7 @@
         },
         {
             "file": "Message.coffee",
-            "line": 43,
+            "line": 44,
             "itemtype": "property",
             "name": "attachments",
             "final": 1,
@@ -2394,7 +2440,7 @@
         },
         {
             "file": "Message.coffee",
-            "line": 49,
+            "line": 50,
             "description": "The MessageFolder this Message in, changing this will move the Message.",
             "itemtype": "property",
             "name": "messageFolder",
@@ -2404,7 +2450,7 @@
         },
         {
             "file": "Message.coffee",
-            "line": 55,
+            "line": 56,
             "itemtype": "property",
             "name": "subject",
             "type": "String",
@@ -2414,7 +2460,7 @@
         },
         {
             "file": "Message.coffee",
-            "line": 61,
+            "line": 62,
             "itemtype": "property",
             "name": "sender",
             "final": 1,
@@ -2424,7 +2470,7 @@
         },
         {
             "file": "Message.coffee",
-            "line": 67,
+            "line": 68,
             "itemtype": "property",
             "name": "recipients",
             "final": 1,
@@ -2435,7 +2481,7 @@
         },
         {
             "file": "Message.coffee",
-            "line": 74,
+            "line": 75,
             "itemtype": "property",
             "name": "sendDate",
             "final": 1,
@@ -2446,7 +2492,7 @@
         },
         {
             "file": "Message.coffee",
-            "line": 81,
+            "line": 82,
             "itemtype": "property",
             "name": "begin",
             "final": 1,
@@ -2456,7 +2502,7 @@
         },
         {
             "file": "Message.coffee",
-            "line": 87,
+            "line": 88,
             "itemtype": "property",
             "name": "end",
             "final": 1,
@@ -2466,7 +2512,7 @@
         },
         {
             "file": "Message.coffee",
-            "line": 93,
+            "line": 94,
             "itemtype": "property",
             "name": "isRead",
             "type": "Boolean",
@@ -2476,7 +2522,7 @@
         },
         {
             "file": "Message.coffee",
-            "line": 103,
+            "line": 104,
             "itemtype": "property",
             "name": "state",
             "final": 1,
@@ -2486,7 +2532,7 @@
         },
         {
             "file": "Message.coffee",
-            "line": 109,
+            "line": 110,
             "itemtype": "property",
             "name": "isFlagged",
             "final": 1,
@@ -2496,7 +2542,7 @@
         },
         {
             "file": "Message.coffee",
-            "line": 115,
+            "line": 116,
             "itemtype": "property",
             "name": "type",
             "final": 1,
@@ -2506,7 +2552,7 @@
         },
         {
             "file": "Message.coffee",
-            "line": 128,
+            "line": 129,
             "description": "Adds (a) recipient(s) to the current Message.",
             "itemtype": "method",
             "name": "addRecipient",
@@ -2528,7 +2574,7 @@
         },
         {
             "file": "Message.coffee",
-            "line": 156,
+            "line": 157,
             "description": "Sends the current Message. Sending will be delayed if there are processes running in the background.",
             "itemtype": "method",
             "name": "send",
@@ -2541,7 +2587,7 @@
         },
         {
             "file": "Message.coffee",
-            "line": 174,
+            "line": 175,
             "description": "Move the current message to the given position.",
             "itemtype": "method",
             "name": "move",
@@ -2557,7 +2603,7 @@
         },
         {
             "file": "Message.coffee",
-            "line": 188,
+            "line": 189,
             "description": "WARNING. Removes the current Message.",
             "itemtype": "method",
             "name": "remove",
@@ -2658,7 +2704,7 @@
         },
         {
             "file": "MessageFolder.coffee",
-            "line": 100,
+            "line": 103,
             "description": "Gets the MessageFolders in this MessageFolder that matches the given query. Or if no query is given, all MessageFolders",
             "itemtype": "method",
             "name": "messageFolders",
@@ -2698,7 +2744,7 @@
         },
         {
             "file": "MessageFolder.coffee",
-            "line": 128,
+            "line": 131,
             "description": "DANGER. Removes ALL messages from the current MessageFolder.",
             "itemtype": "method",
             "name": "removeAllMessages",
@@ -2707,7 +2753,7 @@
         },
         {
             "file": "MessageFolder.coffee",
-            "line": 134,
+            "line": 137,
             "description": "Creates a new MessageFolder inside of this MessageFolder with the given name.",
             "itemtype": "method",
             "name": "createMessageFolder",
@@ -2743,7 +2789,7 @@
         },
         {
             "file": "MessageFolder.coffee",
-            "line": 155,
+            "line": 158,
             "description": "DANGER. Removes the current MessageFolder.",
             "itemtype": "method",
             "name": "remove",
@@ -2951,7 +2997,18 @@
         },
         {
             "file": "ProfileInfo.coffee",
-            "line": 75,
+            "line": 74,
+            "description": "Equal to firstName() + \" \" + lastName()",
+            "itemtype": "property",
+            "name": "fullName",
+            "final": 1,
+            "type": "String",
+            "class": "ProfileInfo",
+            "module": "Magister"
+        },
+        {
+            "file": "ProfileInfo.coffee",
+            "line": 82,
             "description": "The profile picture of the current User.",
             "itemtype": "method",
             "name": "profilePicture",
@@ -2980,6 +3037,150 @@
                 "type": "String"
             },
             "class": "ProfileInfo",
+            "module": "Magister"
+        },
+        {
+            "file": "ProfileInfo.coffee",
+            "line": 124,
+            "itemtype": "property",
+            "name": "id",
+            "final": 1,
+            "type": "Number",
+            "class": "ChildInfo",
+            "module": "Magister"
+        },
+        {
+            "file": "ProfileInfo.coffee",
+            "line": 130,
+            "itemtype": "property",
+            "name": "officialFirstNames",
+            "final": 1,
+            "type": "String",
+            "class": "ChildInfo",
+            "module": "Magister"
+        },
+        {
+            "file": "ProfileInfo.coffee",
+            "line": 136,
+            "itemtype": "property",
+            "name": "initials",
+            "final": 1,
+            "type": "String",
+            "class": "ChildInfo",
+            "module": "Magister"
+        },
+        {
+            "file": "ProfileInfo.coffee",
+            "line": 142,
+            "itemtype": "property",
+            "name": "namePrefix",
+            "final": 1,
+            "type": "String",
+            "class": "ChildInfo",
+            "module": "Magister"
+        },
+        {
+            "file": "ProfileInfo.coffee",
+            "line": 148,
+            "itemtype": "property",
+            "name": "officialSurname",
+            "final": 1,
+            "type": "String",
+            "class": "ChildInfo",
+            "module": "Magister"
+        },
+        {
+            "file": "ProfileInfo.coffee",
+            "line": 154,
+            "itemtype": "property",
+            "name": "birthSurname",
+            "final": 1,
+            "type": "String",
+            "class": "ChildInfo",
+            "module": "Magister"
+        },
+        {
+            "file": "ProfileInfo.coffee",
+            "line": 160,
+            "itemtype": "property",
+            "name": "birthNamePrefix",
+            "final": 1,
+            "type": "String",
+            "class": "ChildInfo",
+            "module": "Magister"
+        },
+        {
+            "file": "ProfileInfo.coffee",
+            "line": 166,
+            "itemtype": "property",
+            "name": "useBirthname",
+            "final": 1,
+            "type": "Boolean",
+            "class": "ChildInfo",
+            "module": "Magister"
+        },
+        {
+            "file": "ProfileInfo.coffee",
+            "line": 172,
+            "itemtype": "property",
+            "name": "firstName",
+            "final": 1,
+            "type": "String",
+            "class": "ChildInfo",
+            "module": "Magister"
+        },
+        {
+            "file": "ProfileInfo.coffee",
+            "line": 178,
+            "itemtype": "property",
+            "name": "lastName",
+            "final": 1,
+            "type": "String",
+            "class": "ChildInfo",
+            "module": "Magister"
+        },
+        {
+            "file": "ProfileInfo.coffee",
+            "line": 184,
+            "description": "Equal to firstName() + \" \" + lastName()",
+            "itemtype": "property",
+            "name": "fullName",
+            "final": 1,
+            "type": "String",
+            "class": "ChildInfo",
+            "module": "Magister"
+        },
+        {
+            "file": "ProfileInfo.coffee",
+            "line": 192,
+            "description": "The profile picture of the child.",
+            "itemtype": "method",
+            "name": "profilePicture",
+            "params": [
+                {
+                    "name": "width",
+                    "description": "The width of the picture.",
+                    "optional": true,
+                    "optdefault": "640"
+                },
+                {
+                    "name": "height",
+                    "description": "The height of the picture.",
+                    "optional": true,
+                    "optdefault": "640"
+                },
+                {
+                    "name": "crop",
+                    "description": "Whether or not to crop the image.",
+                    "optional": true,
+                    "optdefault": "false"
+                }
+            ],
+            "return": {
+                "description": "The URL to the picture, including the given options.",
+                "type": "String"
+            },
+            "class": "ChildInfo",
             "module": "Magister"
         },
         {
@@ -3224,7 +3425,7 @@
     "warnings": [
         {
             "message": "unknown tag: fixme",
-            "line": " Magister.coffee:355"
+            "line": " Magister.coffee:367"
         }
     ]
 }

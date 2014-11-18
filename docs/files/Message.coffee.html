@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.1.0</em>
+            <em>API Docs for: 1.1.7</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -46,6 +46,8 @@
                 <li><a href="../classes/Assignment.html">Assignment</a></li>
             
                 <li><a href="../classes/AssignmentVersion.html">AssignmentVersion</a></li>
+            
+                <li><a href="../classes/ChildInfo.html">ChildInfo</a></li>
             
                 <li><a href="../classes/Class.html">Class</a></li>
             
@@ -131,7 +133,7 @@ messageFolder = (magisterObj, x) -&gt;
 
 		else MessageFolder._convertRaw { Id: x }
 
-#TODO: Support Attachments.
+#TODO: Support sending Attachments.
 ###*
 # A Magister message.
 #
@@ -142,6 +144,7 @@ messageFolder = (magisterObj, x) -&gt;
 class @Message
 	constructor: (@_magisterObj) -&gt;
 		throw new Error &quot;Magister instance is null!&quot; unless @_magisterObj?
+		@_magisterObj._forceReady()
 
 		@_canSend = yes
 		@_sender = @_magisterObj.profileInfo()
@@ -163,7 +166,7 @@ class @Message
 		# @type String
 		# @default &quot;&quot;
 		###
-		@body = _getset &quot;_body&quot;, ((x) =&gt; @_body = x), (x) -&gt; if x? then x.replace(/&lt;br ?\/?&gt;/g, &quot;\n&quot;).replace(/(&lt;[^&gt;]*&gt;)|(&amp;nbsp;)/g, &quot;&quot;) else x
+		@body = _getset &quot;_body&quot;, ((x) =&gt; @_body = x.replace &quot;\n&quot;, &quot;&lt;br&gt;&quot;), (x) -&gt; if x? then x.replace(/&lt;br ?\/?&gt;/g, &quot;\n&quot;).replace(/(&lt;[^&gt;]*&gt;)|(&amp;nbsp;)/g, &quot;&quot;) else &quot;&quot;
 		###*
 		# @property attachments
 		# @final
@@ -342,11 +345,10 @@ class @Message
 
 		obj._id = raw.Id
 		obj._body = raw.Inhoud ? &quot;&quot;
-		obj._attachments = ( Attachment._convertRaw magisterObj, a for a in (raw.Bijlagen ? []) )
 		obj._folderId = raw.MapId
 		obj._subject = raw.Onderwerp
 		obj._sender = Person._convertRaw magisterObj, raw.Afzender
-		obj._recipients = ( Person._convertRaw magisterObj, o for o in raw.Ontvangers )
+		obj._recipients = ( Person._convertRaw magisterObj, o for o in (raw.Ontvangers ? []) )
 		obj._sendDate = new Date Date.parse raw.VerstuurdOp
 		obj._begin = new Date Date.parse raw.Begin
 		obj._end = new Date Date.parse raw.Einde

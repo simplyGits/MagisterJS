@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Person - Magister.js Docs</title>
+    <title>ChildInfo - Magister.js Docs</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -120,7 +120,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>Person Class</h1>
+                        <h1>ChildInfo Class</h1>
 <div class="box meta">
     
 
@@ -128,7 +128,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/Person.coffee.html#l1"><code>Person.coffee:1</code></a>
+            Defined in: <a href="../files/ProfileInfo.coffee.html#l111"><code>ProfileInfo.coffee:111</code></a>
         </div>
     
 
@@ -144,15 +144,15 @@
 
 
 <div class="box intro">
-    <p>A Person.</p>
+    <p>Information of a child of the logged in user.</p>
 
 </div>
 
 
     <div class="constructor">
         <h2>Constructor</h2>
-        <div id="method_Person" class="method item private">
-    <h3 class="name"><code>Person</code></h3>
+        <div id="method_ChildInfo" class="method item private">
+    <h3 class="name"><code>ChildInfo</code></h3>
 
     
         <div class="args">
@@ -166,12 +166,6 @@
             
                 <li class="arg">
                     
-                        <code>_type</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
                         <code>_firstName</code>
                     
                 </li>
@@ -179,6 +173,12 @@
                 <li class="arg">
                     
                         <code>_lastName</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>_birthDate</code>
                     
                 </li>
             
@@ -213,7 +213,7 @@
             
         
         
-        <a href="../files/Person.coffee.html#l1"><code>Person.coffee:1</code></a>
+        <a href="../files/ProfileInfo.coffee.html#l111"><code>ProfileInfo.coffee:111</code></a>
         
         </p>
 
@@ -242,23 +242,7 @@
                     
 
                     <div class="param-description">
-                        <p>A Magister object this Person is child of.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">_type</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a> | <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The type of the Person.</p>
+                        <p>A Magister object this ChildInfo is child of.</p>
 
                     </div>
 
@@ -274,7 +258,7 @@
                     
 
                     <div class="param-description">
-                        <p>The first name of the Person.</p>
+                        <p>The first name of the child.</p>
 
                     </div>
 
@@ -290,7 +274,23 @@
                     
 
                     <div class="param-description">
-                        <p>The last name of the Person.</p>
+                        <p>The last name of the child.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">_birthDate</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Date" class="crosslink external" target="_blank">Date</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The date of birth of the child.</p>
 
                     </div>
 
@@ -314,6 +314,8 @@
         <li class="api-class-tab index"><a href="#index">Index</a></li>
 
         
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+        
         
             <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
         
@@ -326,6 +328,21 @@
             <h2 class="off-left">Item Index</h2>
 
             
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods">
+                        
+                            <li class="index-item method">
+                                <a href="#method_profilePicture">profilePicture</a>
+
+                                
+                                
+                            </li>
+                        
+                    </ul>
+                </div>
+            
 
             
                 <div class="index-section properties">
@@ -334,14 +351,14 @@
                     <ul class="index-list properties">
                         
                             <li class="index-item property">
-                                <a href="#property_description">description</a>
+                                <a href="#property_birthNamePrefix">birthNamePrefix</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_emailAddress">emailAddress</a>
+                                <a href="#property_birthSurname">birthSurname</a>
 
                                 
                                 
@@ -362,14 +379,14 @@
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_group">group</a>
+                                <a href="#property_id">id</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_id">id</a>
+                                <a href="#property_initials">initials</a>
 
                                 
                                 
@@ -390,14 +407,21 @@
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_teacherCode">teacherCode</a>
+                                <a href="#property_officialFirstNames">officialFirstNames</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_type">type</a>
+                                <a href="#property_officialSurname">officialSurname</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_useBirthname">useBirthname</a>
 
                                 
                                 
@@ -413,14 +437,174 @@
         </div>
 
         
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
+
+                
+                    <div id="method_profilePicture" class="method item">
+    <h3 class="name"><code>profilePicture</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code class="optional">[width=640]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[height=640]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[crop=false]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/ProfileInfo.coffee.html#l192"><code>ProfileInfo.coffee:192</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The profile picture of the child.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[width=640]</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The width of the picture.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[height=640]</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The height of the picture.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[crop=false]</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Whether or not to crop the image.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>:
+                    
+                    <p>The URL to the picture, including the given options.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+            </div>
+        
 
         
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
 
                 
-                    <div id="property_description" class="property item">
-    <h3 class="name"><code>description</code></h3>
+                    <div id="property_birthNamePrefix" class="property item">
+    <h3 class="name"><code>birthNamePrefix</code></h3>
     <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
 
     
@@ -444,7 +628,7 @@
             
         
         
-        <a href="../files/Person.coffee.html#l52"><code>Person.coffee:52</code></a>
+        <a href="../files/ProfileInfo.coffee.html#l160"><code>ProfileInfo.coffee:160</code></a>
         
         </p>
 
@@ -465,8 +649,8 @@
 </div>
 
                 
-                    <div id="property_emailAddress" class="property item">
-    <h3 class="name"><code>emailAddress</code></h3>
+                    <div id="property_birthSurname" class="property item">
+    <h3 class="name"><code>birthSurname</code></h3>
     <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
 
     
@@ -490,7 +674,7 @@
             
         
         
-        <a href="../files/Person.coffee.html#l70"><code>Person.coffee:70</code></a>
+        <a href="../files/ProfileInfo.coffee.html#l154"><code>ProfileInfo.coffee:154</code></a>
         
         </p>
 
@@ -536,7 +720,7 @@
             
         
         
-        <a href="../files/Person.coffee.html#l28"><code>Person.coffee:28</code></a>
+        <a href="../files/ProfileInfo.coffee.html#l172"><code>ProfileInfo.coffee:172</code></a>
         
         </p>
 
@@ -582,7 +766,7 @@
             
         
         
-        <a href="../files/Person.coffee.html#l46"><code>Person.coffee:46</code></a>
+        <a href="../files/ProfileInfo.coffee.html#l184"><code>ProfileInfo.coffee:184</code></a>
         
         </p>
 
@@ -592,53 +776,8 @@
     </div>
 
     <div class="description">
-        
-    </div>
+        <p>Equal to firstName() + &quot; &quot; + lastName()</p>
 
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_group" class="property item">
-    <h3 class="name"><code>group</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-
-    
-
-    
-
-    
-        <span class="flag final">final</span>
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/Person.coffee.html#l58"><code>Person.coffee:58</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
     </div>
 
     
@@ -674,7 +813,53 @@
             
         
         
-        <a href="../files/Person.coffee.html#l17"><code>Person.coffee:17</code></a>
+        <a href="../files/ProfileInfo.coffee.html#l124"><code>ProfileInfo.coffee:124</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_initials" class="property item">
+    <h3 class="name"><code>initials</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+
+    
+
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/ProfileInfo.coffee.html#l136"><code>ProfileInfo.coffee:136</code></a>
         
         </p>
 
@@ -720,7 +905,7 @@
             
         
         
-        <a href="../files/Person.coffee.html#l34"><code>Person.coffee:34</code></a>
+        <a href="../files/ProfileInfo.coffee.html#l178"><code>ProfileInfo.coffee:178</code></a>
         
         </p>
 
@@ -766,7 +951,7 @@
             
         
         
-        <a href="../files/Person.coffee.html#l40"><code>Person.coffee:40</code></a>
+        <a href="../files/ProfileInfo.coffee.html#l142"><code>ProfileInfo.coffee:142</code></a>
         
         </p>
 
@@ -787,8 +972,8 @@
 </div>
 
                 
-                    <div id="property_teacherCode" class="property item">
-    <h3 class="name"><code>teacherCode</code></h3>
+                    <div id="property_officialFirstNames" class="property item">
+    <h3 class="name"><code>officialFirstNames</code></h3>
     <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
 
     
@@ -812,7 +997,7 @@
             
         
         
-        <a href="../files/Person.coffee.html#l64"><code>Person.coffee:64</code></a>
+        <a href="../files/ProfileInfo.coffee.html#l130"><code>ProfileInfo.coffee:130</code></a>
         
         </p>
 
@@ -833,14 +1018,16 @@
 </div>
 
                 
-                    <div id="property_type" class="property item">
-    <h3 class="name"><code>type</code></h3>
+                    <div id="property_officialSurname" class="property item">
+    <h3 class="name"><code>officialSurname</code></h3>
     <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
 
     
 
     
 
+    
+        <span class="flag final">final</span>
     
 
     
@@ -856,7 +1043,53 @@
             
         
         
-        <a href="../files/Person.coffee.html#l23"><code>Person.coffee:23</code></a>
+        <a href="../files/ProfileInfo.coffee.html#l148"><code>ProfileInfo.coffee:148</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_useBirthname" class="property item">
+    <h3 class="name"><code>useBirthname</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+
+    
+
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/ProfileInfo.coffee.html#l166"><code>ProfileInfo.coffee:166</code></a>
         
         </p>
 

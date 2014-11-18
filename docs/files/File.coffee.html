@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.1.0</em>
+            <em>API Docs for: 1.1.7</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -46,6 +46,8 @@
                 <li><a href="../classes/Assignment.html">Assignment</a></li>
             
                 <li><a href="../classes/AssignmentVersion.html">AssignmentVersion</a></li>
+            
+                <li><a href="../classes/ChildInfo.html">ChildInfo</a></li>
             
                 <li><a href="../classes/Class.html">Class</a></li>
             
@@ -368,7 +370,10 @@ class @File
 		obj._fileBlobId = raw.FileBlobId
 		obj._fileFolder = sender
 		obj._uniqueId = raw.UniqueId
-		obj._downloadUrl = magisterObj.magisterSchool.url + _.find(raw.Links, Rel: &quot;Contents&quot;).Href
+
+		l = _.find(raw.Links, Rel: &quot;Contents&quot;)
+		l ?= _.find(raw.Links, Rel: &quot;Self&quot;)
+		obj._downloadUrl = magisterObj.magisterSchool.url + l.Href
 
 		return obj
     </pre>

@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.1.0</em>
+            <em>API Docs for: 1.1.7</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -46,6 +46,8 @@
                 <li><a href="../classes/Assignment.html">Assignment</a></li>
             
                 <li><a href="../classes/AssignmentVersion.html">AssignmentVersion</a></li>
+            
+                <li><a href="../classes/ChildInfo.html">ChildInfo</a></li>
             
                 <li><a href="../classes/Class.html">Class</a></li>
             
@@ -195,6 +197,13 @@ class @ProfileInfo
 		# @type String
 		###
 		@lastName = _getset &quot;_lastName&quot;
+		###*
+		# Equal to firstName() + &quot; &quot; + lastName()
+		# @property fullName
+		# @final
+		# @type String
+		###
+		@fullName = -&gt; @firstName() + &quot; &quot; + @lastName()
 
 	###*
 	# The profile picture of the current User.
@@ -222,6 +231,113 @@ class @ProfileInfo
 		obj._birthNamePrefix = raw.GeboortenaamTussenvoegsel
 		obj._useBirthname = raw.GebruikGeboortenaam
 		obj._profilePicture = foto
+
+		return obj
+
+###*
+# Information of a child of the logged in user.
+#
+# @class ChildInfo
+# @private
+# @param _magisterObj {Magister} A Magister object this ChildInfo is child of.
+# @param _firstName {String} The first name of the child.
+# @param _lastName {String} The last name of the child.
+# @param _birthDate {Date} The date of birth of the child.
+# @constructor
+###
+class @ChildInfo
+	constructor: (@_magisterObj, @_firstName, @_lastName, @_birthDate) -&gt;
+		###*
+		# @property id
+		# @final
+		# @type Number
+		###
+		@id = _getset &quot;_id&quot;
+		###*
+		# @property officialFirstNames
+		# @final
+		# @type String
+		###
+		@officialFirstNames = _getset &quot;_officialFirstNames&quot;
+		###*
+		# @property initials
+		# @final
+		# @type String
+		###
+		@initials = _getset &quot;_initials&quot;
+		###*
+		# @property namePrefix
+		# @final
+		# @type String
+		###
+		@namePrefix = _getset &quot;_namePrefix&quot;
+		###*
+		# @property officialSurname
+		# @final
+		# @type String
+		###
+		@officialSurname = _getset &quot;_officialSurname&quot;
+		###*
+		# @property birthSurname
+		# @final
+		# @type String
+		###
+		@birthSurname = _getset &quot;_birthSurname&quot;
+		###*
+		# @property birthNamePrefix
+		# @final
+		# @type String
+		###
+		@birthNamePrefix = _getset &quot;_birthNamePrefix&quot;
+		###*
+		# @property useBirthname
+		# @final
+		# @type Boolean
+		###
+		@useBirthname = _getset &quot;_useBirthname&quot;
+		###*
+		# @property firstName
+		# @final
+		# @type String
+		###
+		@firstName = _getset &quot;_firstName&quot;
+		###*
+		# @property lastName
+		# @final
+		# @type String
+		###
+		@lastName = _getset &quot;_lastName&quot;
+		###*
+		# Equal to firstName() + &quot; &quot; + lastName()
+		# @property fullName
+		# @final
+		# @type String
+		###
+		@fullName = -&gt; @firstName() + &quot; &quot; + @lastName()
+
+	###*
+	# The profile picture of the child.
+	#
+	# @method profilePicture
+	# @param [width=640] The width of the picture.
+	# @param [height=640] The height of the picture.
+	# @param [crop=false] Whether or not to crop the image.
+	# @return {String} The URL to the picture, including the given options.
+	###
+	profilePicture: (width = 640, height = 640, crop = no) -&gt; &quot;#{@_profilePicture}?width=#{width}&amp;height=#{height}&amp;crop=#{crop}&quot;
+
+	@_convertRaw: (magisterObj, raw) -&gt;
+		obj = new ChildInfo magisterObj, raw.Roepnaam, raw.Achternaam, new Date Date.parse raw.Geboortedatum
+		
+		obj._id = raw.Id
+		obj._officialFirstNames = raw.OfficieleVoornamen
+		obj._initials = raw.Voorletters
+		obj._namePrefix = raw.Tussenvoegsel
+		obj._officialSurname = raw.OfficieleAchternaam
+		obj._birthSurname = raw.GeboorteAchternaam
+		obj._birthNamePrefix = raw.GeboortenaamTussenvoegsel
+		obj._useBirthname = raw.GebruikGeboortenaam
+		obj._profilePicture = magisterObj.magisterSchool.url + &quot;/api/personen/#{raw.Id}/foto&quot;
 
 		return obj
     </pre>

@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.1.0</em>
+            <em>API Docs for: 1.1.7</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -46,6 +46,8 @@
                 <li><a href="../classes/Assignment.html">Assignment</a></li>
             
                 <li><a href="../classes/AssignmentVersion.html">AssignmentVersion</a></li>
+            
+                <li><a href="../classes/ChildInfo.html">ChildInfo</a></li>
             
                 <li><a href="../classes/Class.html">Class</a></li>
             
@@ -203,7 +205,7 @@ class @Appointment
 		# @final
 		# @type String
 		###
-		@content = _getset &quot;_content&quot;, null, (x) -&gt; if x? then x.replace(/&lt;br ?\/?&gt;/g, &quot;\n&quot;).replace(/(&lt;[^&gt;]*&gt;)|(&amp;nbsp;)/g, &quot;&quot;) else x
+		@content = _getset &quot;_content&quot;, null, (x) -&gt; if x? then x.replace(/&lt;br ?\/?&gt;/g, &quot;\n&quot;).replace(/(&lt;[^&gt;]*&gt;)|(&amp;nbsp;)/g, &quot;&quot;) else &quot;&quot;
 		###*
 		# @property infoType
 		# @final
@@ -318,8 +320,8 @@ class @Appointment
 		obj._beginBySchoolHour = raw.LesuurVan
 		obj._endBySchoolHour = raw.LesuurTotMet
 		obj._fullDay = raw.DuurtHeleDag
-		obj._description = raw.Omschrijving
-		obj._location = raw.Lokatie
+		obj._description = raw.Omschrijving ? &quot;&quot;
+		obj._location = raw.Lokatie ? &quot;&quot;
 		obj._status = raw.Status
 		obj._type = raw.Type
 		obj._displayType = raw.WeergaveType
