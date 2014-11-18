@@ -317,7 +317,7 @@ class @Magister
 	#
 	# @method assignments
 	# @async
-	# @param [amount=25] {Number} The amount of Assignments to fetch from the server.
+	# @param [amount=50] {Number} The amount of Assignments to fetch from the server.
 	# @param [skip=0] {Number} The amount of Assignments to skip.
 	# @param [download=true] {Boolean} Whether or not to download the users from the server.
 	# @param callback {Function} A standard callback.
@@ -333,7 +333,7 @@ class @Magister
 
 		return unless callback?
 		download ?= yes
-		amount ?= 25
+		amount ?= 50
 		skip ?= 0
 
 		classes = null
@@ -342,7 +342,7 @@ class @Magister
 				r[0].classes (e, r) ->
 					classes = r if r? and r.length isnt 0
 
-		@http.get "#{@_personUrl}/opdrachten?skip=0&top=50&status=alle", {}, (error, result) =>
+		@http.get "#{@_personUrl}/opdrachten?skip=#{skip}&top=#{amount}&status=alle", {}, (error, result) =>
 			if error? then callback error, null
 			else
 				result = (e.Id for e in EJSON.parse(result.content).Items)
