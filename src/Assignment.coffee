@@ -109,7 +109,7 @@ class @Assignment
 		obj._id = raw.Id
 		obj._name = raw.Titel
 		obj._description = raw.Omschrijving
-		obj._class = raw.Vak
+		obj._class = Class._convertRaw magisterObj, raw.Vak
 		obj._deadline = new Date Date.parse raw.InleverenVoor
 		obj._handedInOn = new Date Date.parse raw.IngeleverdOp
 		obj._files = ( File._convertRaw magisterObj, undefined, f for f in raw.Bijlagen )
