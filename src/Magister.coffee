@@ -336,33 +336,34 @@ class @Magister
 		amount ?= 50
 		skip ?= 0
 
-		classes = null
 		@courses (e, r) ->
 			if r? and r.length isnt 0
 				r[0].classes (e, r) ->
-					classes = r if r? and r.length isnt 0
+					if r? and r.length isnt 0 then cb r
+					else cb()
+			else cb()
+		cb = (classes) =>
+			@http.get "#{@_personUrl}/opdrachten?skip=#{skip}&top=#{amount}&status=alle", {}, (error, result) =>
+				if error? then callback error, null
+				else
+					result = (e.Id for e in EJSON.parse(result.content).Items)
+					pushResult = _helpers.asyncResultWaiter result.length, (r) -> callback null, r
 
-		@http.get "#{@_personUrl}/opdrachten?skip=#{skip}&top=#{amount}&status=alle", {}, (error, result) =>
-			if error? then callback error, null
-			else
-				result = (e.Id for e in EJSON.parse(result.content).Items)
-				pushResult = _helpers.asyncResultWaiter result.length, (r) -> callback null, r
+					for id in result
+						@http.get "#{@_personUrl}/opdrachten/#{id}", {}, (error, result) =>
+							assignment = Assignment._convertRaw @, EJSON.parse(result.content)
 
-				for id in result
-					@http.get "#{@_personUrl}/opdrachten/#{id}", {}, (error, result) =>
-						assignment = Assignment._convertRaw @, EJSON.parse(result.content)
+							if classes? then assignment._class = _.find classes, (c) -> c.abbreviation() is assignment._class
 
-						if classes? then assignment._class = _.find classes, (c) -> c.abbreviation() is assignment._class
+							if download
+								teachers = assignment.teachers() ? []
 
-						if download
-							teachers = assignment.teachers() ? []
+								@fillPersons teachers, ((e, r) ->
+									assignment._teachers = r
+									pushResult assignment
+								), 3
 
-							@fillPersons teachers, ((e, r) ->
-								assignment._teachers = r
-								pushResult assignment
-							), 3
-
-						else pushResult assignment
+							else pushResult assignment
 
 	###*
 	# Gets the Digital school utilities for the current user.
@@ -418,6 +419,17 @@ class @Magister
 		callback? null, @_profileInfo
 		return @_profileInfo
 
+	children: (callback) ->
+		@http.get "#{@_personUrl}/kinderen", {}, (error, result) =>
+			if error? then callback error, null
+			else
+				parsed = EJSON.parse(result.content)
+				if parsed.ExceptionId? and parsed.Reason is 1
+					callback new Error("User is not a parent."), null
+					return
+
+				callback null, ( ChildInfo._convertRaw @, c for c in parsed.Items )
+
 	###*
 	# Checks if this Magister instance is done logging in.
 	#
@@ -433,6 +445,21 @@ class @Magister
 			if @_ready then callback @
 			else @_readyCallbacks.push callback
 		return @_ready is yes
+
+	###*
+	# Uploads a single file to the Magister servers and returns the info about the file.
+	#
+	# @method _uploadFile
+	# @private
+	# @param data {FormData} FormData about the file to upload.
+	# @param callback {Function} A standard callback.
+	# 	@param [callback.error] {Object} The error, if it exists.
+	# 	@param [callback.result] {Object} An object containing the data about the newely uploaded file.
+	###
+	_uploadFile: (data, callback) ->
+		throw new Error "Data is empty" unless data?
+		return unless callback?
+
 
 	_forceReady: -> throw new Error "Not done with logging in! (use Magister.ready(callback) to be sure that logging in is done)" unless @_ready
 	_setReady: ->
