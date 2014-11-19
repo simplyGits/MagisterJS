@@ -420,6 +420,42 @@ class @Magister
 		return @_profileInfo
 
 	###*
+	# Returns the children of the current user.
+	#
+	# @method children
+	# @param callback
+	# @param callback {Function} A standard callback.
+	# 	@param [callback.error] {Object} The error, if it exists.
+	# 	@param [callback.result] {ProfileInfo[]} An array containing ProfileInfo instances.
+	###
+	children: (callback) ->
+		@http.get "#{@_personUrl}/kinderen", {}, (error, result) =>
+			if error? then callback error, null
+			else
+				parsed = EJSON.parse(result.content)
+				if parsed.ExceptionId? and parsed.Reason is 1
+					callback _.extend(parsed, message: "User is not a parent."), null
+					return
+
+				res = []
+				for raw in parsed.Items
+					c = ProfileInfo._convertRaw @, c
+					c._profilePicture = "#{@magisterSchool.url}/api/personen/#{raw.Id}/foto"
+					c.magister (callback) =>
+						r = _.clone @
+						r._id = raw.Id
+						r._personUrl = "#{@magisterSchool.url}/api/personen/#{r._id}"
+						r._pupilUrl = "#{@magisterSchool.url}/api/leerlingen/#{r._id}"
+						r._profileInfo = c
+						@http.get "#{r._personUrl}/berichten/mappen", {}, (error, result) ->
+							r._messageFolders = (MessageFolder._convertRaw(r, m) for m in EJSON.parse(result.content).Items)
+							callback r
+						return undefined
+					res.push c
+
+				callback null, res
+
+	###*
 	# Checks if this Magister instance is done logging in.
 	#
 	# You can also provide a callback, which will be called when this instance is done logging in.
