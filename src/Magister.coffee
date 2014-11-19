@@ -419,17 +419,6 @@ class @Magister
 		callback? null, @_profileInfo
 		return @_profileInfo
 
-	children: (callback) ->
-		@http.get "#{@_personUrl}/kinderen", {}, (error, result) =>
-			if error? then callback error, null
-			else
-				parsed = EJSON.parse(result.content)
-				if parsed.ExceptionId? and parsed.Reason is 1
-					callback new Error("User is not a parent."), null
-					return
-
-				callback null, ( ChildInfo._convertRaw @, c for c in parsed.Items )
-
 	###*
 	# Checks if this Magister instance is done logging in.
 	#
@@ -445,21 +434,6 @@ class @Magister
 			if @_ready then callback @
 			else @_readyCallbacks.push callback
 		return @_ready is yes
-
-	###*
-	# Uploads a single file to the Magister servers and returns the info about the file.
-	#
-	# @method _uploadFile
-	# @private
-	# @param data {FormData} FormData about the file to upload.
-	# @param callback {Function} A standard callback.
-	# 	@param [callback.error] {Object} The error, if it exists.
-	# 	@param [callback.result] {Object} An object containing the data about the newely uploaded file.
-	###
-	_uploadFile: (data, callback) ->
-		throw new Error "Data is empty" unless data?
-		return unless callback?
-
 
 	_forceReady: -> throw new Error "Not done with logging in! (use Magister.ready(callback) to be sure that logging in is done)" unless @_ready
 	_setReady: ->
