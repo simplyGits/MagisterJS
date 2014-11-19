@@ -126,22 +126,22 @@ class @Magister
 	# @method inbox
 	# @return {MessageFolder} The inbox of the current user.
 	###
-	inbox: (callback = ->) -> @messageFolders("postvak in", (error, result) -> if error? then callback(error, null) else callback(null, result[0]))[0]
+	inbox: (callback = ->) -> @messageFolders("postvak in", (e, r) -> callback(null, r[0]))[0]
 	###*
 	# @method sentItems
 	# @return {MessageFolder} The sent items folder of the current user.
 	###
-	sentItems: (callback = ->) -> @messageFolders("verzonden items", (error, result) -> if error? then callback(error, null) else callback(null, result[0]))[0]
+	sentItems: (callback = ->) -> @messageFolders("verzonden items", (e, r) -> callback(null, r[0]))[0]
 	###*
 	# @method bin
 	# @return {MessageFolder} The bin of the current user.
 	###
-	bin: (callback = ->) -> @messageFolders("verwijderde items", (error, result) -> if error? then callback(error, null) else callback(null, result[0]))[0]
+	bin: (callback = ->) -> @messageFolders("verwijderde items", (e, r) -> callback(null, r[0]))[0]
 	###*
 	# @method alerts
 	# @return {MessageFolder} The alerts folder of the current user.
 	###
-	alerts: (callback = ->) -> @messageFolders("mededelingen", (error, result) -> if error? then callback(error, null) else callback(null, result[0]))[0]
+	alerts: (callback = ->) -> @messageFolders("mededelingen", (e, r) -> callback(null, r[0]))[0]
 
 	###*
 	# Gets the courses of the current User.
