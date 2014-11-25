@@ -78,6 +78,12 @@ class @ProfileInfo
 		# @type String
 		###
 		@fullName = -> @firstName() + " " + @lastName()
+		###*
+		# @property birthDate
+		# @final
+		# @type Date
+		###
+		@birthDate = _getset "_birthDate"
 
 	###*
 	# The profile picture of the current User.
