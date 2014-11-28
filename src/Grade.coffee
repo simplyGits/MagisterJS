@@ -101,7 +101,7 @@ class @Grade
 		obj._atLaterDate = raw.Inhalen
 		obj._exemption = raw.Vrijstelling
 		obj._counts = raw.TeltMee
-		obj._type = GradeType._convertRaw raw.CijferKolom
+		obj._type = GradeType._convertRaw magisterObj, raw.CijferKolom
 		obj._assignmentId = raw.CijferKolomIdEloOpdracht
 		obj._teacher = raw.teacher
 		obj._classExemption = raw.VakDispensatie or raw.VakVrijstelling
