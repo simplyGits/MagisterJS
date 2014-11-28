@@ -164,7 +164,12 @@ class @Course
 				callback error, null
 			else
 				result = EJSON.parse(result.content).Items
-				pushResult = _helpers.asyncResultWaiter result.length, (r) -> callback null, r
+				pushResult = _helpers.asyncResultWaiter result.length, (r) ->
+					for c in _.uniq(r, (g) -> g.class().id()).map((g) -> g.class())
+						for g in _.filter(r, (g) -> g.class().id() is c.id())
+							g._class = c
+
+					callback null, r
 
 				for g in result
 					do (g) =>
@@ -172,11 +177,11 @@ class @Course
 						g.teacher._type = 3
 
 						if download
-							@_magisterObj.getPersons g.Docent, 3, (e, r) ->
+							@_magisterObj.getPersons g.Docent, 3, (e, r) =>
 								unless e? or !r[0]? then teacher = r[0]
-								pushResult Grade._convertRaw g
+								pushResult Grade._convertRaw @_magisterObj, g
 						else
-							pushResult Grade._convertRaw g
+							pushResult Grade._convertRaw @_magisterObj, g
 
 
 	@_convertRaw: (magisterObj, raw) ->
