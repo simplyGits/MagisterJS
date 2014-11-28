@@ -79,13 +79,30 @@ class @Appointment
 		# @final
 		# @type String
 		###
-		@content = _getset "_content", null, (x) -> if x? then x.replace(/<br ?\/?>/g, "\n").replace(/(<[^>]*>)|(&nbsp;)/g, "") else ""
+		@content = _getset "_content", null, (x) -> if x? then x.replace(/<br ?\/?>/g, "\n").replace(/(<[^>]*>)|(&nbsp;)/g, "").replace(/\n{2,}/g, "\n").trim() else ""
 		###*
 		# @property infoType
 		# @final
 		# @type Number
 		###
 		@infoType = _getset "_infoType"
+		###*
+		# infoType parsed as a string.
+		# @property infoTypeString
+		# @final
+		# @type String
+		###
+		@infoTypeString = _getset "_infoType", null, (x) ->
+			return switch x
+				when 0 then "none"
+				when 1 then "homework"
+				when 2 then "test"
+				when 3 then "exam"
+				when 4 then "quiz"
+				when 5 then "oral test"
+				when 6 then "information"
+
+				else "unknown"
 		###*
 		# @property notes
 		# @final
