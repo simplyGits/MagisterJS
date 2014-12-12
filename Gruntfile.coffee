@@ -8,14 +8,14 @@ module.exports = (grunt) ->
 				options:
 					join: yes
 				files:
-					"build/magister-browser.js": ["src/*.coffee", "src/private/*.coffee"]
+					"lib/separateHttp/magister-browser-noHttp.js": ["src/*.coffee", "src/private/*.coffee"]
 		uglify:
 			options:
 				compress: yes
 				mangle: yes
 			default:
 				files:
-					"lib/separateHttp/magister-browser-noHttp.min.js": "build/magister-browser.js"
+					"lib/separateHttp/magister-browser-noHttp.min.js": "lib/separateHttp/magister-browser-noHttp.js"
 
 		concat:
 			options:
@@ -37,11 +37,10 @@ module.exports = (grunt) ->
 	grunt.loadNpmTasks "grunt-contrib-concat"
 	grunt.loadNpmTasks "grunt-contrib-compress"
 
-	grunt.registerTask "clear", -> grunt.file.delete "./build", force: yes
 	grunt.registerTask "copy", ->
 		grunt.file.copy "src/http/http.js", "lib/separateHttp/http.js"
 		
 		grunt.file.write "lib/separateHttp/http.js", grunt.template.process(head) + grunt.file.read "lib/separateHttp/http.js"
 		grunt.file.write "lib/separateHttp/magister-browser-noHttp.min.js", grunt.template.process(head) + grunt.file.read "lib/separateHttp/magister-browser-noHttp.min.js"
 	
-	grunt.registerTask "default", [ "coffee", "uglify", "concat", "copy", "compress", "clear" ]
+	grunt.registerTask "default", [ "coffee", "uglify", "concat", "copy", "compress" ]
