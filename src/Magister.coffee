@@ -198,8 +198,7 @@ class @Magister
 			return undefined
 
 		type = switch Person._convertType type
-			when 1 then "Groep"
-			when 3 then "Docent"
+			when 3 then "Personeel"
 			when 4 then "Leerling"
 			when 8 then "Project"
 

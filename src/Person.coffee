@@ -112,7 +112,7 @@ class @Person
 			else
 				switch original.toLowerCase()
 					when "group" then 1
-					when "teacher" then 3
+					when "teacher" or "personnel" then 3
 					when "pupil" then 4
 					when "project" then 8
 
