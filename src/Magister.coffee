@@ -462,23 +462,29 @@ class @Magister
 	#
 	# @method ready
 	# @param [callback] {Function} The callback which will be called if the current instance is done logging in.
-	# 	@param callback.magister {Magister} The current Magister instance.
+	# 	@param [callback.error] {Object} A error that occured when logging onto Magister, if it exists.
+	#	@param callback.this {Magister} The current Magister object.
 	# @return {Boolean} Whether or not the current Magister instance is done logging in.
 	###
 	ready: (callback) ->
 		if _.isFunction callback
-			if @_ready then callback @
-			else @_readyCallbacks.push callback
+			if @_ready or @_magisterLoadError? then _.bind(callback, @)(@._magisterLoadError)
+			else @_readyCallbacks.push _.bind callback, @
 		return @_ready is yes
 
 	_forceReady: -> throw new Error "Not done with logging in! (use Magister.ready(callback) to be sure that logging in is done)" unless @_ready
 	_setReady: ->
 		@_ready = yes
-		callback @ for callback in @_readyCallbacks
+		callback() for callback in @_readyCallbacks
+		@_readyCallbacks = []
+
+	_setErrored: (e) ->
+		@_magisterLoadError = e
+		callback @_magisterLoadError for callback in @_readyCallbacks
 		@_readyCallbacks = []
 
 	_readyCallbacks: []
-
+	_magisterLoadError: null
 
 	###*
 	# (Re-)Login the current Magister instance.
@@ -490,6 +496,7 @@ class @Magister
 	###
 	reLogin: ->
 		@_ready = no
+		@_magisterLoadError = null
 		url = "#{@magisterSchool.url}/api/sessie"
 		@http.post url,
 			Gebruikersnaam: @username
@@ -498,13 +505,14 @@ class @Magister
 			# if this works for every school, we actually wouldn't need a "relogin" method. We will keep it and then see how it goes.
 			IngelogdBlijven: @_keepLoggedIn
 		, {headers: "Content-Type": "application/json;charset=UTF-8" }, (error, result) =>
-			if error?
-				throw new Error(error.message)
+			if error? then @_setErrored error
 			else
 				@_sessionId = /[a-z\d-]+/.exec(result.headers["set-cookie"][0])[0]
 				@http._cookie = "SESSION_ID=#{@_sessionId}; M6UserName=#{@username}"
 				@http.get "#{@magisterSchool.url}/api/account", {},
 					(error, result) =>
+						if error? then @_setErrored error; return
+
 						result = EJSON.parse result.content
 						@_group = result.Groep[0]
 						@_id = result.Persoon.Id
@@ -513,5 +521,6 @@ class @Magister
 						@_profileInfo = ProfileInfo._convertRaw @, result
 
 						@http.get "#{@_personUrl}/berichten/mappen", {}, (error, result) =>
+							if error? then @_setErrored error; return
 							@_messageFolders = (MessageFolder._convertRaw(@, m) for m in EJSON.parse(result.content).Items)
 							@_setReady()
