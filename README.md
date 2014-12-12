@@ -3,6 +3,9 @@
 ==========
 [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/simplyGits/MagisterJS?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
+
+[<img src="http://i.imgur.com/RQrAaF1.png" alt="Join the team" align="left" width="150"/>](https://simplyapps.typeform.com/to/cspOyK)
+
 A JavaScript implementation of the [Magister 6](http://magister6.nl/) API.
 
 Works on:
