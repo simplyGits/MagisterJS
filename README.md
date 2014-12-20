@@ -10,9 +10,9 @@ Works on:
 * Meteor
 * Browserside with a serverside proxy to circumvent Magister's same-origin policy.
 
-[Admire our project page](http://simplygits.github.io/MagisterJS)
+[Admire our project page](http://www.simplyapps.nl/MagisterJS/)
 
-[Read the Documentation](http://simplygits.github.io/MagisterJS/docs/index.html)
+[Read the Documentation](http://www.simplyapps.nl/MagisterJS/docs/index.html)
 
 How to compile from source
 ==========
