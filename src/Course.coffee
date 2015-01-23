@@ -176,19 +176,34 @@ class @Course
 						g.teacher = Person._convertRaw @_magisterObj, Docentcode: g.Docent
 						g.teacher._type = 3
 
-						if download
-							@_magisterObj.getPersons g.Docent, 3, (e, r) =>
-								unless e? or !r[0]? then teacher = r[0]
-								pushResult Grade._convertRaw @_magisterObj, g
-						else
-							pushResult Grade._convertRaw @_magisterObj, g
+						@_magisterObj.http.get @_columnUrl + g.CijferKolom.Id, {}, (error, result) =>
+							g = Grade._convertRaw @_magisterObj, g, @_gradesUrlPrefix
+
+							if error?
+								callback error, null
+							else
+								result = EJSON.parse(result.content)
+								g._description = result.WerkInformatieOmschrijving
+
+								g._type._level = result.KolomNiveau
+								g._type._description = result.KolomOmschrijving
+								g._type._weight = result.Weging
+
+								if download
+									@_magisterObj.getPersons g.Docent, 3, (e, r) ->
+										unless e? or !r[0]? then g._teacher = r[0]
+										pushResult g
+								else pushResult g
 
 
 	@_convertRaw: (magisterObj, raw) ->
 		obj = new Course magisterObj
 
 		obj._classesUrl = magisterObj.magisterSchool.url + _.find(raw.Links, Rel: "Vakken").Href
-		obj._gradesUrl = magisterObj._personUrl + "/aanmeldingen/#{raw.Id}/cijfers/cijferoverzichtvooraanmelding?actievePerioden=true&alleenBerekendeKolommen=false&alleenPTAKolommen=false"
+
+		obj._gradesUrlPrefix = magisterObj._personUrl + "/aanmeldingen/#{raw.Id}/cijfers"
+		obj._gradesUrl = obj._gradesUrlPrefix + "/cijferoverzichtvooraanmelding?actievePerioden=false&alleenBerekendeKolommen=false&alleenPTAKolommen=false"
+		obj._columnUrl = obj._gradesUrlPrefix + "/extracijferkolominfo/"
 
 		obj._id = raw.Id
 		obj._begin = new Date Date.parse raw.Start
