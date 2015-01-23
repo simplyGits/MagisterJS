@@ -27,12 +27,6 @@ class @Class
 		###
 		@endDate = _getset "_endDate"
 		###*
-		# @property licenseUrl
-		# @final
-		# @type String
-		###
-		@licenseUrl = _getset "_licenseUrl"
-		###*
 		# @property abbreviation
 		# @final
 		# @type String
@@ -50,17 +44,30 @@ class @Class
 		# @type Number
 		###
 		@number = _getset "_number"
+		###*
+		# @property teacher
+		# @final
+		# @type Person
+		###
+		@teacher = _getset "_teacher"
+		###*
+		# @property classExemption
+		# @final
+		# @type Boolean
+		###
+		@classExemption = _getset "_classExemption"
 
 	@_convertRaw: (magisterObj, raw) ->
 		obj = new Class magisterObj
 
-		obj._id = raw.Id
-		obj._beginDate = new Date Date.parse raw.Begindatum
-		obj._endDate = new Date Date.parse raw.Einddatum
-		obj._licenseUrl = raw.LicentieUrl
-		obj._abbreviation = raw.Afkorting
-		obj._description = raw.Omschrijving
-		obj._number = raw.Volgnr
+		obj._id = raw.id
+		obj._beginDate = new Date Date.parse raw.begindatum
+		obj._endDate = new Date Date.parse raw.einddatum
+		obj._abbreviation = raw.afkorting
+		obj._description = raw.omschrijving
+		obj._number = raw.volgnr
+		obj._teacher = Person._convertRaw magisterObj, Docentcode: raw.docent
+		obj._classExemption = raw.VakDispensatie or raw.VakVrijstelling
 
 		return obj
 
@@ -176,19 +183,34 @@ class @Course
 						g.teacher = Person._convertRaw @_magisterObj, Docentcode: g.Docent
 						g.teacher._type = 3
 
-						if download
-							@_magisterObj.getPersons g.Docent, 3, (e, r) =>
-								unless e? or !r[0]? then teacher = r[0]
-								pushResult Grade._convertRaw @_magisterObj, g
-						else
-							pushResult Grade._convertRaw @_magisterObj, g
+						@_magisterObj.http.get @_columnUrl + g.CijferKolom.Id, {}, (error, result) =>
+							g = Grade._convertRaw @_magisterObj, g, @_gradesUrlPrefix
+
+							if error?
+								callback error, null
+							else
+								result = EJSON.parse(result.content)
+								g._description = result.WerkInformatieOmschrijving
+
+								g._type._level = result.KolomNiveau
+								g._type._description = result.KolomOmschrijving
+								g._type._weight = result.Weging
+
+								if download
+									@_magisterObj.getPersons g.Docent, 3, (e, r) ->
+										unless e? or !r[0]? then g._teacher = r[0]
+										pushResult g
+								else pushResult g
 
 
 	@_convertRaw: (magisterObj, raw) ->
 		obj = new Course magisterObj
 
 		obj._classesUrl = magisterObj.magisterSchool.url + _.find(raw.Links, Rel: "Vakken").Href
-		obj._gradesUrl = magisterObj._personUrl + "/aanmeldingen/#{raw.Id}/cijfers/cijferoverzichtvooraanmelding?actievePerioden=true&alleenBerekendeKolommen=false&alleenPTAKolommen=false"
+
+		obj._gradesUrlPrefix = magisterObj._personUrl + "/aanmeldingen/#{raw.Id}/cijfers"
+		obj._gradesUrl = obj._gradesUrlPrefix + "/cijferoverzichtvooraanmelding?actievePerioden=false&alleenBerekendeKolommen=false&alleenPTAKolommen=false"
+		obj._columnUrl = obj._gradesUrlPrefix + "/extracijferkolominfo/"
 
 		obj._id = raw.Id
 		obj._begin = new Date Date.parse raw.Start

@@ -80,6 +80,12 @@ class @Grade
 		# @type Boolean
 		###
 		@classExemption = _getset "_classExemption"
+		###*
+		# @property description
+		# @final
+		# @type String
+		###
+		@description = _getset "_description"
 
 	@_convertRaw: (magisterObj, raw) ->
 		obj = new Grade magisterObj
@@ -91,7 +97,7 @@ class @Grade
 
 		obj._gradePeriod =
 			id: -> raw.CijferPeriode.Id
-			abbreviation: -> raw.CijferPeriode.Afkorting
+			name: -> raw.CijferPeriode.Naam
 
 		obj._class =
 			id: -> raw.Vak.Id
@@ -105,6 +111,8 @@ class @Grade
 		obj._assignmentId = raw.CijferKolomIdEloOpdracht
 		obj._teacher = raw.teacher
 		obj._classExemption = raw.VakDispensatie or raw.VakVrijstelling
+
+		obj._description = "" # Should be filled in later by Course::grades(...)
 
 		return obj
 
@@ -178,6 +186,18 @@ class @GradeType
 		# @type Boolean
 		###
 		@isPTA = _getset "_isPTA"
+		###*
+		# Have no idea what this is. If anybody has an idea, tell me please so we can make this doc at least a bit useful.
+		# @property level
+		# @final
+		###
+		@level = _getset "_level"
+		###*
+		# @property weight
+		# @final
+		# @type Number
+		###
+		@weight = _getset "_weight"
 
 	@_convertRaw: (magisterObj, raw) ->
 		obj = new GradeType magisterObj
@@ -186,11 +206,15 @@ class @GradeType
 		obj._name = raw.KolomNaam
 		obj._number = raw.KolomNummer
 		obj._header = raw.KolomKop
-		obj._description = raw.KolomOmschrijving
 		obj._type = raw.KolomSoort
 		obj._isAtLaterDate = raw.IsHerkansingKolom
 		obj._isTeacher = raw.IsDocentKolom
 		obj._hasNestedTypes = raw.HeeftOndeliggendeKolommen
 		obj._isPTA = raw.IsPTAKolom
+
+		# Those should be filled in later by Course::grades(...)
+		obj._level = null # I have no idea...
+		obj._description = ""
+		obj._weight = 0
 
 		return obj

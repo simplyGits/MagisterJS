@@ -155,6 +155,68 @@ class @Message
 		return undefined
 
 	###*
+	# Creates a new Message that replies to the sender of the current Message.
+	#
+	# @method createReplyMessage
+	# @param [newContent] {String} The string to prepend the current message with.
+	# @return {Message} The newely created Message.
+	###
+	createReplyMessage: (newContent) ->
+		subject = if @subject().indexOf("RE: ") isnt 0 then "RE: #{@subject()}" else subject()
+
+		msg = new Message @_magisterObj
+		msg._sender = @_sender
+		msg._folderId = @_folderId
+		msg._isFlagged = @_isFlagged
+		msg._id = @_id
+		msg._body = (if newContent? then "#{newContent}<br><br>---------------<br>" else "") + "<b>Van:</b> #{@sender().description()}<br><b>Verzonden:</b> #{@sendDate().toLocaleString()}<br><b>Aan:</b> #{@recipients().map((x) -> x.fullName()).join ", "}<br><b>Onderwerp:</b> #{@subject()}<br><br>\"#{@body()}\"<br><br>"
+		msg._subject = subject
+		msg._recipients = [ @sender() ]
+
+		return msg
+
+	###*
+	# Creates a new Message that replies to the sender and recipients of the current Message.
+	#
+	# @method createReplyToAllMessage
+	# @param [newContent] {String} The string to prepend the current message with.
+	# @return {Message} The newely created Message.
+	###
+	createReplyToAllMessage: (newContent) ->
+		subject = if @subject().indexOf("RE: ") isnt 0 then "RE: #{@subject()}" else subject()
+
+		msg = new Message @_magisterObj
+		msg._sender = @_sender
+		msg._folderId = @_folderId
+		msg._isFlagged = @_isFlagged
+		msg._id = @_id
+		msg._body = (if newContent? then "#{newContent}<br><br>---------------<br>" else "") + "<b>Van:</b> #{@sender().description()}<br><b>Verzonden:</b> #{@sendDate().toLocaleString()}<br><b>Aan:</b> #{@recipients().map((x) -> x.fullName()).join ", "}<br><b>Onderwerp:</b> #{@subject()}<br><br>\"#{@body()}\"<br><br>"
+		msg._subject = subject
+		msg._recipients = _.reject(@recipients(), (x) -> x.id() is @_magisterObj.profileInfo().id()).concat [ @sender() ]
+
+		return msg
+
+	###*
+	# Creates a new Message that forwards the current Message.
+	#
+	# @method createForwardMessage
+	# @param [newContent] {String} The string to prepend the current message with.
+	# @return {Message} The newely created Message.
+	###
+	createForwardMessage: (newContent) ->
+		subject = if @subject().indexOf("FW: ") isnt 0 then "FW: #{@subject()}" else subject()
+
+		msg = new Message @_magisterObj
+		msg._sender = @_sender
+		msg._folderId = @_folderId
+		msg._isFlagged = @_isFlagged
+		msg._id = @_id
+		msg._body = (if newContent? then "#{newContent}<br><br>---------------<br>" else "") + "<b>Van:</b> #{@sender().description()}<br><b>Verzonden:</b> #{@sendDate().toLocaleString()}<br><b>Aan:</b> #{@recipients().map((x) -> x.fullName()).join ", "}<br><b>Onderwerp:</b> #{@subject()}<br><br>\"#{@body()}\"<br><br>"
+		msg._subject = subject
+
+		return msg
+
+	###*
 	# Sends the current Message. Sending will be delayed if there are processes running in the background.
 	#
 	# @method send
