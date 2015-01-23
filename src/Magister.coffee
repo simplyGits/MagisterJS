@@ -505,6 +505,8 @@ class @Magister
 			IngelogdBlijven: @_keepLoggedIn
 		, {headers: "Content-Type": "application/json;charset=UTF-8" }, (error, result) =>
 			if error? then @_setErrored error
+			else if result.content? # Normally the response doesn't contain a body, if it contains one it's probaly an error.
+				@_setErrored result.content
 			else
 				@_sessionId = /[a-z\d-]+/.exec(result.headers["set-cookie"][0])[0]
 				@http._cookie = "SESSION_ID=#{@_sessionId}; M6UserName=#{@username}"
