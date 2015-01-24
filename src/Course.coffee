@@ -191,10 +191,10 @@ class @Course
 							else
 								result = EJSON.parse(result.content)
 								g._description = result.WerkInformatieOmschrijving
+								g._weight = result.Weging
 
 								g._type._level = result.KolomNiveau
 								g._type._description = result.KolomOmschrijving
-								g._type._weight = result.Weging
 
 								if download
 									@_magisterObj.getPersons g.Docent, 3, (e, r) ->

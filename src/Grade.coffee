@@ -86,6 +86,12 @@ class @Grade
 		# @type String
 		###
 		@description = _getset "_description"
+		###*
+		# @property weight
+		# @final
+		# @type Number
+		###
+		@weight = _getset "_weight"
 
 	@_convertRaw: (magisterObj, raw) ->
 		obj = new Grade magisterObj
@@ -112,7 +118,9 @@ class @Grade
 		obj._teacher = raw.teacher
 		obj._classExemption = raw.VakDispensatie or raw.VakVrijstelling
 
-		obj._description = "" # Should be filled in later by Course::grades(...)
+		# Should be filled in later by Course::grades(...)
+		obj._description = ""
+		obj._weight = 0
 
 		return obj
 
@@ -192,12 +200,6 @@ class @GradeType
 		# @final
 		###
 		@level = _getset "_level"
-		###*
-		# @property weight
-		# @final
-		# @type Number
-		###
-		@weight = _getset "_weight"
 
 	@_convertRaw: (magisterObj, raw) ->
 		obj = new GradeType magisterObj
@@ -215,6 +217,5 @@ class @GradeType
 		# Those should be filled in later by Course::grades(...)
 		obj._level = null # I have no idea...
 		obj._description = ""
-		obj._weight = 0
 
 		return obj
