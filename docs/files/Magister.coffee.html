@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
-    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <link rel="icon" href="../assets/favicon.ico">
     <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
 </head>
 <body class="yui3-skin-sam">
@@ -14,9 +14,7 @@
 <div id="doc">
     <div id="hd" class="yui3-g header">
         <div class="yui3-u-3-4">
-            
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
-            
         </div>
         <div class="yui3-u-1-4 version">
             <em>API Docs for: 1.1.7</em>
@@ -27,100 +25,75 @@
         <div class="yui3-u-1-4">
             <div id="docs-sidebar" class="sidebar apidocs">
                 <div id="api-list">
-    <h2 class="off-left">APIs</h2>
-    <div id="api-tabview" class="tabview">
-        <ul class="tabs">
-            <li><a href="#api-classes">Classes</a></li>
-            <li><a href="#api-modules">Modules</a></li>
-        </ul>
-
-        <div id="api-tabview-filter">
-            <input type="search" id="api-filter" placeholder="Type to filter APIs">
-        </div>
-
-        <div id="api-tabview-panel">
-            <ul id="api-classes" class="apis classes">
-            
-                <li><a href="../classes/Appointment.html">Appointment</a></li>
-            
-                <li><a href="../classes/Assignment.html">Assignment</a></li>
-            
-                <li><a href="../classes/AssignmentVersion.html">AssignmentVersion</a></li>
-            
-                <li><a href="../classes/ChildInfo.html">ChildInfo</a></li>
-            
-                <li><a href="../classes/Class.html">Class</a></li>
-            
-                <li><a href="../classes/Course.html">Course</a></li>
-            
-                <li><a href="../classes/DigitalSchoolUtility.html">DigitalSchoolUtility</a></li>
-            
-                <li><a href="../classes/File.html">File</a></li>
-            
-                <li><a href="../classes/FileFolder.html">FileFolder</a></li>
-            
-                <li><a href="../classes/Grade.html">Grade</a></li>
-            
-                <li><a href="../classes/GradeType.html">GradeType</a></li>
-            
-                <li><a href="../classes/Magister.html">Magister</a></li>
-            
-                <li><a href="../classes/MagisterSchool.html">MagisterSchool</a></li>
-            
-                <li><a href="../classes/Message.html">Message</a></li>
-            
-                <li><a href="../classes/MessageFolder.html">MessageFolder</a></li>
-            
-                <li><a href="../classes/Person.html">Person</a></li>
-            
-                <li><a href="../classes/ProfileInfo.html">ProfileInfo</a></li>
-            
-                <li><a href="../classes/StudyGuide.html">StudyGuide</a></li>
-            
-                <li><a href="../classes/StudyGuidePart.html">StudyGuidePart</a></li>
-            
-            </ul>
-
-            <ul id="api-modules" class="apis modules">
-            
-                <li><a href="../modules/Magister.html">Magister</a></li>
-            
-            </ul>
-        </div>
-    </div>
-</div>
-
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/Appointment.html">Appointment</a></li>
+                                <li><a href="../classes/Assignment.html">Assignment</a></li>
+                                <li><a href="../classes/AssignmentVersion.html">AssignmentVersion</a></li>
+                                <li><a href="../classes/Class.html">Class</a></li>
+                                <li><a href="../classes/Course.html">Course</a></li>
+                                <li><a href="../classes/DigitalSchoolUtility.html">DigitalSchoolUtility</a></li>
+                                <li><a href="../classes/File.html">File</a></li>
+                                <li><a href="../classes/FileFolder.html">FileFolder</a></li>
+                                <li><a href="../classes/Grade.html">Grade</a></li>
+                                <li><a href="../classes/GradeType.html">GradeType</a></li>
+                                <li><a href="../classes/Magister.html">Magister</a></li>
+                                <li><a href="../classes/MagisterSchool.html">MagisterSchool</a></li>
+                                <li><a href="../classes/Message.html">Message</a></li>
+                                <li><a href="../classes/MessageFolder.html">MessageFolder</a></li>
+                                <li><a href="../classes/Person.html">Person</a></li>
+                                <li><a href="../classes/ProfileInfo.html">ProfileInfo</a></li>
+                                <li><a href="../classes/StudyGuide.html">StudyGuide</a></li>
+                                <li><a href="../classes/StudyGuidePart.html">StudyGuidePart</a></li>
+                            </ul>
+                
+                            <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/Magister.html">Magister</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="yui3-u-3-4">
                 <div id="api-options">
-        Show:
-        <label for="api-show-inherited">
-            <input type="checkbox" id="api-show-inherited" checked>
-            Inherited
-        </label>
-
-        <label for="api-show-protected">
-            <input type="checkbox" id="api-show-protected">
-            Protected
-        </label>
-
-        <label for="api-show-private">
-            <input type="checkbox" id="api-show-private">
-            Private
-        </label>
-        <label for="api-show-deprecated">
-            <input type="checkbox" id="api-show-deprecated">
-            Deprecated
-        </label>
-
-    </div>
-
-
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: Magister.coffee</h1>
+<h1 class="file-heading">File: Magister.coffee</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -163,7 +136,7 @@ class @Magister
 	# @async
 	# @param from {Date} The start date for the Appointments, you won&#x27;t get appointments from before this date.
 	# @param [to] {Date} The end date for the Appointments, you won&#x27;t get appointments from after this date.
-	# @param [download=true] {Boolean} Whether or not to download the users from the server.
+	# @param [fillPersons=true] {Boolean} Whether or not to download the full user objects from the server.
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
 	# 	@param [callback.result] {Appointment[]} An array containing the Appointments.
@@ -252,22 +225,22 @@ class @Magister
 	# @method inbox
 	# @return {MessageFolder} The inbox of the current user.
 	###
-	inbox: (callback = -&gt;) -&gt; @messageFolders(&quot;postvak in&quot;, (error, result) -&gt; if error? then callback(error, null) else callback(null, result[0]))[0]
+	inbox: (callback = -&gt;) -&gt; @messageFolders(&quot;postvak in&quot;, (e, r) -&gt; callback(null, r[0]))[0]
 	###*
 	# @method sentItems
 	# @return {MessageFolder} The sent items folder of the current user.
 	###
-	sentItems: (callback = -&gt;) -&gt; @messageFolders(&quot;verzonden items&quot;, (error, result) -&gt; if error? then callback(error, null) else callback(null, result[0]))[0]
+	sentItems: (callback = -&gt;) -&gt; @messageFolders(&quot;verzonden items&quot;, (e, r) -&gt; callback(null, r[0]))[0]
 	###*
 	# @method bin
 	# @return {MessageFolder} The bin of the current user.
 	###
-	bin: (callback = -&gt;) -&gt; @messageFolders(&quot;verwijderde items&quot;, (error, result) -&gt; if error? then callback(error, null) else callback(null, result[0]))[0]
+	bin: (callback = -&gt;) -&gt; @messageFolders(&quot;verwijderde items&quot;, (e, r) -&gt; callback(null, r[0]))[0]
 	###*
 	# @method alerts
 	# @return {MessageFolder} The alerts folder of the current user.
 	###
-	alerts: (callback = -&gt;) -&gt; @messageFolders(&quot;mededelingen&quot;, (error, result) -&gt; if error? then callback(error, null) else callback(null, result[0]))[0]
+	alerts: (callback = -&gt;) -&gt; @messageFolders(&quot;mededelingen&quot;, (e, r) -&gt; callback(null, r[0]))[0]
 
 	###*
 	# Gets the courses of the current User.
@@ -324,8 +297,7 @@ class @Magister
 			return undefined
 
 		type = switch Person._convertType type
-			when 1 then &quot;Groep&quot;
-			when 3 then &quot;Docent&quot;
+			when 3 then &quot;Personeel&quot;
 			when 4 then &quot;Leerling&quot;
 			when 8 then &quot;Project&quot;
 
@@ -363,7 +335,7 @@ class @Magister
 				callback null, []
 				return undefined
 			pushResult = _helpers.asyncResultWaiter persons.length, (r) -&gt; callback null, r
-			
+
 			for p in persons
 				try
 					@getPersons _.last(p.fullName().split &quot; &quot;), (p._type ? overwriteType), (e, r) -&gt;
@@ -427,6 +399,7 @@ class @Magister
 	#
 	# @method studyGuides
 	# @async
+	# @param [fillClass=true] {Boolean} Whether or not to download the full class objects from the server. If this is false StudyGuide.class() will return null.
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
 	# 	@param [callback.result] {StudyGuide[]} An array containing StudyGuides.
@@ -434,9 +407,28 @@ class @Magister
 	studyGuides: (callback) -&gt;
 		@_forceReady()
 
-		@http.get &quot;#{@_pupilUrl}/studiewijzers?peildatum=#{_helpers.urlDateConvert new Date}&quot;, {}, (error, result) =&gt;
-			if error? then callback error, null
-			else callback null, ( StudyGuide._convertRaw @, s for s in EJSON.parse(result.content).Items )
+		fillClass = _.find(arguments, (a) -&gt; _.isBoolean a) ? yes
+		callback = _.find arguments, (a) -&gt; _.isFunction a
+
+		if fillClass
+			@courses (e, r) -&gt;
+				if r? and r.length isnt 0
+					r[0].classes (e, r) -&gt;
+						if r? and r.length isnt 0 then cb r
+						else cb()
+				else cb()
+		else cb()
+		cb = (classes) =&gt;
+			@http.get &quot;#{@_pupilUrl}/studiewijzers?peildatum=#{_helpers.urlDateConvert new Date}&quot;, {}, (error, result) =&gt;
+				if error? then callback error, null
+				else
+					result = ( StudyGuide._convertRaw @, s for s in EJSON.parse(result.content).Items )
+
+					for studyGuide in result then do (studyGuide) -&gt;
+						if classes? then studyGuide._class = _.find classes, (c) -&gt; c.abbreviation() is studyGuide._class
+						else studyGuide._class = null
+
+					callback null, result
 
 	###*
 	# Gets the Assignments for the current user.
@@ -445,7 +437,8 @@ class @Magister
 	# @async
 	# @param [amount=50] {Number} The amount of Assignments to fetch from the server.
 	# @param [skip=0] {Number} The amount of Assignments to skip.
-	# @param [download=true] {Boolean} Whether or not to download the users from the server.
+	# @param [fillPersons=true] {Boolean} Whether or not to download the full user objects from the server.
+	# @param [fillClass=true] {Boolean} Whether or not to download the full class objects from the server. If this is false Assignment.class() will return null.
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
 	# 	@param [callback.result] {Assignment[]} An array containing Assignments.
@@ -454,41 +447,46 @@ class @Magister
 		@_forceReady()
 
 		[amount, skip] = _.filter arguments, (a) -&gt; _.isNumber a
-		download = _.find arguments, (a) -&gt; _.isBoolean a
+		[fillPersons, fillClass] = _.filter arguments, (a) -&gt; _.isBoolean a
 		callback = _.find arguments, (a) -&gt; _.isFunction a
 
 		return unless callback?
-		download ?= yes
+		fillPersons ?= yes
+		fillClass ?= yes
 		amount ?= 50
 		skip ?= 0
 
-		classes = null
-		@courses (e, r) -&gt;
-			if r? and r.length isnt 0
-				r[0].classes (e, r) -&gt;
-					classes = r if r? and r.length isnt 0
+		if fillClass
+			@courses (e, r) -&gt;
+				if r? and r.length isnt 0
+					r[0].classes (e, r) -&gt;
+						if r? and r.length isnt 0 then cb r
+						else cb()
+				else cb()
+		else cb()
+		cb = (classes) =&gt;
+			@http.get &quot;#{@_personUrl}/opdrachten?skip=#{skip}&amp;top=#{amount}&amp;status=alle&quot;, {}, (error, result) =&gt;
+				if error? then callback error, null
+				else
+					result = (e.Id for e in EJSON.parse(result.content).Items)
+					pushResult = _helpers.asyncResultWaiter result.length, (r) -&gt; callback null, r
 
-		@http.get &quot;#{@_personUrl}/opdrachten?skip=#{skip}&amp;top=#{amount}&amp;status=alle&quot;, {}, (error, result) =&gt;
-			if error? then callback error, null
-			else
-				result = (e.Id for e in EJSON.parse(result.content).Items)
-				pushResult = _helpers.asyncResultWaiter result.length, (r) -&gt; callback null, r
+					for id in result
+						@http.get &quot;#{@_personUrl}/opdrachten/#{id}&quot;, {}, (error, result) =&gt;
+							assignment = Assignment._convertRaw @, EJSON.parse(result.content)
 
-				for id in result
-					@http.get &quot;#{@_personUrl}/opdrachten/#{id}&quot;, {}, (error, result) =&gt;
-						assignment = Assignment._convertRaw @, EJSON.parse(result.content)
+							if classes? then assignment._class = _.find classes, (c) -&gt; c.abbreviation() is assignment._class
+							else assignment._class = null
 
-						if classes? then assignment._class = _.find classes, (c) -&gt; c.abbreviation() is assignment._class
+							if fillPersons
+								teachers = assignment.teachers() ? []
 
-						if download
-							teachers = assignment.teachers() ? []
+								@fillPersons teachers, ((e, r) -&gt;
+									assignment._teachers = r
+									pushResult assignment
+								), 3
 
-							@fillPersons teachers, ((e, r) -&gt;
-								assignment._teachers = r
-								pushResult assignment
-							), 3
-
-						else pushResult assignment
+							else pushResult assignment
 
 	###*
 	# Gets the Digital school utilities for the current user.
@@ -517,7 +515,7 @@ class @Magister
 			if r? and r.length isnt 0
 				_.last(r).classes (e, r) -&gt;
 					classes = r if r? and r.length isnt 0
-			
+
 			@http.get url, {}, (error, result) =&gt;
 				if error? then callback error, null
 				else
@@ -540,9 +538,45 @@ class @Magister
 	###
 	profileInfo: (callback) -&gt;
 		@_forceReady()
-		
+
 		callback? null, @_profileInfo
 		return @_profileInfo
+
+	###*
+	# Returns the children of the current user.
+	#
+	# @method children
+	# @param callback
+	# @param callback {Function} A standard callback.
+	# 	@param [callback.error] {Object} The error, if it exists.
+	# 	@param [callback.result] {ProfileInfo[]} An array containing ProfileInfo instances.
+	###
+	children: (callback) -&gt;
+		@http.get &quot;#{@_personUrl}/kinderen&quot;, {}, (error, result) =&gt;
+			if error? then callback error, null
+			else
+				parsed = EJSON.parse(result.content)
+				if parsed.ExceptionId? and parsed.Reason is 1
+					callback _.extend(parsed, message: &quot;User is not a parent.&quot;), null
+					return
+
+				res = []
+				for raw in parsed.Items
+					c = ProfileInfo._convertRaw @, c
+					c._profilePicture = &quot;#{@magisterSchool.url}/api/personen/#{raw.Id}/foto&quot;
+					c.magister (callback) =&gt;
+						r = _.clone @
+						r._id = raw.Id
+						r._personUrl = &quot;#{@magisterSchool.url}/api/personen/#{r._id}&quot;
+						r._pupilUrl = &quot;#{@magisterSchool.url}/api/leerlingen/#{r._id}&quot;
+						r._profileInfo = c
+						@http.get &quot;#{r._personUrl}/berichten/mappen&quot;, {}, (error, result) -&gt;
+							r._messageFolders = (MessageFolder._convertRaw(r, m) for m in EJSON.parse(result.content).Items)
+							callback r
+						return undefined
+					res.push c
+
+				callback null, res
 
 	###*
 	# Checks if this Magister instance is done logging in.
@@ -551,23 +585,29 @@ class @Magister
 	#
 	# @method ready
 	# @param [callback] {Function} The callback which will be called if the current instance is done logging in.
-	# 	@param callback.magister {Magister} The current Magister instance.
+	# 	@param [callback.error] {Object} A error that occured when logging onto Magister, if it exists.
+	#	@param callback.this {Magister} The current Magister object.
 	# @return {Boolean} Whether or not the current Magister instance is done logging in.
 	###
 	ready: (callback) -&gt;
 		if _.isFunction callback
-			if @_ready then callback @
-			else @_readyCallbacks.push callback
+			if @_ready or @_magisterLoadError? then _.bind(callback, @)(@._magisterLoadError)
+			else @_readyCallbacks.push _.bind callback, @
 		return @_ready is yes
 
 	_forceReady: -&gt; throw new Error &quot;Not done with logging in! (use Magister.ready(callback) to be sure that logging in is done)&quot; unless @_ready
 	_setReady: -&gt;
 		@_ready = yes
-		callback @ for callback in @_readyCallbacks
+		callback() for callback in @_readyCallbacks
+		@_readyCallbacks = []
+
+	_setErrored: (e) -&gt;
+		@_magisterLoadError = e
+		callback @_magisterLoadError for callback in @_readyCallbacks
 		@_readyCallbacks = []
 
 	_readyCallbacks: []
-
+	_magisterLoadError: null
 
 	###*
 	# (Re-)Login the current Magister instance.
@@ -579,6 +619,7 @@ class @Magister
 	###
 	reLogin: -&gt;
 		@_ready = no
+		@_magisterLoadError = null
 		url = &quot;#{@magisterSchool.url}/api/sessie&quot;
 		@http.post url,
 			Gebruikersnaam: @username
@@ -587,13 +628,16 @@ class @Magister
 			# if this works for every school, we actually wouldn&#x27;t need a &quot;relogin&quot; method. We will keep it and then see how it goes.
 			IngelogdBlijven: @_keepLoggedIn
 		, {headers: &quot;Content-Type&quot;: &quot;application/json;charset=UTF-8&quot; }, (error, result) =&gt;
-			if error?
-				throw new Error(error.message)
+			if error? then @_setErrored error
+			else if result.content? # Normally the response doesn&#x27;t contain a body, if it contains one it&#x27;s probaly an error.
+				@_setErrored result.content
 			else
 				@_sessionId = /[a-z\d-]+/.exec(result.headers[&quot;set-cookie&quot;][0])[0]
 				@http._cookie = &quot;SESSION_ID=#{@_sessionId}; M6UserName=#{@username}&quot;
 				@http.get &quot;#{@magisterSchool.url}/api/account&quot;, {},
 					(error, result) =&gt;
+						if error? then @_setErrored error; return
+
 						result = EJSON.parse result.content
 						@_group = result.Groep[0]
 						@_id = result.Persoon.Id
@@ -602,12 +646,12 @@ class @Magister
 						@_profileInfo = ProfileInfo._convertRaw @, result
 
 						@http.get &quot;#{@_personUrl}/berichten/mappen&quot;, {}, (error, result) =&gt;
+							if error? then @_setErrored error; return
 							@_messageFolders = (MessageFolder._convertRaw(@, m) for m in EJSON.parse(result.content).Items)
 							@_setReady()
 
     </pre>
 </div>
-
                     </div>
                 </div>
             </div>

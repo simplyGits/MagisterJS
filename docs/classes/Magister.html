@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
-    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <link rel="icon" href="../assets/favicon.ico">
     <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
 </head>
 <body class="yui3-skin-sam">
@@ -14,9 +14,7 @@
 <div id="doc">
     <div id="hd" class="yui3-g header">
         <div class="yui3-u-3-4">
-            
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
-            
         </div>
         <div class="yui3-u-1-4 version">
             <em>API Docs for: 1.1.7</em>
@@ -27,120 +25,85 @@
         <div class="yui3-u-1-4">
             <div id="docs-sidebar" class="sidebar apidocs">
                 <div id="api-list">
-    <h2 class="off-left">APIs</h2>
-    <div id="api-tabview" class="tabview">
-        <ul class="tabs">
-            <li><a href="#api-classes">Classes</a></li>
-            <li><a href="#api-modules">Modules</a></li>
-        </ul>
-
-        <div id="api-tabview-filter">
-            <input type="search" id="api-filter" placeholder="Type to filter APIs">
-        </div>
-
-        <div id="api-tabview-panel">
-            <ul id="api-classes" class="apis classes">
-            
-                <li><a href="../classes/Appointment.html">Appointment</a></li>
-            
-                <li><a href="../classes/Assignment.html">Assignment</a></li>
-            
-                <li><a href="../classes/AssignmentVersion.html">AssignmentVersion</a></li>
-            
-                <li><a href="../classes/ChildInfo.html">ChildInfo</a></li>
-            
-                <li><a href="../classes/Class.html">Class</a></li>
-            
-                <li><a href="../classes/Course.html">Course</a></li>
-            
-                <li><a href="../classes/DigitalSchoolUtility.html">DigitalSchoolUtility</a></li>
-            
-                <li><a href="../classes/File.html">File</a></li>
-            
-                <li><a href="../classes/FileFolder.html">FileFolder</a></li>
-            
-                <li><a href="../classes/Grade.html">Grade</a></li>
-            
-                <li><a href="../classes/GradeType.html">GradeType</a></li>
-            
-                <li><a href="../classes/Magister.html">Magister</a></li>
-            
-                <li><a href="../classes/MagisterSchool.html">MagisterSchool</a></li>
-            
-                <li><a href="../classes/Message.html">Message</a></li>
-            
-                <li><a href="../classes/MessageFolder.html">MessageFolder</a></li>
-            
-                <li><a href="../classes/Person.html">Person</a></li>
-            
-                <li><a href="../classes/ProfileInfo.html">ProfileInfo</a></li>
-            
-                <li><a href="../classes/StudyGuide.html">StudyGuide</a></li>
-            
-                <li><a href="../classes/StudyGuidePart.html">StudyGuidePart</a></li>
-            
-            </ul>
-
-            <ul id="api-modules" class="apis modules">
-            
-                <li><a href="../modules/Magister.html">Magister</a></li>
-            
-            </ul>
-        </div>
-    </div>
-</div>
-
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/Appointment.html">Appointment</a></li>
+                                <li><a href="../classes/Assignment.html">Assignment</a></li>
+                                <li><a href="../classes/AssignmentVersion.html">AssignmentVersion</a></li>
+                                <li><a href="../classes/Class.html">Class</a></li>
+                                <li><a href="../classes/Course.html">Course</a></li>
+                                <li><a href="../classes/DigitalSchoolUtility.html">DigitalSchoolUtility</a></li>
+                                <li><a href="../classes/File.html">File</a></li>
+                                <li><a href="../classes/FileFolder.html">FileFolder</a></li>
+                                <li><a href="../classes/Grade.html">Grade</a></li>
+                                <li><a href="../classes/GradeType.html">GradeType</a></li>
+                                <li><a href="../classes/Magister.html">Magister</a></li>
+                                <li><a href="../classes/MagisterSchool.html">MagisterSchool</a></li>
+                                <li><a href="../classes/Message.html">Message</a></li>
+                                <li><a href="../classes/MessageFolder.html">MessageFolder</a></li>
+                                <li><a href="../classes/Person.html">Person</a></li>
+                                <li><a href="../classes/ProfileInfo.html">ProfileInfo</a></li>
+                                <li><a href="../classes/StudyGuide.html">StudyGuide</a></li>
+                                <li><a href="../classes/StudyGuidePart.html">StudyGuidePart</a></li>
+                            </ul>
+                
+                            <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/Magister.html">Magister</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="yui3-u-3-4">
                 <div id="api-options">
-        Show:
-        <label for="api-show-inherited">
-            <input type="checkbox" id="api-show-inherited" checked>
-            Inherited
-        </label>
-
-        <label for="api-show-protected">
-            <input type="checkbox" id="api-show-protected">
-            Protected
-        </label>
-
-        <label for="api-show-private">
-            <input type="checkbox" id="api-show-private">
-            Private
-        </label>
-        <label for="api-show-deprecated">
-            <input type="checkbox" id="api-show-deprecated">
-            Deprecated
-        </label>
-
-    </div>
-
-
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>Magister Class</h1>
+<h1>Magister Class</h1>
 <div class="box meta">
-    
 
-    
 
-    
         <div class="foundat">
             Defined in: <a href="../files/Magister.coffee.html#l7"><code>Magister.coffee:7</code></a>
         </div>
-    
 
-    
-        
             Module: <a href="../modules/Magister.html">Magister</a>
-        
-    
 
-    
 </div>
-
 
 
 <div class="box intro">
@@ -148,467 +111,282 @@
 
 </div>
 
-
     <div class="constructor">
         <h2>Constructor</h2>
         <div id="method_Magister" class="method item">
-    <h3 class="name"><code>Magister</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>magisterSchool</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>username</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>password</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code class="optional">[_keepLoggedIn=true]</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
+            <h3 class="name"><code>Magister</code></h3>
+        
+                <div class="args">
+                    <span class="paren">(</span><ul class="args-list inline commas">
+                        <li class="arg">
+                                <code>magisterSchool</code>
+                        </li>
+                        <li class="arg">
+                                <code>username</code>
+                        </li>
+                        <li class="arg">
+                                <code>password</code>
+                        </li>
+                        <li class="arg">
+                                <code class="optional">[_keepLoggedIn=true]</code>
+                        </li>
+                    </ul><span class="paren">)</span>
+                </div>
+        
+        
+        
+        
+        
+        
+        
+        
+            <div class="meta">
+                        <p>
+                        Defined in
+                <a href="../files/Magister.coffee.html#l7"><code>Magister.coffee:7</code></a>
+                </p>
+        
+        
+        
+            </div>
+        
+            <div class="description">
+                
+            </div>
+        
+                <div class="params">
+                    <h4>Parameters:</h4>
+        
+                    <ul class="params-list">
+                        <li class="param">
+                                <code class="param-name">magisterSchool</code>
+                                <span class="type"><a href="../classes/MagisterSchool.html" class="crosslink">MagisterSchool</a> | <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+        
+        
+                            <div class="param-description">
+                                <p>A MagisterSchool to logon to. If this is a String it will use that String as a query to search for a possible school.</p>
+        
+                            </div>
+        
+                        </li>
+                        <li class="param">
+                                <code class="param-name">username</code>
+                                <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+        
+        
+                            <div class="param-description">
+                                <p>The username of the user to login to.</p>
+        
+                            </div>
+        
+                        </li>
+                        <li class="param">
+                                <code class="param-name">password</code>
+                                <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+        
+        
+                            <div class="param-description">
+                                <p>The password of the user to login to.</p>
+        
+                            </div>
+        
+                        </li>
+                        <li class="param">
+                                <code class="param-name optional">[_keepLoggedIn=true]</code>
+                                <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+                                <span class="flag optional" title="This parameter is optional.">optional</span>
+        
+        
+                            <div class="param-description">
+                                <p>Whether or not to keep the user logged in.</p>
+        
+                            </div>
+        
+                        </li>
+                    </ul>
+                </div>
+        
+        
+        
         </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/Magister.coffee.html#l7"><code>Magister.coffee:7</code></a>
-        
-        </p>
-
-
-        
-
-        
     </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">magisterSchool</code>
-                        <span class="type"><a href="../classes/MagisterSchool.html" class="crosslink">MagisterSchool</a> | <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>A MagisterSchool to logon to. If this is a String it will use that String as a query to search for a possible school.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">username</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The username of the user to login to.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">password</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The password of the user to login to.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name optional">[_keepLoggedIn=true]</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>Whether or not to keep the user logged in.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-    </div>
-
 
 <div id="classdocs" class="tabview">
     <ul class="api-class-tabs">
         <li class="api-class-tab index"><a href="#index">Index</a></li>
 
-        
             <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
-        
-        
-        
-        
     </ul>
 
     <div>
         <div id="index" class="api-class-tabpanel index">
             <h2 class="off-left">Item Index</h2>
 
-            
                 <div class="index-section methods">
                     <h3>Methods</h3>
 
                     <ul class="index-list methods">
-                        
                             <li class="index-item method">
                                 <a href="#method_alerts">alerts</a>
 
-                                
-                                
                             </li>
-                        
                             <li class="index-item method">
                                 <a href="#method_appointments">appointments</a>
 
-                                
-                                
                             </li>
-                        
                             <li class="index-item method">
                                 <a href="#method_assignments">assignments</a>
 
-                                
-                                
                             </li>
-                        
                             <li class="index-item method">
                                 <a href="#method_bin">bin</a>
 
-                                
-                                
                             </li>
-                        
+                            <li class="index-item method">
+                                <a href="#method_children">children</a>
+
+                            </li>
                             <li class="index-item method">
                                 <a href="#method_composeAndSendMessage">composeAndSendMessage</a>
 
-                                
-                                
                             </li>
-                        
                             <li class="index-item method">
                                 <a href="#method_courses">courses</a>
 
-                                
-                                
                             </li>
-                        
                             <li class="index-item method">
                                 <a href="#method_digitalSchoolUtilities">digitalSchoolUtilities</a>
 
-                                
-                                
                             </li>
-                        
                             <li class="index-item method">
                                 <a href="#method_fileFolders">fileFolders</a>
 
-                                
-                                
                             </li>
-                        
                             <li class="index-item method">
                                 <a href="#method_fillPersons">fillPersons</a>
 
-                                
-                                
                             </li>
-                        
                             <li class="index-item method">
                                 <a href="#method_getPersons">getPersons</a>
 
-                                
-                                
                             </li>
-                        
                             <li class="index-item method">
                                 <a href="#method_inbox">inbox</a>
 
-                                
-                                
                             </li>
-                        
                             <li class="index-item method">
                                 <a href="#method_messageFolders">messageFolders</a>
 
-                                
-                                
                             </li>
-                        
                             <li class="index-item method">
                                 <a href="#method_profileInfo">profileInfo</a>
 
-                                
-                                
                             </li>
-                        
                             <li class="index-item method">
                                 <a href="#method_ready">ready</a>
 
-                                
-                                
                             </li>
-                        
                             <li class="index-item method deprecated">
                                 <a href="#method_reLogin">reLogin</a>
 
-                                
-                                
                                     <span class="flag deprecated">deprecated</span>
-                                
                             </li>
-                        
                             <li class="index-item method">
                                 <a href="#method_sentItems">sentItems</a>
 
-                                
-                                
                             </li>
-                        
                             <li class="index-item method">
                                 <a href="#method_studyGuides">studyGuides</a>
 
-                                
-                                
                             </li>
-                        
                     </ul>
                 </div>
-            
 
-            
 
-            
 
-            
         </div>
 
-        
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
-                
-                    <div id="method_alerts" class="method item">
+<div id="method_alerts" class="method item">
     <h3 class="name"><code>alerts</code></h3>
 
-    
         <span class="paren">()</span>
-    
 
-    
         <span class="returns-inline">
             <span class="type"><a href="../classes/MessageFolder.html" class="crosslink">MessageFolder</a></span>
         </span>
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
     <div class="meta">
-        
-            
-                
                 <p>
-                
                 Defined in
-                
-            
-        
-        
         <a href="../files/Magister.coffee.html#l140"><code>Magister.coffee:140</code></a>
-        
         </p>
 
 
-        
 
-        
     </div>
 
     <div class="description">
         
     </div>
 
-    
 
-    
         <div class="returns">
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                
-                    
                         <span class="type"><a href="../classes/MessageFolder.html" class="crosslink">MessageFolder</a></span>:
-                    
                     <p>The alerts folder of the current user.</p>
 
-                
             </div>
         </div>
-    
 
-    
+
 </div>
-
-                
-                    <div id="method_appointments" class="method item">
+<div id="method_appointments" class="method item">
     <h3 class="name"><code>appointments</code></h3>
 
-    
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
-            
                 <li class="arg">
-                    
                         <code>from</code>
-                    
                 </li>
-            
                 <li class="arg">
-                    
                         <code class="optional">[to]</code>
-                    
                 </li>
-            
                 <li class="arg">
-                    
-                        <code class="optional">[download=true]</code>
-                    
+                        <code class="optional">[fillPersons=true]</code>
                 </li>
-            
                 <li class="arg">
-                    
                         <code>callback</code>
-                    
                 </li>
-            
             </ul><span class="paren">)</span>
         </div>
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
         <span class="flag async">async</span>
-    
 
     <div class="meta">
-        
-            
-                
                 <p>
-                
                 Defined in
-                
-            
-        
-        
         <a href="../files/Magister.coffee.html#l33"><code>Magister.coffee:33</code></a>
-        
         </p>
 
 
-        
 
-        
     </div>
 
     <div class="description">
@@ -616,192 +394,125 @@
 
     </div>
 
-    
         <div class="params">
             <h4>Parameters:</h4>
 
             <ul class="params-list">
-            
                 <li class="param">
-                    
                         <code class="param-name">from</code>
                         <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Date" class="crosslink external" target="_blank">Date</a></span>
-                    
 
-                    
 
                     <div class="param-description">
                         <p>The start date for the Appointments, you won&#39;t get appointments from before this date.</p>
 
                     </div>
 
-                    
                 </li>
-            
                 <li class="param">
-                    
                         <code class="param-name optional">[to]</code>
                         <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Date" class="crosslink external" target="_blank">Date</a></span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
 
-                    
 
                     <div class="param-description">
                         <p>The end date for the Appointments, you won&#39;t get appointments from after this date.</p>
 
                     </div>
 
-                    
                 </li>
-            
                 <li class="param">
-                    
-                        <code class="param-name optional">[download=true]</code>
+                        <code class="param-name optional">[fillPersons=true]</code>
                         <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
 
-                    
 
                     <div class="param-description">
-                        <p>Whether or not to download the users from the server.</p>
+                        <p>Whether or not to download the full user objects from the server.</p>
 
                     </div>
 
-                    
                 </li>
-            
                 <li class="param">
-                    
                         <code class="param-name">callback</code>
                         <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></span>
-                    
 
-                    
 
                     <div class="param-description">
                         <p>A standard callback.</p>
 
                     </div>
 
-                    
                         <ul class="params-list">
-                            
                             <li class="param">
-                                
                                     <code class="param-name optional">[error]</code>
                                     <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
                                     <span class="flag optional" title="This parameter is optional.">optional</span>
-                                
 
                                 <div class="param-description">
                                     <p>The error, if it exists.</p>
 
                                 </div>
 
-                                
                             </li>
-                            
                             <li class="param">
-                                
                                     <code class="param-name optional">[result]</code>
                                     <span class="type"><a href="../classes/Appointment.html" class="crosslink">Appointment[]</a></span>
                                     <span class="flag optional" title="This parameter is optional.">optional</span>
-                                
 
                                 <div class="param-description">
                                     <p>An array containing the Appointments.</p>
 
                                 </div>
 
-                                
                             </li>
-                            
                         </ul>
-                    
                 </li>
-            
             </ul>
         </div>
-    
 
-    
 
-    
+
 </div>
-
-                
-                    <div id="method_assignments" class="method item">
+<div id="method_assignments" class="method item">
     <h3 class="name"><code>assignments</code></h3>
 
-    
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
-            
                 <li class="arg">
-                    
                         <code class="optional">[amount=50]</code>
-                    
                 </li>
-            
                 <li class="arg">
-                    
                         <code class="optional">[skip=0]</code>
-                    
                 </li>
-            
                 <li class="arg">
-                    
-                        <code class="optional">[download=true]</code>
-                    
+                        <code class="optional">[fillPersons=true]</code>
                 </li>
-            
                 <li class="arg">
-                    
+                        <code class="optional">[fillClass=true]</code>
+                </li>
+                <li class="arg">
                         <code>callback</code>
-                    
                 </li>
-            
             </ul><span class="paren">)</span>
         </div>
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
         <span class="flag async">async</span>
-    
 
     <div class="meta">
-        
-            
-                
                 <p>
-                
                 Defined in
-                
-            
-        
-        
-        <a href="../files/Magister.coffee.html#l315"><code>Magister.coffee:315</code></a>
-        
+        <a href="../files/Magister.coffee.html#l334"><code>Magister.coffee:334</code></a>
         </p>
 
 
-        
 
-        
     </div>
 
     <div class="description">
@@ -809,257 +520,264 @@
 
     </div>
 
-    
         <div class="params">
             <h4>Parameters:</h4>
 
             <ul class="params-list">
-            
                 <li class="param">
-                    
                         <code class="param-name optional">[amount=50]</code>
                         <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
 
-                    
 
                     <div class="param-description">
                         <p>The amount of Assignments to fetch from the server.</p>
 
                     </div>
 
-                    
                 </li>
-            
                 <li class="param">
-                    
                         <code class="param-name optional">[skip=0]</code>
                         <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
 
-                    
 
                     <div class="param-description">
                         <p>The amount of Assignments to skip.</p>
 
                     </div>
 
-                    
                 </li>
-            
                 <li class="param">
-                    
-                        <code class="param-name optional">[download=true]</code>
+                        <code class="param-name optional">[fillPersons=true]</code>
                         <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
 
-                    
 
                     <div class="param-description">
-                        <p>Whether or not to download the users from the server.</p>
+                        <p>Whether or not to download the full user objects from the server.</p>
 
                     </div>
 
-                    
                 </li>
-            
                 <li class="param">
-                    
+                        <code class="param-name optional">[fillClass=true]</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                        <p>Whether or not to download the full class objects from the server. If this is false Assignment.class() will return null.</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
                         <code class="param-name">callback</code>
                         <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></span>
-                    
 
-                    
 
                     <div class="param-description">
                         <p>A standard callback.</p>
 
                     </div>
 
-                    
                         <ul class="params-list">
-                            
                             <li class="param">
-                                
                                     <code class="param-name optional">[error]</code>
                                     <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
                                     <span class="flag optional" title="This parameter is optional.">optional</span>
-                                
 
                                 <div class="param-description">
                                     <p>The error, if it exists.</p>
 
                                 </div>
 
-                                
                             </li>
-                            
                             <li class="param">
-                                
                                     <code class="param-name optional">[result]</code>
                                     <span class="type"><a href="../classes/Assignment.html" class="crosslink">Assignment[]</a></span>
                                     <span class="flag optional" title="This parameter is optional.">optional</span>
-                                
 
                                 <div class="param-description">
                                     <p>An array containing Assignments.</p>
 
                                 </div>
 
-                                
                             </li>
-                            
                         </ul>
-                    
                 </li>
-            
             </ul>
         </div>
-    
 
-    
 
-    
+
 </div>
-
-                
-                    <div id="method_bin" class="method item">
+<div id="method_bin" class="method item">
     <h3 class="name"><code>bin</code></h3>
 
-    
         <span class="paren">()</span>
-    
 
-    
         <span class="returns-inline">
             <span class="type"><a href="../classes/MessageFolder.html" class="crosslink">MessageFolder</a></span>
         </span>
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
     <div class="meta">
-        
-            
-                
                 <p>
-                
                 Defined in
-                
-            
-        
-        
         <a href="../files/Magister.coffee.html#l135"><code>Magister.coffee:135</code></a>
-        
         </p>
 
 
-        
 
-        
     </div>
 
     <div class="description">
         
     </div>
 
-    
 
-    
         <div class="returns">
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                
-                    
                         <span class="type"><a href="../classes/MessageFolder.html" class="crosslink">MessageFolder</a></span>:
-                    
                     <p>The bin of the current user.</p>
 
-                
             </div>
         </div>
-    
 
-    
+
 </div>
+<div id="method_children" class="method item">
+    <h3 class="name"><code>children</code></h3>
 
-                
-                    <div id="method_composeAndSendMessage" class="method item">
-    <h3 class="name"><code>composeAndSendMessage</code></h3>
-
-    
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
-            
                 <li class="arg">
-                    
-                        <code>subject</code>
-                    
+                        <code>callback</code>
                 </li>
-            
                 <li class="arg">
-                    
-                        <code class="optional">[body]</code>
-                    
+                        <code>callback</code>
                 </li>
-            
-                <li class="arg">
-                    
-                        <code>recipients</code>
-                    
-                </li>
-            
             </ul><span class="paren">)</span>
         </div>
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
     <div class="meta">
-        
-            
-                
                 <p>
-                
                 Defined in
-                
-            
-        
-        
-        <a href="../files/Magister.coffee.html#l262"><code>Magister.coffee:262</code></a>
-        
+        <a href="../files/Magister.coffee.html#l446"><code>Magister.coffee:446</code></a>
         </p>
 
 
-        
 
-        
+    </div>
+
+    <div class="description">
+        <p>Returns the children of the current user.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">callback</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">callback</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></span>
+
+
+                    <div class="param-description">
+                        <p>A standard callback.</p>
+
+                    </div>
+
+                        <ul class="params-list">
+                            <li class="param">
+                                    <code class="param-name optional">[]</code>
+                                    <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+
+                                <div class="param-description">
+                                    <p>The error, if it exists.</p>
+
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name optional">[]</code>
+                                    <span class="type"><a href="../classes/ProfileInfo.html" class="crosslink">ProfileInfo[]</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+
+                                <div class="param-description">
+                                    <p>An array containing ProfileInfo instances.</p>
+
+                                </div>
+
+                            </li>
+                        </ul>
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_composeAndSendMessage" class="method item">
+    <h3 class="name"><code>composeAndSendMessage</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>subject</code>
+                </li>
+                <li class="arg">
+                        <code class="optional">[body]</code>
+                </li>
+                <li class="arg">
+                        <code>recipients</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/Magister.coffee.html#l261"><code>Magister.coffee:261</code></a>
+        </p>
+
+
+
     </div>
 
     <div class="description">
@@ -1067,123 +785,77 @@
 
     </div>
 
-    
         <div class="params">
             <h4>Parameters:</h4>
 
             <ul class="params-list">
-            
                 <li class="param">
-                    
                         <code class="param-name">subject</code>
                         <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-                    
 
-                    
 
                     <div class="param-description">
                         <p>The subject of the message</p>
 
                     </div>
 
-                    
                 </li>
-            
                 <li class="param">
-                    
                         <code class="param-name optional">[body]</code>
                         <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
 
-                    
 
                     <div class="param-description">
                         <p>The body of the message, if none is given the body will be empty.</p>
 
                     </div>
 
-                    
                 </li>
-            
                 <li class="param">
-                    
                         <code class="param-name">recipients</code>
                         <span class="type"><a href="../classes/Person.html" class="crosslink">Person[]</a> | <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String[]</a> | <a href="../classes/Person.html" class="crosslink">Person</a> | <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-                    
 
-                    
 
                     <div class="param-description">
                         <p>The recipient(s) the message will be sent to.</p>
 
                     </div>
 
-                    
                 </li>
-            
             </ul>
         </div>
-    
 
-    
 
-    
+
 </div>
-
-                
-                    <div id="method_courses" class="method item">
+<div id="method_courses" class="method item">
     <h3 class="name"><code>courses</code></h3>
 
-    
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
-            
                 <li class="arg">
-                    
                         <code>callback</code>
-                    
                 </li>
-            
             </ul><span class="paren">)</span>
         </div>
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
         <span class="flag async">async</span>
-    
 
     <div class="meta">
-        
-            
-                
                 <p>
-                
                 Defined in
-                
-            
-        
-        
         <a href="../files/Magister.coffee.html#l146"><code>Magister.coffee:146</code></a>
-        
         </p>
 
 
-        
 
-        
     </div>
 
     <div class="description">
@@ -1191,124 +863,78 @@
 
     </div>
 
-    
         <div class="params">
             <h4>Parameters:</h4>
 
             <ul class="params-list">
-            
                 <li class="param">
-                    
                         <code class="param-name">callback</code>
                         <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></span>
-                    
 
-                    
 
                     <div class="param-description">
                         <p>A standard callback.</p>
 
                     </div>
 
-                    
                         <ul class="params-list">
-                            
                             <li class="param">
-                                
                                     <code class="param-name optional">[error]</code>
                                     <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
                                     <span class="flag optional" title="This parameter is optional.">optional</span>
-                                
 
                                 <div class="param-description">
                                     <p>The error, if it exists.</p>
 
                                 </div>
 
-                                
                             </li>
-                            
                             <li class="param">
-                                
                                     <code class="param-name optional">[result]</code>
                                     <span class="type"><a href="../classes/Course.html" class="crosslink">Course[]</a></span>
                                     <span class="flag optional" title="This parameter is optional.">optional</span>
-                                
 
                                 <div class="param-description">
                                     <p>An array containing the Courses.</p>
 
                                 </div>
 
-                                
                             </li>
-                            
                         </ul>
-                    
                 </li>
-            
             </ul>
         </div>
-    
 
-    
 
-    
+
 </div>
-
-                
-                    <div id="method_digitalSchoolUtilities" class="method item">
+<div id="method_digitalSchoolUtilities" class="method item">
     <h3 class="name"><code>digitalSchoolUtilities</code></h3>
 
-    
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
-            
                 <li class="arg">
-                    
                         <code>callback</code>
-                    
                 </li>
-            
             </ul><span class="paren">)</span>
         </div>
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
         <span class="flag async">async</span>
-    
 
     <div class="meta">
-        
-            
-                
                 <p>
-                
                 Defined in
-                
-            
-        
-        
-        <a href="../files/Magister.coffee.html#l367"><code>Magister.coffee:367</code></a>
-        
+        <a href="../files/Magister.coffee.html#l392"><code>Magister.coffee:392</code></a>
         </p>
 
 
-        
 
-        
     </div>
 
     <div class="description">
@@ -1316,124 +942,78 @@
 
     </div>
 
-    
         <div class="params">
             <h4>Parameters:</h4>
 
             <ul class="params-list">
-            
                 <li class="param">
-                    
                         <code class="param-name">callback</code>
                         <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></span>
-                    
 
-                    
 
                     <div class="param-description">
                         <p>A standard callback.</p>
 
                     </div>
 
-                    
                         <ul class="params-list">
-                            
                             <li class="param">
-                                
                                     <code class="param-name optional">[error]</code>
                                     <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
                                     <span class="flag optional" title="This parameter is optional.">optional</span>
-                                
 
                                 <div class="param-description">
                                     <p>The error, if it exists.</p>
 
                                 </div>
 
-                                
                             </li>
-                            
                             <li class="param">
-                                
                                     <code class="param-name optional">[result]</code>
                                     <span class="type"><a href="../classes/DigitalSchoolUtility.html" class="crosslink">DigitalSchoolUtility[]</a></span>
                                     <span class="flag optional" title="This parameter is optional.">optional</span>
-                                
 
                                 <div class="param-description">
                                     <p>An array containing DigitalSchoolUtilities.</p>
 
                                 </div>
 
-                                
                             </li>
-                            
                         </ul>
-                    
                 </li>
-            
             </ul>
         </div>
-    
 
-    
 
-    
+
 </div>
-
-                
-                    <div id="method_fileFolders" class="method item">
+<div id="method_fileFolders" class="method item">
     <h3 class="name"><code>fileFolders</code></h3>
 
-    
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
-            
                 <li class="arg">
-                    
                         <code>callback</code>
-                    
                 </li>
-            
             </ul><span class="paren">)</span>
         </div>
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
         <span class="flag async">async</span>
-    
 
     <div class="meta">
-        
-            
-                
                 <p>
-                
                 Defined in
-                
-            
-        
-        
-        <a href="../files/Magister.coffee.html#l283"><code>Magister.coffee:283</code></a>
-        
+        <a href="../files/Magister.coffee.html#l282"><code>Magister.coffee:282</code></a>
         </p>
 
 
-        
 
-        
     </div>
 
     <div class="description">
@@ -1441,136 +1021,84 @@
 
     </div>
 
-    
         <div class="params">
             <h4>Parameters:</h4>
 
             <ul class="params-list">
-            
                 <li class="param">
-                    
                         <code class="param-name">callback</code>
                         <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></span>
-                    
 
-                    
 
                     <div class="param-description">
                         <p>A standard callback.</p>
 
                     </div>
 
-                    
                         <ul class="params-list">
-                            
                             <li class="param">
-                                
                                     <code class="param-name optional">[error]</code>
                                     <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
                                     <span class="flag optional" title="This parameter is optional.">optional</span>
-                                
 
                                 <div class="param-description">
                                     <p>The error, if it exists.</p>
 
                                 </div>
 
-                                
                             </li>
-                            
                             <li class="param">
-                                
                                     <code class="param-name optional">[result]</code>
                                     <span class="type"><a href="../classes/FileFolder.html" class="crosslink">FileFolder[]</a></span>
                                     <span class="flag optional" title="This parameter is optional.">optional</span>
-                                
 
                                 <div class="param-description">
                                     <p>An array containing FileFolders.</p>
 
                                 </div>
 
-                                
                             </li>
-                            
                         </ul>
-                    
                 </li>
-            
             </ul>
         </div>
-    
 
-    
 
-    
+
 </div>
-
-                
-                    <div id="method_fillPersons" class="method item">
+<div id="method_fillPersons" class="method item">
     <h3 class="name"><code>fillPersons</code></h3>
 
-    
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
-            
                 <li class="arg">
-                    
                         <code>persons</code>
-                    
                 </li>
-            
                 <li class="arg">
-                    
                         <code>callback</code>
-                    
                 </li>
-            
                 <li class="arg">
-                    
                         <code class="optional">[overwriteType]</code>
-                    
                 </li>
-            
             </ul><span class="paren">)</span>
         </div>
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
         <span class="flag async">async</span>
-    
 
     <div class="meta">
-        
-            
-                
                 <p>
-                
                 Defined in
-                
-            
-        
-        
-        <a href="../files/Magister.coffee.html#l221"><code>Magister.coffee:221</code></a>
-        
+        <a href="../files/Magister.coffee.html#l220"><code>Magister.coffee:220</code></a>
         </p>
 
 
-        
 
-        
     </div>
 
     <div class="description">
@@ -1578,169 +1106,107 @@
 
     </div>
 
-    
         <div class="params">
             <h4>Parameters:</h4>
 
             <ul class="params-list">
-            
                 <li class="param">
-                    
                         <code class="param-name">persons</code>
                         <span class="type"><a href="../classes/Person.html" class="crosslink">Person</a> | <a href="../classes/Person.html" class="crosslink">Person[]</a></span>
-                    
 
-                    
 
                     <div class="param-description">
                         <p>A Person or an Array of Persons to fetch more information for.</p>
 
                     </div>
 
-                    
                 </li>
-            
                 <li class="param">
-                    
                         <code class="param-name">callback</code>
                         <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></span>
-                    
 
-                    
 
                     <div class="param-description">
                         <p>A standard callback.</p>
 
                     </div>
 
-                    
                         <ul class="params-list">
-                            
                             <li class="param">
-                                
                                     <code class="param-name optional">[error]</code>
                                     <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
                                     <span class="flag optional" title="This parameter is optional.">optional</span>
-                                
 
                                 <div class="param-description">
                                     <p>The error, if it exists.</p>
 
                                 </div>
 
-                                
                             </li>
-                            
                             <li class="param">
-                                
                                     <code class="param-name optional">[result]</code>
                                     <span class="type"><a href="../classes/Person.html" class="crosslink">Person</a> | <a href="../classes/Person.html" class="crosslink">Person[]</a></span>
                                     <span class="flag optional" title="This parameter is optional.">optional</span>
-                                
 
                                 <div class="param-description">
                                     <p>A fetched person or an array containing the fetched Persons, according to the type of the given persons parameter.</p>
 
                                 </div>
 
-                                
                             </li>
-                            
                         </ul>
-                    
                 </li>
-            
                 <li class="param">
-                    
                         <code class="param-name optional">[overwriteType]</code>
                         <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a> | <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
 
-                    
 
                     <div class="param-description">
                         <p>Not recommended. Forces the type used to search the persons for.</p>
 
                     </div>
 
-                    
                 </li>
-            
             </ul>
         </div>
-    
 
-    
 
-    
+
 </div>
-
-                
-                    <div id="method_getPersons" class="method item">
+<div id="method_getPersons" class="method item">
     <h3 class="name"><code>getPersons</code></h3>
 
-    
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
-            
                 <li class="arg">
-                    
                         <code>query</code>
-                    
                 </li>
-            
                 <li class="arg">
-                    
                         <code class="optional">[type]</code>
-                    
                 </li>
-            
                 <li class="arg">
-                    
                         <code>callback</code>
-                    
                 </li>
-            
             </ul><span class="paren">)</span>
         </div>
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
         <span class="flag async">async</span>
-    
 
     <div class="meta">
-        
-            
-                
                 <p>
-                
                 Defined in
-                
-            
-        
-        
         <a href="../files/Magister.coffee.html#l168"><code>Magister.coffee:168</code></a>
-        
         </p>
 
 
-        
 
-        
     </div>
 
     <div class="description">
@@ -1748,237 +1214,148 @@
 
     </div>
 
-    
         <div class="params">
             <h4>Parameters:</h4>
 
             <ul class="params-list">
-            
                 <li class="param">
-                    
                         <code class="param-name">query</code>
                         <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-                    
 
-                    
 
                     <div class="param-description">
                         <p>The query the persons must match to (e.g: Surname, Name, ...). Should at least be 3 chars long.</p>
 
                     </div>
 
-                    
                 </li>
-            
                 <li class="param">
-                    
                         <code class="param-name optional">[type]</code>
                         <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a> | <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
 
-                    
 
                     <div class="param-description">
                         <p>The type the person must have. If none is given it will search for both Teachers and Pupils.</p>
 
                     </div>
 
-                    
                 </li>
-            
                 <li class="param">
-                    
                         <code class="param-name">callback</code>
                         <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></span>
-                    
 
-                    
 
                     <div class="param-description">
                         <p>A standard callback.</p>
 
                     </div>
 
-                    
                         <ul class="params-list">
-                            
                             <li class="param">
-                                
                                     <code class="param-name optional">[error]</code>
                                     <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
                                     <span class="flag optional" title="This parameter is optional.">optional</span>
-                                
 
                                 <div class="param-description">
                                     <p>The error, if it exists.</p>
 
                                 </div>
 
-                                
                             </li>
-                            
                             <li class="param">
-                                
                                     <code class="param-name optional">[result]</code>
                                     <span class="type"><a href="../classes/Person.html" class="crosslink">Person[]</a></span>
                                     <span class="flag optional" title="This parameter is optional.">optional</span>
-                                
 
                                 <div class="param-description">
                                     <p>An array containing the Persons.</p>
 
                                 </div>
 
-                                
                             </li>
-                            
                         </ul>
-                    
                 </li>
-            
             </ul>
         </div>
-    
 
-    
 
-    
+
 </div>
-
-                
-                    <div id="method_inbox" class="method item">
+<div id="method_inbox" class="method item">
     <h3 class="name"><code>inbox</code></h3>
 
-    
         <span class="paren">()</span>
-    
 
-    
         <span class="returns-inline">
             <span class="type"><a href="../classes/MessageFolder.html" class="crosslink">MessageFolder</a></span>
         </span>
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
     <div class="meta">
-        
-            
-                
                 <p>
-                
                 Defined in
-                
-            
-        
-        
         <a href="../files/Magister.coffee.html#l125"><code>Magister.coffee:125</code></a>
-        
         </p>
 
 
-        
 
-        
     </div>
 
     <div class="description">
         
     </div>
 
-    
 
-    
         <div class="returns">
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                
-                    
                         <span class="type"><a href="../classes/MessageFolder.html" class="crosslink">MessageFolder</a></span>:
-                    
                     <p>The inbox of the current user.</p>
 
-                
             </div>
         </div>
-    
 
-    
+
 </div>
-
-                
-                    <div id="method_messageFolders" class="method item">
+<div id="method_messageFolders" class="method item">
     <h3 class="name"><code>messageFolders</code></h3>
 
-    
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
-            
                 <li class="arg">
-                    
                         <code class="optional">[query]</code>
-                    
                 </li>
-            
                 <li class="arg">
-                    
                         <code class="optional">[callback]</code>
-                    
                 </li>
-            
             </ul><span class="paren">)</span>
         </div>
-    
 
-    
         <span class="returns-inline">
             <span class="type"><a href="../classes/MessageFolder.html" class="crosslink">MessageFolder[]</a></span>
         </span>
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
     <div class="meta">
-        
-            
-                
                 <p>
-                
                 Defined in
-                
-            
-        
-        
         <a href="../files/Magister.coffee.html#l105"><code>Magister.coffee:105</code></a>
-        
         </p>
 
 
-        
 
-        
     </div>
 
     <div class="description">
@@ -1986,158 +1363,102 @@
 
     </div>
 
-    
         <div class="params">
             <h4>Parameters:</h4>
 
             <ul class="params-list">
-            
                 <li class="param">
-                    
                         <code class="param-name optional">[query]</code>
                         <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
 
-                    
 
                     <div class="param-description">
                         <p>A case insensetive query the MessageFolder need to match.</p>
 
                     </div>
 
-                    
                 </li>
-            
                 <li class="param">
-                    
                         <code class="param-name optional">[callback]</code>
                         <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
 
-                    
 
                     <div class="param-description">
                         <p>Not useful at all, just here to prevent possible mistakes.</p>
 
                     </div>
 
-                    
                         <ul class="params-list">
-                            
                             <li class="param">
-                                
                                     <code class="param-name optional">[error]</code>
                                     <span class="type">Null</span>
                                     <span class="flag optional" title="This parameter is optional.">optional</span>
-                                
 
                                 <div class="param-description">
                                     <p>Will always be null</p>
 
                                 </div>
 
-                                
                             </li>
-                            
                             <li class="param">
-                                
                                     <code class="param-name optional">[result]</code>
                                     <span class="type"><a href="../classes/MessageFolder.html" class="crosslink">MessageFolder[]</a></span>
                                     <span class="flag optional" title="This parameter is optional.">optional</span>
-                                
 
                                 <div class="param-description">
                                     <p>An array containing the matching MessageFolders.</p>
 
                                 </div>
 
-                                
                             </li>
-                            
                         </ul>
-                    
                 </li>
-            
             </ul>
         </div>
-    
 
-    
         <div class="returns">
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                
-                    
                         <span class="type"><a href="../classes/MessageFolder.html" class="crosslink">MessageFolder[]</a></span>:
-                    
                     <p>An array containing the matching messageFolders.</p>
 
-                
             </div>
         </div>
-    
 
-    
+
 </div>
-
-                
-                    <div id="method_profileInfo" class="method item">
+<div id="method_profileInfo" class="method item">
     <h3 class="name"><code>profileInfo</code></h3>
 
-    
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
-            
                 <li class="arg">
-                    
                         <code class="optional">[callback]</code>
-                    
                 </li>
-            
             </ul><span class="paren">)</span>
         </div>
-    
 
-    
         <span class="returns-inline">
             <span class="type"><a href="../classes/ProfileInfo.html" class="crosslink">ProfileInfo</a></span>
         </span>
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
     <div class="meta">
-        
-            
-                
                 <p>
-                
                 Defined in
-                
-            
-        
-        
-        <a href="../files/Magister.coffee.html#l406"><code>Magister.coffee:406</code></a>
-        
+        <a href="../files/Magister.coffee.html#l431"><code>Magister.coffee:431</code></a>
         </p>
 
 
-        
 
-        
     </div>
 
     <div class="description">
@@ -2145,141 +1466,90 @@
 
     </div>
 
-    
         <div class="params">
             <h4>Parameters:</h4>
 
             <ul class="params-list">
-            
                 <li class="param">
-                    
                         <code class="param-name optional">[callback]</code>
                         <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
 
-                    
 
                     <div class="param-description">
                         <p>Not useful at all, just here to prevent possible mistakes.</p>
 
                     </div>
 
-                    
                         <ul class="params-list">
-                            
                             <li class="param">
-                                
                                     <code class="param-name optional">[error]</code>
                                     <span class="type">Null</span>
                                     <span class="flag optional" title="This parameter is optional.">optional</span>
-                                
 
                                 <div class="param-description">
                                     <p>Will always be null</p>
 
                                 </div>
 
-                                
                             </li>
-                            
                             <li class="param">
-                                
                                     <code class="param-name optional">[result]</code>
                                     <span class="type"><a href="../classes/ProfileInfo.html" class="crosslink">ProfileInfo</a></span>
                                     <span class="flag optional" title="This parameter is optional.">optional</span>
-                                
 
                                 <div class="param-description">
                                     <p>The profile of the current logged in user.</p>
 
                                 </div>
 
-                                
                             </li>
-                            
                         </ul>
-                    
                 </li>
-            
             </ul>
         </div>
-    
 
-    
         <div class="returns">
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                
-                    
                         <span class="type"><a href="../classes/ProfileInfo.html" class="crosslink">ProfileInfo</a></span>:
-                    
                     <p>The profile of the current logged in user.</p>
 
-                
             </div>
         </div>
-    
 
-    
+
 </div>
-
-                
-                    <div id="method_ready" class="method item">
+<div id="method_ready" class="method item">
     <h3 class="name"><code>ready</code></h3>
 
-    
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
-            
                 <li class="arg">
-                    
                         <code class="optional">[callback]</code>
-                    
                 </li>
-            
             </ul><span class="paren">)</span>
         </div>
-    
 
-    
         <span class="returns-inline">
             <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
         </span>
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
     <div class="meta">
-        
-            
-                
                 <p>
-                
                 Defined in
-                
-            
-        
-        
-        <a href="../files/Magister.coffee.html#l421"><code>Magister.coffee:421</code></a>
-        
+        <a href="../files/Magister.coffee.html#l482"><code>Magister.coffee:482</code></a>
         </p>
 
 
-        
 
-        
     </div>
 
     <div class="description">
@@ -2288,113 +1558,81 @@
 
     </div>
 
-    
         <div class="params">
             <h4>Parameters:</h4>
 
             <ul class="params-list">
-            
                 <li class="param">
-                    
                         <code class="param-name optional">[callback]</code>
                         <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
 
-                    
 
                     <div class="param-description">
                         <p>The callback which will be called if the current instance is done logging in.</p>
 
                     </div>
 
-                    
                         <ul class="params-list">
-                            
                             <li class="param">
-                                
-                                    <code class="param-name">magister</code>
-                                    <span class="type"><a href="../classes/Magister.html" class="crosslink">Magister</a></span>
-                                
+                                    <code class="param-name optional">[error]</code>
+                                    <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
 
                                 <div class="param-description">
-                                    <p>The current Magister instance.</p>
+                                    <p>A error that occured when logging onto Magister, if it exists.</p>
 
                                 </div>
 
-                                
                             </li>
-                            
+                            <li class="param">
+                                    <code class="param-name">this</code>
+                                    <span class="type"><a href="../classes/Magister.html" class="crosslink">Magister</a></span>
+
+                                <div class="param-description">
+                                    <p>The current Magister object.</p>
+
+                                </div>
+
+                            </li>
                         </ul>
-                    
                 </li>
-            
             </ul>
         </div>
-    
 
-    
         <div class="returns">
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                
-                    
                         <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>:
-                    
                     <p>Whether or not the current Magister instance is done logging in.</p>
 
-                
             </div>
         </div>
-    
 
-    
+
 </div>
-
-                
-                    <div id="method_reLogin" class="method item deprecated">
+<div id="method_reLogin" class="method item deprecated">
     <h3 class="name"><code>reLogin</code></h3>
 
-    
         <span class="paren">()</span>
-    
 
-    
 
-    
         <span class="flag deprecated">deprecated</span>
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
     <div class="meta">
-        
-            
-                
                 <p>
-                
                 Defined in
-                
-            
-        
-        
-        <a href="../files/Magister.coffee.html#l446"><code>Magister.coffee:446</code></a>
-        
+        <a href="../files/Magister.coffee.html#l513"><code>Magister.coffee:513</code></a>
         </p>
 
 
-        
 
-        
     </div>
 
     <div class="description">
@@ -2403,138 +1641,82 @@
 
     </div>
 
-    
 
-    
 
-    
+
 </div>
-
-                
-                    <div id="method_sentItems" class="method item">
+<div id="method_sentItems" class="method item">
     <h3 class="name"><code>sentItems</code></h3>
 
-    
         <span class="paren">()</span>
-    
 
-    
         <span class="returns-inline">
             <span class="type"><a href="../classes/MessageFolder.html" class="crosslink">MessageFolder</a></span>
         </span>
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
     <div class="meta">
-        
-            
-                
                 <p>
-                
                 Defined in
-                
-            
-        
-        
         <a href="../files/Magister.coffee.html#l130"><code>Magister.coffee:130</code></a>
-        
         </p>
 
 
-        
 
-        
     </div>
 
     <div class="description">
         
     </div>
 
-    
 
-    
         <div class="returns">
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                
-                    
                         <span class="type"><a href="../classes/MessageFolder.html" class="crosslink">MessageFolder</a></span>:
-                    
                     <p>The sent items folder of the current user.</p>
 
-                
             </div>
         </div>
-    
 
-    
+
 </div>
-
-                
-                    <div id="method_studyGuides" class="method item">
+<div id="method_studyGuides" class="method item">
     <h3 class="name"><code>studyGuides</code></h3>
 
-    
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
-            
                 <li class="arg">
-                    
-                        <code>callback</code>
-                    
+                        <code class="optional">[fillClass=true]</code>
                 </li>
-            
+                <li class="arg">
+                        <code>callback</code>
+                </li>
             </ul><span class="paren">)</span>
         </div>
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
         <span class="flag async">async</span>
-    
 
     <div class="meta">
-        
-            
-                
                 <p>
-                
                 Defined in
-                
-            
-        
-        
-        <a href="../files/Magister.coffee.html#l299"><code>Magister.coffee:299</code></a>
-        
+        <a href="../files/Magister.coffee.html#l298"><code>Magister.coffee:298</code></a>
         </p>
 
 
-        
 
-        
     </div>
 
     <div class="description">
@@ -2542,83 +1724,69 @@
 
     </div>
 
-    
         <div class="params">
             <h4>Parameters:</h4>
 
             <ul class="params-list">
-            
                 <li class="param">
-                    
+                        <code class="param-name optional">[fillClass=true]</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                        <p>Whether or not to download the full class objects from the server. If this is false StudyGuide.class() will return null.</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
                         <code class="param-name">callback</code>
                         <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></span>
-                    
 
-                    
 
                     <div class="param-description">
                         <p>A standard callback.</p>
 
                     </div>
 
-                    
                         <ul class="params-list">
-                            
                             <li class="param">
-                                
                                     <code class="param-name optional">[error]</code>
                                     <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
                                     <span class="flag optional" title="This parameter is optional.">optional</span>
-                                
 
                                 <div class="param-description">
                                     <p>The error, if it exists.</p>
 
                                 </div>
 
-                                
                             </li>
-                            
                             <li class="param">
-                                
                                     <code class="param-name optional">[result]</code>
                                     <span class="type"><a href="../classes/StudyGuide.html" class="crosslink">StudyGuide[]</a></span>
                                     <span class="flag optional" title="This parameter is optional.">optional</span>
-                                
 
                                 <div class="param-description">
                                     <p>An array containing StudyGuides.</p>
 
                                 </div>
 
-                                
                             </li>
-                            
                         </ul>
-                    
                 </li>
-            
             </ul>
         </div>
-    
 
-    
 
-    
+
 </div>
-
-                
             </div>
-        
 
-        
 
-        
 
-        
     </div>
 </div>
-
                     </div>
                 </div>
             </div>
