@@ -93,6 +93,30 @@ class @Grade
 		###
 		@weight = _getset "_weight"
 
+	###*
+	# Downloads extra info, if it's not downloaded yet and fills the current grade with it.
+	#
+	# @method fillGrade
+	# @param callback {Function} A standard callback.
+	# 	@param [callback.error] {Object} The error, if it exists.
+	# 	@param [callback.result] {Grade} The current grade filled with the newely downloaded info.
+	###
+	fillGrade: (callback) ->
+		unless @_filled
+			@_magisterObj.http.get @_columnUrl, {}, (error, result) =>
+				if error? then callback? error, null
+				else
+					result = EJSON.parse(result.content)
+					@_description = result.WerkInformatieOmschrijving
+					@_weight = result.Weging
+
+					@_type._level = result.KolomNiveau
+					@_type._description = result.KolomOmschrijving
+
+					@_filled = yes
+					callback? null, @
+		else callback? null, @
+
 	@_convertRaw: (magisterObj, raw) ->
 		obj = new Grade magisterObj
 
@@ -113,9 +137,15 @@ class @Grade
 		obj._atLaterDate = raw.Inhalen
 		obj._exemption = raw.Vrijstelling
 		obj._counts = raw.TeltMee
-		obj._type = GradeType._convertRaw magisterObj, raw.CijferKolom
+
+		if raw.CijferKolom?
+			obj._type = GradeType._convertRaw magisterObj, raw.CijferKolom
+
 		obj._assignmentId = raw.CijferKolomIdEloOpdracht
-		obj._teacher = raw.teacher
+
+		obj._teacher = Person._convertRaw magisterObj, Docentcode: raw.Docent
+		obj._teacher._type = 3
+
 		obj._classExemption = raw.VakDispensatie or raw.VakVrijstelling
 
 		# Should be filled in later by Course::grades(...)

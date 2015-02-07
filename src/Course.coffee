@@ -156,17 +156,23 @@ class @Course
 	#
 	# @method grades
 	# @async
-	# @param [download=true] {Boolean} Whether or not to download the users from the server.
+	# @param [fillPersons=true] {Boolean} Whether or not to download the full user objects from the server.
+	# @param [fillGrade=true] {Boolean} Whether or not to download the full grade info should be downloaded from the server. If this is set to false some properties will be not be set or have incorrect values.
+	# @param [onlyRecent=false] {Boolean} If true this method will only fetch the grades filled in between 7 days ago and now.
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
 	# 	@param [callback.result] {Grade[]} An array containing the Grades.
 	###
 	grades: ->
-		download = _.find(arguments, (a) -> _.isBoolean a) ? yes
+		[fillPersons, fillGrade, onlyRecent] = _.filter arguments, (a) -> _.isBoolean a
 		callback = _.find(arguments, (a) -> _.isFunction a)
 		throw new Error "Callback can't be null" unless callback?
 
-		@_magisterObj.http.get @_gradesUrl, {}, (error, result) =>
+		fillPersons ?= yes
+		fillGrade ?= yes
+		onlyRecent ?= no
+
+		@_magisterObj.http.get (if onlyRecent then @_gradesUrlPrefix else @_gradesUrl), {}, (error, result) =>
 			if error?
 				callback error, null
 			else
@@ -176,32 +182,26 @@ class @Course
 						for g in _.filter(r, (g) -> g.class().id() is c.id())
 							g._class = c
 
-					callback null, r
+					callback null, _.sortBy r, (g) -> g.dateFilledIn()
 
-				for g in result
-					do (g) =>
-						g.teacher = Person._convertRaw @_magisterObj, Docentcode: g.Docent
-						g.teacher._type = 3
+				for raw in result
+					do (raw) =>
+						g = Grade._convertRaw @_magisterObj, raw
+						g._columnUrl = @_columnUrlPrefix + raw.CijferKolom?.Id
 
-						@_magisterObj.http.get @_columnUrl + g.CijferKolom.Id, {}, (error, result) =>
-							g = Grade._convertRaw @_magisterObj, g, @_gradesUrlPrefix
+						push = _helpers.asyncResultWaiter 2, -> pushResult g
 
-							if error?
-								callback error, null
-							else
-								result = EJSON.parse(result.content)
-								g._description = result.WerkInformatieOmschrijving
-								g._weight = result.Weging
+						if fillPersons and not onlyRecent
+							@_magisterObj.getPersons g.Docent, 3, (e, r) ->
+								unless e? or !r[0]? then g._teacher = r[0]
+								push()
+						else push()
 
-								g._type._level = result.KolomNiveau
-								g._type._description = result.KolomOmschrijving
-
-								if download
-									@_magisterObj.getPersons g.Docent, 3, (e, r) ->
-										unless e? or !r[0]? then g._teacher = r[0]
-										pushResult g
-								else pushResult g
-
+						if fillGrade and not onlyRecent
+							g.fillGrade (e, r) ->
+								if e? then callback e, null
+								else push()
+						else push()
 
 	@_convertRaw: (magisterObj, raw) ->
 		obj = new Course magisterObj
@@ -210,7 +210,7 @@ class @Course
 
 		obj._gradesUrlPrefix = magisterObj._personUrl + "/aanmeldingen/#{raw.Id}/cijfers"
 		obj._gradesUrl = obj._gradesUrlPrefix + "/cijferoverzichtvooraanmelding?actievePerioden=false&alleenBerekendeKolommen=false&alleenPTAKolommen=false"
-		obj._columnUrl = obj._gradesUrlPrefix + "/extracijferkolominfo/"
+		obj._columnUrlPrefix = obj._gradesUrlPrefix + "/extracijferkolominfo/"
 
 		obj._id = raw.Id
 		obj._begin = new Date Date.parse raw.Start
