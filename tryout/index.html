@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<title>Magister.js TryOut.</title>
-		<link href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,700" rel="stylesheet" type="text/css"/>
+		<link href="http://fonts.googleapis.com/css?family=Roboto:100" rel="stylesheet" type="text/css"/>
 		<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
 		<script src="https://code.jquery.com/jquery-2.1.1.min.js" type="application/javascript" defer></script>
 		<script src="ace-builds/src-min/ace.js" type="text/javascript" charset="utf-8" defer></script>
@@ -11,15 +11,16 @@
 		<script src="js/index.js" type="application/javascript" defer></script>
 		<link href="css/index.css" rel="stylesheet"/>
 	</head>
-	
+
 	<body>
 		<h1>Try Magister.js for <span style="color: red;">FREE</span>!</h1>
-		
+
 <div id="editor">// First parameter should be a query as String (e.g "Adelbert") or { url: String } (e.g { url: "https://adelbert.magister.net" })
-new Magister("&lt;schoolname&gt;", "&lt;username&gt;", "&lt;password&gt;").ready(function (m) {
-    alert("Hey, " + m.profileInfo().firstName() + "!");
+new Magister("&lt;schoolname&gt;", "&lt;username&gt;", "&lt;password&gt;").ready(function (error) {
+    if (error) console.log("ouch. ", error);
+    else alert("Hey, " + this.profileInfo().firstName() + "!");
 });</div>
-			
+
 		<div id="buttonContainer">
 			<input type="button" class="btn btn-success" value="RUN!" id="runButton"/>
 		</div>

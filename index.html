@@ -5,12 +5,12 @@
         <link href="css/index.css" rel="stylesheet"/>
         <link href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,700" rel="stylesheet" type="text/css"/>
         <link href="css/prism.css" rel="stylesheet" type="text/css"/>
-		
+
 		<script src="https://code.jquery.com/jquery-2.1.1.min.js" type="application/javascript" defer></script>
 		<script src="js/index.js" defer></script>
 		<script src="js/prism.js"></script>
     </head>
-    
+
     <body>
 		<div class="head">
 			<h1>Magister.js</h1>
@@ -21,34 +21,34 @@
 			The goal is to create an easy to use and open way to communicate with Magister.<br><br>
 			Help by making pull requests and issues at <a href="https://github.com/simplyGits/magisterJS">the Magister.js repo</a>.<br>
 			Code is <a href="docs/index.html">documented</a> with YUIDoc.<br><br>
-			
+
 			<a href="tryout/index.html">Try Magister.js in your browser!</a><br><br>
 
 			<div class="subHeading">Get started</div>
-			
+
 			<div class="platformTitle">Node.js</div>
 			<pre><code class="language-markup" >npm install magister.js</code></pre>
-		
+
 			<div class="platformTitle">Meteor</div>
 			<pre><code class="language-markup" >meteor add simply:magisterjs</code></pre>
 			<div class="platformTitle">Browserside</div>
 			<pre class="language-markup"><a href="https://github.com/simplyGits/MagisterJS/raw/master/Magister.js.zip" download>Download minified JS with README</a></pre>
-						
+
 			<br><br><div class="subHeading">Examples</div><br>
-			
+
 			<div class="codeExampleDescription" style="margin-top: 5px;">Log the full name of the teacher for the first lesson of today.</div>
-			<pre><code class="language-javascript" >new Magister({ url: "https://adelbert.magister.net" }, "xxxx", "xxxxx").ready(function (m) {
-	m.appointments( new Date(), function (error, result) {
+			<pre><code class="language-javascript" >new Magister({ url: "https://adelbert.magister.net" }, "xxxx", "xxxxx").ready(function () {
+	this.appointments( new Date(), function (error, result) {
 		console.log(result[0].teachers[0].fullName());
 	});
 });</code></pre>
 			<div class="codeExampleDescription">Send a message to my 'friends', I.. I... don't have friends..</div>
-			<pre><code class="language-javascript" >new Magister({ url: "https://adelbert.magister.net" }, "xxxx", "xxxxx").ready(function (m) {
-	m.composeAndSendMessage("subject", "body", ["Thomas", "Tom", "Jesse"]);
+			<pre><code class="language-javascript" >new Magister({ url: "https://adelbert.magister.net" }, "xxxx", "xxxxx").ready(function () {
+	this.composeAndSendMessage("subject", "body", ["Thomas", "Tom", "Jesse"]);
 });</code></pre>
 			<div class="codeExampleDescription">Download the first File in the first FileFolder from Magister.</div>
-			<pre><code class="language-javascript" >new Magister({ url: "https://adelbert.magister.net" }, "xxxx", "xxxxx").ready(function (m) {
-	m.fileFolders(function (error, result) {
+			<pre><code class="language-javascript" >new Magister({ url: "https://adelbert.magister.net" }, "xxxx", "xxxxx").ready(function () {
+	this.fileFolders(function (error, result) {
 		result[0].files(function (error, result) {
 			result[0].download();
 		});
