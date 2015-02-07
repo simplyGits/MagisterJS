@@ -44,6 +44,12 @@ class @StudyGuide
 		# @type Boolean
 		###
 		@archived = _getset "_archived"
+		###*
+		# @property class
+		# @final
+		# @type Class
+		###
+		@class = _getset "_class"
 
 	###*
 	# Get the parts of this StudyGuide.
@@ -75,6 +81,7 @@ class @StudyGuide
 		obj._from = new Date Date.parse raw.Van
 		obj._to = new Date Date.parse raw.TotEnMet
 		obj._classCodes = raw.VakCodes
+		obj._class = raw.VakCodes[0]
 		obj._name = raw.Titel
 		obj._archived = raw.InLeerlingArchief
 

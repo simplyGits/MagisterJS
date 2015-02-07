@@ -236,7 +236,7 @@ class @Magister
 				callback null, []
 				return undefined
 			pushResult = _helpers.asyncResultWaiter persons.length, (r) -> callback null, r
-			
+
 			for p in persons
 				try
 					@getPersons _.last(p.fullName().split " "), (p._type ? overwriteType), (e, r) ->
@@ -300,6 +300,7 @@ class @Magister
 	#
 	# @method studyGuides
 	# @async
+	# @param [fillClass=true] {Boolean} Whether or not to download the full class objects from the server. If this is false StudyGuide.class() will return null.
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
 	# 	@param [callback.result] {StudyGuide[]} An array containing StudyGuides.
@@ -307,9 +308,28 @@ class @Magister
 	studyGuides: (callback) ->
 		@_forceReady()
 
-		@http.get "#{@_pupilUrl}/studiewijzers?peildatum=#{_helpers.urlDateConvert new Date}", {}, (error, result) =>
-			if error? then callback error, null
-			else callback null, ( StudyGuide._convertRaw @, s for s in EJSON.parse(result.content).Items )
+		fillClass = _.find(arguments, (a) -> _.isBoolean a) ? yes
+		callback = _.find arguments, (a) -> _.isFunction a
+
+		if fillClass
+			@courses (e, r) ->
+				if r? and r.length isnt 0
+					r[0].classes (e, r) ->
+						if r? and r.length isnt 0 then cb r
+						else cb()
+				else cb()
+		else cb()
+		cb = (classes) =>
+			@http.get "#{@_pupilUrl}/studiewijzers?peildatum=#{_helpers.urlDateConvert new Date}", {}, (error, result) =>
+				if error? then callback error, null
+				else
+					result = ( StudyGuide._convertRaw @, s for s in EJSON.parse(result.content).Items )
+
+					for studyGuide in result then do (studyGuide) ->
+						if classes? then studyGuide._class = _.find classes, (c) -> c.abbreviation() is studyGuide._class
+						else studyGuide._class = null
+
+					callback null, result
 
 	###*
 	# Gets the Assignments for the current user.
@@ -319,6 +339,7 @@ class @Magister
 	# @param [amount=50] {Number} The amount of Assignments to fetch from the server.
 	# @param [skip=0] {Number} The amount of Assignments to skip.
 	# @param [fillPersons=true] {Boolean} Whether or not to download the full user objects from the server.
+	# @param [fillClass=true] {Boolean} Whether or not to download the full class objects from the server. If this is false Assignment.class() will return null.
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
 	# 	@param [callback.result] {Assignment[]} An array containing Assignments.
@@ -327,20 +348,23 @@ class @Magister
 		@_forceReady()
 
 		[amount, skip] = _.filter arguments, (a) -> _.isNumber a
-		download = _.find arguments, (a) -> _.isBoolean a
+		[fillPersons, fillClass] = _.filter arguments, (a) -> _.isBoolean a
 		callback = _.find arguments, (a) -> _.isFunction a
 
 		return unless callback?
-		download ?= yes
+		fillPersons ?= yes
+		fillClass ?= yes
 		amount ?= 50
 		skip ?= 0
 
-		@courses (e, r) ->
-			if r? and r.length isnt 0
-				r[0].classes (e, r) ->
-					if r? and r.length isnt 0 then cb r
-					else cb()
-			else cb()
+		if fillClass
+			@courses (e, r) ->
+				if r? and r.length isnt 0
+					r[0].classes (e, r) ->
+						if r? and r.length isnt 0 then cb r
+						else cb()
+				else cb()
+		else cb()
 		cb = (classes) =>
 			@http.get "#{@_personUrl}/opdrachten?skip=#{skip}&top=#{amount}&status=alle", {}, (error, result) =>
 				if error? then callback error, null
@@ -353,8 +377,9 @@ class @Magister
 							assignment = Assignment._convertRaw @, EJSON.parse(result.content)
 
 							if classes? then assignment._class = _.find classes, (c) -> c.abbreviation() is assignment._class
+							else assignment._class = null
 
-							if download
+							if fillPersons
 								teachers = assignment.teachers() ? []
 
 								@fillPersons teachers, ((e, r) ->
@@ -391,7 +416,7 @@ class @Magister
 			if r? and r.length isnt 0
 				_.last(r).classes (e, r) ->
 					classes = r if r? and r.length isnt 0
-			
+
 			@http.get url, {}, (error, result) =>
 				if error? then callback error, null
 				else
@@ -414,7 +439,7 @@ class @Magister
 	###
 	profileInfo: (callback) ->
 		@_forceReady()
-		
+
 		callback? null, @_profileInfo
 		return @_profileInfo
 
