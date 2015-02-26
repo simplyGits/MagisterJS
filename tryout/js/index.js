@@ -13,9 +13,6 @@ $(function () {
 	});
 
 	editor.on("change", function () { // Leave warning when file is edited.
-		window.onbeforeunload = function () {
-			if (exitWarning) return "You've edited the file.";
-		}
+		window.onbeforeunload = function () { return "You've edited the file."; }
 	});
 });
-
