@@ -96,7 +96,7 @@ class @Person
 		obj._id = raw.Id
 		obj._namePrefix = raw.Tussenvoegsel
 		obj._fullName = raw.Naam
-		obj._description = raw.Omschrijving ? raw.Naam
+		obj._description = raw.Omschrijving ? raw.Naam ? raw.naam
 		obj._group = raw.Groep
 		obj._teacherCode = raw.Docentcode
 		obj._emailAddress = raw.Emailadres
@@ -117,12 +117,12 @@ class @Person
 					when "project" then 8
 
 					else throw new Error "Invalid value: \"#{original}\"."
-		
+
 		else
 			switch original
 				when 1 then "group"
 				when 3 then "teacher"
 				when 4 then "pupil"
 				when 8 then "project"
-				
+
 				else undefined

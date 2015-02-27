@@ -203,6 +203,38 @@ class @Course
 								else push()
 						else push()
 
+	###*
+	# Gets the perosnal tutor of the current user for this Course.
+	#
+	# @method getPersonalTutor
+	# @param callback {Function} A standard callback.
+	# 	@param [callback.error] {Object} The error, if it exists.
+	# 	@param [callback.result] {Person} The tutor as a Person object.
+	###
+	getPersonalTutor: (callback) ->
+		throw new Error "Callback can't be null" unless callback?
+
+		@_magisterObj.http.get "#{@_magisterObj._personUrl}/aanmeldingen/#{@_id}/mentor", {}, (error, result) =>
+			if error? then callback error, null
+			else callback null, Person._convertRaw @_magisterObj, EJSON.parse result.content
+
+	###*
+	# Gets the (group / class) tutors.
+	#
+	# @method getOtherTutors
+	# @param callback {Function} A standard callback.
+	# 	@param [callback.error] {Object} The error, if it exists.
+	# 	@param [callback.result] {Person} The tutor as a Person object.
+	###
+	getOtherTutors: (callback) =>
+		throw new Error "Callback can't be null" unless callback?
+
+		@_magisterObj.http.get "#{@_magisterObj._personUrl}/aanmeldingen/#{@_id}/mentor", {}, (error, result) =>
+			if error? then callback error, null
+			else
+				items = EJSON.parse(result.content).items # Really SchoolMaster, get consistent with using da capz.
+				callback null, (Person._convertRaw @_magisterObj, p for p in items)
+
 	@_convertRaw: (magisterObj, raw) ->
 		obj = new Course magisterObj
 
