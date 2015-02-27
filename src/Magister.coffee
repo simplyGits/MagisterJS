@@ -426,6 +426,7 @@ class @Magister
 	#
 	# @method digitalSchoolUtilities
 	# @async
+	# @param [fillClass=true] {Boolean} Whether or not to download the full class objects from the server. If this is false .class() will return a limited class object.
 	# @fixme /NOT WORKING/ (Weird ID mismatch) @param [class] {Class|Number} The class or ID of a class to get the Digital school utitlities for. If none is given it will return every DigitalSchoolUtility.
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
@@ -434,8 +435,8 @@ class @Magister
 	digitalSchoolUtilities: ->
 		@_forceReady()
 
+		fillClass = _.find(arguments, (a) -> _.isBoolean a) ? yes
 		#_class = _.find arguments, (a) -> _.isNumber a or _.isObject a
-
 		callback = _.find arguments, (a) -> _.isFunction a
 		return unless callback?
 
@@ -443,12 +444,7 @@ class @Magister
 
 		url = if _class? then "#{@_personUrl}/lesmateriaal?vakken=#{_class}" else "#{@_personUrl}/lesmateriaal"
 
-		classes = null
-		@courses (e, r) =>
-			if r? and r.length isnt 0
-				_.last(r).classes (e, r) ->
-					classes = r if r? and r.length isnt 0
-
+		cb = (classes) =>
 			@http.get url, {}, (error, result) =>
 				if error? then callback error, null
 				else
@@ -458,7 +454,17 @@ class @Magister
 						do (u) ->
 							u._class = _.find classes, (c) -> c.abbreviation() is u._class.Afkorting and c.description() is u._class.Omschrijving
 
+					else for u in utilities
+						do (u) => u._class = Class._convertRaw @, u._class
+
 					callback null, utilities
+
+		if fillClass
+			@courses (e, r) ->
+				if r? and r.length isnt 0
+					_.last(r).classes (e, r) ->
+						cb r
+		else cb()
 
 	###*
 	# Returns the profile for the current logged in user.
