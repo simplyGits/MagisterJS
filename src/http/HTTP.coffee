@@ -36,13 +36,3 @@ class @MagisterHttp
 		original ?= {}
 		original.headers = if @_cookie isnt "" then _.extend (original.headers ? {}), { cookie: @_cookie } else original.headers ? {}
 		return original
-###
-	================
-	 jQuery Example
-	================
-
-	get: (url, options = {}, callback) ->
-		$
-			.get url, options, (r) -> callback null, { content: r }
-			.fail (e) -> callback e, null
-###
