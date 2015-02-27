@@ -94,14 +94,13 @@ class @ProfileInfo
 	# @param [crop=false] Whether or not to crop the image.
 	# @return {String} The URL to the picture, including the given options.
 	###
-	profilePicture: (width = 640, height = 640, crop = no) -> "#{@_profilePicture}?width=#{width}&height=#{height}&crop=#{crop}"
+	profilePicture: (width = 640, height = 640, crop = no) -> "#{@_magisterObj._personUrl}/foto?width=#{width}&height=#{height}&crop=#{crop}"
+
 
 	@_convertRaw: (magisterObj, raw) ->
-		foto = magisterObj.magisterSchool.url + _.find(raw.Links, Rel: "Foto").Href
-
 		raw = raw.Persoon
 		obj = new ProfileInfo magisterObj, raw.Roepnaam, raw.Achternaam, new Date Date.parse raw.Geboortedatum
-		
+
 		obj._id = raw.Id
 		obj._officialFirstNames = raw.OfficieleVoornamen
 		obj._initials = raw.Voorletters
