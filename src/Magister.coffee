@@ -164,6 +164,36 @@ class @Magister
 					result = EJSON.parse result.content
 					callback null, _.sortBy((Course._convertRaw(@, c) for c in result.Items), (c) -> c.begin()).reverse()
 
+	###*
+	# Gets limited course info for the current Course for the current User.
+	#
+	# This is quicker than `courses`, however it's not as consistent and
+	# doesn't really fit in Magister.js's style, however if you know what
+	# you're doing and you're willing to use this, go ahead.
+	#
+	# @method getLimitedCurrentCourseInfo
+	# @async
+	# @deprecated `courses` is prefered.
+	# @param callback {Function} A standard callback.
+	# 	@param [callback.error] {Object} The error, if it exists.
+	# 	@param [callback.result] {Object} The limited course info.
+	###
+	getLimitedCurrentCourseInfo: (callback) ->
+		@_forceReady()
+		url = "#{@_personUrl}/opleidinggegevensprofiel"
+
+		@http.get url, {}, (error, result) ->
+			if error? then callback error, null
+			else
+				parsed = EJSON.parse result.content
+				callback null,
+					group: parsed.Klas
+					profile: pared.Profielen # It says 'profielen' but I really have no idea how multiple profiles are shown in a String...
+					pupilId: pared.StamNr # Should be the same as `@userName` AFAIK.
+					type:
+						year: +/\d+/.exec(Parsed.Studie)[0]
+						schoolVariant: /[^\d\s]+/.exec(Parsed.Studie)[0]
+
 	@_cachedPersons: {}
 	###*
 	# Gets an Array of Persons that matches the given profile.
