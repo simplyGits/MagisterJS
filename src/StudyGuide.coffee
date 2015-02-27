@@ -126,7 +126,7 @@ class @StudyGuidePart
 		# @final
 		# @type String
 		###
-		@description = _getset "_description", null, (x) -> if x? then x.replace(/<br ?\/?>/g, "\n").replace(/(<[^>]*>)|(&nbsp;)/g, "") else x
+		@description = _getset "_description", null, (x) -> if x? then x.replace(/<br ?\/?>/g, "\n").replace(/(<[^>]*>)|(&nbsp;)/g, "").replace(/&amp;/ig, "&") else x
 		###*
 		# @property visible
 		# @final
