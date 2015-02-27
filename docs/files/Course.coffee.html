@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.1.7</em>
+            <em>API Docs for: 1.2.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -43,6 +43,7 @@
                                 <li><a href="../classes/AssignmentVersion.html">AssignmentVersion</a></li>
                                 <li><a href="../classes/Class.html">Class</a></li>
                                 <li><a href="../classes/Course.html">Course</a></li>
+                                <li><a href="../classes/DetailedProfileInfo.html">DetailedProfileInfo</a></li>
                                 <li><a href="../classes/DigitalSchoolUtility.html">DigitalSchoolUtility</a></li>
                                 <li><a href="../classes/File.html">File</a></li>
                                 <li><a href="../classes/FileFolder.html">FileFolder</a></li>
@@ -159,12 +160,12 @@ class @Class
 	@_convertRaw: (magisterObj, raw) -&gt;
 		obj = new Class magisterObj
 
-		obj._id = raw.id
+		obj._id = raw.id ? raw.Id
 		obj._beginDate = new Date Date.parse raw.begindatum
 		obj._endDate = new Date Date.parse raw.einddatum
-		obj._abbreviation = raw.afkorting
-		obj._description = raw.omschrijving
-		obj._number = raw.volgnr
+		obj._abbreviation = raw.afkorting ? raw.Afkorting
+		obj._description = raw.omschrijving ? raw.Omschrijving
+		obj._number = raw.volgnr ? raw.Volgnr
 		obj._teacher = Person._convertRaw magisterObj, Docentcode: raw.docent
 		obj._classExemption = raw.VakDispensatie or raw.VakVrijstelling
 
@@ -302,10 +303,42 @@ class @Course
 								else push()
 						else push()
 
+	###*
+	# Gets the perosnal tutor of the current user for this Course.
+	#
+	# @method getPersonalTutor
+	# @param callback {Function} A standard callback.
+	# 	@param [callback.error] {Object} The error, if it exists.
+	# 	@param [callback.result] {Person} The tutor as a Person object.
+	###
+	getPersonalTutor: (callback) -&gt;
+		throw new Error &quot;Callback can&#x27;t be null&quot; unless callback?
+
+		@_magisterObj.http.get &quot;#{@_magisterObj._personUrl}/aanmeldingen/#{@_id}/mentor&quot;, {}, (error, result) =&gt;
+			if error? then callback error, null
+			else callback null, Person._convertRaw @_magisterObj, EJSON.parse result.content
+
+	###*
+	# Gets the (group / class) tutors.
+	#
+	# @method getOtherTutors
+	# @param callback {Function} A standard callback.
+	# 	@param [callback.error] {Object} The error, if it exists.
+	# 	@param [callback.result] {Person} The tutor as a Person object.
+	###
+	getOtherTutors: (callback) =&gt;
+		throw new Error &quot;Callback can&#x27;t be null&quot; unless callback?
+
+		@_magisterObj.http.get &quot;#{@_magisterObj._personUrl}/aanmeldingen/#{@_id}/mentor&quot;, {}, (error, result) =&gt;
+			if error? then callback error, null
+			else
+				items = EJSON.parse(result.content).items # Really SchoolMaster, get consistent with using da capz.
+				callback null, (Person._convertRaw @_magisterObj, p for p in items)
+
 	@_convertRaw: (magisterObj, raw) -&gt;
 		obj = new Course magisterObj
 
-		obj._classesUrl = magisterObj.magisterSchool.url + _.find(raw.Links, Rel: &quot;Vakken&quot;).Href
+		obj._classesUrl = magisterObj._personUrl + &quot;/aanmeldingen/#{raw.Id}/vakken&quot;
 
 		obj._gradesUrlPrefix = magisterObj._personUrl + &quot;/aanmeldingen/#{raw.Id}/cijfers&quot;
 		obj._gradesUrl = obj._gradesUrlPrefix + &quot;/cijferoverzichtvooraanmelding?actievePerioden=false&amp;alleenBerekendeKolommen=false&amp;alleenPTAKolommen=false&quot;

@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.1.7</em>
+            <em>API Docs for: 1.2.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -43,6 +43,7 @@
                                 <li><a href="../classes/AssignmentVersion.html">AssignmentVersion</a></li>
                                 <li><a href="../classes/Class.html">Class</a></li>
                                 <li><a href="../classes/Course.html">Course</a></li>
+                                <li><a href="../classes/DetailedProfileInfo.html">DetailedProfileInfo</a></li>
                                 <li><a href="../classes/DigitalSchoolUtility.html">DigitalSchoolUtility</a></li>
                                 <li><a href="../classes/File.html">File</a></li>
                                 <li><a href="../classes/FileFolder.html">FileFolder</a></li>
@@ -193,14 +194,32 @@ class @ProfileInfo
 	# @param [crop=false] Whether or not to crop the image.
 	# @return {String} The URL to the picture, including the given options.
 	###
-	profilePicture: (width = 640, height = 640, crop = no) -&gt; &quot;#{@_profilePicture}?width=#{width}&amp;height=#{height}&amp;crop=#{crop}&quot;
+	profilePicture: (width = 640, height = 640, crop = no) -&gt; &quot;#{@_magisterObj._personUrl}/foto?width=#{width}&amp;height=#{height}&amp;crop=#{crop}&quot;
+
+	###*
+	# Fetch more detailedInfo of the current User.
+	#
+	# @method detailedInfo
+	# @param callback {Function} A standard callback.
+	# 	@param [callback.error] {Object} The error, if it exists.
+	# 	@param [callback.result] {DetailedProfileInfo} The detailed profile info of the current User.
+	###
+	detailedInfo: (callback) -&gt;
+		unless callback? then throw new Error &quot;&#x60;callback&#x60; is required.&quot;
+		push = _helpers.asyncResultWaiter 2, (r) -&gt; callback null, DetailedProfileInfo._convertRaw _.extend r[0], r[1]
+
+		@_magisterObj.http.get &quot;#{@_magisterObj._personUrl}/profiel&quot;, {}, (e, r) -&gt;
+			if e? then callback e, null
+			else push EJSON.parse r.content
+
+		@_magisterObj.http.get &quot;#{@_magisterObj._personUrl}/adresprofiel&quot;, {}, (e, r) -&gt;
+			if e? then callback e, null
+			else push EJSON.parse r.content
 
 	@_convertRaw: (magisterObj, raw) -&gt;
-		foto = magisterObj.magisterSchool.url + _.find(raw.Links, Rel: &quot;Foto&quot;).Href
-
 		raw = raw.Persoon
 		obj = new ProfileInfo magisterObj, raw.Roepnaam, raw.Achternaam, new Date Date.parse raw.Geboortedatum
-		
+
 		obj._id = raw.Id
 		obj._officialFirstNames = raw.OfficieleVoornamen
 		obj._initials = raw.Voorletters
@@ -209,9 +228,87 @@ class @ProfileInfo
 		obj._birthSurname = raw.GeboorteAchternaam
 		obj._birthNamePrefix = raw.GeboortenaamTussenvoegsel
 		obj._useBirthname = raw.GebruikGeboortenaam
-		obj._profilePicture = foto
 
 		return obj
+
+###*
+# More detailed information of the logged in user. Or a child.
+#
+# @class DetailedProfileInfo
+# @private
+# @constructor
+###
+class @DetailedProfileInfo
+	constructor: -&gt;
+		###*
+		# @property redirectMagisterMessages
+		# @final
+		# @type Boolean
+		###
+		@redirectMagisterMessages = _getset &quot;_redirectMagisterMessages&quot;
+		###*
+		# @property emailAddress
+		# @final
+		# @type String
+		###
+		@emailAddress = _getset &quot;_emailAddress&quot;
+		###*
+		# @property mobileNumber
+		# @final
+		# @type String
+		###
+		@mobileNumber = _getset &quot;_mobileNumber&quot;
+		###*
+		# @property postalCode
+		# @final
+		# @type String
+		###
+		@postalCode = _getset &quot;_postalCode&quot;
+		###*
+		# @property street
+		# @final
+		# @type String
+		###
+		@street = _getset &quot;_street&quot;
+		###*
+		# @property houseNumber
+		# @final
+		# @type Number
+		###
+		@houseNumber = _getset &quot;_houseNumber&quot;
+		###*
+		# String behind the &#x60;houseNumber&#x60; (eg &#x27;A&#x27;)
+		#
+		# @property suffix
+		# @final
+		# @type String
+		###
+		@suffix = _getset &quot;_suffix&quot;
+		###*
+		# @property city
+		# @final
+		# @type String
+		###
+		@city = _getset &quot;_city&quot;
+
+	@_convertRaw: -&gt;
+		# Normally &#x60;_convertRaw&#x60; functions require 2 params.
+		raw = arguments[if arguments.length is 2 then 1 else 0]
+
+		obj = new DetailedProfileInfo
+
+		obj._redirectMagisterMessages = raw.EloBerichtenDoorsturen
+		obj._emailAddress = raw.EmailAdres
+		obj._mobileNumber = raw.Mobiel
+
+		obj._postalCode = raw.Postcode
+		obj._street = raw.Straatnaam
+		obj._houseNumber = raw.Huisnummer
+		obj._suffix = raw.Toevoeging
+		obj._city = raw.Woonplaats
+
+		return obj
+
     </pre>
 </div>
                     </div>

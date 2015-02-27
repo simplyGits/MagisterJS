@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.1.7</em>
+            <em>API Docs for: 1.2.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -43,6 +43,7 @@
                                 <li><a href="../classes/AssignmentVersion.html">AssignmentVersion</a></li>
                                 <li><a href="../classes/Class.html">Class</a></li>
                                 <li><a href="../classes/Course.html">Course</a></li>
+                                <li><a href="../classes/DetailedProfileInfo.html">DetailedProfileInfo</a></li>
                                 <li><a href="../classes/DigitalSchoolUtility.html">DigitalSchoolUtility</a></li>
                                 <li><a href="../classes/File.html">File</a></li>
                                 <li><a href="../classes/FileFolder.html">FileFolder</a></li>
@@ -263,6 +264,36 @@ class @Magister
 					result = EJSON.parse result.content
 					callback null, _.sortBy((Course._convertRaw(@, c) for c in result.Items), (c) -&gt; c.begin()).reverse()
 
+	###*
+	# Gets limited course info for the current Course for the current User.
+	#
+	# This is quicker than &#x60;courses&#x60;, however it&#x27;s not as consistent and
+	# doesn&#x27;t really fit in Magister.js&#x27;s style, however if you know what
+	# you&#x27;re doing and you&#x27;re willing to use this, go ahead.
+	#
+	# @method getLimitedCurrentCourseInfo
+	# @async
+	# @deprecated &#x60;courses&#x60; is prefered.
+	# @param callback {Function} A standard callback.
+	# 	@param [callback.error] {Object} The error, if it exists.
+	# 	@param [callback.result] {Object} The limited course info.
+	###
+	getLimitedCurrentCourseInfo: (callback) -&gt;
+		@_forceReady()
+		url = &quot;#{@_personUrl}/opleidinggegevensprofiel&quot;
+
+		@http.get url, {}, (error, result) -&gt;
+			if error? then callback error, null
+			else
+				parsed = EJSON.parse result.content
+				callback null,
+					group: parsed.Klas
+					profile: pared.Profielen # It says &#x27;profielen&#x27; but I really have no idea how multiple profiles are shown in a String...
+					pupilId: pared.StamNr # Should be the same as &#x60;@userName&#x60; AFAIK.
+					type:
+						year: +/\d+/.exec(Parsed.Studie)[0]
+						schoolVariant: /[^\d\s]+/.exec(Parsed.Studie)[0]
+
 	@_cachedPersons: {}
 	###*
 	# Gets an Array of Persons that matches the given profile.
@@ -410,14 +441,6 @@ class @Magister
 		fillClass = _.find(arguments, (a) -&gt; _.isBoolean a) ? yes
 		callback = _.find arguments, (a) -&gt; _.isFunction a
 
-		if fillClass
-			@courses (e, r) -&gt;
-				if r? and r.length isnt 0
-					r[0].classes (e, r) -&gt;
-						if r? and r.length isnt 0 then cb r
-						else cb()
-				else cb()
-		else cb()
 		cb = (classes) =&gt;
 			@http.get &quot;#{@_pupilUrl}/studiewijzers?peildatum=#{_helpers.urlDateConvert new Date}&quot;, {}, (error, result) =&gt;
 				if error? then callback error, null
@@ -429,6 +452,15 @@ class @Magister
 						else studyGuide._class = null
 
 					callback null, result
+
+		if fillClass
+			@courses (e, r) -&gt;
+				if r? and r.length isnt 0
+					r[0].classes (e, r) -&gt;
+						if r? and r.length isnt 0 then cb r
+						else cb()
+				else cb()
+		else cb()
 
 	###*
 	# Gets the Assignments for the current user.
@@ -456,14 +488,6 @@ class @Magister
 		amount ?= 50
 		skip ?= 0
 
-		if fillClass
-			@courses (e, r) -&gt;
-				if r? and r.length isnt 0
-					r[0].classes (e, r) -&gt;
-						if r? and r.length isnt 0 then cb r
-						else cb()
-				else cb()
-		else cb()
 		cb = (classes) =&gt;
 			@http.get &quot;#{@_personUrl}/opdrachten?skip=#{skip}&amp;top=#{amount}&amp;status=alle&quot;, {}, (error, result) =&gt;
 				if error? then callback error, null
@@ -488,11 +512,21 @@ class @Magister
 
 							else pushResult assignment
 
+		if fillClass
+			@courses (e, r) -&gt;
+				if r? and r.length isnt 0
+					r[0].classes (e, r) -&gt;
+						if r? and r.length isnt 0 then cb r
+						else cb()
+				else cb()
+		else cb()
+
 	###*
 	# Gets the Digital school utilities for the current user.
 	#
 	# @method digitalSchoolUtilities
 	# @async
+	# @param [fillClass=true] {Boolean} Whether or not to download the full class objects from the server. If this is false .class() will return a limited class object.
 	# @fixme /NOT WORKING/ (Weird ID mismatch) @param [class] {Class|Number} The class or ID of a class to get the Digital school utitlities for. If none is given it will return every DigitalSchoolUtility.
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
@@ -501,8 +535,8 @@ class @Magister
 	digitalSchoolUtilities: -&gt;
 		@_forceReady()
 
+		fillClass = _.find(arguments, (a) -&gt; _.isBoolean a) ? yes
 		#_class = _.find arguments, (a) -&gt; _.isNumber a or _.isObject a
-
 		callback = _.find arguments, (a) -&gt; _.isFunction a
 		return unless callback?
 
@@ -510,12 +544,7 @@ class @Magister
 
 		url = if _class? then &quot;#{@_personUrl}/lesmateriaal?vakken=#{_class}&quot; else &quot;#{@_personUrl}/lesmateriaal&quot;
 
-		classes = null
-		@courses (e, r) =&gt;
-			if r? and r.length isnt 0
-				_.last(r).classes (e, r) -&gt;
-					classes = r if r? and r.length isnt 0
-
+		cb = (classes) =&gt;
 			@http.get url, {}, (error, result) =&gt;
 				if error? then callback error, null
 				else
@@ -525,7 +554,17 @@ class @Magister
 						do (u) -&gt;
 							u._class = _.find classes, (c) -&gt; c.abbreviation() is u._class.Afkorting and c.description() is u._class.Omschrijving
 
+					else for u in utilities
+						do (u) =&gt; u._class = Class._convertRaw @, u._class
+
 					callback null, utilities
+
+		if fillClass
+			@courses (e, r) -&gt;
+				if r? and r.length isnt 0
+					_.last(r).classes (e, r) -&gt;
+						cb r
+		else cb()
 
 	###*
 	# Returns the profile for the current logged in user.

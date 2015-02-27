@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.1.7</em>
+            <em>API Docs for: 1.2.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -43,6 +43,7 @@
                                 <li><a href="../classes/AssignmentVersion.html">AssignmentVersion</a></li>
                                 <li><a href="../classes/Class.html">Class</a></li>
                                 <li><a href="../classes/Course.html">Course</a></li>
+                                <li><a href="../classes/DetailedProfileInfo.html">DetailedProfileInfo</a></li>
                                 <li><a href="../classes/DigitalSchoolUtility.html">DigitalSchoolUtility</a></li>
                                 <li><a href="../classes/File.html">File</a></li>
                                 <li><a href="../classes/FileFolder.html">FileFolder</a></li>
@@ -195,7 +196,7 @@ class @Person
 		obj._id = raw.Id
 		obj._namePrefix = raw.Tussenvoegsel
 		obj._fullName = raw.Naam
-		obj._description = raw.Omschrijving ? raw.Naam
+		obj._description = raw.Omschrijving ? raw.Naam ? raw.naam
 		obj._group = raw.Groep
 		obj._teacherCode = raw.Docentcode
 		obj._emailAddress = raw.Emailadres
@@ -216,15 +217,16 @@ class @Person
 					when &quot;project&quot; then 8
 
 					else throw new Error &quot;Invalid value: \&quot;#{original}\&quot;.&quot;
-		
+
 		else
 			switch original
 				when 1 then &quot;group&quot;
 				when 3 then &quot;teacher&quot;
 				when 4 then &quot;pupil&quot;
 				when 8 then &quot;project&quot;
-				
+
 				else undefined
+
     </pre>
 </div>
                     </div>

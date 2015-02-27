@@ -2,7 +2,7 @@
     "project": {
         "name": "Magister.js Docs",
         "description": "A JavaScript implementation of the Magister 6 API.",
-        "version": "1.1.7",
+        "version": "1.2.0",
         "url": "http://simplyGits.github.io/MagisterJS",
         "logo": "http://i.imgur.com/Lrg80ax.png"
     },
@@ -107,7 +107,8 @@
             "name": "ProfileInfo.coffee",
             "modules": {},
             "classes": {
-                "ProfileInfo": 1
+                "ProfileInfo": 1,
+                "DetailedProfileInfo": 1
             },
             "fors": {},
             "namespaces": {}
@@ -152,6 +153,7 @@
                 "MessageFolder": 1,
                 "Person": 1,
                 "ProfileInfo": 1,
+                "DetailedProfileInfo": 1,
                 "MagisterSchool": 1,
                 "StudyGuide": 1,
                 "StudyGuidePart": 1
@@ -557,6 +559,23 @@
                     "type": "Date"
                 }
             ],
+            "is_constructor": 1
+        },
+        "DetailedProfileInfo": {
+            "name": "DetailedProfileInfo",
+            "shortname": "DetailedProfileInfo",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Magister",
+            "namespace": "",
+            "file": "ProfileInfo.coffee",
+            "line": 134,
+            "description": "More detailed information of the logged in user. Or a child.",
+            "access": "private",
+            "tagname": "",
             "is_constructor": 1
         },
         "MagisterSchool": {
@@ -1356,6 +1375,64 @@
             "class": "Course"
         },
         {
+            "file": "Course.coffee",
+            "line": 206,
+            "description": "Gets the perosnal tutor of the current user for this Course.",
+            "itemtype": "method",
+            "name": "getPersonalTutor",
+            "params": [
+                {
+                    "name": "callback",
+                    "description": "A standard callback.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "error",
+                            "description": "The error, if it exists.",
+                            "type": "Object",
+                            "optional": true
+                        },
+                        {
+                            "name": "result",
+                            "description": "The tutor as a Person object.",
+                            "type": "Person",
+                            "optional": true
+                        }
+                    ]
+                }
+            ],
+            "class": "Course"
+        },
+        {
+            "file": "Course.coffee",
+            "line": 221,
+            "description": "Gets the (group / class) tutors.",
+            "itemtype": "method",
+            "name": "getOtherTutors",
+            "params": [
+                {
+                    "name": "callback",
+                    "description": "A standard callback.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "error",
+                            "description": "The error, if it exists.",
+                            "type": "Object",
+                            "optional": true
+                        },
+                        {
+                            "name": "result",
+                            "description": "The tutor as a Person object.",
+                            "type": "Person",
+                            "optional": true
+                        }
+                    ]
+                }
+            ],
+            "class": "Course"
+        },
+        {
             "file": "DigitalSchoolUtility.coffee",
             "line": 11,
             "itemtype": "property",
@@ -2128,7 +2205,40 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 168,
+            "line": 167,
+            "description": "Gets limited course info for the current Course for the current User.\n\nThis is quicker than `courses`, however it's not as consistent and\ndoesn't really fit in Magister.js's style, however if you know what\nyou're doing and you're willing to use this, go ahead.",
+            "itemtype": "method",
+            "name": "getLimitedCurrentCourseInfo",
+            "async": 1,
+            "deprecated": true,
+            "deprecationMessage": "`courses` is prefered.",
+            "params": [
+                {
+                    "name": "callback",
+                    "description": "A standard callback.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "error",
+                            "description": "The error, if it exists.",
+                            "type": "Object",
+                            "optional": true
+                        },
+                        {
+                            "name": "result",
+                            "description": "The limited course info.",
+                            "type": "Object",
+                            "optional": true
+                        }
+                    ]
+                }
+            ],
+            "class": "Magister",
+            "module": "Magister"
+        },
+        {
+            "file": "Magister.coffee",
+            "line": 198,
             "description": "Gets an Array of Persons that matches the given profile.",
             "itemtype": "method",
             "name": "getPersons",
@@ -2170,7 +2280,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 220,
+            "line": 250,
             "description": "Fills the given person(s) by downloading the person from Magister and replacing the local instance.",
             "itemtype": "method",
             "name": "fillPersons",
@@ -2212,7 +2322,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 261,
+            "line": 291,
             "description": "Shortcut for composing and sending a Message.",
             "itemtype": "method",
             "name": "composeAndSendMessage",
@@ -2239,7 +2349,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 282,
+            "line": 312,
             "description": "Gets the FileFolders of the current user.",
             "itemtype": "method",
             "name": "fileFolders",
@@ -2270,7 +2380,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 298,
+            "line": 328,
             "description": "Gets the StudyGuides of the current user.",
             "itemtype": "method",
             "name": "studyGuides",
@@ -2308,7 +2418,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 334,
+            "line": 365,
             "description": "Gets the Assignments for the current user.",
             "itemtype": "method",
             "name": "assignments",
@@ -2367,13 +2477,19 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 392,
+            "line": 424,
             "description": "Gets the Digital school utilities for the current user.",
             "itemtype": "method",
             "name": "digitalSchoolUtilities",
             "async": 1,
-            "fixme": "/NOT WORKING/ (Weird ID mismatch) @param [class] {Class|Number} The class or ID of a class to get the Digital school utitlities for. If none is given it will return every DigitalSchoolUtility.",
             "params": [
+                {
+                    "name": "fillClass",
+                    "description": "Whether or not to download the full class objects from the server. If this is false .class() will return a limited class object.",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "true"
+                },
                 {
                     "name": "callback",
                     "description": "A standard callback.",
@@ -2394,12 +2510,13 @@
                     ]
                 }
             ],
+            "fixme": "/NOT WORKING/ (Weird ID mismatch) @param [class] {Class|Number} The class or ID of a class to get the Digital school utitlities for. If none is given it will return every DigitalSchoolUtility.",
             "class": "Magister",
             "module": "Magister"
         },
         {
             "file": "Magister.coffee",
-            "line": 431,
+            "line": 469,
             "description": "Returns the profile for the current logged in user.",
             "itemtype": "method",
             "name": "profileInfo",
@@ -2434,7 +2551,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 446,
+            "line": 484,
             "description": "Returns the children of the current user.",
             "itemtype": "method",
             "name": "children",
@@ -2469,7 +2586,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 482,
+            "line": 520,
             "description": "Checks if this Magister instance is done logging in.\n\nYou can also provide a callback, which will be called when this instance is done logging in.",
             "itemtype": "method",
             "name": "ready",
@@ -2503,7 +2620,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 513,
+            "line": 551,
             "description": "(Re-)Login the current Magister instance.\n\nUsually not needed to call manually.",
             "itemtype": "method",
             "name": "reLogin",
@@ -3216,6 +3333,117 @@
             "module": "Magister"
         },
         {
+            "file": "ProfileInfo.coffee",
+            "line": 99,
+            "description": "Fetch more detailedInfo of the current User.",
+            "itemtype": "method",
+            "name": "detailedInfo",
+            "params": [
+                {
+                    "name": "callback",
+                    "description": "A standard callback.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "error",
+                            "description": "The error, if it exists.",
+                            "type": "Object",
+                            "optional": true
+                        },
+                        {
+                            "name": "result",
+                            "description": "The detailed profile info of the current User.",
+                            "type": "DetailedProfileInfo",
+                            "optional": true
+                        }
+                    ]
+                }
+            ],
+            "class": "ProfileInfo",
+            "module": "Magister"
+        },
+        {
+            "file": "ProfileInfo.coffee",
+            "line": 143,
+            "itemtype": "property",
+            "name": "redirectMagisterMessages",
+            "final": 1,
+            "type": "Boolean",
+            "class": "DetailedProfileInfo",
+            "module": "Magister"
+        },
+        {
+            "file": "ProfileInfo.coffee",
+            "line": 149,
+            "itemtype": "property",
+            "name": "emailAddress",
+            "final": 1,
+            "type": "String",
+            "class": "DetailedProfileInfo",
+            "module": "Magister"
+        },
+        {
+            "file": "ProfileInfo.coffee",
+            "line": 155,
+            "itemtype": "property",
+            "name": "mobileNumber",
+            "final": 1,
+            "type": "String",
+            "class": "DetailedProfileInfo",
+            "module": "Magister"
+        },
+        {
+            "file": "ProfileInfo.coffee",
+            "line": 161,
+            "itemtype": "property",
+            "name": "postalCode",
+            "final": 1,
+            "type": "String",
+            "class": "DetailedProfileInfo",
+            "module": "Magister"
+        },
+        {
+            "file": "ProfileInfo.coffee",
+            "line": 167,
+            "itemtype": "property",
+            "name": "street",
+            "final": 1,
+            "type": "String",
+            "class": "DetailedProfileInfo",
+            "module": "Magister"
+        },
+        {
+            "file": "ProfileInfo.coffee",
+            "line": 173,
+            "itemtype": "property",
+            "name": "houseNumber",
+            "final": 1,
+            "type": "Number",
+            "class": "DetailedProfileInfo",
+            "module": "Magister"
+        },
+        {
+            "file": "ProfileInfo.coffee",
+            "line": 179,
+            "description": "String behind the `houseNumber` (eg 'A')",
+            "itemtype": "property",
+            "name": "suffix",
+            "final": 1,
+            "type": "String",
+            "class": "DetailedProfileInfo",
+            "module": "Magister"
+        },
+        {
+            "file": "ProfileInfo.coffee",
+            "line": 187,
+            "itemtype": "property",
+            "name": "city",
+            "final": 1,
+            "type": "String",
+            "class": "DetailedProfileInfo",
+            "module": "Magister"
+        },
+        {
             "file": "School.coffee",
             "line": 10,
             "itemtype": "property",
@@ -3467,7 +3695,7 @@
     "warnings": [
         {
             "message": "unknown tag: fixme",
-            "line": " Magister.coffee:392"
+            "line": " Magister.coffee:424"
         }
     ]
 }

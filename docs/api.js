@@ -6,6 +6,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "AssignmentVersion",
         "Class",
         "Course",
+        "DetailedProfileInfo",
         "DigitalSchoolUtility",
         "File",
         "FileFolder",
