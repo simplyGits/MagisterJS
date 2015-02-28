@@ -39,18 +39,20 @@
 			<div class="codeExampleDescription" style="margin-top: 5px;">Log the full name of the teacher for the first lesson of today.</div>
 			<pre><code class="language-javascript" >new Magister({ url: "https://adelbert.magister.net" }, "xxxx", "xxxxx").ready(function () {
 	this.appointments( new Date(), function (error, result) {
-		console.log(result[0].teachers[0].fullName());
+		console.log(result[0].teachers()[0].fullName());
 	});
 });</code></pre>
 			<div class="codeExampleDescription">Send a message to my 'friends', I.. I... don't have friends..</div>
 			<pre><code class="language-javascript" >new Magister({ url: "https://adelbert.magister.net" }, "xxxx", "xxxxx").ready(function () {
 	this.composeAndSendMessage("subject", "body", ["Thomas", "Tom", "Jesse"]);
 });</code></pre>
-			<div class="codeExampleDescription">Download the first File in the first FileFolder from Magister.</div>
+			<div class="codeExampleDescription">Get recent grades.</div>
 			<pre><code class="language-javascript" >new Magister({ url: "https://adelbert.magister.net" }, "xxxx", "xxxxx").ready(function () {
-	this.fileFolders(function (error, result) {
-		result[0].files(function (error, result) {
-			result[0].download();
+	this.courses(function (error, result) {
+		result[0].grades(true, true, true, function (error, result) {
+			console.log(result.map(function (g) {
+				return g.grade();
+			});
 		});
 	});
 });</code></pre>
