@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.2.0</em>
+            <em>API Docs for: 1.2.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -333,7 +333,7 @@ class @Magister
 			when 8 then &quot;Project&quot;
 
 			else &quot;Overig&quot;
-		url = &quot;#{@_personUrl}/contactpersonen?contactPersoonType=#{type}&amp;q=#{query}&quot;
+		url = &quot;#{@_personUrl}/contactpersonen?contactPersoonType=#{type}&amp;q=#{query.replace /\ +/g, &quot;+&quot;}&quot;
 
 		if (val = Magister._cachedPersons[&quot;#{@_id}#{type}#{query}&quot;])?
 			callback null, val
