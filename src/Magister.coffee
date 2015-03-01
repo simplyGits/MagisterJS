@@ -233,7 +233,7 @@ class @Magister
 			when 8 then "Project"
 
 			else "Overig"
-		url = "#{@_personUrl}/contactpersonen?contactPersoonType=#{type}&q=#{query}"
+		url = "#{@_personUrl}/contactpersonen?contactPersoonType=#{type}&q=#{query.replace /\ +/g, "+"}"
 
 		if (val = Magister._cachedPersons["#{@_id}#{type}#{query}"])?
 			callback null, val
