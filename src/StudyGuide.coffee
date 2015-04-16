@@ -1,3 +1,5 @@
+root = module?.exports ? this
+
 ###*
 # A StudyGuide, containing various Files and Links teachers can put on Magister.
 #
@@ -6,50 +8,50 @@
 # @constructor
 # @param _magisterObj {Magister} A Magister object this StudyGuide is child of.
 ###
-class @StudyGuide
+class root.StudyGuide
 	constructor: (@_magisterObj) ->
 		###*
 		# @property id
 		# @final
 		# @type Number
 		###
-		@id = _getset "_id"
+		@id = root._getset "_id"
 		###*
 		# @property from
 		# @final
 		# @type Date
 		###
-		@from = _getset "_from"
+		@from = root._getset "_from"
 		###*
 		# @property to
 		# @final
 		# @type Date
 		###
-		@to = _getset "_to"
+		@to = root._getset "_to"
 		###*
 		# @property classCodes
 		# @final
 		# @type String[]
 		###
-		@classCodes = _getset "_classCodes"
+		@classCodes = root._getset "_classCodes"
 		###*
 		# @property name
 		# @final
 		# @type String
 		###
-		@name = _getset "_name"
+		@name = root._getset "_name"
 		###*
 		# @property archived
 		# @final
 		# @type Boolean
 		###
-		@archived = _getset "_archived"
+		@archived = root._getset "_archived"
 		###*
 		# @property class
 		# @final
 		# @type Class
 		###
-		@class = _getset "_class"
+		@class = root._getset "_class"
 
 	###*
 	# Get the parts of this StudyGuide.
@@ -67,15 +69,15 @@ class @StudyGuide
 			if error? then callback error, null
 			else
 				result = EJSON.parse(result.content).Onderdelen.Items
-				pushResult = _helpers.asyncResultWaiter result.length, (r) -> callback null, r
+				pushResult = root._helpers.asyncResultWaiter result.length, (r) -> callback null, r
 
 				for id in (p.Id for p in result)
 					@_magisterObj.http.get "#{@_magisterObj._pupilUrl}/studiewijzers/#{@id()}/onderdelen/#{id}", {}, (error, result) =>
-						pushResult StudyGuidePart._convertRaw @_magisterObj, EJSON.parse(result.content)
+						pushResult root.StudyGuidePart._convertRaw @_magisterObj, EJSON.parse(result.content)
 
 
 	@_convertRaw: (magisterObj, raw) ->
-		obj = new StudyGuide magisterObj
+		obj = new root.StudyGuide magisterObj
 
 		obj._id = raw.Id
 		obj._from = new Date Date.parse raw.Van
@@ -95,59 +97,59 @@ class @StudyGuide
 # @constructor
 # @param _magisterObj {Magister} A Magister object this StudyGuidePart is child of.
 ###
-class @StudyGuidePart
+class root.StudyGuidePart
 	constructor: (@_magisterObj) ->
 		###*
 		# @property id
 		# @final
 		# @type Number
 		###
-		@id = _getset "_id"
+		@id = root._getset "_id"
 		###*
 		# @property from
 		# @final
 		# @type Date
 		###
-		@from = _getset "_from"
+		@from = root._getset "_from"
 		###*
 		# @property to
 		# @final
 		# @type Date
 		###
-		@to = _getset "_to"
+		@to = root._getset "_to"
 		###*
 		# @property name
 		# @final
 		# @type String
 		###
-		@name = _getset "_name"
+		@name = root._getset "_name"
 		###*
 		# @property description
 		# @final
 		# @type String
 		###
-		@description = _getset "_description", null, (x) -> if x? then x.replace(/<br ?\/?>/g, "\n").replace(/(<[^>]*>)|(&nbsp;)/g, "").replace(/&amp;/ig, "&") else x
+		@description = root._getset "_description", null, (x) -> if x? then x.replace(/<br ?\/?>/g, "\n").replace(/(<[^>]*>)|(&nbsp;)/g, "").replace(/&amp;/ig, "&") else x
 		###*
 		# @property visible
 		# @final
 		# @type Boolean
 		###
-		@visible = _getset "_visible"
+		@visible = root._getset "_visible"
 		###*
 		# @property number
 		# @final
 		# @type Number
 		###
-		@number = _getset "_number"
+		@number = root._getset "_number"
 		###*
 		# @property files
 		# @final
 		# @type File[]
 		###
-		@files = _getset "_files"
+		@files = root._getset "_files"
 
 	@_convertRaw: (magisterObj, raw) ->
-		obj = new StudyGuidePart magisterObj
+		obj = new root.StudyGuidePart magisterObj
 
 		obj._id = raw.Id
 		obj._from = new Date Date.parse raw.Van
@@ -157,6 +159,6 @@ class @StudyGuidePart
 		obj._visible = raw.IsZichtbaar
 		obj._number = raw.Volgnummer
 
-		obj._files = ( File._convertRaw magisterObj, undefined, f for f in raw.Bronnen )
+		obj._files = ( root.File._convertRaw magisterObj, undefined, f for f in raw.Bronnen )
 
 		return obj

@@ -1,3 +1,5 @@
+root = module?.exports ? this
+
 ###*
 # A Digital school utility, usually things like a gateway to an online platform of a book used by a school.
 #
@@ -6,72 +8,72 @@
 # @constructor
 # @param _magisterObj {Magister} A Magister object this DigitalSchoolUtility is child of.
 ###
-class @DigitalSchoolUtility
+class root.DigitalSchoolUtility
 	constructor: (@_magisterObj) ->
 		###*
 		# @property id
 		# @final
 		# @type Number
 		###
-		@id = _getset "_id"
+		@id = root._getset "_id"
 		###*
 		# @property type
 		# @final
 		# @type Number
 		###
-		@type = _getset "_type"
+		@type = root._getset "_type"
 		###*
 		# @property name
 		# @final
 		# @type String
 		###
-		@name = _getset "_name"
+		@name = root._getset "_name"
 		###*
 		# @property publisher
 		# @final
 		# @type String
 		###
-		@publisher = _getset "_publisher"
+		@publisher = root._getset "_publisher"
 		###*
 		# @property state
 		# @final
 		# @type Number
 		###
-		@state = _getset "_state"
+		@state = root._getset "_state"
 		###*
 		# @property begin
 		# @final
 		# @type Date
 		###
-		@begin = _getset "_begin"
+		@begin = root._getset "_begin"
 		###*
 		# @property end
 		# @final
 		# @type Date
 		###
-		@end = _getset "_end"
+		@end = root._getset "_end"
 		###*
 		# @property EAN
 		# @final
 		# @type Number
 		###
-		@EAN = _getset "_EAN"
+		@EAN = root._getset "_EAN"
 		###*
 		# @property url
 		# @final
 		# @type String
 		###
-		@url = _getset "_url"
+		@url = root._getset "_url"
 		###*
 		# This should be a Class object, if no class was found this will be undefined.
 		# @property class
 		# @final
 		# @type Class|undefined
 		###
-		@class = _getset "_class"
+		@class = root._getset "_class"
 
 	@_convertRaw: (magisterObj, raw) ->
-		obj = new DigitalSchoolUtility magisterObj
+		obj = new root.DigitalSchoolUtility magisterObj
 
 		obj._id = raw.Id
 		obj._type = raw.MateriaalType

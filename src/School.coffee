@@ -1,3 +1,5 @@
+root = module?.exports ? this
+
 ###*
 # A Magister school.
 #
@@ -6,7 +8,7 @@
 # @param url {String} The URL of the school.
 # @constructor
 ###
-class @MagisterSchool
+class root.MagisterSchool
 	###*
 	# @property id
 	# @final
@@ -36,7 +38,7 @@ class @MagisterSchool
 	# 	@param [callback.result] {MagisterSchool[]} An array containing the MagisterSchools.
 	###
 	@getSchools: (query, callback) ->
-		if !query? or _helpers.trim(query).length < 3
+		if !query? or root._helpers.trim(query).length < 3
 			callback null, []
 			return
 
@@ -46,4 +48,4 @@ class @MagisterSchool
 			else
 				callback null, (@_convertRaw s for s in EJSON.parse result.content)
 
-	@_convertRaw: (raw) -> new MagisterSchool raw.Id, raw.Name, raw.Url
+	@_convertRaw: (raw) -> new root.MagisterSchool raw.Id, raw.Name, raw.Url

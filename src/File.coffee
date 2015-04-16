@@ -1,3 +1,5 @@
+root = module?.exports ? this
+
 ###*
 # A folder containing File instances.
 #
@@ -6,34 +8,34 @@
 # @param _magisterObj {Magister} A Magister object this FileFolder is child of.
 # @constructor
 ###
-class @FileFolder
+class root.FileFolder
 	constructor: (@_magisterObj) ->
 		###*
 		# @property id
 		# @final
 		# @type Number
 		###
-		@id = _getset "_id"
+		@id = root._getset "_id"
 		###*
 		# @property name
 		# @final
 		# @type String
 		###
-		@name = _getset "_name"
+		@name = root._getset "_name"
 		###*
 		# The rights the current user has on this FileFolder.
 		# @property rights
 		# @final
 		# @type Number
 		###
-		@rights = _getset "_rights"
+		@rights = root._getset "_rights"
 		###*
 		# The ID of the parent FileFolder of this FileFolder.
 		# @property parentId
 		# @final
 		# @type Number
 		###
-		@parentId = _getset "_parentId"
+		@parentId = root._getset "_parentId"
 
 	###*
 	# Gets all the files in the current FileFolder.
@@ -48,8 +50,8 @@ class @FileFolder
 		@_magisterObj.http.get "#{@_magisterObj._personUrl}/bronnen?parentId=#{@id()}", {}, (error, result) =>
 			if error? then callback error, null
 			else
-				files = (File._convertRaw @_magisterObj, @, f for f in EJSON.parse(result.content).Items)
-				pushResult = _helpers.asyncResultWaiter files.length, (r) -> callback null, files
+				files = (root.File._convertRaw @_magisterObj, @, f for f in EJSON.parse(result.content).Items)
+				pushResult = root._helpers.asyncResultWaiter files.length, (r) -> callback null, files
 
 				for f in files
 					do (f) => @_magisterObj.getPersons f.GeplaatstDoor, (e, r) ->
@@ -57,7 +59,7 @@ class @FileFolder
 						pushResult()
 
 	@_convertRaw: (magisterObj, raw) ->
-		obj = new FileFolder magisterObj
+		obj = new root.FileFolder magisterObj
 
 		obj._id = raw.Id
 		obj._name = raw.Naam
@@ -74,87 +76,87 @@ class @FileFolder
 # @param _magisterObj {Magister} A Magister object this File is child of.
 # @constructor
 ###
-class @File
+class root.File
 	constructor: (@_magisterObj) ->
 		###*
 		# @property id
 		# @final
 		# @type Number
 		###
-		@id = _getset "_id"
+		@id = root._getset "_id"
 		###*
 		# @property type
 		# @final
 		# @type Number
 		###
-		@type = _getset "_type"
+		@type = root._getset "_type"
 		###*
 		# @property name
 		# @type String
 		###
-		@name = _getset "_name", (x) => @_name = x; @_update()
+		@name = root._getset "_name", (x) => @_name = x; @_update()
 		###*
 		# @property uri
 		# @final
 		# @type String
 		###
-		@uri = _getset "_uri"
+		@uri = root._getset "_uri"
 		###*
 		# The size of this file in bytes.
 		# @property size
 		# @final
 		# @type Number
 		###
-		@size = _getset "_size"
+		@size = root._getset "_size"
 		###*
 		# The rights the current user has on this File.
 		# @property rights
 		# @final
 		# @type Number
 		###
-		@rights = _getset "_rights"
+		@rights = root._getset "_rights"
 		###*
 		# @property mime
 		# @final
 		# @type String
 		###
-		@mime = _getset "_mime"
+		@mime = root._getset "_mime"
 		###*
 		# @property changedDate
 		# @final
 		# @type Date
 		###
-		@changedDate = _getset "_changedDate"
+		@changedDate = root._getset "_changedDate"
 		###*
 		# @property creationDate
 		# @final
 		# @type Date
 		###
-		@creationDate = _getset "_creationDate"
+		@creationDate = root._getset "_creationDate"
 		###*
 		# @property addedBy
 		# @final
 		# @type Person
 		###
-		@addedBy = _getset "_addedBy"
+		@addedBy = root._getset "_addedBy"
 		###*
 		# @property fileBlobId
 		# @final
 		# @type Number
 		###
-		@fileBlobId = _getset "_fileBlobId"
+		@fileBlobId = root._getset "_fileBlobId"
 		###*
 		# The FileFolder this File is in.
 		# @property fileFolder
 		# @type FileFolder
 		###
-		@fileFolder = _getset "_fileFolder", @move
+		@fileFolder = root._getset "_fileFolder", @move
 		###*
 		# @property uniqueId
 		# @final
 		# @type String
 		###
-		@uniqueId = _getset "_uniqueId"
+		@uniqueId = root._getset "_uniqueId"
 
 	###*
 	# Downloads the current file
@@ -164,18 +166,30 @@ class @File
 	# @param [downloadFile=true] {Boolean} Whether or not to download the file directly. Only works client-side.
 	# @param [callback] {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
-	# 	@param [callback.result] {String} A string containing the binary data of the downloaded file.
+	# 	@param [callback.result] {String} A string containing the base64 encoded binary data of the downloaded file.
 	###
 	download: ->
 		callback = _.find arguments, (a) -> _.isFunction a
 		downloadFile = _.find(arguments, (a) -> _.isBoolean a) ? yes
 
-		@_magisterObj.http.get @_downloadUrl, {}, (error, result) =>
-			if error? then callback error, null
-			else
-				data = result.content
-				if downloadFile then _helpers.saveFile data, @mime(), @name()
-				callback? null, data
+		request = null
+		if Meteor?.isServer
+			request = Npm.require "request"
+		else if module?.exports?
+			request = require "request"
+		else
+			callback? new Error("`File.download` is only accessible from the server at the moment.\nYou can set a proxy yourself with something like iron:router serverside routes."), null
+			return undefined
+
+		request(
+			url: @_downloadUrl
+			method: "GET"
+			headers: @_magisterObj.http._cookieInserter()
+			encoding: null
+		)
+			.on "error", (err) -> callback? err, null
+			.on "response", (res) -> callback? null, ""
+			.pipe if downloadFile? then require("fs").createWriteStream(@name()) else null
 
 	###*
 	# Moves the current File to another FileFolder
@@ -187,7 +201,7 @@ class @File
 		@_magisterObj.fileFolders (e, r) =>
 			throw e if e?
 			unless _.isObject fileFolder
-				fileFolder = _.find r, (f) -> _helpers.contains(f.name(), fileFolder, yes) or f.id() is fileFolder
+				fileFolder = _.find r, (f) -> root._helpers.contains(f.name(), fileFolder, yes) or f.id() is fileFolder
 
 			@_fileFolder = fileFolder
 			@_update()
@@ -198,7 +212,7 @@ class @File
 	# @method remove
 	###
 	remove: -> @_magisterObj.http.delete "#{@_magisterObj._personUrl}/bronnen/#{@id()}", {}, (error, result) -> throw error if error?
-	
+
 	###*
 	# Updates the current File on the Magister servers.
 	#
@@ -226,10 +240,10 @@ class @File
 	@_convertRaw: (magisterObj, sender, raw) ->
 		if raw._addedBy? then addedBy = raw._addedBy
 		else
-			addedBy = new Person magisterObj, null, "", ""
+			addedBy = new root.Person magisterObj, null, "", ""
 			addedBy._fullName = raw.GeplaatstDoor
 
-		obj = new File magisterObj
+		obj = new root.File magisterObj
 
 		obj._id = raw.Id
 		obj._type = raw.BronSoort

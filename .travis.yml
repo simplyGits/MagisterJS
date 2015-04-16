@@ -1,0 +1,15 @@
+# grunt && mocha.
+language: node_js
+node_js:
+  - "0.10"
+install:
+  - npm install -g grunt-cli
+  - npm install -g mocha
+  - npm install
+before_script:
+  - grunt --version
+  - mocha --version
+  - grunt &
+  - sleep 5 # wait on grunt.
+script:
+  - mocha

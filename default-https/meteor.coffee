@@ -1,4 +1,6 @@
-class @MagisterHttp
+root = module?.exports ? this
+
+class root.MagisterHttp
 	###
 	# HTTP CLASS
 	# ======================
@@ -26,10 +28,13 @@ class @MagisterHttp
 	#  METEOR IMPLEMENTATION
 	# =======================
 	###
-	get: (url, options = {}, callback) -> Meteor.call "http", "GET", url, @_cookieInserter(options), callback
-	delete: (url, options = {}, callback) -> Meteor.call "http", "DELETE", url, @_cookieInserter(options), callback
-	post: (url, data, options = {}, callback) -> Meteor.call "http", "POST", url, @_cookieInserter(_.extend({data}, options)), callback
-	put: (url, data, options = {}, callback) -> Meteor.call "http", "PUT", url, @_cookieInserter(_.extend({data}, options)), callback
+	get: (url, options = {}, callback) -> Meteor.call "magisterjs-http", "GET", url, @_cookieInserter(options), callback
+
+	delete: (url, options = {}, callback) -> Meteor.call "magisterjs-http", "DELETE", url, @_cookieInserter(options), callback
+
+	post: (url, data, options = {}, callback) -> Meteor.call "magisterjs-http", "POST", url, @_cookieInserter(_.extend({data}, options)), callback
+
+	put: (url, data, options = {}, callback) -> Meteor.call "magisterjs-http", "PUT", url, @_cookieInserter(_.extend({data}, options)), callback
 
 	_cookie: ""
 	_cookieInserter: (original) ->

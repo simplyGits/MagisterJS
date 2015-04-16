@@ -1,3 +1,5 @@
+root = module?.exports ? this
+
 messageFolder = (magisterObj, x) ->
 	switch x
 		when 1 then magisterObj.inbox()
@@ -5,7 +7,7 @@ messageFolder = (magisterObj, x) ->
 		when 3 then magisterObj.bin()
 		when 4 then magisterObj.alerts()
 
-		else MessageFolder._convertRaw { Id: x }
+		else root.MessageFolder._convertRaw { Id: x }
 
 #TODO: Support sending Attachments.
 ###*
@@ -15,7 +17,7 @@ messageFolder = (magisterObj, x) ->
 # @param _magisterObj {Magister} A Magister object this Message is child of.
 # @constructor
 ###
-class @Message
+class root.Message
 	constructor: (@_magisterObj) ->
 		throw new Error "Magister instance is null!" unless @_magisterObj?
 		@_magisterObj._forceReady()
@@ -34,69 +36,69 @@ class @Message
 		# @final
 		# @type Number
 		###
-		@id = _getset "_id"
+		@id = root._getset "_id"
 		###*
 		# @property body
 		# @type String
 		# @default ""
 		###
-		@body = _getset "_body", ((x) => @_body = x.replace "\n", "<br>"), (x) -> if x? then x.replace(/<br ?\/?>/g, "\n").replace(/(<[^>]*>)|(&nbsp;)/g, "") else ""
+		@body = root._getset "_body", ((x) => @_body = x.replace "\n", "<br>"), (x) -> if x? then x.replace(/<br ?\/?>/g, "\n").replace(/(<[^>]*>)|(&nbsp;)/g, "") else ""
 		###*
 		# @property attachments
 		# @final
 		# @type File[]
 		###
-		@attachments = _getset "_attachments"
+		@attachments = root._getset "_attachments"
 		###*
 		# The MessageFolder this Message in, changing this will move the Message.
 		# @property messageFolder
 		# @type MessageFolder
 		###
-		@messageFolder = _getset "_folderId", ((x) => @move x), (x) => messageFolder @_magisterObj, x
+		@messageFolder = root._getset "_folderId", ((x) => @move x), (x) => messageFolder @_magisterObj, x
 		###*
 		# @property subject
 		# @type String
 		# @default ""
 		###
-		@subject = _getset "_subject", (x) => @_subject = x
+		@subject = root._getset "_subject", (x) => @_subject = x
 		###*
 		# @property sender
 		# @final
 		# @type Person
 		###
-		@sender = _getset "_sender"
+		@sender = root._getset "_sender"
 		###*
 		# @property recipients
 		# @final
 		# @type Person[]
 		# @default []
 		###
-		@recipients = _getset "_recipients"
+		@recipients = root._getset "_recipients"
 		###*
 		# @property sendDate
 		# @final
 		# @type Date
 		# @default new Date()
 		###
-		@sendDate = _getset "_sendDate"
+		@sendDate = root._getset "_sendDate"
 		###*
 		# @property begin
 		# @final
 		# @type Date
 		###
-		@begin = _getset "_begin"
+		@begin = root._getset "_begin"
 		###*
 		# @property end
 		# @final
 		# @type Date
 		###
-		@end = _getset "_end"
+		@end = root._getset "_end"
 		###*
 		# @property isRead
 		# @type Boolean
 		# @default false
 		###
-		@isRead = _getset "_isRead", (x) =>
+		@isRead = root._getset "_isRead", (x) =>
 			return if @_isRead is x or @_canSend
 
 			@_isRead = x
@@ -106,19 +108,19 @@ class @Message
 		# @final
 		# @type Number
 		###
-		@state = _getset "_state"
+		@state = root._getset "_state"
 		###*
 		# @property isFlagged
 		# @final
 		# @type Boolean
 		###
-		@isFlagged = _getset "_isFlagged"
+		@isFlagged = root._getset "_isFlagged"
 		###*
 		# @property type
 		# @final
 		# @type Number
 		###
-		@type = _getset "_type"
+		@type = root._getset "_type"
 
 	_tasks: 0
 	_sendAfterFinished: no
@@ -164,7 +166,7 @@ class @Message
 	createReplyMessage: (newContent) ->
 		subject = if @subject().indexOf("RE: ") isnt 0 then "RE: #{@subject()}" else subject()
 
-		msg = new Message @_magisterObj
+		msg = new root.Message @_magisterObj
 		msg._sender = @_sender
 		msg._folderId = @_folderId
 		msg._isFlagged = @_isFlagged
@@ -185,7 +187,7 @@ class @Message
 	createReplyToAllMessage: (newContent) ->
 		subject = if @subject().indexOf("RE: ") isnt 0 then "RE: #{@subject()}" else subject()
 
-		msg = new Message @_magisterObj
+		msg = new root.Message @_magisterObj
 		msg._sender = @_sender
 		msg._folderId = @_folderId
 		msg._isFlagged = @_isFlagged
@@ -206,7 +208,7 @@ class @Message
 	createForwardMessage: (newContent) ->
 		subject = if @subject().indexOf("FW: ") isnt 0 then "FW: #{@subject()}" else subject()
 
-		msg = new Message @_magisterObj
+		msg = new root.Message @_magisterObj
 		msg._sender = @_sender
 		msg._folderId = @_folderId
 		msg._isFlagged = @_isFlagged
@@ -277,14 +279,14 @@ class @Message
 		return obj
 
 	@_convertRaw: (magisterObj, raw) ->
-		obj = new Message magisterObj
+		obj = new root.Message magisterObj
 
 		obj._id = raw.Id
 		obj._body = raw.Inhoud ? ""
 		obj._folderId = raw.MapId
 		obj._subject = raw.Onderwerp
-		obj._sender = Person._convertRaw magisterObj, raw.Afzender
-		obj._recipients = ( Person._convertRaw magisterObj, o for o in (raw.Ontvangers ? []) )
+		obj._sender = root.Person._convertRaw magisterObj, raw.Afzender
+		obj._recipients = ( root.Person._convertRaw magisterObj, o for o in (raw.Ontvangers ? []) )
 		obj._sendDate = new Date Date.parse raw.VerstuurdOp
 		obj._begin = new Date Date.parse raw.Begin
 		obj._end = new Date Date.parse raw.Einde

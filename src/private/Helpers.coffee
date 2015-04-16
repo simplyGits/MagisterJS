@@ -1,3 +1,5 @@
+root = module?.exports ? this
+
 ###*
 # A utility class containing various helper methods.
 #
@@ -5,7 +7,7 @@
 # @private
 # @class _helpers
 ###
-class @_helpers
+class root._helpers
 	###*
 	# Adds a zero in front of the original number if it doesn't yet.
 	#
@@ -16,7 +18,7 @@ class @_helpers
 	@addZero: (original) -> return if original < 10 then "0#{original}" else original.toString()
 
 	@toUtcString: (d) -> "#{_helpers.addZero d.getUTCFullYear()}-#{_helpers.addZero d.getMonth() + 1}-#{_helpers.addZero d.getDate()}T#{_helpers.addZero d.getHours()}:#{_helpers.addZero d.getMinutes()}:#{_helpers.addZero d.getSeconds()}.0000000Z"
-	
+
 	@pushMore = (arr, items) -> [].push.apply arr, items; return arr
 
 	###*
@@ -62,7 +64,7 @@ class @_helpers
 
 	@date: (date) -> new Date date.getUTCFullYear(), date.getMonth(), date.getDate()
 
-@_getset = (varName, setter, getter) ->
+root._getset = (varName, setter, getter) ->
 	return (newVar) ->
 		if newVar?
 			if _.isFunction(setter) then setter(newVar, yes)
@@ -71,12 +73,3 @@ class @_helpers
 
 unless Array.isArray? # isArray polyfill
 	_.isArray = jQuery.isArray = Array.isArray = (x) -> Object.prototype.toString.call x is "[object Array]"
-
-###
-@_getset = (varName, setter, getter) ->
-	return (newVar) ->
-		if newVar?
-			if _.isFunction(setter) then setter(newVar, _.toArray(arguments)[1..], yes)
-			else throw new Error "Changes on this property aren't allowed"
-		return if _.isFunction(getter) then getter(@[varName], _.toArray(arguments)[1..], no) else @[varName]
-###

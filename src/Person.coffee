@@ -1,3 +1,5 @@
+root = module?.exports ? this
+
 ###*
 # A Person.
 #
@@ -9,7 +11,7 @@
 # @param _lastName {String} The last name of the Person.
 # @constructor
 ###
-class @Person
+class root.Person
 	constructor: (@_magisterObj, @_type, @_firstName, @_lastName) ->
 		if @_firstName? and @_lastName?
 			throw new Error "One or more arguments is not a string." if _.any _.toArray(arguments)[2..], (a) -> a? and not _.isString a
@@ -19,60 +21,60 @@ class @Person
 		# @final
 		# @type Number
 		###
-		@id = _getset "_id"
+		@id = root._getset "_id"
 		###*
 		# @property type
 		# @type String
 		###
-		@type = _getset "_type", ((val) => @_type = Person._convertType(val, yes)), Person._convertType
+		@type = root._getset "_type", ((val) => @_type = Person._convertType(val, yes)), Person._convertType
 		###*
 		# @property firstName
 		# @final
 		# @type String
 		###
-		@firstName = _getset "_firstName"
+		@firstName = root._getset "_firstName"
 		###*
 		# @property lastName
 		# @final
 		# @type String
 		###
-		@lastName = _getset "_lastName"
+		@lastName = root._getset "_lastName"
 		###*
 		# @property namePrefix
 		# @final
 		# @type String
 		###
-		@namePrefix = _getset "_namePrefix"
+		@namePrefix = root._getset "_namePrefix"
 		###*
 		# @property fullName
 		# @final
 		# @type String
 		###
-		@fullName = _getset "_fullName"
+		@fullName = root._getset "_fullName"
 		###*
 		# @property description
 		# @final
 		# @type String
 		###
-		@description = _getset "_description"
+		@description = root._getset "_description"
 		###*
 		# @property group
 		# @final
 		# @type String
 		###
-		@group = _getset "_group"
+		@group = root._getset "_group"
 		###*
 		# @property teacherCode
 		# @final
 		# @type String
 		###
-		@teacherCode = _getset "_teacherCode"
+		@teacherCode = root._getset "_teacherCode"
 		###*
 		# @property emailAddress
 		# @final
 		# @type String
 		###
-		@emailAddress = _getset "_emailAddress"
+		@emailAddress = root._getset "_emailAddress"
 
 	_toMagisterStyle: ->
 		obj = {}
@@ -91,7 +93,7 @@ class @Person
 		return obj
 
 	@_convertRaw: (magisterObj, raw) ->
-		obj = new Person magisterObj, raw.Type, raw.Voornaam, raw.Achternaam
+		obj = new root.Person magisterObj, raw.Type, raw.Voornaam, raw.Achternaam
 
 		obj._id = raw.Id
 		obj._namePrefix = raw.Tussenvoegsel

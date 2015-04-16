@@ -1,9 +1,11 @@
+root = module?.exports ? this
+
 findQueries = (queries) ->
 	final = ""
 
-	if _.any(["unread", "ongelezen"], (x) -> _helpers.contains queries, x, yes)
+	if _.any(["unread", "ongelezen"], (x) -> root._helpers.contains queries, x, yes)
 		final += "&gelezen=false"
-	else if _.any(["read", "gelezen"], (x) -> _helpers.contains queries, x, yes)
+	else if _.any(["read", "gelezen"], (x) -> root._helpers.contains queries, x, yes)
 		final += "&gelezen=true"
 
 	if (result = /(skip \d+)|(sla \d+ over)/ig.exec(queries))?
@@ -20,32 +22,32 @@ findQueries = (queries) ->
 # @param _magisterObj {Magister} A Magister object this MessageFolder is child of.
 # @constructor
 ###
-class @MessageFolder
+class root.MessageFolder
 	constructor: (@_magisterObj) ->
 		###*
 		# @property name
 		# @final
 		# @type String
 		###
-		@name = _getset "_name"
+		@name = root._getset "_name"
 		###*
 		# @property unreadMessagesCount
 		# @final
 		# @type Number
 		###
-		@unreadMessagesCount = _getset "_unreadMessagesCount"
+		@unreadMessagesCount = root._getset "_unreadMessagesCount"
 		###*
 		# @property id
 		# @final
 		# @type Number
 		###
-		@id = _getset "_id"
+		@id = root._getset "_id"
 		###*
 		# @property parentId
 		# @final
 		# @type Number
 		###
-		@parentId = _getset "_parentId"
+		@parentId = root._getset "_parentId"
 
 	###*
 	# Gets the Messages of this MessageFolder.
@@ -77,8 +79,8 @@ class @MessageFolder
 			if error?
 				callback error, null
 			else
-				messages = ( Message._convertRaw(@_magisterObj, m) for m in EJSON.parse(result.content).Items )
-				pushMessage = _helpers.asyncResultWaiter messages.length, (r) -> callback null, _.sortBy(r, (m) -> m.sendDate()).reverse()
+				messages = ( root.Message._convertRaw(@_magisterObj, m) for m in EJSON.parse(result.content).Items )
+				pushMessage = root._helpers.asyncResultWaiter messages.length, (r) -> callback null, _.sortBy(r, (m) -> m.sendDate()).reverse()
 
 				for m in messages
 					do (m) =>
@@ -86,11 +88,11 @@ class @MessageFolder
 						@_magisterObj.http.get url, {}, (error, result) =>
 							parsed = EJSON.parse(result.content)
 							m._body = parsed.Inhoud
-							m._attachments = (File._convertRaw(@_magisterObj, undefined, a) for a in (parsed.Bijlagen ? []))
+							m._attachments = (root.File._convertRaw(@_magisterObj, undefined, a) for a in (parsed.Bijlagen ? []))
 
 							if download
-								pushPeople = _helpers.asyncResultWaiter m.recipients().length + 1, -> pushMessage m
-								
+								pushPeople = root._helpers.asyncResultWaiter m.recipients().length + 1, -> pushMessage m
+
 								@_magisterObj.fillPersons m.recipients(), (e, r) ->
 									m._recipients = r
 									pushPeople r
@@ -119,7 +121,7 @@ class @MessageFolder
 				if error?
 					callback error, null
 				else
-					messageFolders = (MessageFolder._convertRaw(@_magisterObj, mF) for mF in EJSON.parse(result.content).Items)
+					messageFolders = (root.MessageFolder._convertRaw(@_magisterObj, mF) for mF in EJSON.parse(result.content).Items)
 
 					if _.isString(query) and query isnt ""
 						result = _.where messageFolders, (mF) -> Helpers.contains mF.name(), query, yes
@@ -152,7 +154,7 @@ class @MessageFolder
 
 		@_magisterObj.http.post "#{@_magisterObj._personUrl}/berichten/mappen", folder, {}, (error, result) =>
 			if error? then callback error, null
-			else callback null, MessageFolder._convertRaw @_magisterObj, EJSON.parse(result.content)
+			else callback null, root.MessageFolder._convertRaw @_magisterObj, EJSON.parse(result.content)
 
 	# TODO: Doesn't work!
 	###*
@@ -172,7 +174,7 @@ class @MessageFolder
 		return obj
 
 	@_convertRaw: (magisterObj, raw) ->
-		obj = new MessageFolder magisterObj
+		obj = new root.MessageFolder magisterObj
 
 		obj._name = raw.Naam
 		obj._unreadMessagesCount = raw.OngelezenBerichten

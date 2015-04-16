@@ -1,3 +1,7 @@
+root = module?.exports ? this
+@_ = _ = require("lodash") if not _? and require?
+@EJSON = EJSON = require("ejson") if not EJSON? and require?
+
 ###*
 # A JavaScript implementation of the Magister 6 API.
 # @author Lieuwe Rooijakkers
@@ -14,11 +18,11 @@
 # @param [_keepLoggedIn=true] {Boolean} Whether or not to keep the user logged in.
 # @constructor
 ###
-class @Magister
+class root.Magister
 	constructor: (@magisterSchool, @username, @password, @_keepLoggedIn = yes) ->
 		throw new Error "Expected 3 or 4 arguments, got #{arguments.length}" unless arguments.length is 3 or arguments.length is 4
 		@_readyCallbacks = [] #Fixes weird bug where callbacks from previous Magister objects were mixed with the new ones.
-		@http = new MagisterHttp()
+		@http = new root.MagisterHttp()
 
 		if _.isString(@magisterSchool)
 			MagisterSchool.getSchools @magisterSchool, (e, r) =>
@@ -49,7 +53,7 @@ class @Magister
 		unless _.isDate(to) then to = from
 
 		@_forceReady()
-		dateConvert = _helpers.urlDateConvert
+		dateConvert = root._helpers.urlDateConvert
 		url = "#{@_personUrl}/afspraken?tot=#{dateConvert(to)}&van=#{dateConvert(from)}"
 		@http.get url, {},
 			(error, result) =>
@@ -57,19 +61,19 @@ class @Magister
 					callback error, null
 				else
 					result = EJSON.parse result.content
-					appointments = (Appointment._convertRaw(@, a) for a in result.Items)
+					appointments = (root.Appointment._convertRaw(@, a) for a in result.Items)
 					absences = []
 
-					hit = _helpers.asyncResultWaiter 3, (r) ->
+					hit = root._helpers.asyncResultWaiter 3, (r) ->
 						for a in appointments
 							do (a) -> a._absenceInfo = _.find absences, (absence) -> absence.appointmentId is a.id()
 
-						_.remove appointments, (a) -> _helpers.date(a.begin()) < _helpers.date(from) or _helpers.date(a.end()) > _helpers.date(to)
+						_.remove appointments, (a) -> root._helpers.date(a.begin()) < root._helpers.date(from) or root._helpers.date(a.end()) > root._helpers.date(to)
 						callback null, _.sortBy appointments, (x) -> x.begin()
 
 					@http.get "#{@_personUrl}/roosterwijzigingen?tot=#{dateConvert(to)}&van=#{dateConvert(from)}", {}, (error, result) =>
 						for c in EJSON.parse(result.content).Items
-							appointment = Appointment._convertRaw(@, c)
+							appointment = root.Appointment._convertRaw(@, c)
 							_.remove appointments, (a) -> a.id() is appointment.id()
 							appointments.push appointment
 						hit()
@@ -84,13 +88,13 @@ class @Magister
 								schoolHour: a.Lesuur
 								permitted: a.Geoorloofd
 								appointmentId: a.AfspraakId
-								description: _helpers.trim a.Omschrijving
+								description: root._helpers.trim a.Omschrijving
 								type: a.VerantwoordingType
 								code: a.Code
 						hit()
 
 					if download
-						pushResult = _helpers.asyncResultWaiter appointments.length, -> hit()
+						pushResult = root._helpers.asyncResultWaiter appointments.length, -> hit()
 
 						for a in appointments
 							do (a) =>
@@ -116,7 +120,7 @@ class @Magister
 		@_forceReady()
 
 		if _.isString(query) and query isnt ""
-			result = _.where @_messageFolders, (mF) -> _helpers.contains mF.name(), query, yes
+			result = _.where @_messageFolders, (mF) -> root._helpers.contains mF.name(), query, yes
 		else
 			result = @_messageFolders
 
@@ -162,7 +166,7 @@ class @Magister
 					callback error, null
 				else
 					result = EJSON.parse result.content
-					callback null, _.sortBy((Course._convertRaw(@, c) for c in result.Items), (c) -> c.begin()).reverse()
+					callback null, _.sortBy((root.Course._convertRaw(@, c) for c in result.Items), (c) -> c.begin()).reverse()
 
 	###*
 	# Gets limited course info for the current Course for the current User.
@@ -209,7 +213,7 @@ class @Magister
 	getPersons: ->
 		@_forceReady()
 
-		query = _helpers.trim arguments[0]
+		query = root._helpers.trim arguments[0]
 		callback = if arguments.length is 2 then arguments[1] else arguments[2]
 		type = arguments[1] if arguments.length is 3
 
@@ -224,10 +228,10 @@ class @Magister
 					teachers = r
 					@getPersons query, 4, (e, r) ->
 						if e? then callback e, null
-						else callback null, _helpers.pushMore r, teachers
+						else callback null, root._helpers.pushMore r, teachers
 			return undefined
 
-		type = switch Person._convertType type
+		type = switch root.Person._convertType type
 			when 3 then "Personeel"
 			when 4 then "Leerling"
 			when 8 then "Project"
@@ -242,7 +246,7 @@ class @Magister
 				if error?
 					callback error, null
 				else
-					result = (Person._convertRaw(@, p) for p in EJSON.parse(result.content).Items)
+					result = (root.Person._convertRaw(@, p) for p in EJSON.parse(result.content).Items)
 
 					Magister._cachedPersons["#{@_id}#{type}#{query}"] = result
 					callback null, result
@@ -265,7 +269,7 @@ class @Magister
 			if persons.length is 0
 				callback null, []
 				return undefined
-			pushResult = _helpers.asyncResultWaiter persons.length, (r) -> callback null, r
+			pushResult = root._helpers.asyncResultWaiter persons.length, (r) -> callback null, r
 
 			for p in persons
 				try
@@ -303,7 +307,7 @@ class @Magister
 		recipients = _.last arguments
 		if arguments.length is 2 then body = ""
 
-		m = new Message @
+		m = new root.Message @
 		m.subject subject
 		m.body body ? ""
 		m.addRecipient recipients
@@ -323,7 +327,7 @@ class @Magister
 
 		@http.get "#{@_personUrl}/bronnen?soort=0", {}, (error, result) =>
 			if error? then callback error, null
-			else callback null, ( FileFolder._convertRaw @, f for f in EJSON.parse(result.content).Items )
+			else callback null, ( root.FileFolder._convertRaw @, f for f in EJSON.parse(result.content).Items )
 
 	###*
 	# Gets the StudyGuides of the current user.
@@ -342,10 +346,10 @@ class @Magister
 		callback = _.find arguments, (a) -> _.isFunction a
 
 		cb = (classes) =>
-			@http.get "#{@_pupilUrl}/studiewijzers?peildatum=#{_helpers.urlDateConvert new Date}", {}, (error, result) =>
+			@http.get "#{@_pupilUrl}/studiewijzers?peildatum=#{root._helpers.urlDateConvert new Date}", {}, (error, result) =>
 				if error? then callback error, null
 				else
-					result = ( StudyGuide._convertRaw @, s for s in EJSON.parse(result.content).Items )
+					result = ( root.StudyGuide._convertRaw @, s for s in EJSON.parse(result.content).Items )
 
 					for studyGuide in result then do (studyGuide) ->
 						if classes? then studyGuide._class = _.find classes, (c) -> c.abbreviation() is studyGuide._class
@@ -393,11 +397,11 @@ class @Magister
 				if error? then callback error, null
 				else
 					result = (e.Id for e in EJSON.parse(result.content).Items)
-					pushResult = _helpers.asyncResultWaiter result.length, (r) -> callback null, r
+					pushResult = root._helpers.asyncResultWaiter result.length, (r) -> callback null, r
 
 					for id in result
 						@http.get "#{@_personUrl}/opdrachten/#{id}", {}, (error, result) =>
-							assignment = Assignment._convertRaw @, EJSON.parse(result.content)
+							assignment = root.Assignment._convertRaw @, EJSON.parse(result.content)
 
 							if classes? then assignment._class = _.find classes, (c) -> c.abbreviation() is assignment._class
 							else assignment._class = null
@@ -448,14 +452,14 @@ class @Magister
 			@http.get url, {}, (error, result) =>
 				if error? then callback error, null
 				else
-					utilities = ( DigitalSchoolUtility._convertRaw @, u for u in EJSON.parse(result.content).Items )
+					utilities = ( root.DigitalSchoolUtility._convertRaw @, u for u in EJSON.parse(result.content).Items )
 
 					if classes? then for u in utilities
 						do (u) ->
 							u._class = _.find classes, (c) -> c.abbreviation() is u._class.Afkorting and c.description() is u._class.Omschrijving
 
 					else for u in utilities
-						do (u) => u._class = Class._convertRaw @, u._class
+						do (u) => u._class = root.Class._convertRaw @, u._class
 
 					callback null, utilities
 
@@ -501,7 +505,7 @@ class @Magister
 
 				res = []
 				for raw in parsed.Items
-					c = ProfileInfo._convertRaw @, c
+					c = root.ProfileInfo._convertRaw @, c
 					c._profilePicture = "#{@magisterSchool.url}/api/personen/#{raw.Id}/foto"
 					c.magister (callback) =>
 						r = _.clone @
@@ -510,7 +514,7 @@ class @Magister
 						r._pupilUrl = "#{@magisterSchool.url}/api/leerlingen/#{r._id}"
 						r._profileInfo = c
 						@http.get "#{r._personUrl}/berichten/mappen", {}, (error, result) ->
-							r._messageFolders = (MessageFolder._convertRaw(r, m) for m in EJSON.parse(result.content).Items)
+							r._messageFolders = (root.MessageFolder._convertRaw(r, m) for m in EJSON.parse(result.content).Items)
 							callback r
 						return undefined
 					res.push c
@@ -582,9 +586,10 @@ class @Magister
 						@_id = result.Persoon.Id
 						@_personUrl = "#{@magisterSchool.url}/api/personen/#{@_id}"
 						@_pupilUrl = "#{@magisterSchool.url}/api/leerlingen/#{@_id}"
-						@_profileInfo = ProfileInfo._convertRaw @, result
+						console.log root.ProfileInfo
+						@_profileInfo = root.ProfileInfo._convertRaw @, result
 
 						@http.get "#{@_personUrl}/berichten/mappen", {}, (error, result) =>
 							if error? then @_setErrored error; return
-							@_messageFolders = (MessageFolder._convertRaw(@, m) for m in EJSON.parse(result.content).Items)
+							@_messageFolders = (root.MessageFolder._convertRaw(@, m) for m in EJSON.parse(result.content).Items)
 							@_setReady()

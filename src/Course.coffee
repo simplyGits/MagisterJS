@@ -1,3 +1,5 @@
+root = module?.exports ? this
+
 ###*
 # A Class (ex. English class)
 #
@@ -6,59 +8,59 @@
 # @constructor
 # @param _magisterObj {Magister} A Magister object this Class is child of.
 ###
-class @Class
+class root.Class
 	constructor: (@_magisterObj) ->
 		###*
 		# @property id
 		# @final
 		# @type Number
 		###
-		@id = _getset "_id"
+		@id = root._getset "_id"
 		###*
 		# @property beginDate
 		# @final
 		# @type Date
 		###
-		@beginDate = _getset "_beginDate"
+		@beginDate = root._getset "_beginDate"
 		###*
 		# @property endDate
 		# @final
 		# @type Date
 		###
-		@endDate = _getset "_endDate"
+		@endDate = root._getset "_endDate"
 		###*
 		# @property abbreviation
 		# @final
 		# @type String
 		###
-		@abbreviation = _getset "_abbreviation"
+		@abbreviation = root._getset "_abbreviation"
 		###*
 		# @property description
 		# @final
 		# @type String
 		###
-		@description = _getset "_description"
+		@description = root._getset "_description"
 		###*
 		# @property number
 		# @final
 		# @type Number
 		###
-		@number = _getset "_number"
+		@number = root._getset "_number"
 		###*
 		# @property teacher
 		# @final
 		# @type Person
 		###
-		@teacher = _getset "_teacher"
+		@teacher = root._getset "_teacher"
 		###*
 		# @property classExemption
 		# @final
 		# @type Boolean
 		###
-		@classExemption = _getset "_classExemption"
+		@classExemption = root._getset "_classExemption"
 
 	@_convertRaw: (magisterObj, raw) ->
-		obj = new Class magisterObj
+		obj = new root.Class magisterObj
 
 		obj._id = raw.id ? raw.Id
 		obj._beginDate = new Date Date.parse raw.begindatum
@@ -66,7 +68,7 @@ class @Class
 		obj._abbreviation = raw.afkorting ? raw.Afkorting
 		obj._description = raw.omschrijving ? raw.Omschrijving
 		obj._number = raw.volgnr ? raw.Volgnr
-		obj._teacher = Person._convertRaw magisterObj, Docentcode: raw.docent
+		obj._teacher = root.Person._convertRaw magisterObj, Docentcode: raw.docent
 		obj._classExemption = raw.VakDispensatie or raw.VakVrijstelling
 
 		return obj
@@ -79,61 +81,61 @@ class @Class
 # @param _magisterObj {Magister} A Magister object this Course is child of.
 # @constructor
 ###
-class @Course
+class root.Course
 	constructor: (@_magisterObj) ->
 		###*
 		# @property id
 		# @final
 		# @type Number
 		###
-		@id = _getset "_id"
+		@id = root._getset "_id"
 		###*
 		# @property begin
 		# @final
 		# @type Date
 		###
-		@begin = _getset "_begin"
+		@begin = root._getset "_begin"
 		###*
 		# @property end
 		# @final
 		# @type Date
 		###
-		@end = _getset "_end"
+		@end = root._getset "_end"
 		###*
 		# The 'school period' of this Course (e.g: "1415").
 		# @property schoolPeriod
 		# @final
 		# @type String
 		###
-		@schoolPeriod = _getset "_schoolPeriod"
+		@schoolPeriod = root._getset "_schoolPeriod"
 		###*
 		# Type of this Course (e.g: { description: "VWO 4", id: 420 }).
 		# @property type
 		# @final
 		# @type Object
 		###
-		@type = _getset "_type"
+		@type = root._getset "_type"
 		###*
 		# The group of this Course contains the class the user belongs to (e.g: { description: "Klas 4v3", id: 420, locationId: 0 }).
 		# @property group
 		# @final
 		# @type Object
 		###
-		@group = _getset "_group"
+		@group = root._getset "_group"
 		###*
 		# The 'profile' of this Course (e.g: "A-EM").
 		# @property profile
 		# @final
 		# @type String
 		###
-		@profile = _getset "_profile"
+		@profile = root._getset "_profile"
 		###*
 		# An alternative profile, if it exists (e.g: "A-EM").
 		# @property alternativeProfile
 		# @final
 		# @type String
 		###
-		@alternativeProfile = _getset "_alternativeProfile"
+		@alternativeProfile = root._getset "_alternativeProfile"
 
 	###*
 	# Gets the classes of this Course.
@@ -149,7 +151,7 @@ class @Course
 			if error?
 				callback error, null
 			else
-				callback null, (Class._convertRaw @_magisterObj, c for c in EJSON.parse(result.content))
+				callback null, (root.Class._convertRaw @_magisterObj, c for c in EJSON.parse(result.content))
 
 	###*
 	# Gets the grades of this Course.
@@ -177,7 +179,7 @@ class @Course
 				callback error, null
 			else
 				result = EJSON.parse(result.content).Items
-				pushResult = _helpers.asyncResultWaiter result.length, (r) ->
+				pushResult = root._helpers.asyncResultWaiter result.length, (r) ->
 					for c in _.uniq(r, (g) -> g.class().id()).map((g) -> g.class())
 						for g in _.filter(r, (g) -> g.class().id() is c.id())
 							g._class = c
@@ -186,10 +188,10 @@ class @Course
 
 				for raw in result
 					do (raw) =>
-						g = Grade._convertRaw @_magisterObj, raw
+						g = root.Grade._convertRaw @_magisterObj, raw
 						g._columnUrl = @_columnUrlPrefix + raw.CijferKolom?.Id
 
-						push = _helpers.asyncResultWaiter 2, -> pushResult g
+						push = root._helpers.asyncResultWaiter 2, -> pushResult g
 
 						if fillPersons and not onlyRecent
 							@_magisterObj.getPersons g.Docent, 3, (e, r) ->
@@ -216,7 +218,7 @@ class @Course
 
 		@_magisterObj.http.get "#{@_magisterObj._personUrl}/aanmeldingen/#{@_id}/mentor", {}, (error, result) =>
 			if error? then callback error, null
-			else callback null, Person._convertRaw @_magisterObj, EJSON.parse result.content
+			else callback null, root.Person._convertRaw @_magisterObj, EJSON.parse result.content
 
 	###*
 	# Gets the (group / class) tutors.
@@ -233,10 +235,10 @@ class @Course
 			if error? then callback error, null
 			else
 				items = EJSON.parse(result.content).items # Really SchoolMaster, get consistent with using da capz.
-				callback null, (Person._convertRaw @_magisterObj, p for p in items)
+				callback null, (root.Person._convertRaw @_magisterObj, p for p in items)
 
 	@_convertRaw: (magisterObj, raw) ->
-		obj = new Course magisterObj
+		obj = new root.Course magisterObj
 
 		obj._classesUrl = magisterObj._personUrl + "/aanmeldingen/#{raw.Id}/vakken"
 
