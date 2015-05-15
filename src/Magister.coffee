@@ -52,6 +52,9 @@ class root.Magister
 		[from, to] = _.where arguments, (a) -> _.isDate a
 		unless _.isDate(to) then to = from
 
+		from = root._helpers.date from
+		to = root._helpers.date to
+
 		@_forceReady()
 		dateConvert = root._helpers.urlDateConvert
 		url = "#{@_personUrl}/afspraken?tot=#{dateConvert(to)}&van=#{dateConvert(from)}"
@@ -68,7 +71,7 @@ class root.Magister
 						for a in appointments
 							do (a) -> a._absenceInfo = _.find absences, (absence) -> absence.appointmentId is a.id()
 
-						_.remove appointments, (a) -> root._helpers.date(a.begin()) < root._helpers.date(from) or root._helpers.date(a.end()) > root._helpers.date(to)
+						_.remove appointments, (a) -> root._helpers.date(a.begin()) < from or root._helpers.date(a.end()) > to
 						callback null, _.sortBy appointments, (x) -> x.begin()
 
 					@http.get "#{@_personUrl}/roosterwijzigingen?tot=#{dateConvert(to)}&van=#{dateConvert(from)}", {}, (error, result) =>
