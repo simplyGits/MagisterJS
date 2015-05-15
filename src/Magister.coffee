@@ -573,6 +573,7 @@ class root.Magister
 	reLogin: ->
 		@_ready = no
 		@_magisterLoadError = null
+		@magisterSchool.url = @magisterSchool.url.replace /^http/, "https" # Force HTTPS.
 		url = "#{@magisterSchool.url}/api/sessie"
 		@http.post url,
 			Gebruikersnaam: @username
