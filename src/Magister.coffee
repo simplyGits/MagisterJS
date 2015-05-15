@@ -1,6 +1,8 @@
 root = module?.exports ? this
-@_ = _ = require("lodash") if not _? and require?
-@EJSON = EJSON = require("ejson") if not EJSON? and require?
+if Meteor?
+	@_ = _ = lodash
+else
+	@_ = _ = require("lodash") if not _?
 
 ###*
 # A JavaScript implementation of the Magister 6 API.
