@@ -1,4 +1,5 @@
 var expect = require("chai").expect;
+var fs = require("fs");
 var Magister = require("../").Magister;
 var options = null;
 
@@ -11,11 +12,12 @@ try {
 	options.userName = process.env.TEST_USERNAME;
 	options.password = process.env.TEST_PASSWORD;
 }
-if (options.school.url == null || options.userName == null || options.password == null)
+if (options.school.url == null || options.userName == null || options.password == null) {
 	throw new Error("No login information found.");
+}
 
 /*
-	to use this test:
+	To use this test:
 		Create a file in this folder called testOptions.json with as content (fill in your information):
 
 		{
@@ -28,8 +30,10 @@ if (options.school.url == null || options.userName == null || options.password =
 */
 
 describe("Magister", function() {
+	"use strict";
+
 	this.timeout(5000);
-	x = new Magister(options.school, options.userName, options.password);
+	var x = new Magister(options.school, options.userName, options.password);
 
 	it("should be a correct Magister object", function(done) {
 		expect(x).to.be.a("object");
@@ -82,10 +86,10 @@ describe("Magister", function() {
 	it("should send messages and retreive them", function (done) {
 		this.timeout(10000);
 		x.ready(function () {
-			s = "" + ~~(Math.random() * 100);
-			m = this;
+			var body = "" + ~~(Math.random() * 100);
+			var m = this;
 
-			m.composeAndSendMessage("Magister.js mocha test.", s, [x.profileInfo().firstName()]);
+			m.composeAndSendMessage("Magister.js mocha test.", body, [x.profileInfo().firstName()]);
 
 			setTimeout(function () {
 				m.inbox().messages(1, false, function(e, r) {
@@ -94,7 +98,7 @@ describe("Magister", function() {
 					expect(r).to.not.be.empty;
 
 					expect(r[0]).to.exist;
-					expect(r[0].body()).to.equal(s);
+					expect(r[0].body()).to.equal(body);
 
 					r[0].remove();
 
@@ -115,9 +119,11 @@ describe("Magister", function() {
 
 					if (msg.attachments().length > 0) {
 						foundAttachment = true;
-						expect(msg.attachments()[0]).to.exist;
-						expect(msg.attachments()[0]).to.have.a.property("download").be.a("function");
-						expect(msg.attachments()[0].download(false, function(e, r) {
+						var attachment = msg.attachments()[0];
+
+						expect(attachment).to.exist;
+						expect(attachment).to.have.a.property("download").be.a("function");
+						expect(attachment.download(false, function(e, r) {
 							expect(e).to.not.exist;
 							expect(r).to.be.a("string");
 							done();
