@@ -1,6 +1,7 @@
+root = module?.exports ? this
 request = require "request"
 
-class @MagisterHttp
+class root.MagisterHttp
 	###
 	# HTTP CLASS
 	# ======================
@@ -31,12 +32,15 @@ class @MagisterHttp
 	get: (url, options = {}, callback) ->
 		request { url, method: "GET", headers: @_cookieInserter(options.headers) }, (error, response, content) ->
 			callback error, { content, headers: response.headers }
+
 	delete: (url, options = {}, callback) ->
 		request { url, method: "DELETE", headers: @_cookieInserter(options.headers) }, (error, response, content) ->
 			callback error, { content, headers: response.headers }
+
 	post: (url, data, options = {}, callback) ->
 		request { url, method: "POST", headers: @_cookieInserter(options.headers), json: data }, (error, response, content) ->
 			callback error, { content: EJSON.stringify(content), headers: response.headers }
+
 	put: (url, data, options = {}, callback) ->
 		request { url, method: "PUT", headers: @_cookieInserter(options.headers), json: data }, (error, response, content) ->
 			callback error, { content: EJSON.stringify(content), headers: response.headers }
