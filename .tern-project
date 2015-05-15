@@ -1,0 +1,11 @@
+{
+	"libs": [
+		"browser",
+		"underscore"
+	],
+	"dontLoad": [ ".meteor", "node_modules", "lib" ],
+	"plugins": {
+		"meteor": {},
+		"node": {}
+	}
+}

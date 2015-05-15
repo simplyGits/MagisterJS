@@ -195,7 +195,7 @@ class root.Course
 
 						if fillPersons and not onlyRecent
 							@_magisterObj.getPersons g.Docent, 3, (e, r) ->
-								unless e? or !r[0]? then g._teacher = r[0]
+								unless e? or not r[0]? then g._teacher = r[0]
 								push()
 						else push()
 

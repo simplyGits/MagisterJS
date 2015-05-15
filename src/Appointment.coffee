@@ -202,7 +202,7 @@ class root.Appointment
 
 		return obj
 
-	_makeStorable: -> _.omit @, "_magisterObj"
+	_makeStorable: -> _.omit this, "_magisterObj"
 
 	@_convertRaw: (magisterObj, raw) ->
 		obj = new root.Appointment magisterObj

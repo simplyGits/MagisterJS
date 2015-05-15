@@ -116,8 +116,8 @@ class root.Grade
 					@_type._description = result.KolomOmschrijving
 
 					@_filled = yes
-					callback? null, @
-		else callback? null, @
+					callback? null, this
+		else callback? null, this
 
 	@_convertRaw: (magisterObj, raw) ->
 		obj = new root.Grade magisterObj

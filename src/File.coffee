@@ -50,7 +50,7 @@ class root.FileFolder
 		@_magisterObj.http.get "#{@_magisterObj._personUrl}/bronnen?parentId=#{@id()}", {}, (error, result) =>
 			if error? then callback error, null
 			else
-				files = (root.File._convertRaw @_magisterObj, @, f for f in EJSON.parse(result.content).Items)
+				files = (root.File._convertRaw @_magisterObj, this, f for f in EJSON.parse(result.content).Items)
 				pushResult = root._helpers.asyncResultWaiter files.length, (r) -> callback null, files
 
 				for f in files

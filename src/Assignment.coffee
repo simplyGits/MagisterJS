@@ -103,7 +103,7 @@ class root.Assignment
 		for id in @_versionIds
 			@_magisterObj.http.get "#{@_magisterObj._personUrl}/opdrachten/versie/#{id}", {}, (error, result) =>
 				if error? then callback error, null
-				else pushResult root.AssignmentVersion._convertRaw @_magisterObj, @, EJSON.parse(result.content)
+				else pushResult root.AssignmentVersion._convertRaw @_magisterObj, this, EJSON.parse(result.content)
 
 	@_convertRaw: (magisterObj, raw) ->
 		obj = new root.Assignment magisterObj

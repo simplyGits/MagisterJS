@@ -32,9 +32,9 @@ class root.MagisterHttp
 
 	delete: (url, options = {}, callback) -> Meteor.call "magisterjs-http", "DELETE", url, @_cookieInserter(options), callback
 
-	post: (url, data, options = {}, callback) -> Meteor.call "magisterjs-http", "POST", url, @_cookieInserter(_.extend({data}, options)), callback
+	post: (url, data, options = {}, callback) -> Meteor.call "magisterjs-http", "POST", url, @_cookieInserter(_.extend({ data }, options)), callback
 
-	put: (url, data, options = {}, callback) -> Meteor.call "magisterjs-http", "PUT", url, @_cookieInserter(_.extend({data}, options)), callback
+	put: (url, data, options = {}, callback) -> Meteor.call "magisterjs-http", "PUT", url, @_cookieInserter(_.extend({ data }, options)), callback
 
 	_cookie: ""
 	_cookieInserter: (original) ->
