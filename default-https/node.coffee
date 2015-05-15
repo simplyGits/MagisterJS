@@ -39,11 +39,11 @@ class root.MagisterHttp
 
 	post: (url, data, options = {}, callback) ->
 		request { url, method: "POST", headers: @_cookieInserter(options.headers), json: data }, (error, response, content) ->
-			callback error, { content: EJSON.stringify(content), headers: response.headers }
+			callback error, { content: JSON.stringify(content), headers: response.headers }
 
 	put: (url, data, options = {}, callback) ->
 		request { url, method: "PUT", headers: @_cookieInserter(options.headers), json: data }, (error, response, content) ->
-			callback error, { content: EJSON.stringify(content), headers: response.headers }
+			callback error, { content: JSON.stringify(content), headers: response.headers }
 
 	_cookie: ""
 	_cookieInserter: (original) -> return if @_cookie isnt "" then _.extend (original ? {}), { cookie: @_cookie } else original

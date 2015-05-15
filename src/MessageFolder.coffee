@@ -79,14 +79,14 @@ class root.MessageFolder
 			if error?
 				callback error, null
 			else
-				messages = ( root.Message._convertRaw(@_magisterObj, m) for m in EJSON.parse(result.content).Items )
+				messages = ( root.Message._convertRaw(@_magisterObj, m) for m in JSON.parse(result.content).Items )
 				pushMessage = root._helpers.asyncResultWaiter messages.length, (r) -> callback null, _.sortBy(r, (m) -> m.sendDate()).reverse()
 
 				for m in messages
 					do (m) =>
 						url = "#{@_magisterObj._personUrl}/berichten/#{m.id()}?berichtSoort=#{m.type()}"
 						@_magisterObj.http.get url, {}, (error, result) =>
-							parsed = EJSON.parse(result.content)
+							parsed = JSON.parse(result.content)
 							m._body = parsed.Inhoud
 							m._attachments = (root.File._convertRaw(@_magisterObj, undefined, a) for a in (parsed.Bijlagen ? []))
 
@@ -121,7 +121,7 @@ class root.MessageFolder
 				if error?
 					callback error, null
 				else
-					messageFolders = (root.MessageFolder._convertRaw(@_magisterObj, mF) for mF in EJSON.parse(result.content).Items)
+					messageFolders = (root.MessageFolder._convertRaw(@_magisterObj, mF) for mF in JSON.parse(result.content).Items)
 
 					if _.isString(query) and query isnt ""
 						result = _.where messageFolders, (mF) -> Helpers.contains mF.name(), query, yes
@@ -154,7 +154,7 @@ class root.MessageFolder
 
 		@_magisterObj.http.post "#{@_magisterObj._personUrl}/berichten/mappen", folder, {}, (error, result) =>
 			if error? then callback error, null
-			else callback null, root.MessageFolder._convertRaw @_magisterObj, EJSON.parse(result.content)
+			else callback null, root.MessageFolder._convertRaw @_magisterObj, JSON.parse(result.content)
 
 	# TODO: Doesn't work!
 	###*

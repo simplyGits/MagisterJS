@@ -68,12 +68,12 @@ class root.StudyGuide
 		@_magisterObj.http.get "#{@_magisterObj._pupilUrl}/studiewijzers/#{@id()}", {}, (error, result) =>
 			if error? then callback error, null
 			else
-				result = EJSON.parse(result.content).Onderdelen.Items
+				result = JSON.parse(result.content).Onderdelen.Items
 				pushResult = root._helpers.asyncResultWaiter result.length, (r) -> callback null, r
 
 				for id in (p.Id for p in result)
 					@_magisterObj.http.get "#{@_magisterObj._pupilUrl}/studiewijzers/#{@id()}/onderdelen/#{id}", {}, (error, result) =>
-						pushResult root.StudyGuidePart._convertRaw @_magisterObj, EJSON.parse(result.content)
+						pushResult root.StudyGuidePart._convertRaw @_magisterObj, JSON.parse(result.content)
 
 
 	@_convertRaw: (magisterObj, raw) ->

@@ -151,7 +151,7 @@ class root.Course
 			if error?
 				callback error, null
 			else
-				callback null, (root.Class._convertRaw @_magisterObj, c for c in EJSON.parse(result.content))
+				callback null, (root.Class._convertRaw @_magisterObj, c for c in JSON.parse(result.content))
 
 	###*
 	# Gets the grades of this Course.
@@ -178,7 +178,7 @@ class root.Course
 			if error?
 				callback error, null
 			else
-				result = EJSON.parse(result.content).Items
+				result = JSON.parse(result.content).Items
 				pushResult = root._helpers.asyncResultWaiter result.length, (r) ->
 					for c in _.uniq(r, (g) -> g.class().id()).map((g) -> g.class())
 						for g in _.filter(r, (g) -> g.class().id() is c.id())
@@ -218,7 +218,7 @@ class root.Course
 
 		@_magisterObj.http.get "#{@_magisterObj._personUrl}/aanmeldingen/#{@_id}/mentor", {}, (error, result) =>
 			if error? then callback error, null
-			else callback null, root.Person._convertRaw @_magisterObj, EJSON.parse result.content
+			else callback null, root.Person._convertRaw @_magisterObj, JSON.parse result.content
 
 	###*
 	# Gets the (group / class) tutors.
@@ -234,7 +234,7 @@ class root.Course
 		@_magisterObj.http.get "#{@_magisterObj._personUrl}/aanmeldingen/#{@_id}/mentor", {}, (error, result) =>
 			if error? then callback error, null
 			else
-				items = EJSON.parse(result.content).items # Really SchoolMaster, get consistent with using da capz.
+				items = JSON.parse(result.content).items # Really SchoolMaster, get consistent with using da capz.
 				callback null, (root.Person._convertRaw @_magisterObj, p for p in items)
 
 	@_convertRaw: (magisterObj, raw) ->

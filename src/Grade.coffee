@@ -108,7 +108,7 @@ class root.Grade
 			@_magisterObj.http.get @_columnUrl, {}, (error, result) =>
 				if error? then callback? error, null
 				else
-					result = EJSON.parse(result.content)
+					result = JSON.parse(result.content)
 					@_description = result.WerkInformatieOmschrijving
 					@_weight = result.Weging
 

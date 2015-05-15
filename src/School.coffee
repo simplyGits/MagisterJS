@@ -48,6 +48,6 @@ class root.MagisterSchool
 			if error?
 				callback error, null
 			else
-				callback null, (@_convertRaw s for s in EJSON.parse result.content)
+				callback null, (@_convertRaw s for s in JSON.parse result.content)
 
 	@_convertRaw: (raw) -> new root.MagisterSchool raw.Id, raw.Name, raw.Url

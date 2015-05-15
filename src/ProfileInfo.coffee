@@ -112,11 +112,11 @@ class root.ProfileInfo
 
 		@_magisterObj.http.get "#{@_magisterObj._personUrl}/profiel", {}, (e, r) ->
 			if e? then callback e, null
-			else push EJSON.parse r.content
+			else push JSON.parse r.content
 
 		@_magisterObj.http.get "#{@_magisterObj._personUrl}/adresprofiel", {}, (e, r) ->
 			if e? then callback e, null
-			else push EJSON.parse r.content
+			else push JSON.parse r.content
 
 	@_convertRaw: (magisterObj, raw) ->
 		raw = raw.Persoon

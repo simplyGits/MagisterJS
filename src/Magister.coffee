@@ -48,7 +48,7 @@ class root.Magister
 	###
 	appointments: ->
 		callback = _.find arguments, (a) -> _.isFunction a
-		download = _.find(arguments, (a) -> _.isBoolean a) ? yes
+		fillPersons = _.find(arguments, (a) -> _.isBoolean a) ? yes
 		[from, to] = _.where arguments, (a) -> _.isDate a
 		unless _.isDate(to) then to = from
 
@@ -58,33 +58,38 @@ class root.Magister
 		@_forceReady()
 		dateConvert = root._helpers.urlDateConvert
 		url = "#{@_personUrl}/afspraken?tot=#{dateConvert(to)}&van=#{dateConvert(from)}"
-		@http.get url, {},
-			(error, result) =>
-				if error?
-					callback error, null
+		@http.get url, {}, (error, result) =>
+				if error? then callback error, null
 				else
-					result = EJSON.parse result.content
+					result = JSON.parse result.content
 					appointments = (root.Appointment._convertRaw(this, a) for a in result.Items)
-					absences = []
 
-					hit = root._helpers.asyncResultWaiter 3, (r) ->
-						for a in appointments
-							do (a) -> a._absenceInfo = _.find absences, (absence) -> absence.appointmentId is a.id()
+					absenceInfo = []
+					changedAppointments = []
 
-						_.remove appointments, (a) -> root._helpers.date(a.begin()) < from or root._helpers.date(a.end()) > to
-						callback null, _.sortBy appointments, (x) -> x.begin()
+					finish = root._helpers.asyncResultWaiter 3, (r) ->
+						_.each appointments, (a) -> a._absenceInfo = _.find absenceInfo, (absence) -> absence.appointmentId is a.id()
 
+						appointments = _(appointments)
+							.reject (a) -> _.contains changedAppointments, (changedAppointment) -> changedAppointment.id() is a.id()
+							.concat changedAppointments
+							.filter (a) -> root._helpers.date(a.begin()) >= from and (root._helpers.date(a.end()) <= to or a.fullDay())
+							.sortBy "_begin"
+							.value()
+
+						callback null, appointments
+
+					# Get changedAppointments.
 					@http.get "#{@_personUrl}/roosterwijzigingen?tot=#{dateConvert(to)}&van=#{dateConvert(from)}", {}, (error, result) =>
-						for c in EJSON.parse(result.content).Items
-							appointment = root.Appointment._convertRaw(this, c)
-							_.remove appointments, (a) -> a.id() is appointment.id()
-							appointments.push appointment
-						hit()
+						result = JSON.parse result.content
+						changedAppointments.concat (root.Appointment._convertRaw(this, a) for a in result.Items)
+						finish()
 
+					# Get absenceInfo.
 					@http.get "#{@_personUrl}/absenties?tot=#{dateConvert(to)}&van=#{dateConvert(from)}", {}, (error, result) ->
-						result = EJSON.parse(result.content).Items
+						result = JSON.parse(result.content).Items
 						for a in result
-							do (a) -> absences.push
+							absenceInfo.push
 								id: a.Id
 								begin: new Date Date.parse a.Start
 								end: new Date Date.parse a.Eind
@@ -94,20 +99,20 @@ class root.Magister
 								description: root._helpers.trim a.Omschrijving
 								type: a.VerantwoordingType
 								code: a.Code
-						hit()
+						finish()
 
-					if download
-						pushResult = root._helpers.asyncResultWaiter appointments.length, -> hit()
+					# Get persons.
+					if fillPersons
+						pushResult = root._helpers.asyncResultWaiter appointments.length, finish
 
-						for a in appointments
-							do (a) =>
-								teachers = a.teachers() ? []
+						for a in appointments then do (a) =>
+							teachers = a.teachers() ? []
 
-								@fillPersons teachers, ((e, r) ->
-									a._teachers = r
-									pushResult()
-								), 3
-					else hit()
+							@fillPersons teachers, ((e, r) ->
+								a._teachers = r
+								pushResult()
+							), 3
+					else finish()
 
 	###*
 	# Gets the MessageFolders that matches the given query. Or if no query is given, all MessageFolders
@@ -168,7 +173,7 @@ class root.Magister
 				if error?
 					callback error, null
 				else
-					result = EJSON.parse result.content
+					result = JSON.parse result.content
 					callback null, _.sortBy((root.Course._convertRaw(this, c) for c in result.Items), (c) -> c.begin()).reverse()
 
 	###*
@@ -192,7 +197,7 @@ class root.Magister
 		@http.get url, {}, (error, result) ->
 			if error? then callback error, null
 			else
-				parsed = EJSON.parse result.content
+				parsed = JSON.parse result.content
 				callback null,
 					group: parsed.Klas
 					profile: pared.Profielen # It says 'profielen' but I really have no idea how multiple profiles are shown in a String...
@@ -249,7 +254,7 @@ class root.Magister
 				if error?
 					callback error, null
 				else
-					result = (root.Person._convertRaw(this, p) for p in EJSON.parse(result.content).Items)
+					result = (root.Person._convertRaw(this, p) for p in JSON.parse(result.content).Items)
 
 					Magister._cachedPersons["#{@_id}#{type}#{query}"] = result
 					callback null, result
@@ -330,7 +335,7 @@ class root.Magister
 
 		@http.get "#{@_personUrl}/bronnen?soort=0", {}, (error, result) =>
 			if error? then callback error, null
-			else callback null, ( root.FileFolder._convertRaw this, f for f in EJSON.parse(result.content).Items )
+			else callback null, ( root.FileFolder._convertRaw this, f for f in JSON.parse(result.content).Items )
 
 	###*
 	# Gets the StudyGuides of the current user.
@@ -352,7 +357,7 @@ class root.Magister
 			@http.get "#{@_pupilUrl}/studiewijzers?peildatum=#{root._helpers.urlDateConvert new Date}", {}, (error, result) =>
 				if error? then callback error, null
 				else
-					result = ( root.StudyGuide._convertRaw this, s for s in EJSON.parse(result.content).Items )
+					result = ( root.StudyGuide._convertRaw this, s for s in JSON.parse(result.content).Items )
 
 					for studyGuide in result then do (studyGuide) ->
 						if classes? then studyGuide._class = _.find classes, (c) -> c.abbreviation() is studyGuide._class
@@ -399,12 +404,12 @@ class root.Magister
 			@http.get "#{@_personUrl}/opdrachten?skip=#{skip}&top=#{amount}&status=alle", {}, (error, result) =>
 				if error? then callback error, null
 				else
-					result = (e.Id for e in EJSON.parse(result.content).Items)
+					result = (e.Id for e in JSON.parse(result.content).Items)
 					pushResult = root._helpers.asyncResultWaiter result.length, (r) -> callback null, r
 
 					for id in result
 						@http.get "#{@_personUrl}/opdrachten/#{id}", {}, (error, result) =>
-							assignment = root.Assignment._convertRaw this, EJSON.parse(result.content)
+							assignment = root.Assignment._convertRaw this, JSON.parse(result.content)
 
 							if classes? then assignment._class = _.find classes, (c) -> c.abbreviation() is assignment._class
 							else assignment._class = null
@@ -455,7 +460,7 @@ class root.Magister
 			@http.get url, {}, (error, result) =>
 				if error? then callback error, null
 				else
-					utilities = ( root.DigitalSchoolUtility._convertRaw this, u for u in EJSON.parse(result.content).Items )
+					utilities = ( root.DigitalSchoolUtility._convertRaw this, u for u in JSON.parse(result.content).Items )
 
 					if classes? then for u in utilities
 						do (u) ->
@@ -501,7 +506,7 @@ class root.Magister
 		@http.get "#{@_personUrl}/kinderen", {}, (error, result) =>
 			if error? then callback error, null
 			else
-				parsed = EJSON.parse(result.content)
+				parsed = JSON.parse(result.content)
 				if parsed.ExceptionId? and parsed.Reason is 1
 					callback _.extend(parsed, message: "User is not a parent."), null
 					return
@@ -517,7 +522,7 @@ class root.Magister
 						r._pupilUrl = "#{@magisterSchool.url}/api/leerlingen/#{r._id}"
 						r._profileInfo = c
 						@http.get "#{r._personUrl}/berichten/mappen", {}, (error, result) ->
-							r._messageFolders = (root.MessageFolder._convertRaw(r, m) for m in EJSON.parse(result.content).Items)
+							r._messageFolders = (root.MessageFolder._convertRaw(r, m) for m in JSON.parse(result.content).Items)
 							callback r
 						return undefined
 					res.push c
@@ -584,7 +589,7 @@ class root.Magister
 					(error, result) =>
 						if error? then @_setErrored error; return
 
-						result = EJSON.parse result.content
+						result = JSON.parse result.content
 						@_group = result.Groep[0]
 						@_id = result.Persoon.Id
 						@_personUrl = "#{@magisterSchool.url}/api/personen/#{@_id}"
@@ -593,5 +598,5 @@ class root.Magister
 
 						@http.get "#{@_personUrl}/berichten/mappen", {}, (error, result) =>
 							if error? then @_setErrored error; return
-							@_messageFolders = (root.MessageFolder._convertRaw(this, m) for m in EJSON.parse(result.content).Items)
+							@_messageFolders = (root.MessageFolder._convertRaw(this, m) for m in JSON.parse(result.content).Items)
 							@_setReady()
