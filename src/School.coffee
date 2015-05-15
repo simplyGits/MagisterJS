@@ -42,6 +42,8 @@ class root.MagisterSchool
 			callback null, []
 			return
 
+		query = query.replace(/\d/g, "").trim()
+
 		new MagisterHttp().get "https://mijn.magister.net/api/schools?filter=#{query}", {}, (error, result) =>
 			if error?
 				callback error, null
