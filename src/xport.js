@@ -1,5 +1,4 @@
 if (typeof module === "undefined" || !module.exports) { // Export stuff to keep inline with Node.
-	console.log("xport;");
 	Magister = {
 		Appointment: this.Appointment,
 		Assignment: this.Assignment,
