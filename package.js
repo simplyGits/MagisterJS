@@ -1,9 +1,9 @@
 Package.describe({
-  name: "simply:magisterjs",
-  version: "1.3.1",
-  summary: "A Meteor implementation of the Magister 6 API.",
-  git: "https://github.com/simplyGits/Meteor-MagisterJS",
-  documentation: "README.md"
+	name: "simply:magisterjs",
+	version: "1.3.2",
+	summary: "A Meteor implementation of the Magister 6 API.",
+	git: "https://github.com/simplyGits/Meteor-MagisterJS",
+	documentation: "README.md"
 });
 
 Npm.depends({
@@ -11,11 +11,11 @@ Npm.depends({
 });
 
 Package.onUse(function(api) {
-  api.versionsFrom("1.0.4.2");
+	api.versionsFrom("1.0.4.2");
 
-  api.use(["coffeescript", "erasaur:meteor-lodash@3.6.0"]);
+	api.use(["coffeescript", "erasaur:meteor-lodash@3.6.0"]);
 
-  api.addFiles([
+	api.addFiles([
 		"src/Appointment.coffee",
 		"src/Assignment.coffee",
 		"src/Course.coffee",
@@ -32,8 +32,8 @@ Package.onUse(function(api) {
 		"src/StudyGuide.coffee",
 		"src/xport.js",
 		"default-https/meteor.coffee"
-  ]);
-  api.addFiles("src/server/methods.coffee", "server");
+	]);
+	api.addFiles("src/server/methods.coffee", "server");
 
-  api.export("Magister");
+	api.export("Magister");
 });
