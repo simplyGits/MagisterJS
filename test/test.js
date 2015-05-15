@@ -35,7 +35,7 @@ describe("Magister", function() {
 	this.timeout(5000);
 	var x = new Magister(options.school, options.userName, options.password);
 
-	it("should be a correct Magister object", function(done) {
+	it("should be a correct Magister object", function (done) {
 		expect(x).to.be.a("object");
 		expect(x).to.have.a.property("ready").be.a("function");
 		expect(x).to.have.a.property("magisterSchool").be.a("object");
@@ -43,6 +43,12 @@ describe("Magister", function() {
 		x.ready(function () {
 			expect(this).to.equal(x);
 			done();
+		});
+	});
+
+	it("should login", function (done) {
+		x.ready(function (e) {
+			done(e);
 		});
 	});
 
