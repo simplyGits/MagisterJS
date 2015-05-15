@@ -1,6 +1,6 @@
 module.exports = (grunt) ->
-	headNode = '/* Magister.js (node version) by simplyApps. Built on: <%= grunt.template.today("dd-mm-yyyy") %> */\n'
-	headBrowser = '/* Magister.js (browser version) by simplyApps. Built on: <%= grunt.template.today("dd-mm-yyyy") %> */\n'
+	headNode = '/* Magister.js (node version) by simplyApps. Built on: <%= grunt.template.today("UTC:dd-mm-yyyy HH:MM \'UTC\'") %> */\n'
+	headBrowser = '/* Magister.js (browser version) by simplyApps. Built on: <%= grunt.template.today("UTC:dd-mm-yyyy HH:MM \'UTC\'") %> */\n'
 
 	grunt.initConfig
 		pkg: grunt.file.readJSON "package.json"
