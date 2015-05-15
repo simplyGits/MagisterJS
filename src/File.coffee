@@ -160,10 +160,11 @@ class root.File
 
 	###*
 	# Downloads the current file
+	# Currently only accessible from the server.
 	#
 	# @method download
 	# @async
-	# @param [downloadFile=true] {Boolean} Whether or not to download the file directly. Only works client-side.
+	# @param [downloadFile=true] {Boolean|String} Whether or not to download the file directly. If `downloadFile` is a truely string the file will be downloaded in with the name set to the string's content.
 	# @param [callback] {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
 	# 	@param [callback.result] {String} A string containing the base64 encoded binary data of the downloaded file.
@@ -181,6 +182,12 @@ class root.File
 			callback? new Error("`File.download` is only accessible from the server at the moment.\nYou can set a proxy yourself with something like iron:router serverside routes."), null
 			return undefined
 
+		fileName = (
+			if downloadFile?
+				if _.isString(downloadFile) then downloadFile
+				else @name()
+		)
+
 		request(
 			url: @_downloadUrl
 			method: "GET"
@@ -189,7 +196,7 @@ class root.File
 		)
 			.on "error", (err) -> callback? err, null
 			.on "response", (res) -> callback? null, ""
-			.pipe if downloadFile? then require("fs").createWriteStream(@name()) else null
+			.pipe require("fs").createWriteStream fileName
 
 	###*
 	# Moves the current File to another FileFolder
