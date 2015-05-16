@@ -7,7 +7,7 @@
 		<script src="https://code.jquery.com/jquery-2.1.1.min.js" type="application/javascript" defer></script>
 		<script src="ace-builds/src-min/ace.js" type="text/javascript" charset="utf-8" defer></script>
 		<script src="js/magister.http.js" type="application/javascript" defer></script>
-		<script src="https://rawgit.com/simplyGits/MagisterJS/master/lib/separateHttp/magister-browser-noHttp.min.js" type="application/javascript" defer></script>
+		<script src="https://rawgit.com/simplyGits/MagisterJS/master/lib/browser/separateHttp/magister-browser-noHttp.min.js" type="application/javascript" defer></script>
 		<script src="js/index.js" type="application/javascript" defer></script>
 		<link href="css/index.css" rel="stylesheet"/>
 	</head>
@@ -16,7 +16,7 @@
 		<h1>Try Magister.js for <span style="color: red;">FREE</span>!</h1>
 
 <div id="editor">// First parameter should be a query as String (e.g "Adelbert") or { url: String } (e.g { url: "https://adelbert.magister.net" })
-new Magister("&lt;schoolname&gt;", "&lt;username&gt;", "&lt;password&gt;").ready(function (error) {
+new Magister.Magister("&lt;schoolname&gt;", "&lt;username&gt;", "&lt;password&gt;").ready(function (error) {
     if (error) console.log("ouch. ", error);
     else alert("Hey, " + this.profileInfo().firstName() + "!");
 });</div>
