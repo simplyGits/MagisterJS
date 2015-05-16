@@ -1,8 +1,12 @@
 root = module?.exports ? this
 if Meteor?
 	@_ = _ = lodash
-else
+else if module?.exports? and require? and not window?
 	@_ = _ = require("lodash") if not _?
+else if @_?
+	_ = @
+else
+	throw new Error "Lo-dash is required."
 
 ###*
 # A JavaScript implementation of the Magister 6 API.
