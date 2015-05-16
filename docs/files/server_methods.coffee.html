@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Person.coffee - Magister.js Docs</title>
+    <title>server/methods.coffee - Magister.js Docs</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -94,140 +94,42 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: Person.coffee</h1>
+<h1 class="file-heading">File: server/methods.coffee</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-root = (module?.exports ? this.Magister ?= {})
+request = Npm.require &quot;request&quot;
+future = Npm.require &quot;fibers/future&quot;
 
-###*
-# A Person.
-#
-# @class Person
-# @private
-# @param _magisterObj {Magister} A Magister object this Person is child of.
-# @param _type {Number|String} The type of the Person.
-# @param _firstName {String} The first name of the Person.
-# @param _lastName {String} The last name of the Person.
-# @constructor
-###
-class root.Person
-	constructor: (@_magisterObj, @_type, @_firstName, @_lastName) -&gt;
-		if @_firstName? and @_lastName?
-			throw new Error &quot;One or more arguments is not a string.&quot; if _.any _.toArray(arguments)[2..], (a) -&gt; a? and not _.isString a
+Meteor.methods
+	###*
+	# Do a HTTP request.
+	# @method magisterjs-http
+	# @param method {String} The HTTP method to use.
+	# @param url {String} The URL to send the HTTP request to.
+	# @param options {Object} A request settings object.
+	# @return {Object} { content: String, headers: Object }
+	###
+	&quot;magisterjs-http&quot;: (method, url, options = {}) -&gt;
+		@unblock()
+		headers = options.headers ? {}
+		fut = new future()
 
-		###*
-		# @property id
-		# @final
-		# @type Number
-		###
-		@id = root._getset &quot;_id&quot;
-		###*
-		# @property type
-		# @type String
-		###
-		@type = root._getset &quot;_type&quot;, ((val) =&gt; @_type = Person._convertType(val, yes)), Person._convertType
-		###*
-		# @property firstName
-		# @final
-		# @type String
-		###
-		@firstName = root._getset &quot;_firstName&quot;
-		###*
-		# @property lastName
-		# @final
-		# @type String
-		###
-		@lastName = root._getset &quot;_lastName&quot;
-		###*
-		# @property namePrefix
-		# @final
-		# @type String
-		###
-		@namePrefix = root._getset &quot;_namePrefix&quot;
-		###*
-		# @property fullName
-		# @final
-		# @type String
-		###
-		@fullName = root._getset &quot;_fullName&quot;
-		###*
-		# @property description
-		# @final
-		# @type String
-		###
-		@description = root._getset &quot;_description&quot;
-		###*
-		# @property group
-		# @final
-		# @type String
-		###
-		@group = root._getset &quot;_group&quot;
-		###*
-		# @property teacherCode
-		# @final
-		# @type String
-		###
-		@teacherCode = root._getset &quot;_teacherCode&quot;
-		###*
-		# @property emailAddress
-		# @final
-		# @type String
-		###
-		@emailAddress = root._getset &quot;_emailAddress&quot;
+		opt = _.extend options, {
+			method
+			url
+			headers
+			jar: no
+			body: options.data ? options.content
+			json: options.data?
+			encoding: if _.isUndefined(options.encoding) then &quot;utf8&quot; else options.encoding
+		}
 
-	_toMagisterStyle: -&gt;
-		obj = {}
+		request opt, (error, response, content) -&gt;
+			if error? then fut.throw error
+			else fut.return { content, headers: response.headers }
 
-		obj.Id = @_id
-		obj.Type = @_type
-		obj.Voornaam = @_firstName
-		obj.Achternaam = @_lastName
-		obj.Tussenvoegsel = @_namePrefix
-		obj.Naam = @_fullName
-		obj.Omschrijving = @_description
-		obj.Groep = @_group
-		obj.Docentcode = @_teacherCode
-		obj.Emailadres = @_emailAddress
-
-		return obj
-
-	@_convertRaw: (magisterObj, raw) -&gt;
-		obj = new root.Person magisterObj, raw.Type, raw.Voornaam, raw.Achternaam
-
-		obj._id = raw.Id
-		obj._namePrefix = raw.Tussenvoegsel
-		obj._fullName = raw.Naam
-		obj._description = raw.Omschrijving ? raw.Naam ? raw.naam
-		obj._group = raw.Groep
-		obj._teacherCode = raw.Docentcode
-		obj._emailAddress = raw.Emailadres
-
-		return obj
-
-	@_convertType: (original, setter = yes) -&gt;
-		if setter
-			if _.isNumber original
-				throw new Error &quot;Invalid value: \&quot;#{original}\&quot;.&quot; unless _.contains [1, 3, 4, 8], original
-				return original
-
-			else
-				switch original.toLowerCase()
-					when &quot;group&quot; then 1
-					when &quot;teacher&quot; or &quot;personnel&quot; then 3
-					when &quot;pupil&quot; then 4
-					when &quot;project&quot; then 8
-
-					else throw new Error &quot;Invalid value: \&quot;#{original}\&quot;.&quot;
-
-		else
-			switch original
-				when 1 then &quot;group&quot;
-				when 3 then &quot;teacher&quot;
-				when 4 then &quot;pupil&quot;
-				when 8 then &quot;project&quot;
-
-				else undefined
+		fut.wait()
 
     </pre>
 </div>

@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.2.2</em>
+            <em>API Docs for: 1.3.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -98,6 +98,8 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
+root = (module?.exports ? this.Magister ?= {})
+
 ###*
 # Information of the logged in user. Or a child.
 #
@@ -109,68 +111,68 @@
 # @param _birthDate {Date} The date of birth of the user.
 # @constructor
 ###
-class @ProfileInfo
+class root.ProfileInfo
 	constructor: (@_magisterObj, @_firstName, @_lastName, @_birthDate) -&gt;
 		###*
 		# @property id
 		# @final
 		# @type Number
 		###
-		@id = _getset &quot;_id&quot;
+		@id = root._getset &quot;_id&quot;
 		###*
 		# @property officialFirstNames
 		# @final
 		# @type String
 		###
-		@officialFirstNames = _getset &quot;_officialFirstNames&quot;
+		@officialFirstNames = root._getset &quot;_officialFirstNames&quot;
 		###*
 		# @property initials
 		# @final
 		# @type String
 		###
-		@initials = _getset &quot;_initials&quot;
+		@initials = root._getset &quot;_initials&quot;
 		###*
 		# @property namePrefix
 		# @final
 		# @type String
 		###
-		@namePrefix = _getset &quot;_namePrefix&quot;
+		@namePrefix = root._getset &quot;_namePrefix&quot;
 		###*
 		# @property officialSurname
 		# @final
 		# @type String
 		###
-		@officialSurname = _getset &quot;_officialSurname&quot;
+		@officialSurname = root._getset &quot;_officialSurname&quot;
 		###*
 		# @property birthSurname
 		# @final
 		# @type String
 		###
-		@birthSurname = _getset &quot;_birthSurname&quot;
+		@birthSurname = root._getset &quot;_birthSurname&quot;
 		###*
 		# @property birthNamePrefix
 		# @final
 		# @type String
 		###
-		@birthNamePrefix = _getset &quot;_birthNamePrefix&quot;
+		@birthNamePrefix = root._getset &quot;_birthNamePrefix&quot;
 		###*
 		# @property useBirthname
 		# @final
 		# @type Boolean
 		###
-		@useBirthname = _getset &quot;_useBirthname&quot;
+		@useBirthname = root._getset &quot;_useBirthname&quot;
 		###*
 		# @property firstName
 		# @final
 		# @type String
 		###
-		@firstName = _getset &quot;_firstName&quot;
+		@firstName = root._getset &quot;_firstName&quot;
 		###*
 		# @property lastName
 		# @final
 		# @type String
 		###
-		@lastName = _getset &quot;_lastName&quot;
+		@lastName = root._getset &quot;_lastName&quot;
 		###*
 		# Equal to firstName() + &quot; &quot; + lastName()
 		# @property fullName
@@ -183,7 +185,7 @@ class @ProfileInfo
 		# @final
 		# @type Date
 		###
-		@birthDate = _getset &quot;_birthDate&quot;
+		@birthDate = root._getset &quot;_birthDate&quot;
 
 	###*
 	# The profile picture of the current User.
@@ -206,19 +208,19 @@ class @ProfileInfo
 	###
 	detailedInfo: (callback) -&gt;
 		unless callback? then throw new Error &quot;&#x60;callback&#x60; is required.&quot;
-		push = _helpers.asyncResultWaiter 2, (r) -&gt; callback null, DetailedProfileInfo._convertRaw _.extend r[0], r[1]
+		push = root._helpers.asyncResultWaiter 2, (r) -&gt; callback null, root.DetailedProfileInfo._convertRaw _.extend r[0], r[1]
 
 		@_magisterObj.http.get &quot;#{@_magisterObj._personUrl}/profiel&quot;, {}, (e, r) -&gt;
 			if e? then callback e, null
-			else push EJSON.parse r.content
+			else push JSON.parse r.content
 
 		@_magisterObj.http.get &quot;#{@_magisterObj._personUrl}/adresprofiel&quot;, {}, (e, r) -&gt;
 			if e? then callback e, null
-			else push EJSON.parse r.content
+			else push JSON.parse r.content
 
 	@_convertRaw: (magisterObj, raw) -&gt;
 		raw = raw.Persoon
-		obj = new ProfileInfo magisterObj, raw.Roepnaam, raw.Achternaam, new Date Date.parse raw.Geboortedatum
+		obj = new root.ProfileInfo magisterObj, raw.Roepnaam, raw.Achternaam, new Date Date.parse raw.Geboortedatum
 
 		obj._id = raw.Id
 		obj._officialFirstNames = raw.OfficieleVoornamen
@@ -238,44 +240,44 @@ class @ProfileInfo
 # @private
 # @constructor
 ###
-class @DetailedProfileInfo
+class root.DetailedProfileInfo
 	constructor: -&gt;
 		###*
 		# @property redirectMagisterMessages
 		# @final
 		# @type Boolean
 		###
-		@redirectMagisterMessages = _getset &quot;_redirectMagisterMessages&quot;
+		@redirectMagisterMessages = root._getset &quot;_redirectMagisterMessages&quot;
 		###*
 		# @property emailAddress
 		# @final
 		# @type String
 		###
-		@emailAddress = _getset &quot;_emailAddress&quot;
+		@emailAddress = root._getset &quot;_emailAddress&quot;
 		###*
 		# @property mobileNumber
 		# @final
 		# @type String
 		###
-		@mobileNumber = _getset &quot;_mobileNumber&quot;
+		@mobileNumber = root._getset &quot;_mobileNumber&quot;
 		###*
 		# @property postalCode
 		# @final
 		# @type String
 		###
-		@postalCode = _getset &quot;_postalCode&quot;
+		@postalCode = root._getset &quot;_postalCode&quot;
 		###*
 		# @property street
 		# @final
 		# @type String
 		###
-		@street = _getset &quot;_street&quot;
+		@street = root._getset &quot;_street&quot;
 		###*
 		# @property houseNumber
 		# @final
 		# @type Number
 		###
-		@houseNumber = _getset &quot;_houseNumber&quot;
+		@houseNumber = root._getset &quot;_houseNumber&quot;
 		###*
 		# String behind the &#x60;houseNumber&#x60; (eg &#x27;A&#x27;)
 		#
@@ -283,19 +285,19 @@ class @DetailedProfileInfo
 		# @final
 		# @type String
 		###
-		@suffix = _getset &quot;_suffix&quot;
+		@suffix = root._getset &quot;_suffix&quot;
 		###*
 		# @property city
 		# @final
 		# @type String
 		###
-		@city = _getset &quot;_city&quot;
+		@city = root._getset &quot;_city&quot;
 
 	@_convertRaw: -&gt;
 		# Normally &#x60;_convertRaw&#x60; functions require 2 params.
 		raw = arguments[if arguments.length is 2 then 1 else 0]
 
-		obj = new DetailedProfileInfo
+		obj = new root.DetailedProfileInfo
 
 		obj._redirectMagisterMessages = raw.EloBerichtenDoorsturen
 		obj._emailAddress = raw.EmailAdres

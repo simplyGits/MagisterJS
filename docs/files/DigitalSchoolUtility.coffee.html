@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.2.2</em>
+            <em>API Docs for: 1.3.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -98,6 +98,8 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
+root = (module?.exports ? this.Magister ?= {})
+
 ###*
 # A Digital school utility, usually things like a gateway to an online platform of a book used by a school.
 #
@@ -106,72 +108,72 @@
 # @constructor
 # @param _magisterObj {Magister} A Magister object this DigitalSchoolUtility is child of.
 ###
-class @DigitalSchoolUtility
+class root.DigitalSchoolUtility
 	constructor: (@_magisterObj) -&gt;
 		###*
 		# @property id
 		# @final
 		# @type Number
 		###
-		@id = _getset &quot;_id&quot;
+		@id = root._getset &quot;_id&quot;
 		###*
 		# @property type
 		# @final
 		# @type Number
 		###
-		@type = _getset &quot;_type&quot;
+		@type = root._getset &quot;_type&quot;
 		###*
 		# @property name
 		# @final
 		# @type String
 		###
-		@name = _getset &quot;_name&quot;
+		@name = root._getset &quot;_name&quot;
 		###*
 		# @property publisher
 		# @final
 		# @type String
 		###
-		@publisher = _getset &quot;_publisher&quot;
+		@publisher = root._getset &quot;_publisher&quot;
 		###*
 		# @property state
 		# @final
 		# @type Number
 		###
-		@state = _getset &quot;_state&quot;
+		@state = root._getset &quot;_state&quot;
 		###*
 		# @property begin
 		# @final
 		# @type Date
 		###
-		@begin = _getset &quot;_begin&quot;
+		@begin = root._getset &quot;_begin&quot;
 		###*
 		# @property end
 		# @final
 		# @type Date
 		###
-		@end = _getset &quot;_end&quot;
+		@end = root._getset &quot;_end&quot;
 		###*
 		# @property EAN
 		# @final
 		# @type Number
 		###
-		@EAN = _getset &quot;_EAN&quot;
+		@EAN = root._getset &quot;_EAN&quot;
 		###*
 		# @property url
 		# @final
 		# @type String
 		###
-		@url = _getset &quot;_url&quot;
+		@url = root._getset &quot;_url&quot;
 		###*
 		# This should be a Class object, if no class was found this will be undefined.
 		# @property class
 		# @final
 		# @type Class|undefined
 		###
-		@class = _getset &quot;_class&quot;
+		@class = root._getset &quot;_class&quot;
 
 	@_convertRaw: (magisterObj, raw) -&gt;
-		obj = new DigitalSchoolUtility magisterObj
+		obj = new root.DigitalSchoolUtility magisterObj
 
 		obj._id = raw.Id
 		obj._type = raw.MateriaalType
@@ -185,6 +187,7 @@ class @DigitalSchoolUtility
 		obj._class = raw.Vak # Will be replace with a Class object by Magister.digitalSchoolUtitlies(...) if everything goes correctly.
 
 		return obj
+
     </pre>
 </div>
                     </div>

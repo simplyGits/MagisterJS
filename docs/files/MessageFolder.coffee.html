@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.2.2</em>
+            <em>API Docs for: 1.3.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -98,12 +98,14 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
+root = (module?.exports ? this.Magister ?= {})
+
 findQueries = (queries) -&gt;
 	final = &quot;&quot;
 
-	if _.any([&quot;unread&quot;, &quot;ongelezen&quot;], (x) -&gt; _helpers.contains queries, x, yes)
+	if _.any([&quot;unread&quot;, &quot;ongelezen&quot;], (x) -&gt; root._helpers.contains queries, x, yes)
 		final += &quot;&amp;gelezen=false&quot;
-	else if _.any([&quot;read&quot;, &quot;gelezen&quot;], (x) -&gt; _helpers.contains queries, x, yes)
+	else if _.any([&quot;read&quot;, &quot;gelezen&quot;], (x) -&gt; root._helpers.contains queries, x, yes)
 		final += &quot;&amp;gelezen=true&quot;
 
 	if (result = /(skip \d+)|(sla \d+ over)/ig.exec(queries))?
@@ -120,32 +122,32 @@ findQueries = (queries) -&gt;
 # @param _magisterObj {Magister} A Magister object this MessageFolder is child of.
 # @constructor
 ###
-class @MessageFolder
+class root.MessageFolder
 	constructor: (@_magisterObj) -&gt;
 		###*
 		# @property name
 		# @final
 		# @type String
 		###
-		@name = _getset &quot;_name&quot;
+		@name = root._getset &quot;_name&quot;
 		###*
 		# @property unreadMessagesCount
 		# @final
 		# @type Number
 		###
-		@unreadMessagesCount = _getset &quot;_unreadMessagesCount&quot;
+		@unreadMessagesCount = root._getset &quot;_unreadMessagesCount&quot;
 		###*
 		# @property id
 		# @final
 		# @type Number
 		###
-		@id = _getset &quot;_id&quot;
+		@id = root._getset &quot;_id&quot;
 		###*
 		# @property parentId
 		# @final
 		# @type Number
 		###
-		@parentId = _getset &quot;_parentId&quot;
+		@parentId = root._getset &quot;_parentId&quot;
 
 	###*
 	# Gets the Messages of this MessageFolder.
@@ -177,20 +179,20 @@ class @MessageFolder
 			if error?
 				callback error, null
 			else
-				messages = ( Message._convertRaw(@_magisterObj, m) for m in EJSON.parse(result.content).Items )
-				pushMessage = _helpers.asyncResultWaiter messages.length, (r) -&gt; callback null, _.sortBy(r, (m) -&gt; m.sendDate()).reverse()
+				messages = ( root.Message._convertRaw(@_magisterObj, m) for m in JSON.parse(result.content).Items )
+				pushMessage = root._helpers.asyncResultWaiter messages.length, (r) -&gt; callback null, _.sortBy(r, (m) -&gt; m.sendDate()).reverse()
 
 				for m in messages
 					do (m) =&gt;
 						url = &quot;#{@_magisterObj._personUrl}/berichten/#{m.id()}?berichtSoort=#{m.type()}&quot;
 						@_magisterObj.http.get url, {}, (error, result) =&gt;
-							parsed = EJSON.parse(result.content)
+							parsed = JSON.parse(result.content)
 							m._body = parsed.Inhoud
-							m._attachments = (File._convertRaw(@_magisterObj, undefined, a) for a in (parsed.Bijlagen ? []))
+							m._attachments = (root.File._convertRaw(@_magisterObj, undefined, a) for a in (parsed.Bijlagen ? []))
 
 							if download
-								pushPeople = _helpers.asyncResultWaiter m.recipients().length + 1, -&gt; pushMessage m
-								
+								pushPeople = root._helpers.asyncResultWaiter m.recipients().length + 1, -&gt; pushMessage m
+
 								@_magisterObj.fillPersons m.recipients(), (e, r) -&gt;
 									m._recipients = r
 									pushPeople r
@@ -219,7 +221,7 @@ class @MessageFolder
 				if error?
 					callback error, null
 				else
-					messageFolders = (MessageFolder._convertRaw(@_magisterObj, mF) for mF in EJSON.parse(result.content).Items)
+					messageFolders = (root.MessageFolder._convertRaw(@_magisterObj, mF) for mF in JSON.parse(result.content).Items)
 
 					if _.isString(query) and query isnt &quot;&quot;
 						result = _.where messageFolders, (mF) -&gt; Helpers.contains mF.name(), query, yes
@@ -252,7 +254,7 @@ class @MessageFolder
 
 		@_magisterObj.http.post &quot;#{@_magisterObj._personUrl}/berichten/mappen&quot;, folder, {}, (error, result) =&gt;
 			if error? then callback error, null
-			else callback null, MessageFolder._convertRaw @_magisterObj, EJSON.parse(result.content)
+			else callback null, root.MessageFolder._convertRaw @_magisterObj, JSON.parse(result.content)
 
 	# TODO: Doesn&#x27;t work!
 	###*
@@ -272,7 +274,7 @@ class @MessageFolder
 		return obj
 
 	@_convertRaw: (magisterObj, raw) -&gt;
-		obj = new MessageFolder magisterObj
+		obj = new root.MessageFolder magisterObj
 
 		obj._name = raw.Naam
 		obj._unreadMessagesCount = raw.OngelezenBerichten
@@ -280,6 +282,7 @@ class @MessageFolder
 		obj._parentId = raw.ParentId
 
 		return obj
+
     </pre>
 </div>
                     </div>

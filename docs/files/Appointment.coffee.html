@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.2.2</em>
+            <em>API Docs for: 1.3.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -98,6 +98,8 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
+root = (module?.exports ? this.Magister ?= {})
+
 ###*
 # An appointment.
 #
@@ -106,93 +108,93 @@
 # @param _magisterObj {Magister} A Magister object this Appointment is child of.
 # @constructor
 ###
-class @Appointment
+class root.Appointment
 	constructor: (@_magisterObj) -&gt;
 		###*
 		# @property id
 		# @final
 		# @type Number
 		###
-		@id = _getset &quot;_id&quot;
+		@id = root._getset &quot;_id&quot;
 		###*
 		# @property begin
 		# @final
 		# @type Date
 		###
-		@begin = _getset &quot;_begin&quot;
+		@begin = root._getset &quot;_begin&quot;
 		###*
 		# @property end
 		# @final
 		# @type Date
 		###
-		@end = _getset &quot;_end&quot;
+		@end = root._getset &quot;_end&quot;
 		###*
 		# @property beginBySchoolHour
 		# @final
 		# @type Number
 		###
-		@beginBySchoolHour = _getset &quot;_beginBySchoolHour&quot;
+		@beginBySchoolHour = root._getset &quot;_beginBySchoolHour&quot;
 		###*
 		# @property endBySchoolHour
 		# @final
 		# @type Number
 		###
-		@endBySchoolHour = _getset &quot;_endBySchoolHour&quot;
+		@endBySchoolHour = root._getset &quot;_endBySchoolHour&quot;
 		###*
 		# @property fullDay
 		# @final
 		# @type Boolean
 		###
-		@fullDay = _getset &quot;_fullDay&quot;
+		@fullDay = root._getset &quot;_fullDay&quot;
 		###*
 		# @property description
 		# @final
 		# @type String
 		###
-		@description = _getset &quot;_description&quot;
+		@description = root._getset &quot;_description&quot;
 		###*
 		# @property location
 		# @final
 		# @type String
 		###
-		@location = _getset &quot;_location&quot;
+		@location = root._getset &quot;_location&quot;
 		###*
 		# @property status
 		# @final
 		# @type Number
 		###
-		@status = _getset &quot;_status&quot;
+		@status = root._getset &quot;_status&quot;
 		###*
 		# @property type
 		# @final
 		# @type Number
 		###
-		@type = _getset &quot;_type&quot;
+		@type = root._getset &quot;_type&quot;
 		###*
 		# @property displayType
 		# @final
 		# @type Number
 		###
-		@displayType = _getset &quot;_displayType&quot;
+		@displayType = root._getset &quot;_displayType&quot;
 		###*
 		# @property content
 		# @final
 		# @type String
 		###
-		@content = _getset &quot;_content&quot;, null, (x) -&gt; if x? then x.replace(/&lt;br ?\/?&gt;/g, &quot;\n&quot;).replace(/(&lt;[^&gt;]*&gt;)|(&amp;nbsp;)/g, &quot;&quot;).replace(/\n{2,}/g, &quot;\n&quot;).replace(/&amp;amp;/ig, &quot;&amp;&quot;).trim() else &quot;&quot;
+		@content = root._getset &quot;_content&quot;, null, (x) -&gt; if x? then x.replace(/&lt;br ?\/?&gt;/g, &quot;\n&quot;).replace(/(&lt;[^&gt;]*&gt;)|(&amp;nbsp;)/g, &quot;&quot;).replace(/\n{2,}/g, &quot;\n&quot;).replace(/&amp;amp;/ig, &quot;&amp;&quot;).trim() else &quot;&quot;
 		###*
 		# @property infoType
 		# @final
 		# @type Number
 		###
-		@infoType = _getset &quot;_infoType&quot;
+		@infoType = root._getset &quot;_infoType&quot;
 		###*
 		# infoType parsed as a string.
 		# @property infoTypeString
 		# @final
 		# @type String
 		###
-		@infoTypeString = _getset &quot;_infoType&quot;, null, (x) -&gt;
+		@infoTypeString = root._getset &quot;_infoType&quot;, null, (x) -&gt;
 			return switch x
 				when 0 then &quot;none&quot;
 				when 1 then &quot;homework&quot;
@@ -208,12 +210,12 @@ class @Appointment
 		# @final
 		# @type String
 		###
-		@notes = _getset &quot;_notes&quot;
+		@notes = root._getset &quot;_notes&quot;
 		###*
 		# @property isDone
 		# @type Boolean
 		###
-		@isDone = _getset &quot;_isDone&quot;, (d) =&gt;
+		@isDone = root._getset &quot;_isDone&quot;, (d) =&gt;
 			return if @_isDone is d
 
 			@_isDone = d
@@ -223,62 +225,62 @@ class @Appointment
 		# @final
 		# @type String[]
 		###
-		@classes = _getset &quot;_classes&quot;
+		@classes = root._getset &quot;_classes&quot;
 		###*
 		# @property teachers
 		# @final
 		# @type Person[]
 		###
-		@teachers = _getset &quot;_teachers&quot;
+		@teachers = root._getset &quot;_teachers&quot;
 		###*
 		# @property classRooms
 		# @final
 		# @type String[]
 		###
-		@classRooms = _getset &quot;_classRooms&quot;
+		@classRooms = root._getset &quot;_classRooms&quot;
 		###*
 		# @property groups
 		# @final
 		# @type String[]
 		###
-		@groups = _getset &quot;_groups&quot;
+		@groups = root._getset &quot;_groups&quot;
 		###*
 		# @property appointmentId
 		# @final
 		# @type Number
 		###
-		@appointmentId = _getset &quot;_appointmentId&quot;
+		@appointmentId = root._getset &quot;_appointmentId&quot;
 		###*
 		# @property attachments
 		# @final
 		# @type File[]
 		###
-		@attachments = _getset &quot;_attachments&quot;
+		@attachments = root._getset &quot;_attachments&quot;
 		###*
 		# @property url
 		# @final
 		# @type String
 		###
-		@url = _getset &quot;_url&quot;
+		@url = root._getset &quot;_url&quot;
 		###*
 		# @property scrapped
 		# @final
 		# @type Boolean
 		###
-		@scrapped = _getset &quot;_scrapped&quot;
+		@scrapped = root._getset &quot;_scrapped&quot;
 		###*
 		# @property absenceInfo
 		# @final
 		# @type Object
 		###
-		@absenceInfo = _getset &quot;_absenceInfo&quot;
+		@absenceInfo = root._getset &quot;_absenceInfo&quot;
 
 	_toMagisterStyle: -&gt;
 		obj = {}
 
 		obj.Id = @_id
-		obj.Start = _helpers.toUtcString @_begin
-		obj.Einde = _helpers.toUtcString @_end
+		obj.Start = root._helpers.toUtcString @_begin
+		obj.Einde = root._helpers.toUtcString @_end
 		obj.LesuurVan = @_beginBySchoolHour
 		obj.LesuurTotMet = @_endBySchoolHour
 		obj.DuurtHeleDag = @_fullDay
@@ -300,10 +302,10 @@ class @Appointment
 
 		return obj
 
-	_makeStorable: -&gt; _.omit @, &quot;_magisterObj&quot;
+	_makeStorable: -&gt; _.omit this, &quot;_magisterObj&quot;
 
 	@_convertRaw: (magisterObj, raw) -&gt;
-		obj = new Appointment magisterObj
+		obj = new root.Appointment magisterObj
 
 		obj._id = raw.Id
 		obj._begin = new Date Date.parse raw.Start
@@ -321,7 +323,7 @@ class @Appointment
 		obj._notes = raw.Aantekening
 		obj._isDone = raw.Afgerond
 		obj._classes = if raw.Vakken? then (c.Naam for c in raw.Vakken) else []
-		obj._teachers = if raw.Docenten? then (Person._convertRaw(magisterObj, p) for p in raw.Docenten) else []
+		obj._teachers = if raw.Docenten? then (root.Person._convertRaw(magisterObj, p) for p in raw.Docenten) else []
 		obj._classRooms = if raw.Lokalen? then (c.Naam for c in raw.Lokalen) else []
 		obj._groups = raw.Groepen # ?
 		obj._appointmentId = raw.OpdrachtId
@@ -332,7 +334,7 @@ class @Appointment
 		return obj
 
 	@_convertStored: (magisterObj, raw) -&gt;
-		obj = _.extend raw, new Appointment magisterObj
+		obj = _.extend raw, new root.Appointment magisterObj
 		obj._magisterObj = magisterObj
 		obj._begin = new Date Date.parse raw._begin
 		obj._end = new Date Date.parse raw._end

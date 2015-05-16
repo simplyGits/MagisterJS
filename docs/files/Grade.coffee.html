@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.2.2</em>
+            <em>API Docs for: 1.3.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -98,6 +98,8 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
+root = (module?.exports ? this.Magister ?= {})
+
 ###*
 # A Grade (ex. 1,0)
 #
@@ -106,92 +108,92 @@
 # @constructor
 # @param _magisterObj {Magister} A Magister object this Grade is child of.
 ###
-class @Grade
+class root.Grade
 	constructor: (@_magisterObj) -&gt;
 		###*
 		# @property id
 		# @final
 		# @type Number
 		###
-		@id = _getset &quot;_id&quot;
+		@id = root._getset &quot;_id&quot;
 		###*
 		# @property grade
 		# @final
 		# @type String
 		###
-		@grade = _getset &quot;_grade&quot;
+		@grade = root._getset &quot;_grade&quot;
 		###*
 		# @property passed
 		# @final
 		# @type Boolean
 		###
-		@passed = _getset &quot;_passed&quot;
+		@passed = root._getset &quot;_passed&quot;
 		###*
 		# @property dateFilledIn
 		# @final
 		# @type Date
 		###
-		@dateFilledIn = _getset &quot;_dateFilledIn&quot;
+		@dateFilledIn = root._getset &quot;_dateFilledIn&quot;
 		###*
 		# @property gradePeriod
 		# @final
 		# @type Object
 		###
-		@gradePeriod = _getset &quot;_gradePeriod&quot;
+		@gradePeriod = root._getset &quot;_gradePeriod&quot;
 		###*
 		# @property class
 		# @final
 		# @type Object
 		###
-		@class = _getset &quot;_class&quot;
+		@class = root._getset &quot;_class&quot;
 		###*
 		# @property atLaterDate
 		# @final
 		# @type Boolean
 		###
-		@atLaterDate = _getset &quot;_atLaterDate&quot;
+		@atLaterDate = root._getset &quot;_atLaterDate&quot;
 		###*
 		# @property exemption
 		# @final
 		# @type Boolean
 		###
-		@exemption = _getset &quot;_exemption&quot;
+		@exemption = root._getset &quot;_exemption&quot;
 		###*
 		# @property counts
 		# @final
 		# @type Boolean
 		###
-		@counts = _getset &quot;_counts&quot;
+		@counts = root._getset &quot;_counts&quot;
 		###*
 		# @property type
 		# @final
 		# @type Number
 		###
-		@type = _getset &quot;_type&quot;
+		@type = root._getset &quot;_type&quot;
 		###*
 		# @property teacher
 		# @final
 		# @type Person
 		###
-		@teacher = _getset &quot;_teacher&quot;
+		@teacher = root._getset &quot;_teacher&quot;
 		###*
 		# @property classExemption
 		# @final
 		# @type Boolean
 		###
-		@classExemption = _getset &quot;_classExemption&quot;
+		@classExemption = root._getset &quot;_classExemption&quot;
 		###*
 		# @property description
 		# @final
 		# @type String
 		###
-		@description = _getset &quot;_description&quot;
+		@description = root._getset &quot;_description&quot;
 		###*
 		# @property weight
 		# @final
 		# @type Number
 		###
-		@weight = _getset &quot;_weight&quot;
+		@weight = root._getset &quot;_weight&quot;
 
 	###*
 	# Downloads extra info, if it&#x27;s not downloaded yet and fills the current grade with it.
@@ -206,7 +208,7 @@ class @Grade
 			@_magisterObj.http.get @_columnUrl, {}, (error, result) =&gt;
 				if error? then callback? error, null
 				else
-					result = EJSON.parse(result.content)
+					result = JSON.parse(result.content)
 					@_description = result.WerkInformatieOmschrijving
 					@_weight = result.Weging
 
@@ -214,11 +216,11 @@ class @Grade
 					@_type._description = result.KolomOmschrijving
 
 					@_filled = yes
-					callback? null, @
-		else callback? null, @
+					callback? null, this
+		else callback? null, this
 
 	@_convertRaw: (magisterObj, raw) -&gt;
-		obj = new Grade magisterObj
+		obj = new root.Grade magisterObj
 
 		obj._id = raw.CijferId
 		obj._grade = raw.CijferStr
@@ -239,11 +241,11 @@ class @Grade
 		obj._counts = raw.TeltMee
 
 		if raw.CijferKolom?
-			obj._type = GradeType._convertRaw magisterObj, raw.CijferKolom
+			obj._type = root.GradeType._convertRaw magisterObj, raw.CijferKolom
 
 		obj._assignmentId = raw.CijferKolomIdEloOpdracht
 
-		obj._teacher = Person._convertRaw magisterObj, Docentcode: raw.Docent
+		obj._teacher = root.Person._convertRaw magisterObj, Docentcode: raw.Docent
 		obj._teacher._type = 3
 
 		obj._classExemption = raw.VakDispensatie or raw.VakVrijstelling
@@ -262,77 +264,77 @@ class @Grade
 # @constructor
 # @param _magisterObj {Magister} A Magister object this GradeType is child of.
 ###
-class @GradeType
+class root.GradeType
 	constructor: (@_magisterObj) -&gt;
 		###*
 		# @property id
 		# @final
 		# @type Number
 		###
-		@id = _getset &quot;_id&quot;
+		@id = root._getset &quot;_id&quot;
 		###*
 		# @property name
 		# @final
 		# @type String
 		###
-		@name = _getset &quot;_name&quot;
+		@name = root._getset &quot;_name&quot;
 		###*
 		# @property number
 		# @final
 		# @type Number
 		###
-		@number = _getset &quot;_number&quot;
+		@number = root._getset &quot;_number&quot;
 		###*
 		# @property header
 		# @final
 		# @type String
 		###
-		@header = _getset &quot;_header&quot;
+		@header = root._getset &quot;_header&quot;
 		###*
 		# @property description
 		# @final
 		# @type String
 		###
-		@description = _getset &quot;_description&quot;
+		@description = root._getset &quot;_description&quot;
 		###*
 		# @property type
 		# @final
 		# @type Number
 		###
-		@type = _getset &quot;_type&quot;
+		@type = root._getset &quot;_type&quot;
 		###*
 		# @property isAtLaterDate
 		# @final
 		# @type Boolean
 		###
-		@isAtLaterDate = _getset &quot;_isAtLaterDate&quot;
+		@isAtLaterDate = root._getset &quot;_isAtLaterDate&quot;
 		###*
 		# @property isTeacher
 		# @final
 		# @type Boolean
 		###
-		@isTeacher = _getset &quot;_isTeacher&quot;
+		@isTeacher = root._getset &quot;_isTeacher&quot;
 		###*
 		# @property hasNestedTypes
 		# @final
 		# @type Boolean
 		###
-		@hasNestedTypes = _getset &quot;_hasNestedTypes&quot;
+		@hasNestedTypes = root._getset &quot;_hasNestedTypes&quot;
 		###*
 		# @property isPTA
 		# @final
 		# @type Boolean
 		###
-		@isPTA = _getset &quot;_isPTA&quot;
+		@isPTA = root._getset &quot;_isPTA&quot;
 		###*
 		# Have no idea what this is. If anybody has an idea, tell me please so we can make this doc at least a bit useful.
 		# @property level
 		# @final
 		###
-		@level = _getset &quot;_level&quot;
+		@level = root._getset &quot;_level&quot;
 
 	@_convertRaw: (magisterObj, raw) -&gt;
-		obj = new GradeType magisterObj
+		obj = new root.GradeType magisterObj
 
 		obj._id = raw.Id
 		obj._name = raw.KolomNaam

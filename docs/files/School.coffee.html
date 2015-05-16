@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.2.2</em>
+            <em>API Docs for: 1.3.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -98,6 +98,8 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
+root = (module?.exports ? this.Magister ?= {})
+
 ###*
 # A Magister school.
 #
@@ -106,7 +108,7 @@
 # @param url {String} The URL of the school.
 # @constructor
 ###
-class @MagisterSchool
+class root.MagisterSchool
 	###*
 	# @property id
 	# @final
@@ -136,17 +138,20 @@ class @MagisterSchool
 	# 	@param [callback.result] {MagisterSchool[]} An array containing the MagisterSchools.
 	###
 	@getSchools: (query, callback) -&gt;
-		if !query? or _helpers.trim(query).length &lt; 3
+		if !query? or root._helpers.trim(query).length &lt; 3
 			callback null, []
 			return
 
-		new MagisterHttp().get &quot;https://mijn.magister.net/api/schools?filter=#{query}&quot;, {}, (error, result) =&gt;
+		query = query.replace(/\d/g, &quot;&quot;).trim()
+
+		new root.MagisterHttp().get &quot;https://mijn.magister.net/api/schools?filter=#{query}&quot;, {}, (error, result) =&gt;
 			if error?
 				callback error, null
 			else
-				callback null, (@_convertRaw s for s in EJSON.parse result.content)
+				callback null, (@_convertRaw s for s in JSON.parse result.content)
 
-	@_convertRaw: (raw) -&gt; new MagisterSchool raw.Id, raw.Name, raw.Url
+	@_convertRaw: (raw) -&gt; new root.MagisterSchool raw.Id, raw.Name, raw.Url
+
     </pre>
 </div>
                     </div>

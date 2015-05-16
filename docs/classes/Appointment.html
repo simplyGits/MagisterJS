@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.2.2</em>
+            <em>API Docs for: 1.3.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -99,7 +99,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/Appointment.coffee.html#l1"><code>Appointment.coffee:1</code></a>
+            Defined in: <a href="../files/Appointment.coffee.html#l3"><code>Appointment.coffee:3</code></a>
         </div>
 
             Module: <a href="../modules/Magister.html">Magister</a>
@@ -114,66 +114,67 @@
 
     <div class="constructor">
         <h2>Constructor</h2>
-        <div id="method_Appointment" class="method item private">
-            <h3 class="name"><code>Appointment</code></h3>
-        
-                <div class="args">
-                    <span class="paren">(</span><ul class="args-list inline commas">
-                        <li class="arg">
-                                <code>_magisterObj</code>
-                        </li>
-                    </ul><span class="paren">)</span>
-                </div>
-        
-        
-        
-                <span class="flag private">private</span>
-        
-        
-        
-        
-        
-            <div class="meta">
-                        <p>
-                        Defined in
-                <a href="../files/Appointment.coffee.html#l1"><code>Appointment.coffee:1</code></a>
-                </p>
-        
-        
-        
-            </div>
-        
-            <div class="description">
-                
-            </div>
-        
-                <div class="params">
-                    <h4>Parameters:</h4>
-        
-                    <ul class="params-list">
-                        <li class="param">
-                                <code class="param-name">_magisterObj</code>
-                                <span class="type"><a href="../classes/Magister.html" class="crosslink">Magister</a></span>
-        
-        
-                            <div class="param-description">
-                                <p>A Magister object this Appointment is child of.</p>
-        
-                            </div>
-        
-                        </li>
-                    </ul>
-                </div>
-        
-        
-        
+<div id="method_Appointment" class="method item private">
+    <h3 class="name"><code>Appointment</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>_magisterObj</code>
+                </li>
+            </ul><span class="paren">)</span>
         </div>
+
+
+
+        <span class="flag private">private</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/Appointment.coffee.html#l3"><code>Appointment.coffee:3</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">_magisterObj</code>
+                        <span class="type"><a href="../classes/Magister.html" class="crosslink">Magister</a></span>
+
+
+                    <div class="param-description">
+                        <p>A Magister object this Appointment is child of.</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
     </div>
 
 <div id="classdocs" class="tabview">
     <ul class="api-class-tabs">
         <li class="api-class-tab index"><a href="#index">Index</a></li>
 
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
             <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
     </ul>
 
@@ -181,6 +182,16 @@
         <div id="index" class="api-class-tabpanel index">
             <h2 class="off-left">Item Index</h2>
 
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods">
+                            <li class="index-item method">
+                                <a href="#method_magisterjs-http">magisterjs-http</a>
+
+                            </li>
+                    </ul>
+                </div>
 
                 <div class="index-section properties">
                     <h3>Properties</h3>
@@ -292,6 +303,104 @@
 
         </div>
 
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
+
+<div id="method_magisterjs-http" class="method item">
+    <h3 class="name"><code>magisterjs-http</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>method</code>
+                </li>
+                <li class="arg">
+                        <code>url</code>
+                </li>
+                <li class="arg">
+                        <code>options</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/server_methods.coffee.html#l5"><code>server&#x2F;methods.coffee:5</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Do a HTTP request.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">method</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+
+
+                    <div class="param-description">
+                        <p>The HTTP method to use.</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">url</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+
+
+                    <div class="param-description">
+                        <p>The URL to send the HTTP request to.</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">options</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+                    <div class="param-description">
+                        <p>A request settings object.</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>:
+                    <p>{ content: String, headers: Object }</p>
+
+            </div>
+        </div>
+
+
+</div>
+            </div>
 
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
@@ -308,7 +417,7 @@
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/Appointment.coffee.html#l169"><code>Appointment.coffee:169</code></a>
+                            <a href="../files/Appointment.coffee.html#l171"><code>Appointment.coffee:171</code></a>
                             </p>
                     
                     
@@ -333,7 +442,7 @@
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/Appointment.coffee.html#l145"><code>Appointment.coffee:145</code></a>
+                            <a href="../files/Appointment.coffee.html#l147"><code>Appointment.coffee:147</code></a>
                             </p>
                     
                     
@@ -358,7 +467,7 @@
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/Appointment.coffee.html#l151"><code>Appointment.coffee:151</code></a>
+                            <a href="../files/Appointment.coffee.html#l153"><code>Appointment.coffee:153</code></a>
                             </p>
                     
                     
@@ -383,7 +492,7 @@
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/Appointment.coffee.html#l17"><code>Appointment.coffee:17</code></a>
+                            <a href="../files/Appointment.coffee.html#l19"><code>Appointment.coffee:19</code></a>
                             </p>
                     
                     
@@ -408,7 +517,7 @@
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/Appointment.coffee.html#l29"><code>Appointment.coffee:29</code></a>
+                            <a href="../files/Appointment.coffee.html#l31"><code>Appointment.coffee:31</code></a>
                             </p>
                     
                     
@@ -433,7 +542,7 @@
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/Appointment.coffee.html#l121"><code>Appointment.coffee:121</code></a>
+                            <a href="../files/Appointment.coffee.html#l123"><code>Appointment.coffee:123</code></a>
                             </p>
                     
                     
@@ -458,7 +567,7 @@
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/Appointment.coffee.html#l133"><code>Appointment.coffee:133</code></a>
+                            <a href="../files/Appointment.coffee.html#l135"><code>Appointment.coffee:135</code></a>
                             </p>
                     
                     
@@ -483,7 +592,7 @@
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/Appointment.coffee.html#l77"><code>Appointment.coffee:77</code></a>
+                            <a href="../files/Appointment.coffee.html#l79"><code>Appointment.coffee:79</code></a>
                             </p>
                     
                     
@@ -508,7 +617,7 @@
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/Appointment.coffee.html#l47"><code>Appointment.coffee:47</code></a>
+                            <a href="../files/Appointment.coffee.html#l49"><code>Appointment.coffee:49</code></a>
                             </p>
                     
                     
@@ -533,7 +642,7 @@
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/Appointment.coffee.html#l71"><code>Appointment.coffee:71</code></a>
+                            <a href="../files/Appointment.coffee.html#l73"><code>Appointment.coffee:73</code></a>
                             </p>
                     
                     
@@ -558,7 +667,7 @@
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/Appointment.coffee.html#l23"><code>Appointment.coffee:23</code></a>
+                            <a href="../files/Appointment.coffee.html#l25"><code>Appointment.coffee:25</code></a>
                             </p>
                     
                     
@@ -583,7 +692,7 @@
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/Appointment.coffee.html#l35"><code>Appointment.coffee:35</code></a>
+                            <a href="../files/Appointment.coffee.html#l37"><code>Appointment.coffee:37</code></a>
                             </p>
                     
                     
@@ -608,7 +717,7 @@
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/Appointment.coffee.html#l41"><code>Appointment.coffee:41</code></a>
+                            <a href="../files/Appointment.coffee.html#l43"><code>Appointment.coffee:43</code></a>
                             </p>
                     
                     
@@ -633,7 +742,7 @@
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/Appointment.coffee.html#l139"><code>Appointment.coffee:139</code></a>
+                            <a href="../files/Appointment.coffee.html#l141"><code>Appointment.coffee:141</code></a>
                             </p>
                     
                     
@@ -658,7 +767,7 @@
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/Appointment.coffee.html#l11"><code>Appointment.coffee:11</code></a>
+                            <a href="../files/Appointment.coffee.html#l13"><code>Appointment.coffee:13</code></a>
                             </p>
                     
                     
@@ -683,7 +792,7 @@
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/Appointment.coffee.html#l83"><code>Appointment.coffee:83</code></a>
+                            <a href="../files/Appointment.coffee.html#l85"><code>Appointment.coffee:85</code></a>
                             </p>
                     
                     
@@ -708,7 +817,7 @@
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/Appointment.coffee.html#l89"><code>Appointment.coffee:89</code></a>
+                            <a href="../files/Appointment.coffee.html#l91"><code>Appointment.coffee:91</code></a>
                             </p>
                     
                     
@@ -733,7 +842,7 @@
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/Appointment.coffee.html#l112"><code>Appointment.coffee:112</code></a>
+                            <a href="../files/Appointment.coffee.html#l114"><code>Appointment.coffee:114</code></a>
                             </p>
                     
                     
@@ -758,7 +867,7 @@
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/Appointment.coffee.html#l53"><code>Appointment.coffee:53</code></a>
+                            <a href="../files/Appointment.coffee.html#l55"><code>Appointment.coffee:55</code></a>
                             </p>
                     
                     
@@ -783,7 +892,7 @@
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/Appointment.coffee.html#l106"><code>Appointment.coffee:106</code></a>
+                            <a href="../files/Appointment.coffee.html#l108"><code>Appointment.coffee:108</code></a>
                             </p>
                     
                     
@@ -808,7 +917,7 @@
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/Appointment.coffee.html#l163"><code>Appointment.coffee:163</code></a>
+                            <a href="../files/Appointment.coffee.html#l165"><code>Appointment.coffee:165</code></a>
                             </p>
                     
                     
@@ -833,7 +942,7 @@
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/Appointment.coffee.html#l59"><code>Appointment.coffee:59</code></a>
+                            <a href="../files/Appointment.coffee.html#l61"><code>Appointment.coffee:61</code></a>
                             </p>
                     
                     
@@ -858,7 +967,7 @@
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/Appointment.coffee.html#l127"><code>Appointment.coffee:127</code></a>
+                            <a href="../files/Appointment.coffee.html#l129"><code>Appointment.coffee:129</code></a>
                             </p>
                     
                     
@@ -883,7 +992,7 @@
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/Appointment.coffee.html#l65"><code>Appointment.coffee:65</code></a>
+                            <a href="../files/Appointment.coffee.html#l67"><code>Appointment.coffee:67</code></a>
                             </p>
                     
                     
@@ -908,7 +1017,7 @@
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/Appointment.coffee.html#l157"><code>Appointment.coffee:157</code></a>
+                            <a href="../files/Appointment.coffee.html#l159"><code>Appointment.coffee:159</code></a>
                             </p>
                     
                     

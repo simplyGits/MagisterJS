@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.2.2</em>
+            <em>API Docs for: 1.3.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -98,6 +98,8 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
+root = (module?.exports ? this.Magister ?= {})
+
 ###*
 # A StudyGuide, containing various Files and Links teachers can put on Magister.
 #
@@ -106,50 +108,50 @@
 # @constructor
 # @param _magisterObj {Magister} A Magister object this StudyGuide is child of.
 ###
-class @StudyGuide
+class root.StudyGuide
 	constructor: (@_magisterObj) -&gt;
 		###*
 		# @property id
 		# @final
 		# @type Number
 		###
-		@id = _getset &quot;_id&quot;
+		@id = root._getset &quot;_id&quot;
 		###*
 		# @property from
 		# @final
 		# @type Date
 		###
-		@from = _getset &quot;_from&quot;
+		@from = root._getset &quot;_from&quot;
 		###*
 		# @property to
 		# @final
 		# @type Date
 		###
-		@to = _getset &quot;_to&quot;
+		@to = root._getset &quot;_to&quot;
 		###*
 		# @property classCodes
 		# @final
 		# @type String[]
 		###
-		@classCodes = _getset &quot;_classCodes&quot;
+		@classCodes = root._getset &quot;_classCodes&quot;
 		###*
 		# @property name
 		# @final
 		# @type String
 		###
-		@name = _getset &quot;_name&quot;
+		@name = root._getset &quot;_name&quot;
 		###*
 		# @property archived
 		# @final
 		# @type Boolean
 		###
-		@archived = _getset &quot;_archived&quot;
+		@archived = root._getset &quot;_archived&quot;
 		###*
 		# @property class
 		# @final
 		# @type Class
 		###
-		@class = _getset &quot;_class&quot;
+		@class = root._getset &quot;_class&quot;
 
 	###*
 	# Get the parts of this StudyGuide.
@@ -166,16 +168,16 @@ class @StudyGuide
 		@_magisterObj.http.get &quot;#{@_magisterObj._pupilUrl}/studiewijzers/#{@id()}&quot;, {}, (error, result) =&gt;
 			if error? then callback error, null
 			else
-				result = EJSON.parse(result.content).Onderdelen.Items
-				pushResult = _helpers.asyncResultWaiter result.length, (r) -&gt; callback null, r
+				result = JSON.parse(result.content).Onderdelen.Items
+				pushResult = root._helpers.asyncResultWaiter result.length, (r) -&gt; callback null, r
 
 				for id in (p.Id for p in result)
 					@_magisterObj.http.get &quot;#{@_magisterObj._pupilUrl}/studiewijzers/#{@id()}/onderdelen/#{id}&quot;, {}, (error, result) =&gt;
-						pushResult StudyGuidePart._convertRaw @_magisterObj, EJSON.parse(result.content)
+						pushResult root.StudyGuidePart._convertRaw @_magisterObj, JSON.parse(result.content)
 
 
 	@_convertRaw: (magisterObj, raw) -&gt;
-		obj = new StudyGuide magisterObj
+		obj = new root.StudyGuide magisterObj
 
 		obj._id = raw.Id
 		obj._from = new Date Date.parse raw.Van
@@ -195,59 +197,59 @@ class @StudyGuide
 # @constructor
 # @param _magisterObj {Magister} A Magister object this StudyGuidePart is child of.
 ###
-class @StudyGuidePart
+class root.StudyGuidePart
 	constructor: (@_magisterObj) -&gt;
 		###*
 		# @property id
 		# @final
 		# @type Number
 		###
-		@id = _getset &quot;_id&quot;
+		@id = root._getset &quot;_id&quot;
 		###*
 		# @property from
 		# @final
 		# @type Date
 		###
-		@from = _getset &quot;_from&quot;
+		@from = root._getset &quot;_from&quot;
 		###*
 		# @property to
 		# @final
 		# @type Date
 		###
-		@to = _getset &quot;_to&quot;
+		@to = root._getset &quot;_to&quot;
 		###*
 		# @property name
 		# @final
 		# @type String
 		###
-		@name = _getset &quot;_name&quot;
+		@name = root._getset &quot;_name&quot;
 		###*
 		# @property description
 		# @final
 		# @type String
 		###
-		@description = _getset &quot;_description&quot;, null, (x) -&gt; if x? then x.replace(/&lt;br ?\/?&gt;/g, &quot;\n&quot;).replace(/(&lt;[^&gt;]*&gt;)|(&amp;nbsp;)/g, &quot;&quot;).replace(/&amp;amp;/ig, &quot;&amp;&quot;) else x
+		@description = root._getset &quot;_description&quot;, null, (x) -&gt; if x? then x.replace(/&lt;br ?\/?&gt;/g, &quot;\n&quot;).replace(/(&lt;[^&gt;]*&gt;)|(&amp;nbsp;)/g, &quot;&quot;).replace(/&amp;amp;/ig, &quot;&amp;&quot;) else x
 		###*
 		# @property visible
 		# @final
 		# @type Boolean
 		###
-		@visible = _getset &quot;_visible&quot;
+		@visible = root._getset &quot;_visible&quot;
 		###*
 		# @property number
 		# @final
 		# @type Number
 		###
-		@number = _getset &quot;_number&quot;
+		@number = root._getset &quot;_number&quot;
 		###*
 		# @property files
 		# @final
 		# @type File[]
 		###
-		@files = _getset &quot;_files&quot;
+		@files = root._getset &quot;_files&quot;
 
 	@_convertRaw: (magisterObj, raw) -&gt;
-		obj = new StudyGuidePart magisterObj
+		obj = new root.StudyGuidePart magisterObj
 
 		obj._id = raw.Id
 		obj._from = new Date Date.parse raw.Van
@@ -257,7 +259,7 @@ class @StudyGuidePart
 		obj._visible = raw.IsZichtbaar
 		obj._number = raw.Volgnummer
 
-		obj._files = ( File._convertRaw magisterObj, undefined, f for f in raw.Bronnen )
+		obj._files = ( root.File._convertRaw magisterObj, undefined, f for f in raw.Bronnen )
 
 		return obj
 

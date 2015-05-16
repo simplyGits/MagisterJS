@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.2.2</em>
+            <em>API Docs for: 1.3.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -98,6 +98,14 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
+root = (module?.exports ? this.Magister ?= {})
+if Meteor?
+	@_ = _ = lodash
+else
+	@_ = _ = require(&quot;lodash&quot;) if not _?
+
+root.VERSION = &quot;1.3.2&quot;
+
 ###*
 # A JavaScript implementation of the Magister 6 API.
 # @author Lieuwe Rooijakkers
@@ -114,14 +122,14 @@
 # @param [_keepLoggedIn=true] {Boolean} Whether or not to keep the user logged in.
 # @constructor
 ###
-class @Magister
+class root.Magister
 	constructor: (@magisterSchool, @username, @password, @_keepLoggedIn = yes) -&gt;
 		throw new Error &quot;Expected 3 or 4 arguments, got #{arguments.length}&quot; unless arguments.length is 3 or arguments.length is 4
 		@_readyCallbacks = [] #Fixes weird bug where callbacks from previous Magister objects were mixed with the new ones.
-		@http = new MagisterHttp()
+		@http = new root.MagisterHttp()
 
 		if _.isString(@magisterSchool)
-			MagisterSchool.getSchools @magisterSchool, (e, r) =&gt;
+			root.MagisterSchool.getSchools @magisterSchool, (e, r) =&gt;
 				if e? then throw e
 				else if r.length is 0 then throw new Error &quot;No school with the query #{@magisterSchool} found.&quot;
 				else
@@ -144,63 +152,71 @@ class @Magister
 	###
 	appointments: -&gt;
 		callback = _.find arguments, (a) -&gt; _.isFunction a
-		download = _.find(arguments, (a) -&gt; _.isBoolean a) ? yes
+		fillPersons = _.find(arguments, (a) -&gt; _.isBoolean a) ? yes
 		[from, to] = _.where arguments, (a) -&gt; _.isDate a
 		unless _.isDate(to) then to = from
 
+		from = root._helpers.date from
+		to = root._helpers.date to
+
 		@_forceReady()
-		dateConvert = _helpers.urlDateConvert
+		dateConvert = root._helpers.urlDateConvert
 		url = &quot;#{@_personUrl}/afspraken?tot=#{dateConvert(to)}&amp;van=#{dateConvert(from)}&quot;
-		@http.get url, {},
-			(error, result) =&gt;
-				if error?
-					callback error, null
+		@http.get url, {}, (error, result) =&gt;
+				if error? then callback error, null
 				else
-					result = EJSON.parse result.content
-					appointments = (Appointment._convertRaw(@, a) for a in result.Items)
-					absences = []
+					result = JSON.parse result.content
+					appointments = (root.Appointment._convertRaw(this, a) for a in result.Items)
 
-					hit = _helpers.asyncResultWaiter 3, (r) -&gt;
-						for a in appointments
-							do (a) -&gt; a._absenceInfo = _.find absences, (absence) -&gt; absence.appointmentId is a.id()
+					absenceInfo = []
+					changedAppointments = []
 
-						_.remove appointments, (a) -&gt; _helpers.date(a.begin()) &lt; _helpers.date(from) or _helpers.date(a.end()) &gt; _helpers.date(to)
-						callback null, _.sortBy appointments, (x) -&gt; x.begin()
+					finish = root._helpers.asyncResultWaiter 3, (r) -&gt;
+						_.each appointments, (a) -&gt; a._absenceInfo = _.find absenceInfo, (absence) -&gt; absence.appointmentId is a.id()
 
+						appointments = _(appointments)
+							.reject (a) -&gt; _.contains changedAppointments, (changedAppointment) -&gt; changedAppointment.id() is a.id()
+							.concat changedAppointments
+							.filter (a) -&gt; root._helpers.date(a.begin()) &gt;= from and (root._helpers.date(a.end()) &lt;= to or a.fullDay())
+							.sortBy &quot;_begin&quot;
+							.value()
+
+						callback null, appointments
+
+					# Get changedAppointments.
 					@http.get &quot;#{@_personUrl}/roosterwijzigingen?tot=#{dateConvert(to)}&amp;van=#{dateConvert(from)}&quot;, {}, (error, result) =&gt;
-						for c in EJSON.parse(result.content).Items
-							appointment = Appointment._convertRaw(@, c)
-							_.remove appointments, (a) -&gt; a.id() is appointment.id()
-							appointments.push appointment
-						hit()
+						result = JSON.parse result.content
+						changedAppointments.concat (root.Appointment._convertRaw(this, a) for a in result.Items)
+						finish()
 
+					# Get absenceInfo.
 					@http.get &quot;#{@_personUrl}/absenties?tot=#{dateConvert(to)}&amp;van=#{dateConvert(from)}&quot;, {}, (error, result) -&gt;
-						result = EJSON.parse(result.content).Items
+						result = JSON.parse(result.content).Items
 						for a in result
-							do (a) -&gt; absences.push
+							absenceInfo.push
 								id: a.Id
 								begin: new Date Date.parse a.Start
 								end: new Date Date.parse a.Eind
 								schoolHour: a.Lesuur
 								permitted: a.Geoorloofd
 								appointmentId: a.AfspraakId
-								description: _helpers.trim a.Omschrijving
+								description: root._helpers.trim a.Omschrijving
 								type: a.VerantwoordingType
 								code: a.Code
-						hit()
+						finish()
 
-					if download
-						pushResult = _helpers.asyncResultWaiter appointments.length, -&gt; hit()
+					# Get persons.
+					if fillPersons
+						pushResult = root._helpers.asyncResultWaiter appointments.length, finish
 
-						for a in appointments
-							do (a) =&gt;
-								teachers = a.teachers() ? []
+						for a in appointments then do (a) =&gt;
+							teachers = a.teachers() ? []
 
-								@fillPersons teachers, ((e, r) -&gt;
-									a._teachers = r
-									pushResult()
-								), 3
-					else hit()
+							@fillPersons teachers, ((e, r) -&gt;
+								a._teachers = r
+								pushResult()
+							), 3
+					else finish()
 
 	###*
 	# Gets the MessageFolders that matches the given query. Or if no query is given, all MessageFolders
@@ -216,7 +232,7 @@ class @Magister
 		@_forceReady()
 
 		if _.isString(query) and query isnt &quot;&quot;
-			result = _.where @_messageFolders, (mF) -&gt; _helpers.contains mF.name(), query, yes
+			result = _.where @_messageFolders, (mF) -&gt; root._helpers.contains mF.name(), query, yes
 		else
 			result = @_messageFolders
 
@@ -261,8 +277,8 @@ class @Magister
 				if error?
 					callback error, null
 				else
-					result = EJSON.parse result.content
-					callback null, _.sortBy((Course._convertRaw(@, c) for c in result.Items), (c) -&gt; c.begin()).reverse()
+					result = JSON.parse result.content
+					callback null, _.sortBy((root.Course._convertRaw(this, c) for c in result.Items), (c) -&gt; c.begin()).reverse()
 
 	###*
 	# Gets limited course info for the current Course for the current User.
@@ -285,7 +301,7 @@ class @Magister
 		@http.get url, {}, (error, result) -&gt;
 			if error? then callback error, null
 			else
-				parsed = EJSON.parse result.content
+				parsed = JSON.parse result.content
 				callback null,
 					group: parsed.Klas
 					profile: pared.Profielen # It says &#x27;profielen&#x27; but I really have no idea how multiple profiles are shown in a String...
@@ -309,7 +325,7 @@ class @Magister
 	getPersons: -&gt;
 		@_forceReady()
 
-		query = _helpers.trim arguments[0]
+		query = root._helpers.trim arguments[0]
 		callback = if arguments.length is 2 then arguments[1] else arguments[2]
 		type = arguments[1] if arguments.length is 3
 
@@ -324,10 +340,10 @@ class @Magister
 					teachers = r
 					@getPersons query, 4, (e, r) -&gt;
 						if e? then callback e, null
-						else callback null, _helpers.pushMore r, teachers
+						else callback null, root._helpers.pushMore r, teachers
 			return undefined
 
-		type = switch Person._convertType type
+		type = switch root.Person._convertType type
 			when 3 then &quot;Personeel&quot;
 			when 4 then &quot;Leerling&quot;
 			when 8 then &quot;Project&quot;
@@ -342,7 +358,7 @@ class @Magister
 				if error?
 					callback error, null
 				else
-					result = (Person._convertRaw(@, p) for p in EJSON.parse(result.content).Items)
+					result = (root.Person._convertRaw(this, p) for p in JSON.parse(result.content).Items)
 
 					Magister._cachedPersons[&quot;#{@_id}#{type}#{query}&quot;] = result
 					callback null, result
@@ -365,12 +381,12 @@ class @Magister
 			if persons.length is 0
 				callback null, []
 				return undefined
-			pushResult = _helpers.asyncResultWaiter persons.length, (r) -&gt; callback null, r
+			pushResult = root._helpers.asyncResultWaiter persons.length, (r) -&gt; callback null, r
 
 			for p in persons
 				try
 					@getPersons _.last(p.fullName().split &quot; &quot;), (p._type ? overwriteType), (e, r) -&gt;
-						if e? or !r? then throw e
+						if e? or not r? then throw e
 						else pushResult r[0] ? p
 				catch
 					pushResult p
@@ -378,7 +394,7 @@ class @Magister
 		else if _.isObject persons
 			try
 				@getPersons _.last(persons.fullName().split &quot; &quot;), (persons._type ? overwriteType), (e, r) -&gt;
-					if e? or !r? then throw e
+					if e? or not r? then throw e
 					else callback null, r[0] ? persons
 			catch
 				callback persons
@@ -403,7 +419,7 @@ class @Magister
 		recipients = _.last arguments
 		if arguments.length is 2 then body = &quot;&quot;
 
-		m = new Message @
+		m = new root.Message this
 		m.subject subject
 		m.body body ? &quot;&quot;
 		m.addRecipient recipients
@@ -423,7 +439,7 @@ class @Magister
 
 		@http.get &quot;#{@_personUrl}/bronnen?soort=0&quot;, {}, (error, result) =&gt;
 			if error? then callback error, null
-			else callback null, ( FileFolder._convertRaw @, f for f in EJSON.parse(result.content).Items )
+			else callback null, ( root.FileFolder._convertRaw this, f for f in JSON.parse(result.content).Items )
 
 	###*
 	# Gets the StudyGuides of the current user.
@@ -442,10 +458,10 @@ class @Magister
 		callback = _.find arguments, (a) -&gt; _.isFunction a
 
 		cb = (classes) =&gt;
-			@http.get &quot;#{@_pupilUrl}/studiewijzers?peildatum=#{_helpers.urlDateConvert new Date}&quot;, {}, (error, result) =&gt;
+			@http.get &quot;#{@_pupilUrl}/studiewijzers?peildatum=#{root._helpers.urlDateConvert new Date}&quot;, {}, (error, result) =&gt;
 				if error? then callback error, null
 				else
-					result = ( StudyGuide._convertRaw @, s for s in EJSON.parse(result.content).Items )
+					result = ( root.StudyGuide._convertRaw this, s for s in JSON.parse(result.content).Items )
 
 					for studyGuide in result then do (studyGuide) -&gt;
 						if classes? then studyGuide._class = _.find classes, (c) -&gt; c.abbreviation() is studyGuide._class
@@ -492,12 +508,12 @@ class @Magister
 			@http.get &quot;#{@_personUrl}/opdrachten?skip=#{skip}&amp;top=#{amount}&amp;status=alle&quot;, {}, (error, result) =&gt;
 				if error? then callback error, null
 				else
-					result = (e.Id for e in EJSON.parse(result.content).Items)
-					pushResult = _helpers.asyncResultWaiter result.length, (r) -&gt; callback null, r
+					result = (e.Id for e in JSON.parse(result.content).Items)
+					pushResult = root._helpers.asyncResultWaiter result.length, (r) -&gt; callback null, r
 
 					for id in result
 						@http.get &quot;#{@_personUrl}/opdrachten/#{id}&quot;, {}, (error, result) =&gt;
-							assignment = Assignment._convertRaw @, EJSON.parse(result.content)
+							assignment = root.Assignment._convertRaw this, JSON.parse(result.content)
 
 							if classes? then assignment._class = _.find classes, (c) -&gt; c.abbreviation() is assignment._class
 							else assignment._class = null
@@ -548,14 +564,14 @@ class @Magister
 			@http.get url, {}, (error, result) =&gt;
 				if error? then callback error, null
 				else
-					utilities = ( DigitalSchoolUtility._convertRaw @, u for u in EJSON.parse(result.content).Items )
+					utilities = ( root.DigitalSchoolUtility._convertRaw this, u for u in JSON.parse(result.content).Items )
 
 					if classes? then for u in utilities
 						do (u) -&gt;
 							u._class = _.find classes, (c) -&gt; c.abbreviation() is u._class.Afkorting and c.description() is u._class.Omschrijving
 
 					else for u in utilities
-						do (u) =&gt; u._class = Class._convertRaw @, u._class
+						do (u) =&gt; u._class = root.Class._convertRaw this, u._class
 
 					callback null, utilities
 
@@ -594,23 +610,23 @@ class @Magister
 		@http.get &quot;#{@_personUrl}/kinderen&quot;, {}, (error, result) =&gt;
 			if error? then callback error, null
 			else
-				parsed = EJSON.parse(result.content)
+				parsed = JSON.parse(result.content)
 				if parsed.ExceptionId? and parsed.Reason is 1
 					callback _.extend(parsed, message: &quot;User is not a parent.&quot;), null
 					return
 
 				res = []
 				for raw in parsed.Items
-					c = ProfileInfo._convertRaw @, c
+					c = root.ProfileInfo._convertRaw this, c
 					c._profilePicture = &quot;#{@magisterSchool.url}/api/personen/#{raw.Id}/foto&quot;
 					c.magister (callback) =&gt;
-						r = _.clone @
+						r = _.clone this
 						r._id = raw.Id
 						r._personUrl = &quot;#{@magisterSchool.url}/api/personen/#{r._id}&quot;
 						r._pupilUrl = &quot;#{@magisterSchool.url}/api/leerlingen/#{r._id}&quot;
 						r._profileInfo = c
 						@http.get &quot;#{r._personUrl}/berichten/mappen&quot;, {}, (error, result) -&gt;
-							r._messageFolders = (MessageFolder._convertRaw(r, m) for m in EJSON.parse(result.content).Items)
+							r._messageFolders = (root.MessageFolder._convertRaw(r, m) for m in JSON.parse(result.content).Items)
 							callback r
 						return undefined
 					res.push c
@@ -630,8 +646,8 @@ class @Magister
 	###
 	ready: (callback) -&gt;
 		if _.isFunction callback
-			if @_ready or @_magisterLoadError? then _.bind(callback, @)(@._magisterLoadError)
-			else @_readyCallbacks.push _.bind callback, @
+			if @_ready or @_magisterLoadError? then _.bind(callback, this)(@._magisterLoadError)
+			else @_readyCallbacks.push _.bind callback, this
 		return @_ready is yes
 
 	_forceReady: -&gt; throw new Error &quot;Not done with logging in! (use Magister.ready(callback) to be sure that logging in is done)&quot; unless @_ready
@@ -659,6 +675,7 @@ class @Magister
 	reLogin: -&gt;
 		@_ready = no
 		@_magisterLoadError = null
+		@magisterSchool.url = @magisterSchool.url.replace /^http/, &quot;https&quot; # Force HTTPS.
 		url = &quot;#{@magisterSchool.url}/api/sessie&quot;
 		@http.post url,
 			Gebruikersnaam: @username
@@ -666,7 +683,7 @@ class @Magister
 			GebruikersnaamOnthouden: yes
 			# if this works for every school, we actually wouldn&#x27;t need a &quot;relogin&quot; method. We will keep it and then see how it goes.
 			IngelogdBlijven: @_keepLoggedIn
-		, {headers: &quot;Content-Type&quot;: &quot;application/json;charset=UTF-8&quot; }, (error, result) =&gt;
+		, { headers: &quot;Content-Type&quot;: &quot;application/json;charset=UTF-8&quot; }, (error, result) =&gt;
 			if error? then @_setErrored error
 			else if result.content? # Normally the response doesn&#x27;t contain a body, if it contains one it&#x27;s probaly an error.
 				@_setErrored result.content
@@ -677,16 +694,16 @@ class @Magister
 					(error, result) =&gt;
 						if error? then @_setErrored error; return
 
-						result = EJSON.parse result.content
+						result = JSON.parse result.content
 						@_group = result.Groep[0]
 						@_id = result.Persoon.Id
 						@_personUrl = &quot;#{@magisterSchool.url}/api/personen/#{@_id}&quot;
 						@_pupilUrl = &quot;#{@magisterSchool.url}/api/leerlingen/#{@_id}&quot;
-						@_profileInfo = ProfileInfo._convertRaw @, result
+						@_profileInfo = root.ProfileInfo._convertRaw this, result
 
 						@http.get &quot;#{@_personUrl}/berichten/mappen&quot;, {}, (error, result) =&gt;
 							if error? then @_setErrored error; return
-							@_messageFolders = (MessageFolder._convertRaw(@, m) for m in EJSON.parse(result.content).Items)
+							@_messageFolders = (root.MessageFolder._convertRaw(this, m) for m in JSON.parse(result.content).Items)
 							@_setReady()
 
     </pre>
