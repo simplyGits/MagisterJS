@@ -1,8 +1,8 @@
 Package.describe({
 	name: "simply:magisterjs",
 	version: "1.3.2",
-	summary: "A Meteor implementation of the Magister 6 API.",
-	git: "https://github.com/simplyGits/Meteor-MagisterJS",
+	summary: "A JavaScript implementation of the Magister 6 API",
+	git: "https://github.com/simplyGits/MagisterJS",
 	documentation: "README.md"
 });
 
