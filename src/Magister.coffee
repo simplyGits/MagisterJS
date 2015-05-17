@@ -4,7 +4,7 @@ if Meteor?
 else if module?.exports? and require? and not window?
 	@_ = _ = require("lodash") if not _?
 else if @_?
-	_ = @
+	_ = @this
 else
 	throw new Error "Lo-dash is required."
 
@@ -14,7 +14,7 @@ else
 # @final
 # @type Number
 ###
-root.VERSION = "1.3.3"
+root.VERSION = "1.3.3_browserfix0"
 
 ###*
 # A JavaScript implementation of the Magister 6 API.
