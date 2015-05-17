@@ -1,4 +1,4 @@
-root = module?.exports ? this
+root = (module?.exports ? this.Magister ?= {})
 
 ###*
 # A folder containing File instances.

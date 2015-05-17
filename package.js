@@ -30,7 +30,7 @@ Package.onUse(function(api) {
 		"src/ProfileInfo.coffee",
 		"src/School.coffee",
 		"src/StudyGuide.coffee",
-		"src/xport.js",
+		"src/MeteorExport.js",
 		"default-https/meteor.coffee"
 	]);
 	api.addFiles("src/server/methods.coffee", "server");

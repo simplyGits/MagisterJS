@@ -1,4 +1,4 @@
-root = module?.exports ? this
+root = (module?.exports ? this.Magister ?= {})
 
 ###*
 # A Grade (ex. 1,0)

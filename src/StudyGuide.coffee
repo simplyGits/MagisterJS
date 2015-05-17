@@ -1,4 +1,4 @@
-root = module?.exports ? this
+root = (module?.exports ? this.Magister ?= {})
 
 ###*
 # A StudyGuide, containing various Files and Links teachers can put on Magister.

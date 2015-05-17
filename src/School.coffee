@@ -1,4 +1,4 @@
-root = module?.exports ? this
+root = (module?.exports ? this.Magister ?= {})
 
 ###*
 # A Magister school.
@@ -44,7 +44,7 @@ class root.MagisterSchool
 
 		query = query.replace(/\d/g, "").trim()
 
-		new MagisterHttp().get "https://mijn.magister.net/api/schools?filter=#{query}", {}, (error, result) =>
+		new root.MagisterHttp().get "https://mijn.magister.net/api/schools?filter=#{query}", {}, (error, result) =>
 			if error?
 				callback error, null
 			else

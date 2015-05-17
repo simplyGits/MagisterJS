@@ -1,4 +1,4 @@
-root = module?.exports ? this
+root = (module?.exports ? this.Magister ?= {})
 
 ###*
 # A Digital school utility, usually things like a gateway to an online platform of a book used by a school.

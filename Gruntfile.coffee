@@ -20,17 +20,10 @@ module.exports = (grunt) ->
 					"lib/browser/separateHttp/magister-browser-noHttp.min.js": "lib/browser/separateHttp/magister-browser-noHttp.js"
 
 		concat:
-			setXportAndDeps:
-				options:
-					banner: headBrowser
-				files:
-					"lib/browser/separateHttp/magister-browser-noHttp.js": ["src/private/_deps.js", "lib/browser/separateHttp/magister-browser-noHttp.js", "src/xport.js"]
-
-			mergeHttp:
-				options:
-					banner: headBrowser
-				files:
-					"lib/browser/magister-browser.min.js": ["src/http/http.js", "lib/browser/separateHttp/magister-browser-noHttp.min.js"]
+			options:
+				banner: headBrowser
+			files:
+				"lib/browser/magister-browser.min.js": ["src/http/http.js", "lib/browser/separateHttp/magister-browser-noHttp.min.js"]
 
 		compress:
 			main:
@@ -51,4 +44,4 @@ module.exports = (grunt) ->
 		grunt.file.write "lib/browser/separateHttp/http.js", grunt.template.process(headBrowser) + grunt.file.read "lib/browser/separateHttp/http.js"
 		grunt.file.write "lib/browser/separateHttp/magister-browser-noHttp.min.js", grunt.template.process(headBrowser) + grunt.file.read "lib/browser/separateHttp/magister-browser-noHttp.min.js"
 
-	grunt.registerTask "default", [ "coffee", "concat:setXportAndDeps", "uglify", "concat:mergeHttp", "copy", "compress" ]
+	grunt.registerTask "default", [ "coffee", "uglify", "concat", "copy", "compress" ]

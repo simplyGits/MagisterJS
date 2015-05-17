@@ -1,4 +1,4 @@
-root = module?.exports ? this
+root = (module?.exports ? this.Magister ?= {})
 if Meteor?
 	@_ = _ = lodash
 else if module?.exports? and require? and not window?
