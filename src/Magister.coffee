@@ -20,27 +20,48 @@ root.VERSION = "1.3.2"
 # Class to communicate with Magister.
 #
 # @class Magister
-# @param magisterSchool {MagisterSchool|String} A MagisterSchool to logon to. If this is a String it will use that String as a query to search for a possible school.
-# @param username {String} The username of the user to login to.
-# @param password {String} The password of the user to login to.
-# @param [_keepLoggedIn=true] {Boolean} Whether or not to keep the user logged in.
+# @param options {Object} An object containing your perfered options.
+#	 @param options.school {MagisterSchool|String} A MagisterSchool to logon to. If this is a String it will use that String as a query to search for a possible school.
+#	 @param [options.username] {String} The username of the user to login to. (Not needed when using an sessionId.)
+#	 @param [options.password] {String} The password of the user to login to. (Not needed when using an sessionId.)
+#	 @param [options.sessionId] {String} An sessionId to use instead of logigging in to retreive a new one.
+#	 @param [options.keepLoggedIn=true] {Boolean} Whether or not to keep the user logged in.
 # @constructor
 ###
 class root.Magister
-	constructor: (@magisterSchool, @username, @password, @_keepLoggedIn = yes) ->
-		throw new Error "Expected 3 or 4 arguments, got #{arguments.length}" unless arguments.length is 3 or arguments.length is 4
-		@_readyCallbacks = [] #Fixes weird bug where callbacks from previous Magister objects were mixed with the new ones.
+	constructor: ->
+		options = keepLoggedIn: yes
+
+		if arguments.length is 1 and _.isObject arguments[0] # Options object.
+			options = arguments[0]
+		else # Backwards compatibility.
+			throw new Error "Expected 3 or 4 arguments, got #{arguments.length}" unless arguments.length is 3 or arguments.length is 4
+
+			school = arguments[0]
+			username = arguments[1]
+			password = arguments[2]
+			keepLoggedIn = arguments[3]
+
+			options = { school, username, password, keepLoggedIn }
+
+		@_readyCallbacks = [] # Fixes weird bug where callbacks from previous Magister objects were mixed with the new ones.
 		@http = new root.MagisterHttp()
 
+		options = _.defaults options, keepLoggedIn: yes
+		@magisterSchool = options.school
+		@username = options.username
+		@password = options.password
+		@_keepLoggedIn = options.keepLoggedIn
+
 		if _.isString(@magisterSchool)
-			MagisterSchool.getSchools @magisterSchool, (e, r) =>
-				if e? then throw e
-				else if r.length is 0 then throw new Error "No school with the query #{@magisterSchool} found."
+			root.MagisterSchool.getSchools @magisterSchool, (e, r) =>
+				if e? then @_setErrored e
+				else if r.length is 0 then @_setErrored new Error "No school with the query #{@magisterSchool} found."
 				else
 					@magisterSchool = r[0]
-					@reLogin()
+					@reLogin options.sessionId
 
-		else @reLogin()
+		else @reLogin options.sessionId
 
 	###*
 	# Get the appoinments of the current User between the two given Dates.
@@ -574,38 +595,45 @@ class root.Magister
 	# Usually not needed to call manually.
 	#
 	# @method reLogin
+	# @param [sessionId] {String} An optional sessionId to use. Shortens login process.
 	# @deprecated
 	###
-	reLogin: ->
+	reLogin: (sessionId) ->
 		@_ready = no
 		@_magisterLoadError = null
 		@magisterSchool.url = @magisterSchool.url.replace /^https?/, "https" # Force HTTPS.
 		url = "#{@magisterSchool.url}/api/sessie"
-		@http.post url,
-			Gebruikersnaam: @username
-			Wachtwoord: @password
-			GebruikersnaamOnthouden: yes
-			# if this works for every school, we actually wouldn't need a "relogin" method. We will keep it and then see how it goes.
-			IngelogdBlijven: @_keepLoggedIn
-		, { headers: "Content-Type": "application/json;charset=UTF-8" }, (error, result) =>
-			if error? then @_setErrored error
-			else if result.content? # Normally the response doesn't contain a body, if it contains one it's probaly an error.
-				@_setErrored result.content
-			else
-				@_sessionId = /[a-z\d-]+/.exec(result.headers["set-cookie"][0])[0]
-				@http._cookie = "SESSION_ID=#{@_sessionId}; M6UserName=#{@username}"
-				@http.get "#{@magisterSchool.url}/api/account", {},
-					(error, result) =>
+
+		cb = (sessionId) =>
+			@_sessionId = sessionId
+			@http._cookie = "SESSION_ID=#{@_sessionId}; M6UserName=#{@username}"
+			@http.get "#{@magisterSchool.url}/api/account", {},
+				(error, result) =>
+					if error? then @_setErrored error; return
+
+					result = JSON.parse result.content
+					@_group = result.Groep[0]
+					@_id = result.Persoon.Id
+					@_personUrl = "#{@magisterSchool.url}/api/personen/#{@_id}"
+					@_pupilUrl = "#{@magisterSchool.url}/api/leerlingen/#{@_id}"
+					@_profileInfo = root.ProfileInfo._convertRaw this, result
+
+					@http.get "#{@_personUrl}/berichten/mappen", {}, (error, result) =>
 						if error? then @_setErrored error; return
+						@_messageFolders = (root.MessageFolder._convertRaw(this, m) for m in JSON.parse(result.content).Items)
+						@_setReady()
 
-						result = JSON.parse result.content
-						@_group = result.Groep[0]
-						@_id = result.Persoon.Id
-						@_personUrl = "#{@magisterSchool.url}/api/personen/#{@_id}"
-						@_pupilUrl = "#{@magisterSchool.url}/api/leerlingen/#{@_id}"
-						@_profileInfo = root.ProfileInfo._convertRaw this, result
-
-						@http.get "#{@_personUrl}/berichten/mappen", {}, (error, result) =>
-							if error? then @_setErrored error; return
-							@_messageFolders = (root.MessageFolder._convertRaw(this, m) for m in JSON.parse(result.content).Items)
-							@_setReady()
+		if sessionId? then cb sessionId
+		else
+			@http.post url,
+				Gebruikersnaam: @username
+				Wachtwoord: @password
+				GebruikersnaamOnthouden: yes
+				# If this works for every school, we actually wouldn't need a "relogin" method. We will keep it and then see how it goes.
+				IngelogdBlijven: @_keepLoggedIn
+			, { headers: "Content-Type": "application/json;charset=UTF-8" }, (error, result) =>
+				if error? then @_setErrored error
+				else if result.content? # Normally the response doesn't contain a body, if it contains one it's probaly an error.
+					@_setErrored result.content
+				else
+					cb /[a-z\d-]+/.exec(result.headers["set-cookie"][0])[0]
