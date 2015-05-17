@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.3.2</em>
+            <em>API Docs for: 1.3.3</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -99,7 +99,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/Magister.coffee.html#l15"><code>Magister.coffee:15</code></a>
+            Defined in: <a href="../files/Magister.coffee.html#l19"><code>Magister.coffee:19</code></a>
         </div>
 
             Module: <a href="../modules/Magister.html">Magister</a>
@@ -120,16 +120,7 @@
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>magisterSchool</code>
-                </li>
-                <li class="arg">
-                        <code>username</code>
-                </li>
-                <li class="arg">
-                        <code>password</code>
-                </li>
-                <li class="arg">
-                        <code class="optional">[_keepLoggedIn=true]</code>
+                        <code>options</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -144,7 +135,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Magister.coffee.html#l15"><code>Magister.coffee:15</code></a>
+        <a href="../files/Magister.coffee.html#l19"><code>Magister.coffee:19</code></a>
         </p>
 
 
@@ -160,49 +151,71 @@
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">magisterSchool</code>
-                        <span class="type"><a href="../classes/MagisterSchool.html" class="crosslink">MagisterSchool</a> | <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                        <code class="param-name">options</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
 
 
                     <div class="param-description">
-                        <p>A MagisterSchool to logon to. If this is a String it will use that String as a query to search for a possible school.</p>
+                        <p>An object containing your perfered options.</p>
 
                     </div>
 
-                </li>
-                <li class="param">
-                        <code class="param-name">username</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                        <ul class="params-list">
+                            <li class="param">
+                                    <code class="param-name">school</code>
+                                    <span class="type"><a href="../classes/MagisterSchool.html" class="crosslink">MagisterSchool</a> | <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
 
+                                <div class="param-description">
+                                    <p>A MagisterSchool to logon to. If this is a String it will use that String as a query to search for a possible school.</p>
 
-                    <div class="param-description">
-                        <p>The username of the user to login to.</p>
+                                </div>
 
-                    </div>
+                            </li>
+                            <li class="param">
+                                    <code class="param-name optional">[username]</code>
+                                    <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
 
-                </li>
-                <li class="param">
-                        <code class="param-name">password</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                                <div class="param-description">
+                                    <p>The username of the user to login to. (Not needed when using an sessionId.)</p>
 
+                                </div>
 
-                    <div class="param-description">
-                        <p>The password of the user to login to.</p>
+                            </li>
+                            <li class="param">
+                                    <code class="param-name optional">[password]</code>
+                                    <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
 
-                    </div>
+                                <div class="param-description">
+                                    <p>The password of the user to login to. (Not needed when using an sessionId.)</p>
 
-                </li>
-                <li class="param">
-                        <code class="param-name optional">[_keepLoggedIn=true]</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                                </div>
 
+                            </li>
+                            <li class="param">
+                                    <code class="param-name optional">[sessionId]</code>
+                                    <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
 
-                    <div class="param-description">
-                        <p>Whether or not to keep the user logged in.</p>
+                                <div class="param-description">
+                                    <p>An sessionId to use instead of logigging in to retreive a new one.</p>
 
-                    </div>
+                                </div>
 
+                            </li>
+                            <li class="param">
+                                    <code class="param-name optional">[keepLoggedIn=true]</code>
+                                    <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+
+                                <div class="param-description">
+                                    <p>Whether or not to keep the user logged in.</p>
+
+                                </div>
+
+                            </li>
+                        </ul>
                 </li>
             </ul>
         </div>
@@ -333,7 +346,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Magister.coffee.html#l156"><code>Magister.coffee:156</code></a>
+        <a href="../files/Magister.coffee.html#l181"><code>Magister.coffee:181</code></a>
         </p>
 
 
@@ -388,7 +401,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Magister.coffee.html#l41"><code>Magister.coffee:41</code></a>
+        <a href="../files/Magister.coffee.html#l66"><code>Magister.coffee:66</code></a>
         </p>
 
 
@@ -514,7 +527,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Magister.coffee.html#l381"><code>Magister.coffee:381</code></a>
+        <a href="../files/Magister.coffee.html#l410"><code>Magister.coffee:410</code></a>
         </p>
 
 
@@ -637,7 +650,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Magister.coffee.html#l151"><code>Magister.coffee:151</code></a>
+        <a href="../files/Magister.coffee.html#l176"><code>Magister.coffee:176</code></a>
         </p>
 
 
@@ -685,7 +698,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Magister.coffee.html#l500"><code>Magister.coffee:500</code></a>
+        <a href="../files/Magister.coffee.html#l529"><code>Magister.coffee:529</code></a>
         </p>
 
 
@@ -766,6 +779,9 @@
                 <li class="arg">
                         <code>recipients</code>
                 </li>
+                <li class="arg">
+                        <code class="optional">[callback]</code>
+                </li>
             </ul><span class="paren">)</span>
         </div>
 
@@ -779,7 +795,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Magister.coffee.html#l307"><code>Magister.coffee:307</code></a>
+        <a href="../files/Magister.coffee.html#l332"><code>Magister.coffee:332</code></a>
         </p>
 
 
@@ -829,6 +845,42 @@
                     </div>
 
                 </li>
+                <li class="param">
+                        <code class="param-name optional">[callback]</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                        <p>An optional callback.</p>
+
+                    </div>
+
+                        <ul class="params-list">
+                            <li class="param">
+                                    <code class="param-name optional">[error]</code>
+                                    <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+
+                                <div class="param-description">
+                                    <p>An error, if it exists.</p>
+
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name optional">[result]</code>
+                                    <span class="type"><a href="../classes/Message.html" class="crosslink">Message</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+
+                                <div class="param-description">
+                                    <p>The sent message.</p>
+
+                                </div>
+
+                            </li>
+                        </ul>
+                </li>
             </ul>
         </div>
 
@@ -857,7 +909,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Magister.coffee.html#l162"><code>Magister.coffee:162</code></a>
+        <a href="../files/Magister.coffee.html#l187"><code>Magister.coffee:187</code></a>
         </p>
 
 
@@ -939,7 +991,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Magister.coffee.html#l440"><code>Magister.coffee:440</code></a>
+        <a href="../files/Magister.coffee.html#l469"><code>Magister.coffee:469</code></a>
         </p>
 
 
@@ -1030,7 +1082,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Magister.coffee.html#l328"><code>Magister.coffee:328</code></a>
+        <a href="../files/Magister.coffee.html#l357"><code>Magister.coffee:357</code></a>
         </p>
 
 
@@ -1115,7 +1167,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Magister.coffee.html#l266"><code>Magister.coffee:266</code></a>
+        <a href="../files/Magister.coffee.html#l291"><code>Magister.coffee:291</code></a>
         </p>
 
 
@@ -1218,7 +1270,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Magister.coffee.html#l183"><code>Magister.coffee:183</code></a>
+        <a href="../files/Magister.coffee.html#l208"><code>Magister.coffee:208</code></a>
         </p>
 
 
@@ -1307,7 +1359,7 @@ you're doing and you're willing to use this, go ahead.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Magister.coffee.html#l214"><code>Magister.coffee:214</code></a>
+        <a href="../files/Magister.coffee.html#l239"><code>Magister.coffee:239</code></a>
         </p>
 
 
@@ -1405,7 +1457,7 @@ you're doing and you're willing to use this, go ahead.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Magister.coffee.html#l141"><code>Magister.coffee:141</code></a>
+        <a href="../files/Magister.coffee.html#l166"><code>Magister.coffee:166</code></a>
         </p>
 
 
@@ -1456,7 +1508,7 @@ you're doing and you're willing to use this, go ahead.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Magister.coffee.html#l121"><code>Magister.coffee:121</code></a>
+        <a href="../files/Magister.coffee.html#l146"><code>Magister.coffee:146</code></a>
         </p>
 
 
@@ -1559,7 +1611,7 @@ you're doing and you're willing to use this, go ahead.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Magister.coffee.html#l485"><code>Magister.coffee:485</code></a>
+        <a href="../files/Magister.coffee.html#l514"><code>Magister.coffee:514</code></a>
         </p>
 
 
@@ -1650,7 +1702,7 @@ you're doing and you're willing to use this, go ahead.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Magister.coffee.html#l536"><code>Magister.coffee:536</code></a>
+        <a href="../files/Magister.coffee.html#l565"><code>Magister.coffee:565</code></a>
         </p>
 
 
@@ -1720,7 +1772,13 @@ you're doing and you're willing to use this, go ahead.</p>
 <div id="method_reLogin" class="method item deprecated">
     <h3 class="name"><code>reLogin</code></h3>
 
-        <span class="paren">()</span>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code class="optional">[sessionId]</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
 
 
         <span class="flag deprecated">deprecated</span>
@@ -1733,7 +1791,7 @@ you're doing and you're willing to use this, go ahead.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Magister.coffee.html#l567"><code>Magister.coffee:567</code></a>
+        <a href="../files/Magister.coffee.html#l596"><code>Magister.coffee:596</code></a>
         </p>
 
 
@@ -1746,6 +1804,24 @@ you're doing and you're willing to use this, go ahead.</p>
 
     </div>
 
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name optional">[sessionId]</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                        <p>An optional sessionId to use. Shortens login process.</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
 
 
 
@@ -1768,7 +1844,7 @@ you're doing and you're willing to use this, go ahead.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Magister.coffee.html#l146"><code>Magister.coffee:146</code></a>
+        <a href="../files/Magister.coffee.html#l171"><code>Magister.coffee:171</code></a>
         </p>
 
 
@@ -1817,7 +1893,7 @@ you're doing and you're willing to use this, go ahead.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Magister.coffee.html#l344"><code>Magister.coffee:344</code></a>
+        <a href="../files/Magister.coffee.html#l373"><code>Magister.coffee:373</code></a>
         </p>
 
 

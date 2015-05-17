@@ -2,7 +2,7 @@
     "project": {
         "name": "Magister.js Docs",
         "description": "A JavaScript implementation of the Magister 6 API.",
-        "version": "1.3.2",
+        "version": "1.3.3",
         "url": "http://simplyGits.github.io/MagisterJS",
         "logo": "http://i.imgur.com/Lrg80ax.png"
     },
@@ -416,30 +416,45 @@
             "module": "Magister",
             "namespace": "",
             "file": "Magister.coffee",
-            "line": 15,
+            "line": 19,
             "description": "Class to communicate with Magister.",
             "params": [
                 {
-                    "name": "magisterSchool",
-                    "description": "A MagisterSchool to logon to. If this is a String it will use that String as a query to search for a possible school.",
-                    "type": "MagisterSchool|String"
-                },
-                {
-                    "name": "username",
-                    "description": "The username of the user to login to.",
-                    "type": "String"
-                },
-                {
-                    "name": "password",
-                    "description": "The password of the user to login to.",
-                    "type": "String"
-                },
-                {
-                    "name": "_keepLoggedIn",
-                    "description": "Whether or not to keep the user logged in.",
-                    "type": "Boolean",
-                    "optional": true,
-                    "optdefault": "true"
+                    "name": "options",
+                    "description": "An object containing your perfered options.",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "school",
+                            "description": "A MagisterSchool to logon to. If this is a String it will use that String as a query to search for a possible school.",
+                            "type": "MagisterSchool|String"
+                        },
+                        {
+                            "name": "username",
+                            "description": "The username of the user to login to. (Not needed when using an sessionId.)",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "password",
+                            "description": "The password of the user to login to. (Not needed when using an sessionId.)",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "sessionId",
+                            "description": "An sessionId to use instead of logigging in to retreive a new one.",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "keepLoggedIn",
+                            "description": "Whether or not to keep the user logged in.",
+                            "type": "Boolean",
+                            "optional": true,
+                            "optdefault": "true"
+                        }
+                    ]
                 }
             ],
             "is_constructor": 1
@@ -2072,7 +2087,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 41,
+            "line": 66,
             "description": "Get the appoinments of the current User between the two given Dates.",
             "itemtype": "method",
             "name": "appointments",
@@ -2121,7 +2136,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 121,
+            "line": 146,
             "description": "Gets the MessageFolders that matches the given query. Or if no query is given, all MessageFolders",
             "itemtype": "method",
             "name": "messageFolders",
@@ -2162,7 +2177,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 141,
+            "line": 166,
             "itemtype": "method",
             "name": "inbox",
             "return": {
@@ -2174,7 +2189,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 146,
+            "line": 171,
             "itemtype": "method",
             "name": "sentItems",
             "return": {
@@ -2186,7 +2201,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 151,
+            "line": 176,
             "itemtype": "method",
             "name": "bin",
             "return": {
@@ -2198,7 +2213,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 156,
+            "line": 181,
             "itemtype": "method",
             "name": "alerts",
             "return": {
@@ -2210,7 +2225,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 162,
+            "line": 187,
             "description": "Gets the courses of the current User.",
             "itemtype": "method",
             "name": "courses",
@@ -2241,7 +2256,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 183,
+            "line": 208,
             "description": "Gets limited course info for the current Course for the current User.\n\nThis is quicker than `courses`, however it's not as consistent and\ndoesn't really fit in Magister.js's style, however if you know what\nyou're doing and you're willing to use this, go ahead.",
             "itemtype": "method",
             "name": "getLimitedCurrentCourseInfo",
@@ -2274,7 +2289,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 214,
+            "line": 239,
             "description": "Gets an Array of Persons that matches the given profile.",
             "itemtype": "method",
             "name": "getPersons",
@@ -2316,7 +2331,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 266,
+            "line": 291,
             "description": "Fills the given person(s) by downloading the person from Magister and replacing the local instance.",
             "itemtype": "method",
             "name": "fillPersons",
@@ -2358,7 +2373,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 307,
+            "line": 332,
             "description": "Shortcut for composing and sending a Message.",
             "itemtype": "method",
             "name": "composeAndSendMessage",
@@ -2378,6 +2393,26 @@
                     "name": "recipients",
                     "description": "The recipient(s) the message will be sent to.",
                     "type": "Person[]|String[]|Person|String"
+                },
+                {
+                    "name": "callback",
+                    "description": "An optional callback.",
+                    "type": "Function",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "error",
+                            "description": "An error, if it exists.",
+                            "type": "Object",
+                            "optional": true
+                        },
+                        {
+                            "name": "result",
+                            "description": "The sent message.",
+                            "type": "Message",
+                            "optional": true
+                        }
+                    ]
                 }
             ],
             "class": "Magister",
@@ -2385,7 +2420,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 328,
+            "line": 357,
             "description": "Gets the FileFolders of the current user.",
             "itemtype": "method",
             "name": "fileFolders",
@@ -2416,7 +2451,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 344,
+            "line": 373,
             "description": "Gets the StudyGuides of the current user.",
             "itemtype": "method",
             "name": "studyGuides",
@@ -2454,7 +2489,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 381,
+            "line": 410,
             "description": "Gets the Assignments for the current user.",
             "itemtype": "method",
             "name": "assignments",
@@ -2513,7 +2548,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 440,
+            "line": 469,
             "description": "Gets the Digital school utilities for the current user.",
             "itemtype": "method",
             "name": "digitalSchoolUtilities",
@@ -2552,7 +2587,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 485,
+            "line": 514,
             "description": "Returns the profile for the current logged in user.",
             "itemtype": "method",
             "name": "profileInfo",
@@ -2587,7 +2622,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 500,
+            "line": 529,
             "description": "Returns the children of the current user.",
             "itemtype": "method",
             "name": "children",
@@ -2622,7 +2657,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 536,
+            "line": 565,
             "description": "Checks if this Magister instance is done logging in.\n\nYou can also provide a callback, which will be called when this instance is done logging in.",
             "itemtype": "method",
             "name": "ready",
@@ -2656,10 +2691,18 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 567,
+            "line": 596,
             "description": "(Re-)Login the current Magister instance.\n\nUsually not needed to call manually.",
             "itemtype": "method",
             "name": "reLogin",
+            "params": [
+                {
+                    "name": "sessionId",
+                    "description": "An optional sessionId to use. Shortens login process.",
+                    "type": "String",
+                    "optional": true
+                }
+            ],
             "deprecated": true,
             "class": "Magister",
             "module": "Magister"
@@ -2897,6 +2940,28 @@
             "description": "Sends the current Message. Sending will be delayed if there are processes running in the background.",
             "itemtype": "method",
             "name": "send",
+            "params": [
+                {
+                    "name": "callback",
+                    "description": "An optional callback.",
+                    "type": "Function",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "error",
+                            "description": "An error, if it exists.",
+                            "type": "Object",
+                            "optional": true
+                        },
+                        {
+                            "name": "result",
+                            "description": "The sent message.",
+                            "type": "Message",
+                            "optional": true
+                        }
+                    ]
+                }
+            ],
             "return": {
                 "description": "False if the sending is delayed, otherwise true.",
                 "type": "Boolean"
@@ -2906,7 +2971,7 @@
         },
         {
             "file": "Message.coffee",
-            "line": 239,
+            "line": 244,
             "description": "Move the current message to the given position.",
             "itemtype": "method",
             "name": "move",
@@ -2922,10 +2987,26 @@
         },
         {
             "file": "Message.coffee",
-            "line": 253,
+            "line": 258,
             "description": "WARNING. Removes the current Message.",
             "itemtype": "method",
             "name": "remove",
+            "params": [
+                {
+                    "name": "callback",
+                    "description": "An optional callback.",
+                    "type": "Function",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "error",
+                            "description": "An error, if it exists.",
+                            "type": "Object",
+                            "optional": true
+                        }
+                    ]
+                }
+            ],
             "class": "Message",
             "module": "Magister"
         },
@@ -3731,7 +3812,7 @@
     "warnings": [
         {
             "message": "unknown tag: fixme",
-            "line": " Magister.coffee:440"
+            "line": " Magister.coffee:469"
         }
     ]
 }

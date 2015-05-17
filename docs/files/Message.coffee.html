@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.3.2</em>
+            <em>API Docs for: 1.3.3</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -142,7 +142,7 @@ class root.Message
 		# @type String
 		# @default &quot;&quot;
 		###
-		@body = root._getset &quot;_body&quot;, ((x) =&gt; @_body = x.replace &quot;\n&quot;, &quot;&lt;br&gt;&quot;), (x) -&gt; if x? then x.replace(/&lt;br ?\/?&gt;/g, &quot;\n&quot;).replace(/(&lt;[^&gt;]*&gt;)|(&amp;nbsp;)/g, &quot;&quot;) else &quot;&quot;
+		@body = root._getset &quot;_body&quot;, ((x) =&gt; @_body = (x ? &quot;&quot;).replace &quot;\n&quot;, &quot;&lt;br&gt;&quot;), (x) -&gt; if x? then x.replace(/&lt;br ?\/?&gt;/g, &quot;\n&quot;).replace(/(&lt;[^&gt;]*&gt;)|(&amp;nbsp;)/g, &quot;&quot;) else &quot;&quot;
 		###*
 		# @property attachments
 		# @final
@@ -322,6 +322,9 @@ class root.Message
 	# Sends the current Message. Sending will be delayed if there are processes running in the background.
 	#
 	# @method send
+	# @param [callback] {Function} An optional callback.
+	# 	@param [callback.error] {Object} An error, if it exists.
+	# 	@param [callback.result] {Message} The sent message.
 	# @return {Boolean} False if the sending is delayed, otherwise true.
 	###
 	send: -&gt;
@@ -331,9 +334,11 @@ class root.Message
 		throw new Error &quot;This message is marked as unsendable&quot; unless @_canSend
 		throw new Error &quot;Sender and/or recipients cannot be null&quot; unless @recipients()? and @sender()?
 		throw new Error &quot;Subject cannot be null or empty&quot; if _.isEmpty @subject()
-		@body &quot;&quot; unless @body()?
 
-		@_magisterObj.http.post &quot;#{@_magisterObj._personUrl}/berichten&quot;, @_toMagisterStyle(), {}, (e, r) -&gt; throw e if e?
+		@_magisterObj.http.post &quot;#{@_magisterObj._personUrl}/berichten&quot;, @_toMagisterStyle(), {}, (e, r) =&gt;
+			if e? then callback? e, null
+			else callback? null, this
+
 		return yes
 
 	###*
@@ -354,8 +359,10 @@ class root.Message
 	# WARNING. Removes the current Message.
 	#
 	# @method remove
+	# @param [callback] {Function} An optional callback.
+	# 	@param [callback.error] {Object} An error, if it exists.
 	###
-	remove: -&gt; @_magisterObj.http.delete &quot;#{@_magisterObj._personUrl}/berichten/#{@id()}&quot;, {}, (error, result) -&gt; throw error if error?
+	remove: (cb) -&gt; @_magisterObj.http.delete &quot;#{@_magisterObj._personUrl}/berichten/#{@id()}&quot;, {}, (error, result) -&gt; cb? error
 
 	_update: -&gt; @_magisterObj.http.put &quot;#{@_magisterObj._personUrl}/berichten/#{@id()}?berichtSoort=#{@type()}&quot;, @_toMagisterStyle(), {}, (-&gt;)
 
