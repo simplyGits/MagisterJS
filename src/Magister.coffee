@@ -8,7 +8,7 @@ else if @_?
 else
 	throw new Error "Lo-dash is required."
 
-root.VERSION = "1.3.2"
+root.VERSION = "1.3.3"
 
 ###*
 # A JavaScript implementation of the Magister 6 API.
