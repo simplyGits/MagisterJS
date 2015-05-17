@@ -8,6 +8,12 @@ else if @_?
 else
 	throw new Error "Lo-dash is required."
 
+###*
+# The version of this Magister.js.
+# @property VERSION
+# @final
+# @type Number
+###
 root.VERSION = "1.3.3"
 
 ###*
@@ -600,7 +606,7 @@ class root.Magister
 	#
 	# @method reLogin
 	# @param [sessionId] {String} An optional sessionId to use. Shortens login process.
-	# @deprecated
+	# @private
 	###
 	reLogin: (sessionId) ->
 		@_ready = no
