@@ -102,7 +102,7 @@ class root.Magister
 						appointments = _(appointments)
 							.reject (a) -> _.contains changedAppointments, (changedAppointment) -> changedAppointment.id() is a.id()
 							.concat changedAppointments
-							.filter (a) -> root._helpers.date(a.begin()) >= from and (root._helpers.date(a.end()) <= to or a.fullDay())
+							.filter (a) -> root._helpers.date(a.begin()) <= to and root._helpers.date(a.end()) >= from
 							.sortBy "_begin"
 							.value()
 
@@ -132,7 +132,7 @@ class root.Magister
 
 					# Get persons.
 					if fillPersons
-						pushResult = root._helpers.asyncResultWaiter appointments.length, finish
+						pushResult = root._helpers.asyncResultWaiter appointments.length, -> finish()
 
 						for a in appointments then do (a) =>
 							teachers = a.teachers() ? []
