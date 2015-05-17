@@ -42,7 +42,7 @@ class root.Message
 		# @type String
 		# @default ""
 		###
-		@body = root._getset "_body", ((x) => @_body = x.replace "\n", "<br>"), (x) -> if x? then x.replace(/<br ?\/?>/g, "\n").replace(/(<[^>]*>)|(&nbsp;)/g, "") else ""
+		@body = root._getset "_body", ((x) => @_body = (x ? "").replace "\n", "<br>"), (x) -> if x? then x.replace(/<br ?\/?>/g, "\n").replace(/(<[^>]*>)|(&nbsp;)/g, "") else ""
 		###*
 		# @property attachments
 		# @final
@@ -234,7 +234,6 @@ class root.Message
 		throw new Error "This message is marked as unsendable" unless @_canSend
 		throw new Error "Sender and/or recipients cannot be null" unless @recipients()? and @sender()?
 		throw new Error "Subject cannot be null or empty" if _.isEmpty @subject()
-		@body "" unless @body()?
 
 		@_magisterObj.http.post "#{@_magisterObj._personUrl}/berichten", @_toMagisterStyle(), {}, (e, r) =>
 			if e? then callback? e, null
