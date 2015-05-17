@@ -222,6 +222,9 @@ class root.Message
 	# Sends the current Message. Sending will be delayed if there are processes running in the background.
 	#
 	# @method send
+	# @param [callback] {Function} An optional callback.
+	# 	@param [callback.error] {Object} An error, if it exists.
+	# 	@param [callback.result] {Message} The sent message.
 	# @return {Boolean} False if the sending is delayed, otherwise true.
 	###
 	send: ->
@@ -233,7 +236,10 @@ class root.Message
 		throw new Error "Subject cannot be null or empty" if _.isEmpty @subject()
 		@body "" unless @body()?
 
-		@_magisterObj.http.post "#{@_magisterObj._personUrl}/berichten", @_toMagisterStyle(), {}, (e, r) -> throw e if e?
+		@_magisterObj.http.post "#{@_magisterObj._personUrl}/berichten", @_toMagisterStyle(), {}, (e, r) =>
+			if e? then callback? e, null
+			else callback? null, this
+
 		return yes
 
 	###*

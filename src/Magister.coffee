@@ -336,19 +336,23 @@ class root.Magister
 	# @param subject {String} The subject of the message
 	# @param [body] {String} The body of the message, if none is given the body will be empty.
 	# @param recipients {Person[]|String[]|Person|String} The recipient(s) the message will be sent to.
+	# @param [callback] {Function} An optional callback.
+	# 	@param [callback.error] {Object} An error, if it exists.
+	# 	@param [callback.result] {Message} The sent message.
 	###
 	composeAndSendMessage: ->
 		@_forceReady()
 
 		[subject, body] = _.filter arguments, (a) -> _.isString a
-		recipients = _.last arguments
+		callback = _.find arguments, (a) -> _.isFunction a
+		recipients = _.findLast arguments, (a) -> a isnt callback
 		if arguments.length is 2 then body = ""
 
 		m = new root.Message this
 		m.subject subject
 		m.body body ? ""
 		m.addRecipient recipients
-		m.send()
+		m.send callback
 
 	###*
 	# Gets the FileFolders of the current user.
