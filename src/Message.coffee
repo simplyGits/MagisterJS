@@ -260,8 +260,10 @@ class root.Message
 	# WARNING. Removes the current Message.
 	#
 	# @method remove
+	# @param [callback] {Function} An optional callback.
+	# 	@param [callback.error] {Object} An error, if it exists.
 	###
-	remove: -> @_magisterObj.http.delete "#{@_magisterObj._personUrl}/berichten/#{@id()}", {}, (error, result) -> throw error if error?
+	remove: (cb) -> @_magisterObj.http.delete "#{@_magisterObj._personUrl}/berichten/#{@id()}", {}, (error, result) -> cb? error
 
 	_update: -> @_magisterObj.http.put "#{@_magisterObj._personUrl}/berichten/#{@id()}?berichtSoort=#{@type()}", @_toMagisterStyle(), {}, (->)
 
