@@ -631,23 +631,28 @@ class root.Magister
 		url = "#{@magisterSchool.url}/api/sessie"
 
 		cb = (sessionId) =>
-			@_sessionId = sessionId
-			@http._cookie = "SESSION_ID=#{@_sessionId}; M6UserName=#{@username}"
-			@http.get "#{@magisterSchool.url}/api/account", {},
-				(error, result) =>
-					if error? then @_setErrored error; return
-
-					result = JSON.parse result.content
-					@_group = result.Groep[0]
-					@_id = result.Persoon.Id
-					@_personUrl = "#{@magisterSchool.url}/api/personen/#{@_id}"
-					@_pupilUrl = "#{@magisterSchool.url}/api/leerlingen/#{@_id}"
-					@_profileInfo = root.ProfileInfo._convertRaw this, result
-
-					@http.get "#{@_personUrl}/berichten/mappen", {}, (error, result) =>
+			try
+				@_sessionId = sessionId
+				@http._cookie = "SESSION_ID=#{@_sessionId}; M6UserName=#{@username}"
+				@http.get "#{@magisterSchool.url}/api/account", {},
+					(error, result) =>
 						if error? then @_setErrored error; return
-						@_messageFolders = (root.MessageFolder._convertRaw(this, m) for m in JSON.parse(result.content).Items)
-						@_setReady()
+
+						try
+							result = JSON.parse result.content
+							@_group = result.Groep[0]
+							@_id = result.Persoon.Id
+							@_personUrl = "#{@magisterSchool.url}/api/personen/#{@_id}"
+							@_pupilUrl = "#{@magisterSchool.url}/api/leerlingen/#{@_id}"
+							@_profileInfo = root.ProfileInfo._convertRaw this, result
+						catch e then _setErrored e
+
+						@http.get "#{@_personUrl}/berichten/mappen", {}, (error, result) =>
+							if error? then @_setErrored error; return
+							@_messageFolders = (root.MessageFolder._convertRaw(this, m) for m in JSON.parse(result.content).Items)
+							@_setReady()
+
+			catch e then _setErrored e
 
 		if sessionId? then cb sessionId
 		else
