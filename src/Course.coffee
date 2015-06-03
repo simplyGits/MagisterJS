@@ -136,6 +136,13 @@ class root.Course
 		# @type String
 		###
 		@alternativeProfile = root._getset "_alternativeProfile"
+		###*
+		# True if this Course is the current Course.
+		# @property current
+		# @final
+		# @type Boolean
+		###
+		@current = root._getset "_current"
 
 	###*
 	# Gets the classes of this Course.
@@ -254,5 +261,7 @@ class root.Course
 		obj._group = { id: raw.Groep.Id, description: raw.Groep.Omschrijving, locationId: raw.Groep.LocatieId }
 		obj._profile = raw.Profiel
 		obj._alternativeProfile = raw.Profiel2
+
+		obj._current = obj._begin.getTime() <= _.now() <= obj._end.getTime()
 
 		return obj
