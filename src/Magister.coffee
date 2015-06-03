@@ -12,7 +12,7 @@ else
 # The version of this Magister.js.
 # @property VERSION
 # @final
-# @type Number
+# @type String
 ###
 root.VERSION = "1.3.3_browserfix0"
 
