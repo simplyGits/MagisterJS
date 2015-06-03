@@ -158,4 +158,36 @@ describe("Magister", function() {
 			});
 		});
 	});
+
+	it("should correctly get courses", function (done) {
+		x.ready(function () {
+			var self = this;
+
+			self.courses(function (e, r) {
+				expect(e).to.not.exist;
+				expect(r).to.be.a("array");
+				var course = r[0];
+
+				self.currentCourse(function (e, r) {
+					expect(r.id()).to.equal(course.id());
+					done(e);
+				});
+			});
+		});
+	});
+
+	it("should correctly get grades", function (done) {
+		x.ready(function () {
+			this.currentCourse(function (e, r) {
+				if (e != null) { // case covered by 'should correctly get courses'.
+					done();
+				} else {
+					r.grades(false, false, false, function (e, r) {
+						expect(r).to.be.a("array");
+						done(e);
+					});
+				}
+			});
+		});
+	});
 });
