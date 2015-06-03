@@ -1,8 +1,5 @@
-base64@1.0.3
 coffeescript@1.0.6
-ejson@1.0.6
 erasaur:meteor-lodash@3.6.0
-json@1.0.3
 meteor@1.1.6
-simply:magisterjs@1.3.1
+simply:magisterjs@1.4.0
 underscore@1.0.3
