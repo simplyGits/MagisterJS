@@ -213,7 +213,7 @@ class root.Magister
 					callback null, _(converted).sortBy("_beginDate").sortBy((x) -> not x._current).value()
 
 	###*
-	# Geths the current grade of the current User.
+	# Gets the current grade of the current User.
 	#
 	# @method currentCourse
 	# @async
@@ -552,7 +552,6 @@ class root.Magister
 	# Returns the children of the current user.
 	#
 	# @method children
-	# @param callback
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
 	# 	@param [callback.result] {ProfileInfo[]} An array containing ProfileInfo instances.
