@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.3.3</em>
+            <em>API Docs for: 1.4.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -236,6 +236,13 @@ class root.Course
 		# @type String
 		###
 		@alternativeProfile = root._getset &quot;_alternativeProfile&quot;
+		###*
+		# True if this Course is the current Course.
+		# @property current
+		# @final
+		# @type Boolean
+		###
+		@current = root._getset &quot;_current&quot;
 
 	###*
 	# Gets the classes of this Course.
@@ -354,6 +361,8 @@ class root.Course
 		obj._group = { id: raw.Groep.Id, description: raw.Groep.Omschrijving, locationId: raw.Groep.LocatieId }
 		obj._profile = raw.Profiel
 		obj._alternativeProfile = raw.Profiel2
+
+		obj._current = obj._begin.getTime() &lt;= _.now() &lt;= obj._end.getTime()
 
 		return obj
 

@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.3.3</em>
+            <em>API Docs for: 1.4.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -104,11 +104,17 @@ if Meteor?
 else if module?.exports? and require? and not window?
 	@_ = _ = require(&quot;lodash&quot;) if not _?
 else if @_?
-	_ = @
+	_ = @this
 else
 	throw new Error &quot;Lo-dash is required.&quot;
 
-root.VERSION = &quot;1.3.3&quot;
+###*
+# The version of this Magister.js.
+# @property VERSION
+# @final
+# @type String
+###
+root.VERSION = &quot;1.4.0&quot;
 
 ###*
 # A JavaScript implementation of the Magister 6 API.
@@ -303,7 +309,23 @@ class root.Magister
 					callback error, null
 				else
 					result = JSON.parse result.content
-					callback null, _.sortBy((root.Course._convertRaw(this, c) for c in result.Items), (c) -&gt; c.begin()).reverse()
+					converted = (root.Course._convertRaw(this, c) for c in result.Items)
+					callback null, _(converted).sortBy(&quot;_beginDate&quot;).sortBy((x) -&gt; not x._current).value()
+
+	###*
+	# Gets the current grade of the current User.
+	#
+	# @method currentCourse
+	# @async
+	# @param callback {Function} A standard callback.
+	# 	@param [callback.error] {Object} The error, if it exists.
+	# 	@param [callback.result] {Course} An array containing the current Course.
+	###
+	currentCourse: (callback) -&gt;
+		@_forceReady()
+		@courses (e, r) -&gt;
+			if e? then callback e, null
+			else callback null, _.find r, (c) -&gt; c.current()
 
 	###*
 	# Gets limited course info for the current Course for the current User.
@@ -630,7 +652,6 @@ class root.Magister
 	# Returns the children of the current user.
 	#
 	# @method children
-	# @param callback
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
 	# 	@param [callback.result] {ProfileInfo[]} An array containing ProfileInfo instances.
@@ -700,7 +721,7 @@ class root.Magister
 	#
 	# @method reLogin
 	# @param [sessionId] {String} An optional sessionId to use. Shortens login process.
-	# @deprecated
+	# @private
 	###
 	reLogin: (sessionId) -&gt;
 		@_ready = no
@@ -709,23 +730,28 @@ class root.Magister
 		url = &quot;#{@magisterSchool.url}/api/sessie&quot;
 
 		cb = (sessionId) =&gt;
-			@_sessionId = sessionId
-			@http._cookie = &quot;SESSION_ID=#{@_sessionId}; M6UserName=#{@username}&quot;
-			@http.get &quot;#{@magisterSchool.url}/api/account&quot;, {},
-				(error, result) =&gt;
-					if error? then @_setErrored error; return
-
-					result = JSON.parse result.content
-					@_group = result.Groep[0]
-					@_id = result.Persoon.Id
-					@_personUrl = &quot;#{@magisterSchool.url}/api/personen/#{@_id}&quot;
-					@_pupilUrl = &quot;#{@magisterSchool.url}/api/leerlingen/#{@_id}&quot;
-					@_profileInfo = root.ProfileInfo._convertRaw this, result
-
-					@http.get &quot;#{@_personUrl}/berichten/mappen&quot;, {}, (error, result) =&gt;
+			try
+				@_sessionId = sessionId
+				@http._cookie = &quot;SESSION_ID=#{@_sessionId}; M6UserName=#{@username}&quot;
+				@http.get &quot;#{@magisterSchool.url}/api/account&quot;, {},
+					(error, result) =&gt;
 						if error? then @_setErrored error; return
-						@_messageFolders = (root.MessageFolder._convertRaw(this, m) for m in JSON.parse(result.content).Items)
-						@_setReady()
+
+						try
+							result = JSON.parse result.content
+							@_group = result.Groep[0]
+							@_id = result.Persoon.Id
+							@_personUrl = &quot;#{@magisterSchool.url}/api/personen/#{@_id}&quot;
+							@_pupilUrl = &quot;#{@magisterSchool.url}/api/leerlingen/#{@_id}&quot;
+							@_profileInfo = root.ProfileInfo._convertRaw this, result
+						catch e then _setErrored e
+
+						@http.get &quot;#{@_personUrl}/berichten/mappen&quot;, {}, (error, result) =&gt;
+							if error? then @_setErrored error; return
+							@_messageFolders = (root.MessageFolder._convertRaw(this, m) for m in JSON.parse(result.content).Items)
+							@_setReady()
+
+			catch e then _setErrored e
 
 		if sessionId? then cb sessionId
 		else
