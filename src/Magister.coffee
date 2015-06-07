@@ -251,11 +251,11 @@ class root.Magister
 				parsed = JSON.parse result.content
 				callback null,
 					group: parsed.Klas
-					profile: pared.Profielen # It says 'profielen' but I really have no idea how multiple profiles are shown in a String...
-					pupilId: pared.StamNr # Should be the same as `@userName` AFAIK.
+					profile: parsed.Profielen # It says 'profielen' but I really have no idea how multiple profiles are shown in a String...
+					pupilId: parsed.StamNr # Should be the same as `@userName` AFAIK.
 					type:
-						year: +/\d+/.exec(Parsed.Studie)[0]
-						schoolVariant: /[^\d\s]+/.exec(Parsed.Studie)[0]
+						year: +/\d+/.exec(parsed.Studie)[0]
+						schoolVariant: /[^\d\s]+/.exec(parsed.Studie)[0]
 
 	@_cachedPersons: {}
 	###*
