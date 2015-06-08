@@ -40,7 +40,7 @@ Programming style
 * Respect and follow the current programming stlyle.
 * Test your changes manually.
 * Test your changes with `grunt && mocha`
-* Compile before submitting a pull request (`npm install` and `grunt`).
+* Only commit the `src/` and `test/` directory.
 
 License
 ==========
