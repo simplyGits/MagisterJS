@@ -240,6 +240,12 @@ class root.Magister
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
 	# 	@param [callback.result] {Object} The limited course info.
+	# 		@param [callback.result.group] {String}
+	# 		@param [callback.result.profile] {String}
+	# 		@param [callback.result.pupilId] {any}
+	# 		@param [callback.result.type] {Object}
+	# 			@param [callback.result.type.year] {Number}
+	# 			@param [callback.result.type.schoolVariant] {String}
 	###
 	getLimitedCurrentCourseInfo: (callback) ->
 		@_forceReady()
