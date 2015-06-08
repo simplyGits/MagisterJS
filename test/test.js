@@ -190,4 +190,13 @@ describe("Magister", function() {
 			});
 		});
 	});
+
+	it("should correctly get the limited current course", function (done) {
+		x.ready(function () {
+			this.getLimitedCurrentCourseInfo(function (e, r) {
+				expect(r).to.be.a("object");
+				done(e);
+			});
+		});
+	});
 });
