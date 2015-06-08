@@ -67,7 +67,7 @@ class root.Grade
 		###*
 		# @property type
 		# @final
-		# @type Number
+		# @type GradeType
 		###
 		@type = root._getset "_type"
 		###*
@@ -140,8 +140,8 @@ class root.Grade
 		obj._exemption = raw.Vrijstelling
 		obj._counts = raw.TeltMee
 
-		if raw.CijferKolom?
-			obj._type = root.GradeType._convertRaw magisterObj, raw.CijferKolom
+		if (val = raw.CijferKolom)?
+			obj._type = root.GradeType._convertRaw magisterObj, val
 
 		obj._assignmentId = raw.CijferKolomIdEloOpdracht
 

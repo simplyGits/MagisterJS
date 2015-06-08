@@ -187,9 +187,12 @@ class root.Course
 			else
 				result = JSON.parse(result.content).Items
 				pushResult = root._helpers.asyncResultWaiter result.length, (r) ->
-					for c in _.uniq(r, (g) -> g.class().id()).map((g) -> g.class())
-						for g in _.filter(r, (g) -> g.class().id() is c.id())
-							g._class = c
+					_(r) # Make sure that every class with the same ID can be compared with the === operator.
+						.uniq (g) -> g.class().id
+						.pluck "_class"
+						.forEach (c) ->
+							for g in _.filter(r, (g) -> g.class().id is c.id)
+								g._class = c
 
 					callback null, _.sortBy r, (g) -> g.dateFilledIn()
 
