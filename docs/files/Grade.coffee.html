@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.4.0</em>
+            <em>API Docs for: 1.5.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -167,7 +167,7 @@ class root.Grade
 		###*
 		# @property type
 		# @final
-		# @type Number
+		# @type GradeType
 		###
 		@type = root._getset &quot;_type&quot;
 		###*
@@ -228,20 +228,20 @@ class root.Grade
 		obj._dateFilledIn = new Date Date.parse raw.DatumIngevoerd
 
 		obj._gradePeriod =
-			id: -&gt; raw.CijferPeriode.Id
-			name: -&gt; raw.CijferPeriode.Naam
+			id: raw.CijferPeriode.Id
+			name: raw.CijferPeriode.Naam
 
 		obj._class =
-			id: -&gt; raw.Vak.Id
-			abbreviation: -&gt; raw.Vak.Afkorting
-			description: -&gt; raw.Vak.Omschrijving
+			id: raw.Vak.Id
+			abbreviation: raw.Vak.Afkorting
+			description: raw.Vak.Omschrijving
 
 		obj._atLaterDate = raw.Inhalen
 		obj._exemption = raw.Vrijstelling
 		obj._counts = raw.TeltMee
 
-		if raw.CijferKolom?
-			obj._type = root.GradeType._convertRaw magisterObj, raw.CijferKolom
+		if (val = raw.CijferKolom)?
+			obj._type = root.GradeType._convertRaw magisterObj, val
 
 		obj._assignmentId = raw.CijferKolomIdEloOpdracht
 
@@ -332,6 +332,12 @@ class root.GradeType
 		# @final
 		###
 		@level = root._getset &quot;_level&quot;
+		###*
+		# @property isEnd
+		# @final
+		# @type Boolean
+		###
+		@isEnd = -&gt; @type() is 2
 
 	@_convertRaw: (magisterObj, raw) -&gt;
 		obj = new root.GradeType magisterObj

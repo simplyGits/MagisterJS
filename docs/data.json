@@ -2,7 +2,7 @@
     "project": {
         "name": "Magister.js Docs",
         "description": "A JavaScript implementation of the Magister 6 API.",
-        "version": "1.4.0",
+        "version": "1.5.0",
         "url": "http://simplyGits.github.io/MagisterJS",
         "logo": "http://i.imgur.com/Lrg80ax.png"
     },
@@ -1437,7 +1437,7 @@
         },
         {
             "file": "Course.coffee",
-            "line": 215,
+            "line": 218,
             "description": "Gets the perosnal tutor of the current user for this Course.",
             "itemtype": "method",
             "name": "getPersonalTutor",
@@ -1466,7 +1466,7 @@
         },
         {
             "file": "Course.coffee",
-            "line": 230,
+            "line": 233,
             "description": "Gets the (group / class) tutors.",
             "itemtype": "method",
             "name": "getOtherTutors",
@@ -1928,7 +1928,7 @@
             "itemtype": "property",
             "name": "type",
             "final": 1,
-            "type": "Number",
+            "type": "GradeType",
             "class": "Grade"
         },
         {
@@ -2093,6 +2093,15 @@
             "itemtype": "property",
             "name": "level",
             "final": 1,
+            "class": "GradeType"
+        },
+        {
+            "file": "Grade.coffee",
+            "line": 235,
+            "itemtype": "property",
+            "name": "isEnd",
+            "final": 1,
+            "type": "Boolean",
             "class": "GradeType"
         },
         {
@@ -2330,7 +2339,45 @@
                             "name": "result",
                             "description": "The limited course info.",
                             "type": "Object",
-                            "optional": true
+                            "optional": true,
+                            "props": [
+                                {
+                                    "name": "group",
+                                    "description": "",
+                                    "type": "String",
+                                    "optional": true
+                                },
+                                {
+                                    "name": "profile",
+                                    "description": "",
+                                    "type": "String",
+                                    "optional": true
+                                },
+                                {
+                                    "name": "pupilId",
+                                    "description": "",
+                                    "type": "Any",
+                                    "optional": true
+                                },
+                                {
+                                    "name": "type",
+                                    "description": "",
+                                    "type": "Object",
+                                    "optional": true
+                                },
+                                {
+                                    "name": "type.year",
+                                    "description": "",
+                                    "type": "Number",
+                                    "optional": true
+                                },
+                                {
+                                    "name": "type.schoolVariant",
+                                    "description": "",
+                                    "type": "String",
+                                    "optional": true
+                                }
+                            ]
                         }
                     ]
                 }
@@ -2340,7 +2387,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 261,
+            "line": 267,
             "description": "Gets an Array of Persons that matches the given profile.",
             "itemtype": "method",
             "name": "getPersons",
@@ -2382,7 +2429,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 313,
+            "line": 319,
             "description": "Fills the given person(s) by downloading the person from Magister and replacing the local instance.",
             "itemtype": "method",
             "name": "fillPersons",
@@ -2424,7 +2471,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 354,
+            "line": 360,
             "description": "Shortcut for composing and sending a Message.",
             "itemtype": "method",
             "name": "composeAndSendMessage",
@@ -2471,7 +2518,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 379,
+            "line": 385,
             "description": "Gets the FileFolders of the current user.",
             "itemtype": "method",
             "name": "fileFolders",
@@ -2502,7 +2549,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 395,
+            "line": 401,
             "description": "Gets the StudyGuides of the current user.",
             "itemtype": "method",
             "name": "studyGuides",
@@ -2540,7 +2587,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 432,
+            "line": 438,
             "description": "Gets the Assignments for the current user.",
             "itemtype": "method",
             "name": "assignments",
@@ -2599,7 +2646,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 491,
+            "line": 497,
             "description": "Gets the Digital school utilities for the current user.",
             "itemtype": "method",
             "name": "digitalSchoolUtilities",
@@ -2638,7 +2685,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 536,
+            "line": 542,
             "description": "Returns the profile for the current logged in user.",
             "itemtype": "method",
             "name": "profileInfo",
@@ -2673,7 +2720,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 551,
+            "line": 557,
             "description": "Returns the children of the current user.",
             "itemtype": "method",
             "name": "children",
@@ -2703,7 +2750,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 586,
+            "line": 592,
             "description": "Checks if this Magister instance is done logging in.\n\nYou can also provide a callback, which will be called when this instance is done logging in.",
             "itemtype": "method",
             "name": "ready",
@@ -2737,7 +2784,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 617,
+            "line": 623,
             "description": "(Re-)Login the current Magister instance.\n\nUsually not needed to call manually.",
             "itemtype": "method",
             "name": "reLogin",
@@ -3859,7 +3906,7 @@
     "warnings": [
         {
             "message": "unknown tag: fixme",
-            "line": " Magister.coffee:491"
+            "line": " Magister.coffee:497"
         }
     ]
 }

@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.4.0</em>
+            <em>API Docs for: 1.5.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -287,9 +287,12 @@ class root.Course
 			else
 				result = JSON.parse(result.content).Items
 				pushResult = root._helpers.asyncResultWaiter result.length, (r) -&gt;
-					for c in _.uniq(r, (g) -&gt; g.class().id()).map((g) -&gt; g.class())
-						for g in _.filter(r, (g) -&gt; g.class().id() is c.id())
-							g._class = c
+					_(r) # Make sure that every class with the same ID can be compared with the === operator.
+						.uniq (g) -&gt; g.class().id
+						.pluck &quot;_class&quot;
+						.forEach (c) -&gt;
+							for g in _.filter(r, (g) -&gt; g.class().id is c.id)
+								g._class = c
 
 					callback null, _.sortBy r, (g) -&gt; g.dateFilledIn()
 

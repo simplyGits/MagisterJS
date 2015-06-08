@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.4.0</em>
+            <em>API Docs for: 1.5.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -114,7 +114,7 @@ else
 # @final
 # @type String
 ###
-root.VERSION = &quot;1.4.0&quot;
+root.VERSION = &quot;1.5.0&quot;
 
 ###*
 # A JavaScript implementation of the Magister 6 API.
@@ -340,6 +340,12 @@ class root.Magister
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
 	# 	@param [callback.result] {Object} The limited course info.
+	# 		@param [callback.result.group] {String}
+	# 		@param [callback.result.profile] {String}
+	# 		@param [callback.result.pupilId] {any}
+	# 		@param [callback.result.type] {Object}
+	# 			@param [callback.result.type.year] {Number}
+	# 			@param [callback.result.type.schoolVariant] {String}
 	###
 	getLimitedCurrentCourseInfo: (callback) -&gt;
 		@_forceReady()
@@ -351,11 +357,11 @@ class root.Magister
 				parsed = JSON.parse result.content
 				callback null,
 					group: parsed.Klas
-					profile: pared.Profielen # It says &#x27;profielen&#x27; but I really have no idea how multiple profiles are shown in a String...
-					pupilId: pared.StamNr # Should be the same as &#x60;@userName&#x60; AFAIK.
+					profile: parsed.Profielen # It says &#x27;profielen&#x27; but I really have no idea how multiple profiles are shown in a String...
+					pupilId: parsed.StamNr # Should be the same as &#x60;@userName&#x60; AFAIK.
 					type:
-						year: +/\d+/.exec(Parsed.Studie)[0]
-						schoolVariant: /[^\d\s]+/.exec(Parsed.Studie)[0]
+						year: +/\d+/.exec(parsed.Studie)[0]
+						schoolVariant: /[^\d\s]+/.exec(parsed.Studie)[0]
 
 	@_cachedPersons: {}
 	###*
