@@ -606,14 +606,22 @@ class root.Magister
 			else @_readyCallbacks.push _.bind callback, this
 		return @_ready is yes
 
-	_forceReady: -> throw new Error "Not done with logging in! (use Magister.ready(callback) to be sure that logging in is done)" unless @_ready
+	_forceReady: -> throw new Error "Not done with logging in or errored during logging in! (did you use Magister.ready(callback) to be sure that logging in is done?)" unless @_ready
 	_setReady: ->
 		@_ready = yes
 		callback() for callback in @_readyCallbacks
 		@_readyCallbacks = []
 
 	_setErrored: (e) ->
-		@_magisterLoadError = e
+		try
+			parsed = JSON.parse e
+			@_magisterLoadError = {}
+			# Copy all keys of the error Magister gave us, but lowerCase the keys.
+			for key of parsed
+				@_magisterLoadError[key.toLowerCase()] = parsed[key]
+		catch
+			@_magisterLoadError = e
+
 		callback @_magisterLoadError for callback in @_readyCallbacks
 		@_readyCallbacks = []
 
