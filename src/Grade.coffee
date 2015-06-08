@@ -232,6 +232,12 @@ class root.GradeType
 		# @final
 		###
 		@level = root._getset "_level"
+		###*
+		# @property isEnd
+		# @final
+		# @type Boolean
+		###
+		@isEnd = -> @type() is 2
 
 	@_convertRaw: (magisterObj, raw) ->
 		obj = new root.GradeType magisterObj
