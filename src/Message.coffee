@@ -245,7 +245,7 @@ class root.Message
 	# Move the current message to the given position.
 	#
 	# @method move
-	# @param destination {Number|MessageFolder} The MessageFolder of the ID of a MessageFolder or the MessageFolder itself where to move this Message to.
+	# @param destination {Number|MessageFolder} The ID of a MessageFolder or the MessageFolder itself where to move this Message to.
 	###
 	move: (destination) ->
 		destination = destination.id() if _.isObject(destination)
