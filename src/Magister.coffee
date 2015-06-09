@@ -39,7 +39,7 @@ class root.Magister
 		options = keepLoggedIn: yes
 
 		if arguments.length is 1 and _.isObject arguments[0] # Options object.
-			options = arguments[0]
+			options = _.extend options, arguments[0]
 		else # Backwards compatibility.
 			throw new Error "Expected 3 or 4 arguments, got #{arguments.length}" unless arguments.length is 3 or arguments.length is 4
 
@@ -48,12 +48,11 @@ class root.Magister
 			password = arguments[2]
 			keepLoggedIn = arguments[3]
 
-			options = { school, username, password, keepLoggedIn }
+			options = _.extend options, { school, username, password, keepLoggedIn }
 
 		@_readyCallbacks = [] # Fixes weird bug where callbacks from previous Magister objects were mixed with the new ones.
 		@http = new root.MagisterHttp()
 
-		options = _.defaults options, keepLoggedIn: yes
 		@magisterSchool = options.school
 		@username = options.username
 		@password = options.password
