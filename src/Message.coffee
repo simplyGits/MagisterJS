@@ -124,8 +124,9 @@ class root.Message
 
 	_tasks: 0
 	_sendAfterFinished: no
+	_finishedCallback: null
 	_working: -> @_tasks isnt 0
-	_tickDown: -> if --@_tasks is 0 and @_sendAfterFinished then @send()
+	_tickDown: -> if --@_tasks is 0 and @_sendAfterFinished then @send @_finishedCallback
 	_reset: -> @_tasks = 0; @_sendAfterFinished = no
 
 	###*
@@ -227,9 +228,10 @@ class root.Message
 	# 	@param [callback.result] {Message} The sent message.
 	# @return {Boolean} False if the sending is delayed, otherwise true.
 	###
-	send: ->
+	send: (callback) ->
 		if @_working()
 			@_sendAfterFinished = yes
+			@_finishedCallback = callback
 			return no
 		throw new Error "This message is marked as unsendable" unless @_canSend
 		throw new Error "Sender and/or recipients cannot be null" unless @recipients()? and @sender()?
