@@ -109,11 +109,11 @@ class root.Grade
 				if error? then callback? error, null
 				else
 					result = JSON.parse(result.content)
-					@_description = result.WerkInformatieOmschrijving
+					@_description = result.WerkInformatieOmschrijving ? ""
 					@_weight = result.Weging
 
 					@_type._level = result.KolomNiveau
-					@_type._description = result.KolomOmschrijving
+					@_type._description = result.KolomOmschrijving ? ""
 
 					@_filled = yes
 					callback? null, this
@@ -129,12 +129,12 @@ class root.Grade
 
 		obj._gradePeriod =
 			id: raw.CijferPeriode.Id
-			name: raw.CijferPeriode.Naam
+			name: raw.CijferPeriode.Naam ? ""
 
 		obj._class =
 			id: raw.Vak.Id
-			abbreviation: raw.Vak.Afkorting
-			description: raw.Vak.Omschrijving
+			abbreviation: raw.Vak.Afkorting ? ""
+			description: raw.Vak.Omschrijving ? ""
 
 		obj._atLaterDate = raw.Inhalen
 		obj._exemption = raw.Vrijstelling
