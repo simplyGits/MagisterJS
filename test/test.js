@@ -4,6 +4,11 @@ var fs = require("fs");
 var magisterjs = require("../");
 var Magister = magisterjs.Magister;
 var Message = magisterjs.Message;
+var ProfileInfo = magisterjs.ProfileInfo;
+var Appointment = magisterjs.Appointment;
+var MagisterSchool = magisterjs.MagisterSchool;
+var File = magisterjs.File;
+var Grade = magisterjs.Grade;
 
 var options = null;
 
@@ -42,7 +47,9 @@ describe("Magister", function() {
 	it("should be a correct Magister object", function (done) {
 		expect(x).to.be.a("object");
 		expect(x).to.have.a.property("ready").be.a("function");
+
 		expect(x).to.have.a.property("magisterSchool").be.a("object");
+		expect(x).to.have.a.property("magisterSchool").to.have.a.property("url");
 
 		x.ready(function () {
 			expect(this).to.equal(x);
@@ -58,8 +65,9 @@ describe("Magister", function() {
 
 	it("should contain profileInfo", function (done) {
 		x.ready(function () {
+			expect(this.profileInfo()).to.be.a("object");
+			expect(this.profileInfo()).to.be.an.instanceof(ProfileInfo);
 			expect(this.profileInfo().profilePicture()).to.be.a("string");
-			expect(this.profileInfo()).to.be.a("object").and.have.a.property("profilePicture").be.a("function");
 			done();
 		});
 	});
@@ -69,12 +77,12 @@ describe("Magister", function() {
 			this.appointments(new Date(), false, function(e, r) {
 				expect(e).to.not.exist;
 				expect(r).to.be.a("array");
-				for(var i = 0; i < r.length; i++) {
-					expect(r[i]).to.exist;
-					expect(r[i]).to.be.a("object");
-					expect(r[i]).to.have.a.property("teachers")
-					expect(r[i].teachers()).to.be.a("array");
-				}
+
+				r.forEach(function (appointment) {
+					expect(appointment).to.be.an.instanceof(Appointment);
+					expect(appointment.teachers()).to.be.a("array");
+				});
+
 				done();
 			});
 		});
@@ -132,8 +140,7 @@ describe("Magister", function() {
 						foundAttachment = true;
 						var attachment = msg.attachments()[0];
 
-						expect(attachment).to.exist;
-						expect(attachment).to.have.a.property("download").be.a("function");
+						expect(attachment).to.be.an.instanceof(File);
 						expect(attachment.download(false, function(e, r) {
 							expect(r).to.be.a("string");
 							done(e);
@@ -152,7 +159,7 @@ describe("Magister", function() {
 				expect(e).to.not.exist;
 				expect(r).to.be.a("array");
 				if (r[0] != null) {
-					expect(r[0]).to.be.a("object");
+					expect(r[0]).to.be.an.instanceof(Appointment);
 					expect(r[0]).to.have.a.property("isDone").be.a("function");
 
 					r[0].isDone(true);
@@ -188,6 +195,11 @@ describe("Magister", function() {
 				} else {
 					r.grades(false, false, false, function (e, r) {
 						expect(r).to.be.a("array");
+
+						r.forEach(function (g) {
+							expect(g).to.be.an.instanceof(Grade);
+						});
+
 						done(e);
 					});
 				}
