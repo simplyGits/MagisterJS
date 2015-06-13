@@ -31,19 +31,19 @@ class root.MagisterHttp
 	###
 	get: (url, options = {}, callback) ->
 		request { url, method: "GET", headers: @_cookieInserter(options.headers) }, (error, response, content) ->
-			callback error, { content, headers: response.headers }
+			callback error, { content, headers: response.headers, statusCode: response.statusCode }
 
 	delete: (url, options = {}, callback) ->
 		request { url, method: "DELETE", headers: @_cookieInserter(options.headers) }, (error, response, content) ->
-			callback error, { content, headers: response.headers }
+			callback error, { content, headers: response.headers, statusCode: response.statusCode }
 
 	post: (url, data, options = {}, callback) ->
 		request { url, method: "POST", headers: @_cookieInserter(options.headers), json: data }, (error, response, content) ->
-			callback error, { content: JSON.stringify(content), headers: response.headers }
+			callback error, { content: JSON.stringify(content), headers: response.headers, statusCode: response.statusCode }
 
 	put: (url, data, options = {}, callback) ->
 		request { url, method: "PUT", headers: @_cookieInserter(options.headers), json: data }, (error, response, content) ->
-			callback error, { content: JSON.stringify(content), headers: response.headers }
+			callback error, { content: JSON.stringify(content), headers: response.headers, statusCode: response.statusCode }
 
 	_cookie: ""
 	_cookieInserter: (original) -> return if @_cookie isnt "" then _.extend (original ? {}), { cookie: @_cookie } else original

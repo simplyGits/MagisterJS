@@ -596,6 +596,7 @@ class root.Magister
 	# @method ready
 	# @param [callback] {Function} The callback which will be called if the current instance is done logging in.
 	# 	@param [callback.error] {Object} A error that occured when logging onto Magister, if it exists.
+	# 		@param [callback.error.statusCode] {Number} If the error is returned over HTTP, the statusCode that was returned.
 	#	@param callback.this {Magister} The current Magister object.
 	# @return {Boolean} Whether or not the current Magister instance is done logging in.
 	###
@@ -611,7 +612,7 @@ class root.Magister
 		callback() for callback in @_readyCallbacks
 		@_readyCallbacks = []
 
-	_setErrored: (e) ->
+	_setErrored: (e, statusCode) ->
 		try
 			parsed = JSON.parse e
 			@_magisterLoadError = {}
@@ -620,6 +621,8 @@ class root.Magister
 				@_magisterLoadError[key.toLowerCase()] = parsed[key]
 		catch
 			@_magisterLoadError = e
+
+		@_magisterLoadError.statusCode = statusCode if statusCode?
 
 		callback @_magisterLoadError for callback in @_readyCallbacks
 		@_readyCallbacks = []
@@ -648,7 +651,7 @@ class root.Magister
 				@http._cookie = "SESSION_ID=#{@_sessionId}; M6UserName=#{@username}"
 				@http.get "#{@magisterSchool.url}/api/account", {},
 					(error, result) =>
-						if error? then @_setErrored error; return
+						if error? then @_setErrored error, result.statusCode; return
 
 						try
 							result = JSON.parse result.content
@@ -660,7 +663,7 @@ class root.Magister
 						catch e then _setErrored e
 
 						@http.get "#{@_personUrl}/berichten/mappen", {}, (error, result) =>
-							if error? then @_setErrored error; return
+							if error? then @_setErrored error, result.statusCode; return
 							@_messageFolders = (root.MessageFolder._convertRaw(this, m) for m in JSON.parse(result.content).Items)
 							@_setReady()
 

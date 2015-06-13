@@ -9,7 +9,7 @@
    MINIMAL REQUIREMENTS
  	======================
  	callback: function (error, result) {...}
- 	result: { content (string), headers (dictionary) }
+ 	result: { content (string), headers (dictionary), statusCode (number) }
  	options: { headers (dictionary), data (object) }
 
  	get(url, options*, callback)
