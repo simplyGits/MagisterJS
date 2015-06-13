@@ -402,7 +402,7 @@ class root.Magister
 	#
 	# @method studyGuides
 	# @async
-	# @param [fillClass=true] {Boolean} Whether or not to download the full class objects from the server. If this is false StudyGuide.class() will return null.
+	# @param [fillClass=true] {Boolean} Whether or not to download the full class objects from the server. If this is false StudyGuide.class() will return null. (You can use `StudyGuide.classCodes` instead then.)
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
 	# 	@param [callback.result] {StudyGuide[]} An array containing StudyGuides.
