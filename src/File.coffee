@@ -164,39 +164,50 @@ class root.File
 	#
 	# @method download
 	# @async
-	# @param [downloadFile=true] {Boolean|String} Whether or not to download the file directly. If `downloadFile` is a truely string the file will be downloaded in with the name set to the string's content.
+	# @param [fileName=true] {Boolean|String} Whether or not to download the file directly. If `downloadFile` is a truely string the file will be downloaded in with the name set to the string's content.
 	# @param [callback] {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
 	# 	@param [callback.result] {String} A string containing the base64 encoded binary data of the downloaded file.
 	###
 	download: ->
+		fileName = _.find(arguments, (a) -> _.isString(a) or _.isBoolean(a)) ? yes
 		callback = _.find arguments, (a) -> _.isFunction a
-		downloadFile = _.find(arguments, (a) -> _.isBoolean a) ? yes
 
-		request = null
 		if Meteor?.isServer
-			request = Npm.require "request"
+			request = Npm.require 'request'
+			fs = Npm.require 'fs'
 		else if module?.exports?
-			request = require "request"
+			request = require 'request'
+			fs = require 'fs'
 		else
-			callback? new Error("`File.download` is only accessible from the server at the moment.\nYou can set a proxy yourself with something like iron:router serverside routes."), null
+			callback? new Error('`File.download` is only accessible from the server at the moment.\nYou can set a proxy yourself with something like iron:router serverside routes.'), null
 			return undefined
 
 		fileName = (
-			if downloadFile?
-				if _.isString(downloadFile) then downloadFile
-				else @name()
+			if _.isBoolean(fileName) and fileName
+				@name()
+			else if _.isString fileName
+				if /(\.{1,2}\/?)*$/.test fileName
+					fileName += "/#{@name()}"
+				else
+					fileName
+			else
+				undefined
 		)
 
-		request(
+		req = request(
 			url: @_downloadUrl
-			method: "GET"
+			method: 'GET'
 			headers: @_magisterObj.http._cookieInserter()
 			encoding: null
 		)
-			.on "error", (err) -> callback? err, null
-			.on "response", (res) -> callback? null, ""
-			.pipe require("fs").createWriteStream fileName
+			.on 'error', (err) -> callback? err, null
+			.on 'response', (res) -> callback? null, ''
+
+		if fileName?
+			req.pipe require('fs').createWriteStream fileName
+
+		undefined
 
 	###*
 	# Moves the current File to another FileFolder
