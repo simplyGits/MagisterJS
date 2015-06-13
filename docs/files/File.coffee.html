@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.5.0</em>
+            <em>API Docs for: 1.6.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -264,39 +264,50 @@ class root.File
 	#
 	# @method download
 	# @async
-	# @param [downloadFile=true] {Boolean|String} Whether or not to download the file directly. If &#x60;downloadFile&#x60; is a truely string the file will be downloaded in with the name set to the string&#x27;s content.
+	# @param [fileName=true] {Boolean|String} Whether or not to download the file directly. If &#x60;downloadFile&#x60; is a truely string the file will be downloaded in with the name set to the string&#x27;s content.
 	# @param [callback] {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
 	# 	@param [callback.result] {String} A string containing the base64 encoded binary data of the downloaded file.
 	###
 	download: -&gt;
+		fileName = _.find(arguments, (a) -&gt; _.isString(a) or _.isBoolean(a)) ? yes
 		callback = _.find arguments, (a) -&gt; _.isFunction a
-		downloadFile = _.find(arguments, (a) -&gt; _.isBoolean a) ? yes
 
-		request = null
 		if Meteor?.isServer
-			request = Npm.require &quot;request&quot;
+			request = Npm.require &#x27;request&#x27;
+			fs = Npm.require &#x27;fs&#x27;
 		else if module?.exports?
-			request = require &quot;request&quot;
+			request = require &#x27;request&#x27;
+			fs = require &#x27;fs&#x27;
 		else
-			callback? new Error(&quot;&#x60;File.download&#x60; is only accessible from the server at the moment.\nYou can set a proxy yourself with something like iron:router serverside routes.&quot;), null
+			callback? new Error(&#x27;&#x60;File.download&#x60; is only accessible from the server at the moment.\nYou can set a proxy yourself with something like iron:router serverside routes.&#x27;), null
 			return undefined
 
 		fileName = (
-			if downloadFile?
-				if _.isString(downloadFile) then downloadFile
-				else @name()
+			if _.isBoolean(fileName) and fileName
+				@name()
+			else if _.isString fileName
+				if /(\.{1,2}\/?)*$/.test fileName
+					fileName += &quot;/#{@name()}&quot;
+				else
+					fileName
+			else
+				undefined
 		)
 
-		request(
+		req = request(
 			url: @_downloadUrl
-			method: &quot;GET&quot;
+			method: &#x27;GET&#x27;
 			headers: @_magisterObj.http._cookieInserter()
 			encoding: null
 		)
-			.on &quot;error&quot;, (err) -&gt; callback? err, null
-			.on &quot;response&quot;, (res) -&gt; callback? null, &quot;&quot;
-			.pipe require(&quot;fs&quot;).createWriteStream fileName
+			.on &#x27;error&#x27;, (err) -&gt; callback? err, null
+			.on &#x27;response&#x27;, (res) -&gt; callback? null, &#x27;&#x27;
+
+		if fileName?
+			req.pipe require(&#x27;fs&#x27;).createWriteStream fileName
+
+		undefined
 
 	###*
 	# Moves the current File to another FileFolder

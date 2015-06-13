@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.5.0</em>
+            <em>API Docs for: 1.6.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -102,11 +102,11 @@ root = (module?.exports ? this.Magister ?= {})
 if Meteor?
 	@_ = _ = lodash
 else if module?.exports? and require? and not window?
-	@_ = _ = require(&quot;lodash&quot;) if not _?
+	@_ = _ = require(&quot;underscore&quot;) if not _?
 else if @_?
 	_ = @this
 else
-	throw new Error &quot;Lo-dash is required.&quot;
+	throw new Error &quot;Lo-dash or underscore is required.&quot;
 
 ###*
 # The version of this Magister.js.
@@ -114,7 +114,7 @@ else
 # @final
 # @type String
 ###
-root.VERSION = &quot;1.5.0&quot;
+root.VERSION = &quot;1.6.0&quot;
 
 ###*
 # A JavaScript implementation of the Magister 6 API.
@@ -139,7 +139,7 @@ class root.Magister
 		options = keepLoggedIn: yes
 
 		if arguments.length is 1 and _.isObject arguments[0] # Options object.
-			options = arguments[0]
+			options = _.extend options, arguments[0]
 		else # Backwards compatibility.
 			throw new Error &quot;Expected 3 or 4 arguments, got #{arguments.length}&quot; unless arguments.length is 3 or arguments.length is 4
 
@@ -148,12 +148,11 @@ class root.Magister
 			password = arguments[2]
 			keepLoggedIn = arguments[3]
 
-			options = { school, username, password, keepLoggedIn }
+			options = _.extend options, { school, username, password, keepLoggedIn }
 
 		@_readyCallbacks = [] # Fixes weird bug where callbacks from previous Magister objects were mixed with the new ones.
 		@http = new root.MagisterHttp()
 
-		options = _.defaults options, keepLoggedIn: yes
 		@magisterSchool = options.school
 		@username = options.username
 		@password = options.password
@@ -176,14 +175,14 @@ class root.Magister
 	# @async
 	# @param from {Date} The start date for the Appointments, you won&#x27;t get appointments from before this date.
 	# @param [to] {Date} The end date for the Appointments, you won&#x27;t get appointments from after this date.
-	# @param [fillPersons=true] {Boolean} Whether or not to download the full user objects from the server.
+	# @param [fillPersons=false] {Boolean} Whether or not to download the full user objects from the server.
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
 	# 	@param [callback.result] {Appointment[]} An array containing the Appointments.
 	###
 	appointments: -&gt;
 		callback = _.find arguments, (a) -&gt; _.isFunction a
-		fillPersons = _.find(arguments, (a) -&gt; _.isBoolean a) ? yes
+		fillPersons = _.find(arguments, (a) -&gt; _.isBoolean a) ? no
 		[from, to] = _.where arguments, (a) -&gt; _.isDate a
 		unless _.isDate(to) then to = from
 
@@ -473,7 +472,7 @@ class root.Magister
 
 		[subject, body] = _.filter arguments, (a) -&gt; _.isString a
 		callback = _.find arguments, (a) -&gt; _.isFunction a
-		recipients = _.findLast arguments, (a) -&gt; a isnt callback
+		recipients = _.last _.filter arguments, (a) -&gt; a isnt callback
 		if arguments.length is 2 then body = &quot;&quot;
 
 		m = new root.Message this
@@ -503,7 +502,7 @@ class root.Magister
 	#
 	# @method studyGuides
 	# @async
-	# @param [fillClass=true] {Boolean} Whether or not to download the full class objects from the server. If this is false StudyGuide.class() will return null.
+	# @param [fillClass=true] {Boolean} Whether or not to download the full class objects from the server. If this is false StudyGuide.class() will return null. (You can use &#x60;StudyGuide.classCodes&#x60; instead then.)
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
 	# 	@param [callback.result] {StudyGuide[]} An array containing StudyGuides.
@@ -542,7 +541,7 @@ class root.Magister
 	# @async
 	# @param [amount=50] {Number} The amount of Assignments to fetch from the server.
 	# @param [skip=0] {Number} The amount of Assignments to skip.
-	# @param [fillPersons=true] {Boolean} Whether or not to download the full user objects from the server.
+	# @param [fillPersons=false] {Boolean} Whether or not to download the full user objects from the server.
 	# @param [fillClass=true] {Boolean} Whether or not to download the full class objects from the server. If this is false Assignment.class() will return null.
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
@@ -556,7 +555,7 @@ class root.Magister
 		callback = _.find arguments, (a) -&gt; _.isFunction a
 
 		return unless callback?
-		fillPersons ?= yes
+		fillPersons ?= no
 		fillClass ?= yes
 		amount ?= 50
 		skip ?= 0
@@ -706,14 +705,22 @@ class root.Magister
 			else @_readyCallbacks.push _.bind callback, this
 		return @_ready is yes
 
-	_forceReady: -&gt; throw new Error &quot;Not done with logging in! (use Magister.ready(callback) to be sure that logging in is done)&quot; unless @_ready
+	_forceReady: -&gt; throw new Error &quot;Not done with logging in or errored during logging in! (did you use Magister.ready(callback) to be sure that logging in is done?)&quot; unless @_ready
 	_setReady: -&gt;
 		@_ready = yes
 		callback() for callback in @_readyCallbacks
 		@_readyCallbacks = []
 
 	_setErrored: (e) -&gt;
-		@_magisterLoadError = e
+		try
+			parsed = JSON.parse e
+			@_magisterLoadError = {}
+			# Copy all keys of the error Magister gave us, but lowerCase the keys.
+			for key of parsed
+				@_magisterLoadError[key.toLowerCase()] = parsed[key]
+		catch
+			@_magisterLoadError = e
+
 		callback @_magisterLoadError for callback in @_readyCallbacks
 		@_readyCallbacks = []
 

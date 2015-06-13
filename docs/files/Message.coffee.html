@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.5.0</em>
+            <em>API Docs for: 1.6.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -224,8 +224,9 @@ class root.Message
 
 	_tasks: 0
 	_sendAfterFinished: no
+	_finishedCallback: null
 	_working: -&gt; @_tasks isnt 0
-	_tickDown: -&gt; if --@_tasks is 0 and @_sendAfterFinished then @send()
+	_tickDown: -&gt; if --@_tasks is 0 and @_sendAfterFinished then @send @_finishedCallback
 	_reset: -&gt; @_tasks = 0; @_sendAfterFinished = no
 
 	###*
@@ -327,9 +328,10 @@ class root.Message
 	# 	@param [callback.result] {Message} The sent message.
 	# @return {Boolean} False if the sending is delayed, otherwise true.
 	###
-	send: -&gt;
+	send: (callback) -&gt;
 		if @_working()
 			@_sendAfterFinished = yes
+			@_finishedCallback = callback
 			return no
 		throw new Error &quot;This message is marked as unsendable&quot; unless @_canSend
 		throw new Error &quot;Sender and/or recipients cannot be null&quot; unless @recipients()? and @sender()?
@@ -345,7 +347,7 @@ class root.Message
 	# Move the current message to the given position.
 	#
 	# @method move
-	# @param destination {Number|MessageFolder} The MessageFolder of the ID of a MessageFolder or the MessageFolder itself where to move this Message to.
+	# @param destination {Number|MessageFolder} The ID of a MessageFolder or the MessageFolder itself where to move this Message to.
 	###
 	move: (destination) -&gt;
 		destination = destination.id() if _.isObject(destination)

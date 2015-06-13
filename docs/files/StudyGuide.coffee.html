@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.5.0</em>
+            <em>API Docs for: 1.6.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -174,7 +174,6 @@ class root.StudyGuide
 				for id in (p.Id for p in result)
 					@_magisterObj.http.get &quot;#{@_magisterObj._pupilUrl}/studiewijzers/#{@id()}/onderdelen/#{id}&quot;, {}, (error, result) =&gt;
 						pushResult root.StudyGuidePart._convertRaw @_magisterObj, JSON.parse(result.content)
-
 
 	@_convertRaw: (magisterObj, raw) -&gt;
 		obj = new root.StudyGuide magisterObj

@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.5.0</em>
+            <em>API Docs for: 1.6.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -156,7 +156,7 @@ class root.MessageFolder
 	# @async
 	# @param [limit=10] {Number} The limit of the amount of Messages to fetch.
 	# @param [queries=&quot;&quot;] {String} Queries to do on the message (e.g: &quot;unread, skip 5&quot;)
-	# @param [download=true] {Boolean} Whether or not to download the users from the server.
+	# @param [fillPersons=false] {Boolean} Whether or not to download the users from the server.
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
 	# 	@param [callback.result] {Message[]} An array containing the Messages.
@@ -164,7 +164,7 @@ class root.MessageFolder
 	messages: -&gt;
 		limit = _.find(arguments, (a) -&gt; _.isNumber a) ? 10
 		queries = _.find(arguments, (a) -&gt; _.isString a) ? &quot;&quot;
-		download = _.find(arguments, (a) -&gt; _.isBoolean a) ? yes
+		fillPersons = _.find(arguments, (a) -&gt; _.isBoolean a) ? no
 
 		callback = _.find(arguments, (a) -&gt; _.isFunction a)
 		throw new Error(&quot;Callback is null&quot;) unless callback?
@@ -190,7 +190,7 @@ class root.MessageFolder
 							m._body = parsed.Inhoud
 							m._attachments = (root.File._convertRaw(@_magisterObj, undefined, a) for a in (parsed.Bijlagen ? []))
 
-							if download
+							if fillPersons
 								pushPeople = root._helpers.asyncResultWaiter m.recipients().length + 1, -&gt; pushMessage m
 
 								@_magisterObj.fillPersons m.recipients(), (e, r) -&gt;
@@ -201,6 +201,8 @@ class root.MessageFolder
 									pushPeople r
 							else
 								pushMessage m
+
+			undefined
 
 	###*
 	# Gets the MessageFolders in this MessageFolder that matches the given query. Or if no query is given, all MessageFolders
