@@ -1,6 +1,10 @@
 var expect = require("chai").expect;
 var fs = require("fs");
-var Magister = require("../").Magister;
+
+var magisterjs = require("../");
+var Magister = magisterjs.Magister;
+var Message = magisterjs.Message;
+
 var options = null;
 
 try {
@@ -95,22 +99,23 @@ describe("Magister", function() {
 			var body = "" + ~~(Math.random() * 100);
 			var m = this;
 
-			m.composeAndSendMessage("Magister.js mocha test.", body, [x.profileInfo().firstName()]);
+			m.composeAndSendMessage("Magister.js mocha test.", body, [x.profileInfo().firstName()], function (e, r) {
+				expect(e).to.not.exist;
+				expect(r).to.be.an.instanceof(Message);
 
-			setTimeout(function () {
 				m.inbox().messages(1, false, function(e, r) {
 					expect(e).to.not.exist;
 					expect(r).to.be.a("array");
 					expect(r).to.not.be.empty;
 
-					expect(r[0]).to.exist;
+					expect(r[0]).to.be.an.instanceof(Message);
 					expect(r[0].body()).to.equal(body);
 
-					r[0].remove();
-
-					done();
+					r[0].remove(function () {
+						done();
+					});
 				});
-			}, 3000);
+			});
 		});
 	});
 
