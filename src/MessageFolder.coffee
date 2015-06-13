@@ -56,7 +56,7 @@ class root.MessageFolder
 	# @async
 	# @param [limit=10] {Number} The limit of the amount of Messages to fetch.
 	# @param [queries=""] {String} Queries to do on the message (e.g: "unread, skip 5")
-	# @param [download=true] {Boolean} Whether or not to download the users from the server.
+	# @param [fillPersons=false] {Boolean} Whether or not to download the users from the server.
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
 	# 	@param [callback.result] {Message[]} An array containing the Messages.
@@ -64,7 +64,7 @@ class root.MessageFolder
 	messages: ->
 		limit = _.find(arguments, (a) -> _.isNumber a) ? 10
 		queries = _.find(arguments, (a) -> _.isString a) ? ""
-		download = _.find(arguments, (a) -> _.isBoolean a) ? yes
+		fillPersons = _.find(arguments, (a) -> _.isBoolean a) ? no
 
 		callback = _.find(arguments, (a) -> _.isFunction a)
 		throw new Error("Callback is null") unless callback?
@@ -90,7 +90,7 @@ class root.MessageFolder
 							m._body = parsed.Inhoud
 							m._attachments = (root.File._convertRaw(@_magisterObj, undefined, a) for a in (parsed.Bijlagen ? []))
 
-							if download
+							if fillPersons
 								pushPeople = root._helpers.asyncResultWaiter m.recipients().length + 1, -> pushMessage m
 
 								@_magisterObj.fillPersons m.recipients(), (e, r) ->
@@ -101,6 +101,8 @@ class root.MessageFolder
 									pushPeople r
 							else
 								pushMessage m
+
+			undefined
 
 	###*
 	# Gets the MessageFolders in this MessageFolder that matches the given query. Or if no query is given, all MessageFolders

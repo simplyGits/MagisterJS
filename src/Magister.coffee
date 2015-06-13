@@ -75,14 +75,14 @@ class root.Magister
 	# @async
 	# @param from {Date} The start date for the Appointments, you won't get appointments from before this date.
 	# @param [to] {Date} The end date for the Appointments, you won't get appointments from after this date.
-	# @param [fillPersons=true] {Boolean} Whether or not to download the full user objects from the server.
+	# @param [fillPersons=false] {Boolean} Whether or not to download the full user objects from the server.
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
 	# 	@param [callback.result] {Appointment[]} An array containing the Appointments.
 	###
 	appointments: ->
 		callback = _.find arguments, (a) -> _.isFunction a
-		fillPersons = _.find(arguments, (a) -> _.isBoolean a) ? yes
+		fillPersons = _.find(arguments, (a) -> _.isBoolean a) ? no
 		[from, to] = _.where arguments, (a) -> _.isDate a
 		unless _.isDate(to) then to = from
 
@@ -441,7 +441,7 @@ class root.Magister
 	# @async
 	# @param [amount=50] {Number} The amount of Assignments to fetch from the server.
 	# @param [skip=0] {Number} The amount of Assignments to skip.
-	# @param [fillPersons=true] {Boolean} Whether or not to download the full user objects from the server.
+	# @param [fillPersons=false] {Boolean} Whether or not to download the full user objects from the server.
 	# @param [fillClass=true] {Boolean} Whether or not to download the full class objects from the server. If this is false Assignment.class() will return null.
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
@@ -455,7 +455,7 @@ class root.Magister
 		callback = _.find arguments, (a) -> _.isFunction a
 
 		return unless callback?
-		fillPersons ?= yes
+		fillPersons ?= no
 		fillClass ?= yes
 		amount ?= 50
 		skip ?= 0
