@@ -80,9 +80,9 @@ describe("Magister", function() {
 		x.ready(function () {
 			this.fileFolders(function (error, result) {
 				result[0].files(function (error, result) {
-					result[0].download(function(e, r) {
-						expect(r).to.exist;
-						done();
+					result[0].download(false, function(e, r) {
+						expect(r).to.be.a("string");
+						done(e);
 					});
 				});
 			});
@@ -130,9 +130,8 @@ describe("Magister", function() {
 						expect(attachment).to.exist;
 						expect(attachment).to.have.a.property("download").be.a("function");
 						expect(attachment.download(false, function(e, r) {
-							expect(e).to.not.exist;
 							expect(r).to.be.a("string");
-							done();
+							done(e);
 						}));
 						break;
 					}
