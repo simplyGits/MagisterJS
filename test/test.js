@@ -193,13 +193,17 @@ describe("Magister", function() {
 					done();
 				} else {
 					r.grades(false, false, false, function (e, r) {
+						expect(e).to.not.exist;
 						expect(r).to.be.a("array");
 
 						r.forEach(function (g) {
 							expect(g).to.be.an.instanceof(Grade);
 						});
 
-						done(e);
+						r[0].fillGrade(function (e, r) {
+							expect(r).to.be.an.instanceof(Grade);
+							done(e);
+						});
 					});
 				}
 			});
