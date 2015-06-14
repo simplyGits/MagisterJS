@@ -183,19 +183,18 @@ class root.Course
 	# @async
 	# @param [fillPersons=false] {Boolean} Whether or not to download the full user objects from the server.
 	# @param [fillGrade=true] {Boolean} Whether or not to download the full grade info should be downloaded from the server. If this is set to false some properties will be not be set or have incorrect values.
-	# @param [onlyRecent=false] {Boolean} If true this method will only fetch the grades filled in between 7 days ago and now.
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
 	# 	@param [callback.result] {Grade[]} An array containing the Grades.
 	###
 	grades: ->
-		[fillPersons, fillGrade, onlyRecent] = _.filter arguments, (a) -> _.isBoolean a
+		[fillPersons, fillGrade] = _.filter arguments, (a) -> _.isBoolean a
 		callback = _.find(arguments, (a) -> _.isFunction a)
 		throw new Error "Callback can't be null" unless callback?
 
 		fillPersons ?= no
 		fillGrade ?= yes
-		onlyRecent ?= no
+		onlyRecent = no # TODO: onlyRecent is currently broken. Fix it. See #21
 
 		@_magisterObj.http.get (if onlyRecent then @_gradesUrlPrefix else @_gradesUrl), {}, (error, result) =>
 			if error?
