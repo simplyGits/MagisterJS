@@ -119,9 +119,7 @@ describe("Magister", function() {
 					expect(r[0]).to.be.an.instanceof(Message);
 					expect(r[0].body()).to.equal(body);
 
-					r[0].remove(function () {
-						done();
-					});
+					r[0].remove(done);
 				});
 			});
 		});
