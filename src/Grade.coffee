@@ -35,6 +35,12 @@ class root.Grade
 		###
 		@dateFilledIn = root._getset "_dateFilledIn"
 		###*
+		# @property testDate
+		# @final
+		# @type Date
+		###
+		@testDate = root._getset "_testdate"
+		###*
 		# @property gradePeriod
 		# @final
 		# @type Object
@@ -109,6 +115,7 @@ class root.Grade
 				if error? then callback? error, null
 				else
 					result = JSON.parse(result.content)
+					@_testDate = new Date Date.parse result.WerkinformatieDatumIngevoerd
 					@_description = result.WerkInformatieOmschrijving ? ""
 					@_weight = result.Weging
 
