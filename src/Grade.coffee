@@ -117,7 +117,9 @@ class root.Grade
 					result = JSON.parse(result.content)
 					@_testDate = new Date Date.parse result.WerkinformatieDatumIngevoerd
 					@_description = result.WerkInformatieOmschrijving ? ""
-					@_weight = result.Weging
+
+					@_weight = (Number) result.Weging
+					@_weight = 0 if _.isNaN @_weight
 
 					@_type._level = result.KolomNiveau
 					@_type._description = result.KolomOmschrijving ? ""
