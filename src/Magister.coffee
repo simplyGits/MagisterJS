@@ -4,7 +4,7 @@ if Meteor?
 else if module?.exports? and require? and not window?
 	@_ = _ = require("lodash") if not _?
 else if @_?
-	_ = @this
+	_ = @_
 else
 	throw new Error "Lo-dash is required."
 
