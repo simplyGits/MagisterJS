@@ -165,7 +165,7 @@ class root.Course
 	#
 	# @method grades
 	# @async
-	# @param [fillPersons=true] {Boolean} Whether or not to download the full user objects from the server.
+	# @param [fillPersons=false] {Boolean} Whether or not to download the full user objects from the server.
 	# @param [fillGrade=true] {Boolean} Whether or not to download the full grade info should be downloaded from the server. If this is set to false some properties will be not be set or have incorrect values.
 	# @param [onlyRecent=false] {Boolean} If true this method will only fetch the grades filled in between 7 days ago and now.
 	# @param callback {Function} A standard callback.
@@ -177,7 +177,7 @@ class root.Course
 		callback = _.find(arguments, (a) -> _.isFunction a)
 		throw new Error "Callback can't be null" unless callback?
 
-		fillPersons ?= yes
+		fillPersons ?= no
 		fillGrade ?= yes
 		onlyRecent ?= no
 
