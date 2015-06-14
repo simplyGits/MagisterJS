@@ -9,6 +9,7 @@ var Appointment = magisterjs.Appointment;
 var MagisterSchool = magisterjs.MagisterSchool;
 var File = magisterjs.File;
 var Grade = magisterjs.Grade;
+var GradePeriod = magisterjs.GradePeriod;
 
 var options = null;
 
@@ -204,6 +205,26 @@ describe("Magister", function() {
 			});
 		});
 	});
+
+	it("should correctly get gradePeriods", function (done) {
+		x.ready(function () {
+			this.currentCourse(function (e, r) {
+				if (e != null) { // case covered by 'should correctly get courses'.
+					done();
+				} else {
+					r.gradePeriods(function (e, r) {
+						expect(r).to.be.a("array");
+
+						r.forEach(function (p) {
+							expect(p).to.be.an.instanceof(GradePeriod);
+						});
+
+						done(e);
+					});
+				}
+			});
+		});
+	})
 
 	it("should correctly get the limited current course", function (done) {
 		x.ready(function () {

@@ -257,3 +257,54 @@ class root.GradeType
 		obj._description = ""
 
 		return obj
+
+###*
+# A Grade period.
+# @class GradePeriod
+# @private
+# @constructor
+# @param _magisterObj {Magister} A Magister object this GradePeriod is child of.
+###
+class root.GradePeriod
+	constructor: (@_magisterObj) ->
+		###*
+		# @property id
+		# @final
+		# @type Number
+		###
+		@id = root._getset "_id"
+		###*
+		# @property begin
+		# @final
+		# @type Date
+		###
+		@begin = root._getset "_begin"
+		###*
+		# @property end
+		# @final
+		# @type Date
+		###
+		@end = root._getset "_end"
+		###*
+		# @property name
+		# @final
+		# @type String
+		###
+		@name = root._getset "_name"
+		###*
+		# @property description
+		# @final
+		# @type String
+		###
+		@description = root._getset "_description"
+
+	@_convertRaw: (magisterObj, raw) ->
+		obj = new root.GradePeriod magisterObj
+
+		obj._id = raw.Id
+		obj._begin = new Date Date.parse raw.Start
+		obj._end = new Date Date.parse raw.Einde
+		obj._name = raw.Naam ? ""
+		obj._description = raw.Omschrijving ? ""
+
+		obj

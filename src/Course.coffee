@@ -161,6 +161,22 @@ class root.Course
 				callback null, (root.Class._convertRaw @_magisterObj, c for c in JSON.parse(result.content))
 
 	###*
+	# Gets the grade periods of this Course.
+	#
+	# @method gradePeriods
+	# @async
+	# @param callback {Function} A standard callback.
+	# 	@param [callback.error] {Object} The error, if it exists.
+	# 	@param [callback.result] {GradePeriod[]} An array containing the GradePeriods.
+	###
+	gradePeriods: (callback) ->
+		@_magisterObj.http.get @_periodsUrl, {}, (error, result) =>
+			if error?
+				callback error, null
+			else
+				callback null, (root.GradePeriod._convertRaw @_magisterObj, p for p in JSON.parse(result.content).Items)
+
+	###*
 	# Gets the grades of this Course.
 	#
 	# @method grades
@@ -254,6 +270,7 @@ class root.Course
 
 		obj._gradesUrlPrefix = magisterObj._personUrl + "/aanmeldingen/#{raw.Id}/cijfers"
 		obj._gradesUrl = obj._gradesUrlPrefix + "/cijferoverzichtvooraanmelding?actievePerioden=false&alleenBerekendeKolommen=false&alleenPTAKolommen=false"
+		obj._periodsUrl = obj._gradesUrlPrefix + "/cijferperiodenvooraanmelding"
 		obj._columnUrlPrefix = obj._gradesUrlPrefix + "/extracijferkolominfo/"
 
 		obj._id = raw.Id
