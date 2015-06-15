@@ -54,10 +54,6 @@ class root._helpers
 				left--
 			callback(results) if left is 0
 
-	@trim: (original) ->
-		return "" unless original? and original.length isnt 0
-		return if _.isFunction(String::trim) then original.trim() else original.replace /^\s+|\s+$/g, ""
-
 	@saveFile: (rawData, mime, name) -> try saveAs new Blob([rawData], type: mime), name
 
 	@urlDateConvert: (date) -> "#{date.getUTCFullYear()}-#{_helpers.addZero(date.getMonth() + 1)}-#{_helpers.addZero(date.getDate())}"
@@ -73,3 +69,10 @@ root._getset = (varName, setter, getter) ->
 
 unless Array.isArray? # isArray polyfill
 	_.isArray = jQuery.isArray = Array.isArray = (x) -> Object.prototype.toString.call x is "[object Array]"
+
+unless String::trim
+	String::trim = ->
+		if original? and original.length > 0
+			original.replace /^\s+|\s+$/g, ""
+		else
+			""

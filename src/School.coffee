@@ -38,7 +38,7 @@ class root.MagisterSchool
 	# 	@param [callback.result] {MagisterSchool[]} An array containing the MagisterSchools.
 	###
 	@getSchools: (query, callback) ->
-		if !query? or root._helpers.trim(query).length < 3
+		unless query? and query.trim().length >= 3
 			callback null, []
 			return
 

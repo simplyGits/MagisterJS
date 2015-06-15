@@ -130,7 +130,7 @@ class root.Magister
 								schoolHour: a.Lesuur
 								permitted: a.Geoorloofd
 								appointmentId: a.AfspraakId
-								description: root._helpers.trim a.Omschrijving
+								description: a.Omschrijving.trim()
 								type: a.VerantwoordingType
 								code: a.Code
 						finish()
@@ -277,9 +277,9 @@ class root.Magister
 	getPersons: ->
 		@_forceReady()
 
-		query = root._helpers.trim arguments[0]
-		callback = if arguments.length is 2 then arguments[1] else arguments[2]
-		type = arguments[1] if arguments.length is 3
+		[query, type] = _.filter arguments, (a) -> _.isNumber(a) or _.isString(a)
+		callback = _.find arguments, (a) -> _.isFunction a
+		query = query.trim()
 
 		unless query? and callback? and query.length >= 3
 			callback null, []
@@ -314,6 +314,7 @@ class root.Magister
 
 					Magister._cachedPersons["#{@_id}#{type}#{query}"] = result
 					callback null, result
+		undefined
 
 	###*
 	# Fills the given person(s) by downloading the person from Magister and replacing the local instance.
