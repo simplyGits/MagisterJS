@@ -279,11 +279,12 @@ class root.Magister
 
 		[query, type] = _.filter arguments, (a) -> _.isNumber(a) or _.isString(a)
 		callback = _.find arguments, (a) -> _.isFunction a
-		query = query.trim()
 
 		unless query? and callback? and query.length >= 3
 			callback null, []
 			return undefined
+
+		query = query.trim()
 
 		unless type? # Try both Teachers and Pupils
 			@getPersons query, 3, (e, r) =>
