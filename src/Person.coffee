@@ -79,7 +79,10 @@ class root.Person
 		obj = {}
 
 		obj.Id = @_id
-		obj.Type = @_type
+		obj.Type = (
+			if @_type is 4 then 3
+			else @_type
+		)
 		obj.Voornaam = @_firstName
 		obj.Achternaam = @_lastName
 		obj.Tussenvoegsel = @_namePrefix

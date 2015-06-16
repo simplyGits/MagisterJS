@@ -296,15 +296,19 @@ class root.Magister
 						else callback null, root._helpers.pushMore r, teachers
 			return undefined
 
-		type = switch root.Person._convertType type
-			when 3 then "Personeel"
-			when 4 then "Leerling"
-			when 8 then "Project"
+		try
+			type = root.Person._convertType type
+			queryType = switch type
+				when 3 then "Personeel"
+				when 4 then "Leerling"
+				when 8 then "Project"
 
-			else "Overig"
-		url = "#{@_personUrl}/contactpersonen?contactPersoonType=#{type}&q=#{query.replace /\ +/g, "+"}"
+				else "Overig"
+		catch e # parse error, most likely
+			callback e, undefined
+		url = "#{@_personUrl}/contactpersonen?contactPersoonType=#{queryType}&q=#{query.replace /\ +/g, "+"}"
 
-		if (val = Magister._cachedPersons["#{@_id}#{type}#{query}"])?
+		if (val = Magister._cachedPersons["#{@_id}#{queryType}#{query}"])?
 			callback null, val
 		else
 			@http.get url, {}, (error, result) =>
