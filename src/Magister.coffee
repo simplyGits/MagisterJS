@@ -310,8 +310,7 @@ class root.Magister
 				if error?
 					callback error, null
 				else
-					result = (root.Person._convertRaw(this, p) for p in JSON.parse(result.content).Items)
-
+					result = (root.Person._convertRaw(this, p, type) for p in JSON.parse(result.content).Items)
 					Magister._cachedPersons["#{@_id}#{type}#{query}"] = result
 					callback null, result
 		undefined

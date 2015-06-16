@@ -6,13 +6,12 @@ root = (module?.exports ? this.Magister ?= {})
 # @class Person
 # @private
 # @param _magisterObj {Magister} A Magister object this Person is child of.
-# @param _type {Number|String} The type of the Person.
 # @param _firstName {String} The first name of the Person.
 # @param _lastName {String} The last name of the Person.
 # @constructor
 ###
 class root.Person
-	constructor: (@_magisterObj, @_type, @_firstName, @_lastName) ->
+	constructor: (@_magisterObj, @_firstName, @_lastName) ->
 		if @_firstName? and @_lastName?
 			throw new Error "One or more arguments is not a string." if _.any _.toArray(arguments)[2..], (a) -> a? and not _.isString a
 
@@ -92,8 +91,8 @@ class root.Person
 
 		return obj
 
-	@_convertRaw: (magisterObj, raw) ->
-		obj = new root.Person magisterObj, raw.Type, raw.Voornaam, raw.Achternaam
+	@_convertRaw: (magisterObj, raw, type) ->
+		obj = new root.Person magisterObj, raw.Voornaam, raw.Achternaam
 
 		obj._id = raw.Id
 		obj._namePrefix = raw.Tussenvoegsel
@@ -102,6 +101,7 @@ class root.Person
 		obj._group = raw.Groep
 		obj._teacherCode = raw.Docentcode
 		obj._emailAddress = raw.Emailadres
+		obj._type = type ? raw.Type
 
 		return obj
 
