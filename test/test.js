@@ -10,6 +10,7 @@ var MagisterSchool = magisterjs.MagisterSchool;
 var File = magisterjs.File;
 var Grade = magisterjs.Grade;
 var GradePeriod = magisterjs.GradePeriod;
+var Person = magisterjs.Person;
 
 var options = null;
 
@@ -234,6 +235,28 @@ describe("Magister", function() {
 		x.ready(function () {
 			this.getLimitedCurrentCourseInfo(function (e, r) {
 				expect(r).to.be.a("object");
+				done(e);
+			});
+		});
+	});
+
+	it("should handle empty queries correctly", function (done) {
+		x.ready(function () {
+			this.getPersons(null, function (e, r) {
+				expect(r).to.be.an("array").to.have.length(0);
+				done(e);
+			});
+		});
+	});
+
+	it("should get persons", function (done) {
+		x.ready(function () {
+			this.getPersons(x.profileInfo().firstName(), function (e, r) {
+				expect(r).to.be.an("array").to.have.length.above(0);
+
+				expect(r[0]).to.be.an.instanceof(Person);
+				expect(r[0].type()).to.equal("pupil"); // test if it correctly get a persons type
+
 				done(e);
 			});
 		});
