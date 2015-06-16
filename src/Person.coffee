@@ -12,9 +12,6 @@ root = (module?.exports ? this.Magister ?= {})
 ###
 class root.Person
 	constructor: (@_magisterObj, @_firstName, @_lastName) ->
-		if @_firstName? and @_lastName?
-			throw new Error "One or more arguments is not a string." if _.any _.toArray(arguments)[2..], (a) -> a? and not _.isString a
-
 		###*
 		# @property id
 		# @final
@@ -92,7 +89,7 @@ class root.Person
 		obj.Docentcode = @_teacherCode
 		obj.Emailadres = @_emailAddress
 
-		return obj
+		obj
 
 	@_convertRaw: (magisterObj, raw, type) ->
 		obj = new root.Person magisterObj, raw.Voornaam, raw.Achternaam
@@ -106,13 +103,13 @@ class root.Person
 		obj._emailAddress = raw.Emailadres
 		obj._type = type ? raw.Type
 
-		return obj
+		obj
 
 	@_convertType: (original, setter = yes) ->
 		if setter
 			if _.isNumber original
-				throw new Error "Invalid value: \"#{original}\"." unless _.contains [1, 3, 4, 8], original
-				return original
+				throw new Error "Invalid value: '#{original}'." unless original in [1, 3, 4, 8]
+				original
 
 			else
 				switch original.toLowerCase()
@@ -129,5 +126,3 @@ class root.Person
 				when 3 then "teacher"
 				when 4 then "pupil"
 				when 8 then "project"
-
-				else undefined
