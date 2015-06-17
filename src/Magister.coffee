@@ -308,7 +308,7 @@ class root.Magister
 			callback e, undefined
 		url = "#{@_personUrl}/contactpersonen?contactPersoonType=#{queryType}&q=#{query.replace /\ +/g, "+"}"
 
-		if (val = Magister._cachedPersons["#{@_id}#{queryType}#{query}"])?
+		if (val = root.Magister._cachedPersons["#{@_id}#{type}#{query}"])?
 			callback null, val
 		else
 			@http.get url, {}, (error, result) =>
@@ -316,7 +316,7 @@ class root.Magister
 					callback error, null
 				else
 					result = (root.Person._convertRaw(this, p, type) for p in JSON.parse(result.content).Items)
-					Magister._cachedPersons["#{@_id}#{type}#{query}"] = result
+					root.Magister._cachedPersons["#{@_id}#{type}#{query}"] = result
 					callback null, result
 		undefined
 

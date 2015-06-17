@@ -261,4 +261,21 @@ describe("Magister", function() {
 			});
 		});
 	});
+
+	it("should cache persons", function (done) {
+		x.ready(function () {
+			var cached = false;
+
+			this.getPersons(x.profileInfo().firstName(), function () {
+				// Result was cached.
+				cached = true;
+			});
+
+			if (!cached) {
+				throw new Error("Result wasn't cached.");
+			}
+
+			done();
+		});
+	});
 });
