@@ -187,49 +187,51 @@ describe("Magister", function() {
 		});
 	});
 
-	it("should correctly get grades", function (done) {
-		x.ready(function () {
-			this.currentCourse(function (e, r) {
-				if (e != null) { // case covered by 'should correctly get courses'.
-					done();
-				} else {
-					r.grades(false, false, false, function (e, r) {
-						expect(e).to.not.exist;
-						expect(r).to.be.a("array");
+	describe("grades", function () {
+		it("should correctly get grades", function (done) {
+			x.ready(function () {
+				this.currentCourse(function (e, r) {
+					if (e != null) { // case covered by 'should correctly get courses'.
+						done();
+					} else {
+						r.grades(false, false, false, function (e, r) {
+							expect(e).to.not.exist;
+							expect(r).to.be.a("array");
 
-						r.forEach(function (g) {
-							expect(g).to.be.an.instanceof(Grade);
+							r.forEach(function (g) {
+								expect(g).to.be.an.instanceof(Grade);
+							});
+
+							r[0].fillGrade(function (e, r) {
+								expect(r).to.be.an.instanceof(Grade);
+								done(e);
+							});
 						});
+					}
+				});
+			});
+		});
 
-						r[0].fillGrade(function (e, r) {
-							expect(r).to.be.an.instanceof(Grade);
+		it("should correctly get gradePeriods", function (done) {
+			x.ready(function () {
+				this.currentCourse(function (e, r) {
+					if (e != null) { // case covered by 'should correctly get courses'.
+						done();
+					} else {
+						r.gradePeriods(function (e, r) {
+							expect(r).to.be.a("array");
+
+							r.forEach(function (p) {
+								expect(p).to.be.an.instanceof(GradePeriod);
+							});
+
 							done(e);
 						});
-					});
-				}
+					}
+				});
 			});
 		});
 	});
-
-	it("should correctly get gradePeriods", function (done) {
-		x.ready(function () {
-			this.currentCourse(function (e, r) {
-				if (e != null) { // case covered by 'should correctly get courses'.
-					done();
-				} else {
-					r.gradePeriods(function (e, r) {
-						expect(r).to.be.a("array");
-
-						r.forEach(function (p) {
-							expect(p).to.be.an.instanceof(GradePeriod);
-						});
-
-						done(e);
-					});
-				}
-			});
-		});
-	})
 
 	it("should correctly get the limited current course", function (done) {
 		x.ready(function () {
@@ -240,42 +242,44 @@ describe("Magister", function() {
 		});
 	});
 
-	it("should handle empty queries correctly", function (done) {
-		x.ready(function () {
-			this.getPersons(null, function (e, r) {
-				expect(r).to.be.an("array").to.have.length(0);
-				done(e);
+	describe("persons", function () {
+		it("should handle empty queries correctly", function (done) {
+			x.ready(function () {
+				this.getPersons(null, function (e, r) {
+					expect(r).to.be.an("array").to.have.length(0);
+					done(e);
+				});
 			});
 		});
-	});
 
-	it("should get persons", function (done) {
-		x.ready(function () {
-			this.getPersons(x.profileInfo().firstName(), function (e, r) {
-				expect(r).to.be.an("array").to.have.length.above(0);
+		it("should get persons", function (done) {
+			x.ready(function () {
+				this.getPersons(x.profileInfo().firstName(), function (e, r) {
+					expect(r).to.be.an("array").to.have.length.above(0);
 
-				expect(r[0]).to.be.an.instanceof(Person);
-				expect(r[0].type()).to.equal("pupil"); // test if it correctly get a persons type
+					expect(r[0]).to.be.an.instanceof(Person);
+					expect(r[0].type()).to.equal("pupil"); // test if it correctly get a persons type
 
-				done(e);
+					done(e);
+				});
 			});
 		});
-	});
 
-	it("should cache persons", function (done) {
-		x.ready(function () {
-			var cached = false;
+		it("should cache persons", function (done) {
+			x.ready(function () {
+				var cached = false;
 
-			this.getPersons(x.profileInfo().firstName(), function () {
-				// Result was cached.
-				cached = true;
+				this.getPersons(x.profileInfo().firstName(), function () {
+					// Result was cached.
+					cached = true;
+				});
+
+				if (!cached) {
+					throw new Error("Result wasn't cached.");
+				}
+
+				done();
 			});
-
-			if (!cached) {
-				throw new Error("Result wasn't cached.");
-			}
-
-			done();
 		});
 	});
 });
