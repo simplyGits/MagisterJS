@@ -156,17 +156,17 @@ class root.Magister
 	# @param [callback] {Function} If a callback is given, the message folders will be refetched.
 	#	@param [callback.error] {Object} The error, if it exists.
 	#	@param [callback.result] {MessageFolder[]} An array containing the matching MessageFolders.
-	# @return {MessageFolder[]} An array containing the matching messageFolders.
+	# @return {MessageFolder[]|undefined} An array containing the matching messageFolders or undefined if a callback is given.
 	###
 	messageFolders: (query, callback) ->
 		@_forceReady()
-		
+
 		if callback?
 			@_fetchMessageFolders (e, r) =>
 				if e? then callback e, null
 				else callback null, @messageFolders query
 			return undefined
-			
+
 		query = query.trim()
 
 		if _.isString(query) and query isnt ""
@@ -175,7 +175,15 @@ class root.Magister
 			result = @_messageFolders
 
 		result
-		
+
+	###*
+	# Fetches the messageFolders for the current Magister object.
+	#
+	# @method _fetchMessageFolders
+	# @private
+	# @param callback {Function}
+	# 	@param [callback.error] {Object} The error, if it exists.
+	###
 	_fetchMessageFolders: (callback) ->
 		@http.get "#{@_personUrl}/berichten/mappen", {}, (e, r) =>
 			if e?
@@ -184,7 +192,7 @@ class root.Magister
 			else
 				@_messageFolders = (root.MessageFolder._convertRaw(this, m) for m in JSON.parse(r.content).Items)
 				callback null
-		
+
 	###*
 	# @method inbox
 	# @return {MessageFolder} The inbox of the current user.
