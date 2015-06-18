@@ -153,41 +153,58 @@ class root.Magister
 	#
 	# @method messageFolders
 	# @param [query] {String} A case insensetive query the MessageFolder need to match.
-	# @param [callback] {Function} Not useful at all, just here to prevent possible mistakes.
-	#	@param [callback.error] {null} Will always be null
+	# @param [callback] {Function} If a callback is given, the message folders will be refetched.
+	#	@param [callback.error] {Object} The error, if it exists.
 	#	@param [callback.result] {MessageFolder[]} An array containing the matching MessageFolders.
 	# @return {MessageFolder[]} An array containing the matching messageFolders.
 	###
-	messageFolders: (query, callback = ->) ->
+	messageFolders: (query, callback) ->
 		@_forceReady()
+		
+		if callback?
+			@_fetchMessageFolders (e, r) =>
+				if e? then callback e, null
+				else callback null, @messageFolders query
+			return undefined
+			
+		query = query.trim()
 
 		if _.isString(query) and query isnt ""
 			result = _.where @_messageFolders, (mF) -> root._helpers.contains mF.name(), query, yes
 		else
 			result = @_messageFolders
 
-		callback null, result
-		return result
+		result
+		
+	_fetchMessageFolders: (callback) ->
+		@http.get "#{@_personUrl}/berichten/mappen", {}, (e, r) =>
+			if e?
+				e.statusCode = result.statusCode
+				callback e
+			else
+				@_messageFolders = (root.MessageFolder._convertRaw(this, m) for m in JSON.parse(r.content).Items)
+				callback null
+		
 	###*
 	# @method inbox
 	# @return {MessageFolder} The inbox of the current user.
 	###
-	inbox: (callback = ->) -> @messageFolders("postvak in", (e, r) -> callback(null, r[0]))[0]
+	inbox: -> @messageFolders("postvak in")[0]
 	###*
 	# @method sentItems
 	# @return {MessageFolder} The sent items folder of the current user.
 	###
-	sentItems: (callback = ->) -> @messageFolders("verzonden items", (e, r) -> callback(null, r[0]))[0]
+	sentItems: -> @messageFolders("verzonden items")[0]
 	###*
 	# @method bin
 	# @return {MessageFolder} The bin of the current user.
 	###
-	bin: (callback = ->) -> @messageFolders("verwijderde items", (e, r) -> callback(null, r[0]))[0]
+	bin: -> @messageFolders("verwijderde items")[0]
 	###*
 	# @method alerts
 	# @return {MessageFolder} The alerts folder of the current user.
 	###
-	alerts: (callback = ->) -> @messageFolders("mededelingen", (e, r) -> callback(null, r[0]))[0]
+	alerts: -> @messageFolders("mededelingen")[0]
 
 	###*
 	# Gets the courses of the current User.
@@ -667,10 +684,9 @@ class root.Magister
 							@_profileInfo = root.ProfileInfo._convertRaw this, result
 						catch e then _setErrored e
 
-						@http.get "#{@_personUrl}/berichten/mappen", {}, (error, result) =>
-							if error? then @_setErrored error, result.statusCode; return
-							@_messageFolders = (root.MessageFolder._convertRaw(this, m) for m in JSON.parse(result.content).Items)
-							@_setReady()
+						@_fetchMessageFolders (e, r) =>
+							if e? then @_setErrored e, e.statusCode
+							else @_setReady()
 
 			catch e then _setErrored e
 
