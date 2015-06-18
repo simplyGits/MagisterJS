@@ -153,21 +153,38 @@ class root.Magister
 	#
 	# @method messageFolders
 	# @param [query] {String} A case insensetive query the MessageFolder need to match.
-	# @param [callback] {Function} Not useful at all, just here to prevent possible mistakes.
-	#	@param [callback.error] {null} Will always be null
+	# @param [callback] {Function} If a callback is given, the message folders will be refetched.
+	#	@param [callback.error] {Object} The error, if it exists.
 	#	@param [callback.result] {MessageFolder[]} An array containing the matching MessageFolders.
 	# @return {MessageFolder[]} An array containing the matching messageFolders.
 	###
-	messageFolders: (query, callback = ->) ->
+	messageFolders: (query, callback) ->
 		@_forceReady()
+		
+		if callback?
+			@_fetchMessageFolders (e, r) =>
+				if e? then callback e, null
+				else callback null, @messageFolders query
+			return undefined
+			
+		query = query.trim()
 
 		if _.isString(query) and query isnt ""
 			result = _.where @_messageFolders, (mF) -> root._helpers.contains mF.name(), query, yes
 		else
 			result = @_messageFolders
 
-		callback null, result
-		return result
+		result
+		
+	_fetchMessageFolders: (callback) ->
+		@http.get "#{@_personUrl}/berichten/mappen", {}, (e, r) =>
+			if e?
+				e.statusCode = result.statusCode
+				callback e
+			else
+				@_messageFolders = (root.MessageFolder._convertRaw(this, m) for m in JSON.parse(r.content).Items)
+				callback null
+		
 	###*
 	# @method inbox
 	# @return {MessageFolder} The inbox of the current user.
@@ -667,10 +684,9 @@ class root.Magister
 							@_profileInfo = root.ProfileInfo._convertRaw this, result
 						catch e then _setErrored e
 
-						@http.get "#{@_personUrl}/berichten/mappen", {}, (error, result) =>
-							if error? then @_setErrored error, result.statusCode; return
-							@_messageFolders = (root.MessageFolder._convertRaw(this, m) for m in JSON.parse(result.content).Items)
-							@_setReady()
+						@_fetchMessageFolders (e, r) =>
+							if e? then @_setErrored e, e.statusCode
+							else @_setReady()
 
 			catch e then _setErrored e
 
