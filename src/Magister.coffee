@@ -189,22 +189,22 @@ class root.Magister
 	# @method inbox
 	# @return {MessageFolder} The inbox of the current user.
 	###
-	inbox: (callback = ->) -> @messageFolders("postvak in", (e, r) -> callback(null, r[0]))[0]
+	inbox: -> @messageFolders("postvak in")[0]
 	###*
 	# @method sentItems
 	# @return {MessageFolder} The sent items folder of the current user.
 	###
-	sentItems: (callback = ->) -> @messageFolders("verzonden items", (e, r) -> callback(null, r[0]))[0]
+	sentItems: -> @messageFolders("verzonden items")[0]
 	###*
 	# @method bin
 	# @return {MessageFolder} The bin of the current user.
 	###
-	bin: (callback = ->) -> @messageFolders("verwijderde items", (e, r) -> callback(null, r[0]))[0]
+	bin: -> @messageFolders("verwijderde items")[0]
 	###*
 	# @method alerts
 	# @return {MessageFolder} The alerts folder of the current user.
 	###
-	alerts: (callback = ->) -> @messageFolders("mededelingen", (e, r) -> callback(null, r[0]))[0]
+	alerts: -> @messageFolders("mededelingen")[0]
 
 	###*
 	# Gets the courses of the current User.
