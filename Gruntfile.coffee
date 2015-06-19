@@ -30,7 +30,7 @@ module.exports = (grunt) ->
 				options:
 					archive: "Magister.js-browser.zip"
 				files: [
-					{ expand: yes, cwd: "lib/", src: ["**"] }
+					{ expand: yes, cwd: "lib/browser/", src: ["**"] }
 				]
 
 	grunt.loadNpmTasks "grunt-contrib-coffee"
