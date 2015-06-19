@@ -298,7 +298,7 @@ class root.Magister
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
 	# 	@param [callback.result] {Person[]} An array containing the Persons.
-	# @param {Boolean} True if cached result was used, false otherwise.
+	# @return {Boolean} True if cached result was used, false otherwise.
 	###
 	getPersons: ->
 		@_forceReady()
