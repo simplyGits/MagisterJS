@@ -298,6 +298,7 @@ class root.Magister
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
 	# 	@param [callback.result] {Person[]} An array containing the Persons.
+	# @param {Boolean} True if cached result was used, false otherwise.
 	###
 	getPersons: ->
 		@_forceReady()
@@ -307,19 +308,21 @@ class root.Magister
 
 		unless query? and callback? and query.length >= 3
 			callback null, []
-			return undefined
+			return false
 
 		query = query.trim()
 
 		unless type? # Try both Teachers and Pupils
-			@getPersons query, 3, (e, r) =>
+			# best varname award goes to...
+			b1 = b2 = no
+			b1 = @getPersons query, 3, (e, r) =>
 				if e? then callback e, null
 				else
 					teachers = r
-					@getPersons query, 4, (e, r) ->
+					b2 = @getPersons query, 4, (e, r) ->
 						if e? then callback e, null
 						else callback null, root._helpers.pushMore r, teachers
-			return undefined
+			return b1 or b2
 
 		try
 			type = root.Person._convertType type
@@ -331,10 +334,15 @@ class root.Magister
 				else "Overig"
 		catch e # parse error, most likely
 			callback e, undefined
+			return false
 		url = "#{@_personUrl}/contactpersonen?contactPersoonType=#{queryType}&q=#{query.replace /\ +/g, "+"}"
 
 		if (val = root.Magister._cachedPersons["#{@_id}#{type}#{query}"])?
-			callback null, val
+			if process?.nextTick?
+				process.nextTick -> callback null, val
+			else
+				_.defer callback, null, val
+			true
 		else
 			@http.get url, {}, (error, result) =>
 				if error?
@@ -343,7 +351,7 @@ class root.Magister
 					result = (root.Person._convertRaw(this, p, type) for p in JSON.parse(result.content).Items)
 					root.Magister._cachedPersons["#{@_id}#{type}#{query}"] = result
 					callback null, result
-		undefined
+			false
 
 	###*
 	# Fills the given person(s) by downloading the person from Magister and replacing the local instance.

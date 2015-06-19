@@ -267,13 +267,9 @@ describe("Magister", function() {
 
 		it("should cache persons", function (done) {
 			x.ready(function () {
-				var cached = false;
+				var cached = this.getPersons(x.profileInfo().firstName(), function () {});
 
-				this.getPersons(x.profileInfo().firstName(), function () {
-					// Result was cached.
-					cached = true;
-				});
-
+				expect(cached).to.be.a("boolean");
 				if (!cached) {
 					throw new Error("Result wasn't cached.");
 				}
