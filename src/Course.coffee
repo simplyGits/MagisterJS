@@ -256,7 +256,7 @@ class root.Course
 	getOtherTutors: (callback) =>
 		throw new Error "Callback can't be null" unless callback?
 
-		@_magisterObj.http.get "#{@_magisterObj._personUrl}/aanmeldingen/#{@_id}/mentor", {}, (error, result) =>
+		@_magisterObj.http.get "#{@_magisterObj._personUrl}/aanmeldingen/#{@_id}/mentoren", {}, (error, result) =>
 			if error? then callback error, null
 			else
 				items = JSON.parse(result.content).items # Really SchoolMaster, get consistent with using da capz.
