@@ -64,9 +64,9 @@ class root.Magister
 				else if r.length is 0 then @_setErrored new Error "No school with the query #{@magisterSchool} found."
 				else
 					@magisterSchool = r[0]
-					@reLogin options.sessionId
+					@_reLogin options.sessionId
 
-		else @reLogin options.sessionId
+		else @_reLogin options.sessionId
 
 	###*
 	# Get the appoinments of the current User between the two given Dates.
@@ -679,11 +679,11 @@ class root.Magister
 	#
 	# Usually not needed to call manually.
 	#
-	# @method reLogin
+	# @method _reLogin
 	# @param [sessionId] {String} An optional sessionId to use. Shortens login process.
 	# @private
 	###
-	reLogin: (sessionId) ->
+	_reLogin: (sessionId) ->
 		@_ready = no
 		@_magisterLoadError = null
 		@magisterSchool.url = @magisterSchool.url.replace /^https?/, "https" # Force HTTPS.
