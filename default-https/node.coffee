@@ -31,23 +31,24 @@ class root.MagisterHttp
 	###
 	get: (url, options = {}, callback) ->
 		request { url, method: "GET", headers: @_cookieInserter(options.headers) }, (error, response, content) ->
-			callback error, { content, headers: response.headers, statusCode: response.statusCode }
+			callback error, { content, headers: response?.headers, statusCode: response?.statusCode }
 		undefined
 
 	delete: (url, options = {}, callback) ->
 		request { url, method: "DELETE", headers: @_cookieInserter(options.headers) }, (error, response, content) ->
-			callback error, { content, headers: response.headers, statusCode: response.statusCode }
+			callback error, { content, headers: response?.headers, statusCode: response?.statusCode }
 		undefined
 
 	post: (url, data, options = {}, callback) ->
 		request { url, method: "POST", headers: @_cookieInserter(options.headers), json: data }, (error, response, content) ->
-			callback error, { content: JSON.stringify(content), headers: response.headers, statusCode: response.statusCode }
+			callback error, { content: JSON.stringify(content), headers: response?.headers, statusCode: response?.statusCode }
 		undefined
 
 	put: (url, data, options = {}, callback) ->
 		request { url, method: "PUT", headers: @_cookieInserter(options.headers), json: data }, (error, response, content) ->
-			callback error, { content: JSON.stringify(content), headers: response.headers, statusCode: response.statusCode }
+			callback error, { content: JSON.stringify(content), headers: response?.headers, statusCode: response?.statusCode }
 		undefined
 
 	_cookie: ""
-	_cookieInserter: (original) -> return if @_cookie isnt "" then _.extend (original ? {}), { cookie: @_cookie } else original
+	_cookieInserter: (original) ->
+		_.extend (original ? {}), cookie: @_cookie

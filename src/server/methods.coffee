@@ -27,6 +27,6 @@ Meteor.methods
 
 		request opt, (error, response, content) ->
 			if error? then fut.throw error
-			else fut.return { content, headers: response.headers, statusCode: response.statusCode }
+			else fut.return { content, headers: response?.headers, statusCode: response?.statusCode }
 
 		fut.wait()
