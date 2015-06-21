@@ -640,14 +640,15 @@ class root.Magister
 	# @param [callback] {Function} The callback which will be called if the current instance is done logging in.
 	# 	@param [callback.error] {Object} A error that occured when logging onto Magister, if it exists.
 	# 		@param [callback.error.statusCode] {Number} If the error is returned over HTTP, the statusCode that was returned.
-	#	@param callback.this {Magister} The current Magister object.
+	# 	@param callback.this {Magister} The current Magister object.
 	# @return {Boolean} Whether or not the current Magister instance is done logging in.
 	###
 	ready: (callback) ->
 		if _.isFunction callback
-			if @_ready or @_magisterLoadError? then _.bind(callback, this)(@._magisterLoadError)
-			else @_readyCallbacks.push _.bind callback, this
-		return @_ready is yes
+			callback = _.bind callback, this
+			if @_ready or @_magisterLoadError? then callback @_magisterLoadError
+			else @_readyCallbacks.push callback
+		@_ready is yes
 
 	_forceReady: -> throw new Error "Not done with logging in or errored during logging in! (did you use Magister.ready(callback) to be sure that logging in is done?)" unless @_ready
 	_setReady: ->
