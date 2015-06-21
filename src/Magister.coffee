@@ -377,23 +377,22 @@ class root.Magister
 			if persons.length is 0
 				callback null, []
 				return undefined
+
 			pushResult = root._helpers.asyncResultWaiter persons.length, (r) -> callback null, r
 
 			for p in persons
 				try
 					@getPersons _.last(p.fullName().split " "), (p._type ? overwriteType), (e, r) ->
-						if e? or not r? then throw e
-						else pushResult r[0] ? p
+						pushResult r[0] ? p
 				catch
 					pushResult p
 
 		else if _.isObject persons
 			try
 				@getPersons _.last(persons.fullName().split " "), (persons._type ? overwriteType), (e, r) ->
-					if e? or not r? then throw e
-					else callback null, r[0] ? persons
+					callback null, r[0] ? persons
 			catch
-				callback persons
+				callback null, persons
 
 		else
 			throw new Error "Expected persons to be an Array or an Object, got a(n) #{typeof persons}"
