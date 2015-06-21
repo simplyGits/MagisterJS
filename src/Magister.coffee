@@ -115,32 +115,38 @@ class root.Magister
 
 					# Get changedAppointments.
 					@http.get "#{@_personUrl}/roosterwijzigingen?tot=#{dateConvert(to)}&van=#{dateConvert(from)}", {}, (error, result) =>
-						result = JSON.parse result.content
-						changedAppointments.concat (root.Appointment._convertRaw(this, a) for a in result.Items)
-						finish()
+						if error?
+							callback error, null
+						else
+							result = JSON.parse result.content
+							changedAppointments.concat (root.Appointment._convertRaw(this, a) for a in result.Items)
+							finish()
 
 					# Get absenceInfo.
 					@http.get "#{@_personUrl}/absenties?tot=#{dateConvert(to)}&van=#{dateConvert(from)}", {}, (error, result) ->
-						result = JSON.parse(result.content).Items
-						for a in result
-							absenceInfo.push
-								id: a.Id
-								begin: new Date Date.parse a.Start
-								end: new Date Date.parse a.Eind
-								schoolHour: a.Lesuur
-								permitted: a.Geoorloofd
-								appointmentId: a.AfspraakId
-								description: a.Omschrijving.trim()
-								type: a.VerantwoordingType
-								code: a.Code
-						finish()
+						if error?
+							callback error, null
+						else
+							result = JSON.parse(result.content).Items
+							for a in result
+								absenceInfo.push
+									id: a.Id
+									begin: new Date Date.parse a.Start
+									end: new Date Date.parse a.Eind
+									schoolHour: a.Lesuur
+									permitted: a.Geoorloofd
+									appointmentId: a.AfspraakId
+									description: a.Omschrijving.trim()
+									type: a.VerantwoordingType
+									code: a.Code
+							finish()
 
 					# Get persons.
 					if fillPersons
 						pushResult = root._helpers.asyncResultWaiter appointments.length, -> finish()
 
 						for a in appointments then do (a) =>
-							teachers = a.teachers() ? []
+							teachers = a.teachers()
 
 							@fillPersons teachers, ((e, r) ->
 								a._teachers = r
