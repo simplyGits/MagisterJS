@@ -193,7 +193,7 @@ class root.Magister
 	_fetchMessageFolders: (callback) ->
 		@http.get "#{@_personUrl}/berichten/mappen", {}, (e, r) =>
 			if e?
-				e.statusCode = result.statusCode
+				e.statusCode = result?.statusCode
 				callback e
 			else
 				@_messageFolders = (root.MessageFolder._convertRaw(this, m) for m in JSON.parse(r.content).Items)
@@ -695,7 +695,7 @@ class root.Magister
 				@http._cookie = "SESSION_ID=#{@_sessionId}; M6UserName=#{@username}"
 				@http.get "#{@magisterSchool.url}/api/account", {},
 					(error, result) =>
-						if error? then @_setErrored error, result.statusCode; return
+						if error? then @_setErrored error, result?.statusCode; return
 
 						try
 							result = JSON.parse result.content
@@ -704,13 +704,13 @@ class root.Magister
 							@_personUrl = "#{@magisterSchool.url}/api/personen/#{@_id}"
 							@_pupilUrl = "#{@magisterSchool.url}/api/leerlingen/#{@_id}"
 							@_profileInfo = root.ProfileInfo._convertRaw this, result
-						catch e then _setErrored e
+						catch e then @_setErrored e
 
 						@_fetchMessageFolders (e, r) =>
 							if e? then @_setErrored e, e.statusCode
 							else @_setReady()
 
-			catch e then _setErrored e
+			catch e then @_setErrored e
 
 		if sessionId? then cb sessionId
 		else
