@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.6.0</em>
+            <em>API Docs for: 1.7.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -48,6 +48,7 @@
                                 <li><a href="../classes/File.html">File</a></li>
                                 <li><a href="../classes/FileFolder.html">FileFolder</a></li>
                                 <li><a href="../classes/Grade.html">Grade</a></li>
+                                <li><a href="../classes/GradePeriod.html">GradePeriod</a></li>
                                 <li><a href="../classes/GradeType.html">GradeType</a></li>
                                 <li><a href="../classes/Magister.html">Magister</a></li>
                                 <li><a href="../classes/MagisterSchool.html">MagisterSchool</a></li>
@@ -135,6 +136,12 @@ class root.Grade
 		###
 		@dateFilledIn = root._getset &quot;_dateFilledIn&quot;
 		###*
+		# @property testDate
+		# @final
+		# @type Date
+		###
+		@testDate = root._getset &quot;_testdate&quot;
+		###*
 		# @property gradePeriod
 		# @final
 		# @type Object
@@ -209,8 +216,11 @@ class root.Grade
 				if error? then callback? error, null
 				else
 					result = JSON.parse(result.content)
+					@_testDate = new Date Date.parse result.WerkinformatieDatumIngevoerd
 					@_description = result.WerkInformatieOmschrijving ? &quot;&quot;
-					@_weight = result.Weging
+
+					@_weight = (Number) result.Weging
+					@_weight = 0 if _.isNaN @_weight
 
 					@_type._level = result.KolomNiveau
 					@_type._description = result.KolomOmschrijving ? &quot;&quot;
@@ -357,6 +367,57 @@ class root.GradeType
 		obj._description = &quot;&quot;
 
 		return obj
+
+###*
+# A Grade period.
+# @class GradePeriod
+# @private
+# @constructor
+# @param _magisterObj {Magister} A Magister object this GradePeriod is child of.
+###
+class root.GradePeriod
+	constructor: (@_magisterObj) -&gt;
+		###*
+		# @property id
+		# @final
+		# @type Number
+		###
+		@id = root._getset &quot;_id&quot;
+		###*
+		# @property begin
+		# @final
+		# @type Date
+		###
+		@begin = root._getset &quot;_begin&quot;
+		###*
+		# @property end
+		# @final
+		# @type Date
+		###
+		@end = root._getset &quot;_end&quot;
+		###*
+		# @property name
+		# @final
+		# @type String
+		###
+		@name = root._getset &quot;_name&quot;
+		###*
+		# @property description
+		# @final
+		# @type String
+		###
+		@description = root._getset &quot;_description&quot;
+
+	@_convertRaw: (magisterObj, raw) -&gt;
+		obj = new root.GradePeriod magisterObj
+
+		obj._id = raw.Id
+		obj._begin = new Date Date.parse raw.Start
+		obj._end = new Date Date.parse raw.Einde
+		obj._name = raw.Naam ? &quot;&quot;
+		obj._description = raw.Omschrijving ? &quot;&quot;
+
+		obj
 
     </pre>
 </div>

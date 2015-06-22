@@ -11,6 +11,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "File",
         "FileFolder",
         "Grade",
+        "GradePeriod",
         "GradeType",
         "Magister",
         "MagisterSchool",

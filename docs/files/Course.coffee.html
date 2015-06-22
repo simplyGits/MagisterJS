@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.6.0</em>
+            <em>API Docs for: 1.7.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -48,6 +48,7 @@
                                 <li><a href="../classes/File.html">File</a></li>
                                 <li><a href="../classes/FileFolder.html">FileFolder</a></li>
                                 <li><a href="../classes/Grade.html">Grade</a></li>
+                                <li><a href="../classes/GradePeriod.html">GradePeriod</a></li>
                                 <li><a href="../classes/GradeType.html">GradeType</a></li>
                                 <li><a href="../classes/Magister.html">Magister</a></li>
                                 <li><a href="../classes/MagisterSchool.html">MagisterSchool</a></li>
@@ -261,25 +262,40 @@ class root.Course
 				callback null, (root.Class._convertRaw @_magisterObj, c for c in JSON.parse(result.content))
 
 	###*
+	# Gets the grade periods of this Course.
+	#
+	# @method gradePeriods
+	# @async
+	# @param callback {Function} A standard callback.
+	# 	@param [callback.error] {Object} The error, if it exists.
+	# 	@param [callback.result] {GradePeriod[]} An array containing the GradePeriods.
+	###
+	gradePeriods: (callback) -&gt;
+		@_magisterObj.http.get @_periodsUrl, {}, (error, result) =&gt;
+			if error?
+				callback error, null
+			else
+				callback null, (root.GradePeriod._convertRaw @_magisterObj, p for p in JSON.parse(result.content).Items)
+
+	###*
 	# Gets the grades of this Course.
 	#
 	# @method grades
 	# @async
-	# @param [fillPersons=true] {Boolean} Whether or not to download the full user objects from the server.
+	# @param [fillPersons=false] {Boolean} Whether or not to download the full user objects from the server.
 	# @param [fillGrade=true] {Boolean} Whether or not to download the full grade info should be downloaded from the server. If this is set to false some properties will be not be set or have incorrect values.
-	# @param [onlyRecent=false] {Boolean} If true this method will only fetch the grades filled in between 7 days ago and now.
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
 	# 	@param [callback.result] {Grade[]} An array containing the Grades.
 	###
 	grades: -&gt;
-		[fillPersons, fillGrade, onlyRecent] = _.filter arguments, (a) -&gt; _.isBoolean a
+		[fillPersons, fillGrade] = _.filter arguments, (a) -&gt; _.isBoolean a
 		callback = _.find(arguments, (a) -&gt; _.isFunction a)
 		throw new Error &quot;Callback can&#x27;t be null&quot; unless callback?
 
-		fillPersons ?= yes
+		fillPersons ?= no
 		fillGrade ?= yes
-		onlyRecent ?= no
+		onlyRecent = no # TODO: onlyRecent is currently broken. Fix it. See #21
 
 		@_magisterObj.http.get (if onlyRecent then @_gradesUrlPrefix else @_gradesUrl), {}, (error, result) =&gt;
 			if error?
@@ -341,7 +357,7 @@ class root.Course
 	getOtherTutors: (callback) =&gt;
 		throw new Error &quot;Callback can&#x27;t be null&quot; unless callback?
 
-		@_magisterObj.http.get &quot;#{@_magisterObj._personUrl}/aanmeldingen/#{@_id}/mentor&quot;, {}, (error, result) =&gt;
+		@_magisterObj.http.get &quot;#{@_magisterObj._personUrl}/aanmeldingen/#{@_id}/mentoren&quot;, {}, (error, result) =&gt;
 			if error? then callback error, null
 			else
 				items = JSON.parse(result.content).items # Really SchoolMaster, get consistent with using da capz.
@@ -354,6 +370,7 @@ class root.Course
 
 		obj._gradesUrlPrefix = magisterObj._personUrl + &quot;/aanmeldingen/#{raw.Id}/cijfers&quot;
 		obj._gradesUrl = obj._gradesUrlPrefix + &quot;/cijferoverzichtvooraanmelding?actievePerioden=false&amp;alleenBerekendeKolommen=false&amp;alleenPTAKolommen=false&quot;
+		obj._periodsUrl = obj._gradesUrlPrefix + &quot;/cijferperiodenvooraanmelding&quot;
 		obj._columnUrlPrefix = obj._gradesUrlPrefix + &quot;/extracijferkolominfo/&quot;
 
 		obj._id = raw.Id

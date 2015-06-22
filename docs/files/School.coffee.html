@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.6.0</em>
+            <em>API Docs for: 1.7.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -48,6 +48,7 @@
                                 <li><a href="../classes/File.html">File</a></li>
                                 <li><a href="../classes/FileFolder.html">FileFolder</a></li>
                                 <li><a href="../classes/Grade.html">Grade</a></li>
+                                <li><a href="../classes/GradePeriod.html">GradePeriod</a></li>
                                 <li><a href="../classes/GradeType.html">GradeType</a></li>
                                 <li><a href="../classes/Magister.html">Magister</a></li>
                                 <li><a href="../classes/MagisterSchool.html">MagisterSchool</a></li>
@@ -138,7 +139,7 @@ class root.MagisterSchool
 	# 	@param [callback.result] {MagisterSchool[]} An array containing the MagisterSchools.
 	###
 	@getSchools: (query, callback) -&gt;
-		if !query? or root._helpers.trim(query).length &lt; 3
+		unless query? and query.trim().length &gt;= 3
 			callback null, []
 			return
 

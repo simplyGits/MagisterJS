@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.6.0</em>
+            <em>API Docs for: 1.7.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -48,6 +48,7 @@
                                 <li><a href="../classes/File.html">File</a></li>
                                 <li><a href="../classes/FileFolder.html">FileFolder</a></li>
                                 <li><a href="../classes/Grade.html">Grade</a></li>
+                                <li><a href="../classes/GradePeriod.html">GradePeriod</a></li>
                                 <li><a href="../classes/GradeType.html">GradeType</a></li>
                                 <li><a href="../classes/Magister.html">Magister</a></li>
                                 <li><a href="../classes/MagisterSchool.html">MagisterSchool</a></li>
@@ -196,6 +197,10 @@
                             </li>
                             <li class="index-item method">
                                 <a href="#method_getPersonalTutor">getPersonalTutor</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_gradePeriods">gradePeriods</a>
 
                             </li>
                             <li class="index-item method">
@@ -354,7 +359,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Course.coffee.html#l233"><code>Course.coffee:233</code></a>
+        <a href="../files/Course.coffee.html#l248"><code>Course.coffee:248</code></a>
         </p>
 
 
@@ -432,7 +437,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Course.coffee.html#l218"><code>Course.coffee:218</code></a>
+        <a href="../files/Course.coffee.html#l233"><code>Course.coffee:233</code></a>
         </p>
 
 
@@ -489,20 +494,11 @@
 
 
 </div>
-<div id="method_grades" class="method item">
-    <h3 class="name"><code>grades</code></h3>
+<div id="method_gradePeriods" class="method item">
+    <h3 class="name"><code>gradePeriods</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code class="optional">[fillPersons=true]</code>
-                </li>
-                <li class="arg">
-                        <code class="optional">[fillGrade=true]</code>
-                </li>
-                <li class="arg">
-                        <code class="optional">[onlyRecent=false]</code>
-                </li>
                 <li class="arg">
                         <code>callback</code>
                 </li>
@@ -528,6 +524,91 @@
     </div>
 
     <div class="description">
+        <p>Gets the grade periods of this Course.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">callback</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></span>
+
+
+                    <div class="param-description">
+                        <p>A standard callback.</p>
+
+                    </div>
+
+                        <ul class="params-list">
+                            <li class="param">
+                                    <code class="param-name optional">[error]</code>
+                                    <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+
+                                <div class="param-description">
+                                    <p>The error, if it exists.</p>
+
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name optional">[result]</code>
+                                    <span class="type"><a href="../classes/GradePeriod.html" class="crosslink">GradePeriod[]</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+
+                                <div class="param-description">
+                                    <p>An array containing the GradePeriods.</p>
+
+                                </div>
+
+                            </li>
+                        </ul>
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_grades" class="method item">
+    <h3 class="name"><code>grades</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code class="optional">[fillPersons=false]</code>
+                </li>
+                <li class="arg">
+                        <code class="optional">[fillGrade=true]</code>
+                </li>
+                <li class="arg">
+                        <code>callback</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+        <span class="flag async">async</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/Course.coffee.html#l179"><code>Course.coffee:179</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
         <p>Gets the grades of this Course.</p>
 
     </div>
@@ -537,7 +618,7 @@
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name optional">[fillPersons=true]</code>
+                        <code class="param-name optional">[fillPersons=false]</code>
                         <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
 
@@ -556,18 +637,6 @@
 
                     <div class="param-description">
                         <p>Whether or not to download the full grade info should be downloaded from the server. If this is set to false some properties will be not be set or have incorrect values.</p>
-
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name optional">[onlyRecent=false]</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-
-
-                    <div class="param-description">
-                        <p>If true this method will only fetch the grades filled in between 7 days ago and now.</p>
 
                     </div>
 

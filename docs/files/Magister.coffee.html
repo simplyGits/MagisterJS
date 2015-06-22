@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.6.0</em>
+            <em>API Docs for: 1.7.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -48,6 +48,7 @@
                                 <li><a href="../classes/File.html">File</a></li>
                                 <li><a href="../classes/FileFolder.html">FileFolder</a></li>
                                 <li><a href="../classes/Grade.html">Grade</a></li>
+                                <li><a href="../classes/GradePeriod.html">GradePeriod</a></li>
                                 <li><a href="../classes/GradeType.html">GradeType</a></li>
                                 <li><a href="../classes/Magister.html">Magister</a></li>
                                 <li><a href="../classes/MagisterSchool.html">MagisterSchool</a></li>
@@ -102,11 +103,11 @@ root = (module?.exports ? this.Magister ?= {})
 if Meteor?
 	@_ = _ = lodash
 else if module?.exports? and require? and not window?
-	@_ = _ = require(&quot;underscore&quot;) if not _?
+	@_ = _ = require(&quot;lodash&quot;) if not _?
 else if @_?
-	_ = @this
+	_ = @_
 else
-	throw new Error &quot;Lo-dash or underscore is required.&quot;
+	throw new Error &quot;Lo-dash is required.&quot;
 
 ###*
 # The version of this Magister.js.
@@ -114,7 +115,7 @@ else
 # @final
 # @type String
 ###
-root.VERSION = &quot;1.6.0&quot;
+root.VERSION = &quot;1.7.0&quot;
 
 ###*
 # A JavaScript implementation of the Magister 6 API.
@@ -164,9 +165,9 @@ class root.Magister
 				else if r.length is 0 then @_setErrored new Error &quot;No school with the query #{@magisterSchool} found.&quot;
 				else
 					@magisterSchool = r[0]
-					@reLogin options.sessionId
+					@_reLogin options.sessionId
 
-		else @reLogin options.sessionId
+		else @_reLogin options.sessionId
 
 	###*
 	# Get the appoinments of the current User between the two given Dates.
@@ -215,32 +216,38 @@ class root.Magister
 
 					# Get changedAppointments.
 					@http.get &quot;#{@_personUrl}/roosterwijzigingen?tot=#{dateConvert(to)}&amp;van=#{dateConvert(from)}&quot;, {}, (error, result) =&gt;
-						result = JSON.parse result.content
-						changedAppointments.concat (root.Appointment._convertRaw(this, a) for a in result.Items)
-						finish()
+						if error?
+							callback error, null
+						else
+							result = JSON.parse result.content
+							changedAppointments.concat (root.Appointment._convertRaw(this, a) for a in result.Items)
+							finish()
 
 					# Get absenceInfo.
 					@http.get &quot;#{@_personUrl}/absenties?tot=#{dateConvert(to)}&amp;van=#{dateConvert(from)}&quot;, {}, (error, result) -&gt;
-						result = JSON.parse(result.content).Items
-						for a in result
-							absenceInfo.push
-								id: a.Id
-								begin: new Date Date.parse a.Start
-								end: new Date Date.parse a.Eind
-								schoolHour: a.Lesuur
-								permitted: a.Geoorloofd
-								appointmentId: a.AfspraakId
-								description: root._helpers.trim a.Omschrijving
-								type: a.VerantwoordingType
-								code: a.Code
-						finish()
+						if error?
+							callback error, null
+						else
+							result = JSON.parse(result.content).Items
+							for a in result
+								absenceInfo.push
+									id: a.Id
+									begin: new Date Date.parse a.Start
+									end: new Date Date.parse a.Eind
+									schoolHour: a.Lesuur
+									permitted: a.Geoorloofd
+									appointmentId: a.AfspraakId
+									description: a.Omschrijving.trim()
+									type: a.VerantwoordingType
+									code: a.Code
+							finish()
 
 					# Get persons.
 					if fillPersons
 						pushResult = root._helpers.asyncResultWaiter appointments.length, -&gt; finish()
 
 						for a in appointments then do (a) =&gt;
-							teachers = a.teachers() ? []
+							teachers = a.teachers()
 
 							@fillPersons teachers, ((e, r) -&gt;
 								a._teachers = r
@@ -253,41 +260,66 @@ class root.Magister
 	#
 	# @method messageFolders
 	# @param [query] {String} A case insensetive query the MessageFolder need to match.
-	# @param [callback] {Function} Not useful at all, just here to prevent possible mistakes.
-	#	@param [callback.error] {null} Will always be null
+	# @param [callback] {Function} If a callback is given, the message folders will be refetched.
+	#	@param [callback.error] {Object} The error, if it exists.
 	#	@param [callback.result] {MessageFolder[]} An array containing the matching MessageFolders.
-	# @return {MessageFolder[]} An array containing the matching messageFolders.
+	# @return {MessageFolder[]|undefined} An array containing the matching messageFolders or undefined if a callback is given.
 	###
-	messageFolders: (query, callback = -&gt;) -&gt;
+	messageFolders: (query, callback) -&gt;
 		@_forceReady()
+
+		if callback?
+			@_fetchMessageFolders (e, r) =&gt;
+				if e? then callback e, null
+				else callback null, @messageFolders query
+			return undefined
+
+		query = query.trim()
 
 		if _.isString(query) and query isnt &quot;&quot;
 			result = _.where @_messageFolders, (mF) -&gt; root._helpers.contains mF.name(), query, yes
 		else
 			result = @_messageFolders
 
-		callback null, result
-		return result
+		result
+
+	###*
+	# Fetches the messageFolders for the current Magister object.
+	#
+	# @method _fetchMessageFolders
+	# @private
+	# @param callback {Function}
+	# 	@param [callback.error] {Object} The error, if it exists.
+	###
+	_fetchMessageFolders: (callback) -&gt;
+		@http.get &quot;#{@_personUrl}/berichten/mappen&quot;, {}, (e, r) =&gt;
+			if e?
+				e.statusCode = result?.statusCode
+				callback e
+			else
+				@_messageFolders = (root.MessageFolder._convertRaw(this, m) for m in JSON.parse(r.content).Items)
+				callback null
+
 	###*
 	# @method inbox
 	# @return {MessageFolder} The inbox of the current user.
 	###
-	inbox: (callback = -&gt;) -&gt; @messageFolders(&quot;postvak in&quot;, (e, r) -&gt; callback(null, r[0]))[0]
+	inbox: -&gt; @messageFolders(&quot;postvak in&quot;)[0]
 	###*
 	# @method sentItems
 	# @return {MessageFolder} The sent items folder of the current user.
 	###
-	sentItems: (callback = -&gt;) -&gt; @messageFolders(&quot;verzonden items&quot;, (e, r) -&gt; callback(null, r[0]))[0]
+	sentItems: -&gt; @messageFolders(&quot;verzonden items&quot;)[0]
 	###*
 	# @method bin
 	# @return {MessageFolder} The bin of the current user.
 	###
-	bin: (callback = -&gt;) -&gt; @messageFolders(&quot;verwijderde items&quot;, (e, r) -&gt; callback(null, r[0]))[0]
+	bin: -&gt; @messageFolders(&quot;verwijderde items&quot;)[0]
 	###*
 	# @method alerts
 	# @return {MessageFolder} The alerts folder of the current user.
 	###
-	alerts: (callback = -&gt;) -&gt; @messageFolders(&quot;mededelingen&quot;, (e, r) -&gt; callback(null, r[0]))[0]
+	alerts: -&gt; @messageFolders(&quot;mededelingen&quot;)[0]
 
 	###*
 	# Gets the courses of the current User.
@@ -373,47 +405,60 @@ class root.Magister
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
 	# 	@param [callback.result] {Person[]} An array containing the Persons.
+	# @return {Boolean} True if cached result was used, false otherwise.
 	###
 	getPersons: -&gt;
 		@_forceReady()
 
-		query = root._helpers.trim arguments[0]
-		callback = if arguments.length is 2 then arguments[1] else arguments[2]
-		type = arguments[1] if arguments.length is 3
+		[query, type] = _.filter arguments, (a) -&gt; _.isNumber(a) or _.isString(a)
+		callback = _.find arguments, (a) -&gt; _.isFunction a
 
 		unless query? and callback? and query.length &gt;= 3
 			callback null, []
-			return undefined
+			return false
+
+		query = query.trim()
 
 		unless type? # Try both Teachers and Pupils
-			@getPersons query, 3, (e, r) =&gt;
+			# best varname award goes to...
+			b1 = b2 = no
+			b1 = @getPersons query, 3, (e, r) =&gt;
 				if e? then callback e, null
 				else
 					teachers = r
-					@getPersons query, 4, (e, r) -&gt;
+					b2 = @getPersons query, 4, (e, r) -&gt;
 						if e? then callback e, null
 						else callback null, root._helpers.pushMore r, teachers
-			return undefined
+			return b1 or b2
 
-		type = switch root.Person._convertType type
-			when 3 then &quot;Personeel&quot;
-			when 4 then &quot;Leerling&quot;
-			when 8 then &quot;Project&quot;
+		try
+			type = root.Person._convertType type
+			queryType = switch type
+				when 3 then &quot;Personeel&quot;
+				when 4 then &quot;Leerling&quot;
+				when 8 then &quot;Project&quot;
 
-			else &quot;Overig&quot;
-		url = &quot;#{@_personUrl}/contactpersonen?contactPersoonType=#{type}&amp;q=#{query.replace /\ +/g, &quot;+&quot;}&quot;
+				else &quot;Overig&quot;
+		catch e # parse error, most likely
+			callback e, undefined
+			return false
+		url = &quot;#{@_personUrl}/contactpersonen?contactPersoonType=#{queryType}&amp;q=#{query.replace /\ +/g, &quot;+&quot;}&quot;
 
-		if (val = Magister._cachedPersons[&quot;#{@_id}#{type}#{query}&quot;])?
-			callback null, val
+		if (val = root.Magister._cachedPersons[&quot;#{@_id}#{type}#{query}&quot;])?
+			if process?.nextTick?
+				process.nextTick -&gt; callback null, val
+			else
+				_.defer callback, null, val
+			true
 		else
 			@http.get url, {}, (error, result) =&gt;
 				if error?
 					callback error, null
 				else
-					result = (root.Person._convertRaw(this, p) for p in JSON.parse(result.content).Items)
-
-					Magister._cachedPersons[&quot;#{@_id}#{type}#{query}&quot;] = result
+					result = (root.Person._convertRaw(this, p, type) for p in JSON.parse(result.content).Items)
+					root.Magister._cachedPersons[&quot;#{@_id}#{type}#{query}&quot;] = result
 					callback null, result
+			false
 
 	###*
 	# Fills the given person(s) by downloading the person from Magister and replacing the local instance.
@@ -433,23 +478,22 @@ class root.Magister
 			if persons.length is 0
 				callback null, []
 				return undefined
+
 			pushResult = root._helpers.asyncResultWaiter persons.length, (r) -&gt; callback null, r
 
 			for p in persons
 				try
 					@getPersons _.last(p.fullName().split &quot; &quot;), (p._type ? overwriteType), (e, r) -&gt;
-						if e? or not r? then throw e
-						else pushResult r[0] ? p
+						pushResult r[0] ? p
 				catch
 					pushResult p
 
 		else if _.isObject persons
 			try
 				@getPersons _.last(persons.fullName().split &quot; &quot;), (persons._type ? overwriteType), (e, r) -&gt;
-					if e? or not r? then throw e
-					else callback null, r[0] ? persons
+					callback null, r[0] ? persons
 			catch
-				callback persons
+				callback null, persons
 
 		else
 			throw new Error &quot;Expected persons to be an Array or an Object, got a(n) #{typeof persons}&quot;
@@ -472,7 +516,7 @@ class root.Magister
 
 		[subject, body] = _.filter arguments, (a) -&gt; _.isString a
 		callback = _.find arguments, (a) -&gt; _.isFunction a
-		recipients = _.last _.filter arguments, (a) -&gt; a isnt callback
+		recipients = _.findLast arguments, (a) -&gt; a isnt callback
 		if arguments.length is 2 then body = &quot;&quot;
 
 		m = new root.Message this
@@ -696,14 +740,16 @@ class root.Magister
 	# @method ready
 	# @param [callback] {Function} The callback which will be called if the current instance is done logging in.
 	# 	@param [callback.error] {Object} A error that occured when logging onto Magister, if it exists.
-	#	@param callback.this {Magister} The current Magister object.
+	# 		@param [callback.error.statusCode] {Number} If the error is returned over HTTP, the statusCode that was returned.
+	# 	@param callback.this {Magister} The current Magister object.
 	# @return {Boolean} Whether or not the current Magister instance is done logging in.
 	###
 	ready: (callback) -&gt;
 		if _.isFunction callback
-			if @_ready or @_magisterLoadError? then _.bind(callback, this)(@._magisterLoadError)
-			else @_readyCallbacks.push _.bind callback, this
-		return @_ready is yes
+			callback = _.bind callback, this
+			if @_ready or @_magisterLoadError? then callback @_magisterLoadError
+			else @_readyCallbacks.push callback
+		@_ready is yes
 
 	_forceReady: -&gt; throw new Error &quot;Not done with logging in or errored during logging in! (did you use Magister.ready(callback) to be sure that logging in is done?)&quot; unless @_ready
 	_setReady: -&gt;
@@ -711,7 +757,7 @@ class root.Magister
 		callback() for callback in @_readyCallbacks
 		@_readyCallbacks = []
 
-	_setErrored: (e) -&gt;
+	_setErrored: (e, statusCode) -&gt;
 		try
 			parsed = JSON.parse e
 			@_magisterLoadError = {}
@@ -720,6 +766,8 @@ class root.Magister
 				@_magisterLoadError[key.toLowerCase()] = parsed[key]
 		catch
 			@_magisterLoadError = e
+
+		@_magisterLoadError.statusCode = statusCode if statusCode?
 
 		callback @_magisterLoadError for callback in @_readyCallbacks
 		@_readyCallbacks = []
@@ -732,11 +780,11 @@ class root.Magister
 	#
 	# Usually not needed to call manually.
 	#
-	# @method reLogin
+	# @method _reLogin
 	# @param [sessionId] {String} An optional sessionId to use. Shortens login process.
 	# @private
 	###
-	reLogin: (sessionId) -&gt;
+	_reLogin: (sessionId) -&gt;
 		@_ready = no
 		@_magisterLoadError = null
 		@magisterSchool.url = @magisterSchool.url.replace /^https?/, &quot;https&quot; # Force HTTPS.
@@ -748,7 +796,7 @@ class root.Magister
 				@http._cookie = &quot;SESSION_ID=#{@_sessionId}; M6UserName=#{@username}&quot;
 				@http.get &quot;#{@magisterSchool.url}/api/account&quot;, {},
 					(error, result) =&gt;
-						if error? then @_setErrored error; return
+						if error? then @_setErrored error, result?.statusCode; return
 
 						try
 							result = JSON.parse result.content
@@ -757,14 +805,13 @@ class root.Magister
 							@_personUrl = &quot;#{@magisterSchool.url}/api/personen/#{@_id}&quot;
 							@_pupilUrl = &quot;#{@magisterSchool.url}/api/leerlingen/#{@_id}&quot;
 							@_profileInfo = root.ProfileInfo._convertRaw this, result
-						catch e then _setErrored e
+						catch e then @_setErrored e
 
-						@http.get &quot;#{@_personUrl}/berichten/mappen&quot;, {}, (error, result) =&gt;
-							if error? then @_setErrored error; return
-							@_messageFolders = (root.MessageFolder._convertRaw(this, m) for m in JSON.parse(result.content).Items)
-							@_setReady()
+						@_fetchMessageFolders (e, r) =&gt;
+							if e? then @_setErrored e, e.statusCode
+							else @_setReady()
 
-			catch e then _setErrored e
+			catch e then @_setErrored e
 
 		if sessionId? then cb sessionId
 		else
