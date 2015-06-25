@@ -72,7 +72,7 @@ unless Array.isArray? # isArray polyfill
 
 unless String::trim
 	String::trim = ->
-		if original? and original.length > 0
-			original.replace /^\s+|\s+$/g, ""
+		if this? and @length > 0
+			@replace /^\s+|\s+$/g, ""
 		else
 			""
