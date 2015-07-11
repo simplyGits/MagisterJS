@@ -704,7 +704,7 @@ class root.Magister
 							@_personUrl = "#{@magisterSchool.url}/api/personen/#{@_id}"
 							@_pupilUrl = "#{@magisterSchool.url}/api/leerlingen/#{@_id}"
 							@_profileInfo = root.ProfileInfo._convertRaw this, result
-						catch e then @_setErrored e
+						catch e then @_setErrored e, result?.statusCode; return
 
 						@_fetchMessageFolders (e, r) =>
 							if e? then @_setErrored e, e.statusCode
@@ -714,15 +714,17 @@ class root.Magister
 
 		if sessionId? then cb sessionId
 		else
-			@http.post url,
+			@http.post url, {
 				Gebruikersnaam: @username
 				Wachtwoord: @password
 				GebruikersnaamOnthouden: yes
 				# If this works for every school, we actually wouldn't need a "relogin" method. We will keep it and then see how it goes.
 				IngelogdBlijven: @_keepLoggedIn
-			, { headers: "Content-Type": "application/json;charset=UTF-8" }, (error, result) =>
-				if error? then @_setErrored error
+			}, {
+				headers: "Content-Type": "application/json;charset=UTF-8"
+			}, (error, result) =>
+				if error? then @_setErrored error, result?.statusCode
 				else if result.content? # Normally the response doesn't contain a body, if it contains one it's probaly an error.
-					@_setErrored result.content
+					@_setErrored result.content, result.statusCode
 				else
 					cb /[a-z\d-]+/.exec(result.headers["set-cookie"][0])[0]
