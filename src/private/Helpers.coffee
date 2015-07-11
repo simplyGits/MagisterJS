@@ -70,9 +70,6 @@ root._getset = (varName, setter, getter) ->
 unless Array.isArray? # isArray polyfill
 	_.isArray = jQuery.isArray = Array.isArray = (x) -> Object.prototype.toString.call x is "[object Array]"
 
-unless String::trim
-	String::trim = ->
-		if this? and @length > 0
-			@replace /^\s+|\s+$/g, ""
-		else
-			""
+String::trim ?= ->
+	if @length > 0 then @replace /^\s+|\s+$/g, ""
+	else ""
