@@ -339,7 +339,7 @@ class root.Magister
 
 				else "Overig"
 		catch e # parse error, most likely
-			callback e, undefined
+			callback e, null
 			return false
 		url = "#{@_personUrl}/contactpersonen?contactPersoonType=#{queryType}&q=#{query.replace /\ +/g, "+"}"
 
