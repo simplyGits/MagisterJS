@@ -101,7 +101,7 @@ class root.Appointment
 				when 2 then "test"
 				when 3 then "exam"
 				when 4 then "quiz"
-				when 5 then "oral test"
+				when 5 then "oral"
 				when 6 then "information"
 
 				else "unknown"
