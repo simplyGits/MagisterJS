@@ -1,5 +1,4 @@
 var expect = require("chai").expect;
-var fs = require("fs");
 
 var magisterjs = require("../");
 var Magister = magisterjs.Magister;
@@ -43,7 +42,7 @@ if (options.school.url == null || options.userName == null || options.password =
 describe("Magister", function() {
 	"use strict";
 
-	this.timeout(5000);
+	this.timeout(7000);
 	var x = new Magister(options.school, options.userName, options.password);
 
 	it("should be a correct Magister object", function (done) {
@@ -74,35 +73,6 @@ describe("Magister", function() {
 		});
 	});
 
-	it("should give appointments", function (done) {
-		x.ready(function () {
-			this.appointments(new Date(), false, function(e, r) {
-				expect(e).to.not.exist;
-				expect(r).to.be.a("array");
-
-				r.forEach(function (appointment) {
-					expect(appointment).to.be.an.instanceof(Appointment);
-					expect(appointment.teachers()).to.be.a("array");
-				});
-
-				done();
-			});
-		});
-	});
-
-	it("should download files", function (done) {
-		x.ready(function () {
-			this.fileFolders(function (error, result) {
-				result[0].files(function (error, result) {
-					result[0].download(false, function(e, r) {
-						expect(r).to.be.a("string");
-						done(e);
-					});
-				});
-			});
-		});
-	});
-
 	it("should send messages and retreive them", function (done) {
 		this.timeout(10000);
 		x.ready(function () {
@@ -127,49 +97,6 @@ describe("Magister", function() {
 		});
 	});
 
-	it("should download attachments", function (done) {
-		x.ready(function () {
-			this.inbox().messages(false, function(e, r) {
-				expect(r[0].attachments()).to.be.a("array");
-				var foundAttachment = false;
-
-				for (var i = 0; i < r.length; i++) {
-					var msg = r[i];
-
-					if (msg.attachments().length > 0) {
-						foundAttachment = true;
-						var attachment = msg.attachments()[0];
-
-						expect(attachment).to.be.an.instanceof(File);
-						expect(attachment.download(false, function(e, r) {
-							expect(r).to.be.a("string");
-							done(e);
-						}));
-						break;
-					}
-				}
-				if (!foundAttachment) done();
-			});
-		});
-	});
-
-	it("should be able to mark appointments as ready", function (done) {
-		x.ready(function () {
-			this.appointments(new Date(), false, function(e, r) {
-				expect(e).to.not.exist;
-				expect(r).to.be.a("array");
-				if (r[0] != null) {
-					expect(r[0]).to.be.an.instanceof(Appointment);
-					expect(r[0]).to.have.a.property("isDone").be.a("function");
-
-					r[0].isDone(true);
-					r[0].isDone(false);
-				}
-				done();
-			});
-		});
-	});
-
 	it("should correctly get courses", function (done) {
 		x.ready(function () {
 			var self = this;
@@ -182,6 +109,82 @@ describe("Magister", function() {
 				self.currentCourse(function (e, r) {
 					expect(r.id()).to.equal(course.id());
 					done(e);
+				});
+			});
+		});
+	});
+
+	describe("appointments", function () {
+		it("should give appointments", function (done) {
+			x.ready(function () {
+				this.appointments(new Date(), false, function(e, r) {
+					expect(e).to.not.exist;
+					expect(r).to.be.a("array");
+
+					r.forEach(function (appointment) {
+						expect(appointment).to.be.an.instanceof(Appointment);
+						expect(appointment.teachers()).to.be.a("array");
+					});
+
+					done();
+				});
+			});
+		});
+
+		it("should be able to mark appointments as ready", function (done) {
+			x.ready(function () {
+				this.appointments(new Date(), false, function(e, r) {
+					expect(e).to.not.exist;
+					expect(r).to.be.a("array");
+					if (r[0] != null) {
+						expect(r[0]).to.be.an.instanceof(Appointment);
+						expect(r[0]).to.have.a.property("isDone").be.a("function");
+
+						r[0].isDone(true);
+						r[0].isDone(false);
+					}
+					done();
+				});
+			});
+		});
+	});
+
+	describe("files", function () {
+		it("should download files", function (done) {
+			x.ready(function () {
+				this.fileFolders(function (error, result) {
+					result[0].files(function (error, result) {
+						result[0].download(false, function(e, r) {
+							expect(r).to.be.a("string");
+							done(e);
+						});
+					});
+				});
+			});
+		});
+
+		it("should download attachments", function (done) {
+			x.ready(function () {
+				this.inbox().messages(false, function(e, r) {
+					expect(r[0].attachments()).to.be.a("array");
+					var foundAttachment = false;
+
+					for (var i = 0; i < r.length; i++) {
+						var msg = r[i];
+
+						if (msg.attachments().length > 0) {
+							foundAttachment = true;
+							var attachment = msg.attachments()[0];
+
+							expect(attachment).to.be.an.instanceof(File);
+							expect(attachment.download(false, function(e, r) {
+								expect(r).to.be.a("string");
+								done(e);
+							}));
+							break;
+						}
+					}
+					if (!foundAttachment) done();
 				});
 			});
 		});
@@ -268,12 +271,7 @@ describe("Magister", function() {
 		it("should cache persons", function (done) {
 			x.ready(function () {
 				var cached = this.getPersons(x.profileInfo().firstName(), function () {});
-
-				expect(cached).to.be.a("boolean");
-				if (!cached) {
-					throw new Error("Result wasn't cached.");
-				}
-
+				expect(cached).to.equal(true);
 				done();
 			});
 		});
