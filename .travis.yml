@@ -5,6 +5,7 @@ node_js:
 install:
   - npm install -g grunt-cli
   - npm install -g mocha
+  - npm install -g coffeelint
   - npm install
 before_script:
   - grunt --version
@@ -12,3 +13,4 @@ before_script:
   - grunt
 script:
   - mocha
+  - coffeelint ./

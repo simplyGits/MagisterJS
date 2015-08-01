@@ -148,7 +148,7 @@ class root.MessageFolder
 	# 	@param [callback.error] {Object} The error, if it exists.
 	#	@param [callback.result] {MessageFolder} The new MessageFolder.
 	###
-	createMessageFolder: (name, callback = ->) ->
+	createMessageFolder: (name, callback = (->)) ->
 		folder =
 			naam: name
 			parentId: @id()
