@@ -15,11 +15,17 @@ class root._helpers
 	# @param original {Number} The number to add a zero in front to.
 	# @return {String} The number as string with a zero in front of it.
 	###
-	@addZero: (original) -> return if original < 10 then "0#{original}" else original.toString()
+	@addZero: (original) ->
+		if original < 10
+			"0#{original}"
+		else
+			original.toString()
 
 	@toUtcString: (d) -> "#{_helpers.addZero d.getUTCFullYear()}-#{_helpers.addZero d.getMonth() + 1}-#{_helpers.addZero d.getDate()}T#{_helpers.addZero d.getHours()}:#{_helpers.addZero d.getMinutes()}:#{_helpers.addZero d.getSeconds()}.0000000Z"
 
-	@pushMore = (arr, items) -> [].push.apply arr, items; return arr
+	@pushMore = (arr, items) ->
+		@push.apply this, arr
+		arr
 
 	###*
 	# Checks if the given original string contains the given query string.
@@ -31,7 +37,10 @@ class root._helpers
 	# @return {Boolean} Whether the original string contains the query string.
 	###
 	@contains: (original, query, ignoreCasing = false) ->
-		return if ignoreCasing then original.toUpperCase().indexOf(query.toUpperCase()) >= 0 else original.indexOf(query) >= 0
+		if ignoreCasing
+			original.toUpperCase().indexOf(query.toUpperCase()) >= 0
+		else
+			original.indexOf(query) >= 0
 
 	###*
 	# Returns a function which requires a result, when all results are pushed the callback is called with the result.
@@ -53,8 +62,6 @@ class root._helpers
 				results.push result
 				left--
 			callback(results) if left is 0
-
-	@saveFile: (rawData, mime, name) -> try saveAs new Blob([rawData], type: mime), name
 
 	@urlDateConvert: (date) -> "#{date.getUTCFullYear()}-#{_helpers.addZero(date.getMonth() + 1)}-#{_helpers.addZero(date.getDate())}"
 

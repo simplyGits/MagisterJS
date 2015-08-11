@@ -37,7 +37,6 @@ class root.MagisterHttp
 	put: (url, data, options = {}, callback) -> Meteor.call "magisterjs-http", "PUT", url, @_cookieInserter(_.extend({ data }, options)), callback
 
 	_cookie: ""
-	_cookieInserter: (original) ->
-		original ?= {}
+	_cookieInserter: (original = {}) ->
 		original.headers = if @_cookie isnt "" then _.extend (original.headers ? {}), { cookie: @_cookie } else original.headers ? {}
-		return original
+		original
