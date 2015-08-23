@@ -1,5 +1,10 @@
 root = (module?.exports ? this.Magister ?= {})
 
+wrapCallback = (cb) ->
+	(e, r) ->
+		if r?.statusCode >= 400 then cb r.content, null
+		else cb e, r
+
 class root.MagisterHttp
 	###
 	# HTTP CLASS
@@ -28,15 +33,15 @@ class root.MagisterHttp
 	#  METEOR IMPLEMENTATION
 	# =======================
 	###
-	get: (url, options = {}, callback) -> Meteor.call "magisterjs-http", "GET", url, @_cookieInserter(options), callback
+	get: (url, options = {}, callback) -> Meteor.call "magisterjs-http", "GET", url, @_cookieInserter(options), wrapCallback(callback)
 
-	delete: (url, options = {}, callback) -> Meteor.call "magisterjs-http", "DELETE", url, @_cookieInserter(options), callback
+	delete: (url, options = {}, callback) -> Meteor.call "magisterjs-http", "DELETE", url, @_cookieInserter(options), wrapCallback(callback)
 
-	post: (url, data, options = {}, callback) -> Meteor.call "magisterjs-http", "POST", url, @_cookieInserter(_.extend({ data }, options)), callback
+	post: (url, data, options = {}, callback) -> Meteor.call "magisterjs-http", "POST", url, @_cookieInserter(_.extend({ data }, options)), wrapCallback(callback)
 
-	put: (url, data, options = {}, callback) -> Meteor.call "magisterjs-http", "PUT", url, @_cookieInserter(_.extend({ data }, options)), callback
+	put: (url, data, options = {}, callback) -> Meteor.call "magisterjs-http", "PUT", url, @_cookieInserter(_.extend({ data }, options)), wrapCallback(callback)
 
-	_cookie: ""
+	_cookie: ''
 	_cookieInserter: (original = {}) ->
-		original.headers = if @_cookie isnt "" then _.extend (original.headers ? {}), { cookie: @_cookie } else original.headers ? {}
+		original.headers = _.extend (original.headers ? {}), cookie: @_cookie
 		original

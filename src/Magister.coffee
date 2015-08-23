@@ -718,13 +718,11 @@ class root.Magister
 				Gebruikersnaam: @username
 				Wachtwoord: @password
 				GebruikersnaamOnthouden: yes
-				# If this works for every school, we actually wouldn't need a "relogin" method. We will keep it and then see how it goes.
+				# If this works for every school, we actually wouldn't need a "relogin"
+				# method. We will keep it and then see how it goes.
 				IngelogdBlijven: @_keepLoggedIn
 			}, {
 				headers: "Content-Type": "application/json;charset=UTF-8"
 			}, (error, result) =>
 				if error? then @_setErrored error, result?.statusCode
-				else if result.content? # Normally the response doesn't contain a body, if it contains one it's probaly an error.
-					@_setErrored result.content, result.statusCode
-				else
-					cb /[a-z\d-]+/.exec(result.headers["set-cookie"][0])[0]
+				else cb /[a-z\d-]+/.exec(result.headers["set-cookie"][0])[0]

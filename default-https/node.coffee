@@ -1,6 +1,12 @@
 root = (module?.exports ? this.Magister ?= {})
 request = require "request"
 
+wrapCallback = (cb, json) ->
+	(error, response, content) ->
+		content = JSON.stringify content if json?
+		if response?.statusCode >= 400 then cb content, null
+		else cb error, { content, headers: response?.headers, statusCode: response?.statusCode }
+
 class root.MagisterHttp
 	###
 	# HTTP CLASS
@@ -30,24 +36,20 @@ class root.MagisterHttp
 	# ========================
 	###
 	get: (url, options = {}, callback) ->
-		request { url, method: "GET", headers: @_cookieInserter(options.headers) }, (error, response, content) ->
-			callback error, { content, headers: response?.headers, statusCode: response?.statusCode }
+		request { url, method: "GET", headers: @_cookieInserter(options.headers) }, wrapCallback callback, no
 		undefined
 
 	delete: (url, options = {}, callback) ->
-		request { url, method: "DELETE", headers: @_cookieInserter(options.headers) }, (error, response, content) ->
-			callback error, { content, headers: response?.headers, statusCode: response?.statusCode }
+		request { url, method: "DELETE", headers: @_cookieInserter(options.headers) }, wrapCallback callback, no
 		undefined
 
 	post: (url, data, options = {}, callback) ->
-		request { url, method: "POST", headers: @_cookieInserter(options.headers), json: data }, (error, response, content) ->
-			callback error, { content: JSON.stringify(content), headers: response?.headers, statusCode: response?.statusCode }
+		request { url, method: "POST", headers: @_cookieInserter(options.headers), json: data }, wrapCallback callback, yes
 		undefined
 
 	put: (url, data, options = {}, callback) ->
-		request { url, method: "PUT", headers: @_cookieInserter(options.headers), json: data }, (error, response, content) ->
-			callback error, { content: JSON.stringify(content), headers: response?.headers, statusCode: response?.statusCode }
+		request { url, method: "PUT", headers: @_cookieInserter(options.headers), json: data }, wrapCallback callback, yes
 		undefined
 
-	_cookie: ""
+	_cookie: ''
 	_cookieInserter: (original) -> _.extend (original ? {}), cookie: @_cookie
