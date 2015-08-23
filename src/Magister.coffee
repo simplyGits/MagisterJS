@@ -284,14 +284,17 @@ class root.Magister
 		@http.get url, {}, (error, result) ->
 			if error? then callback error, null
 			else
-				parsed = JSON.parse result.content
-				callback null,
-					group: parsed.Klas
-					profile: parsed.Profielen # It says 'profielen' but I really have no idea how multiple profiles are shown in a String...
-					pupilId: parsed.StamNr # Should be the same as `@userName` AFAIK.
-					type:
-						year: +/\d+/.exec(parsed.Studie)[0]
-						schoolVariant: /[^\d\s]+/.exec(parsed.Studie)[0]
+				try
+					parsed = JSON.parse result.content
+					callback null,
+						group: parsed.Klas
+						profile: parsed.Profielen # It says 'profielen' but I really have no idea how multiple profiles are shown in a String...
+						pupilId: parsed.StamNr # Should be the same as `@userName` AFAIK.
+						type:
+							year: +/\d+/.exec(parsed.Studie)?[0]
+							schoolVariant: /[^\d\s]+/.exec(parsed.Studie)?[0]
+				catch e
+					callback e, null
 
 	@_cachedPersons: {}
 	###*
