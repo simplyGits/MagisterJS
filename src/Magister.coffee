@@ -287,7 +287,11 @@ class root.Magister
 				try
 					parsed = JSON.parse result.content
 					callback null,
-						group: parsed.Klas
+						group: (
+							group = parsed.Klas
+							if group?
+								_.find(group.split(' '), (str) -> /\d/.test str) ? group
+						)
 						profile: parsed.Profielen # It says 'profielen' but I really have no idea how multiple profiles are shown in a String...
 						pupilId: parsed.StamNr # Should be the same as `@userName` AFAIK.
 						type:

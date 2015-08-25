@@ -276,11 +276,20 @@ class root.Course
 		obj._begin = new Date Date.parse raw.Start
 		obj._end = new Date Date.parse raw.Einde
 		obj._schoolPeriod = raw.Lesperiode
-		obj._type = { id: raw.Studie.Id, description: raw.Studie.Omschrijving }
-		obj._group = { id: raw.Groep.Id, description: raw.Groep.Omschrijving, locationId: raw.Groep.LocatieId }
+		obj._type =
+			id: raw.Studie.Id
+			description: raw.Studie.Omschrijving
+		obj._group =
+			id: raw.Groep.Id
+			description: (
+				group = raw.Groep.Omschrijving
+				if group?
+					_.find(group.split(' '), (str) -> /\d/.test str) ? group
+			)
+			locationId: raw.Groep.LocatieId
 		obj._profile = raw.Profiel
 		obj._alternativeProfile = raw.Profiel2
 
 		obj._current = obj._begin.getTime() <= _.now() <= obj._end.getTime()
 
-		return obj
+		obj
