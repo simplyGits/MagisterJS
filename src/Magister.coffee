@@ -706,7 +706,6 @@ class root.Magister
 
 						try
 							result = JSON.parse result.content
-							@_group = result.Groep[0]
 							@_id = result.Persoon.Id
 							@_personUrl = "#{@magisterSchool.url}/api/personen/#{@_id}"
 							@_pupilUrl = "#{@magisterSchool.url}/api/leerlingen/#{@_id}"
