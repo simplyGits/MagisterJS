@@ -1,5 +1,13 @@
 language: node_js
 sudo: false
+notifications:
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/2e5483e94201fb570123
+      - https://webhooks.gitter.im/e/091294274622b34e04f3
+    on_success: change
+    on_failure: always
+    on_start: never
 node_js:
   - "0.12"
 install:
