@@ -205,10 +205,15 @@ describe("Magister", function() {
 								expect(g).to.be.an.instanceof(Grade);
 							});
 
-							r[0].fillGrade(function (e, r) {
-								expect(r).to.be.an.instanceof(Grade);
-								done(e);
-							});
+							var grade = r[0];
+							if (grade) {
+								grade.fillGrade(function (e, r) {
+									expect(r).to.be.an.instanceof(Grade);
+									done(e);
+								});
+							} else {
+								done();
+							}
 						});
 					}
 				});
