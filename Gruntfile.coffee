@@ -22,8 +22,9 @@ module.exports = (grunt) ->
 		concat:
 			options:
 				banner: headBrowser
-			files:
-				"lib/browser/magister-browser.min.js": ["src/http/http.js", "lib/browser/separateHttp/magister-browser-noHttp.min.js"]
+			dist:
+				src: ["src/http/http.js", "lib/browser/separateHttp/magister-browser-noHttp.min.js"]
+				dest: "lib/browser/magister-browser.min.js"
 
 		compress:
 			main:
