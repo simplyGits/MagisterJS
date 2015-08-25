@@ -3,7 +3,7 @@ request = require "request"
 
 wrapCallback = (cb, json) ->
 	(error, response, content) ->
-		content = JSON.stringify content if json?
+		content = JSON.stringify content if json
 		if response?.statusCode >= 400 then cb content, null
 		else cb error, { content, headers: response?.headers, statusCode: response?.statusCode }
 
