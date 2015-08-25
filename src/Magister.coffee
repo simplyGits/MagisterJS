@@ -334,7 +334,7 @@ class root.Magister
 					teachers = r
 					b2 = @getPersons query, 4, (e, r) ->
 						if e? then callback e, null
-						else callback null, root._helpers.pushMore r, teachers
+						else callback null, r.concat teachers
 			return b1 or b2
 
 		try

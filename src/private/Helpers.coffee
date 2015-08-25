@@ -23,10 +23,6 @@ class root._helpers
 
 	@toUtcString: (d) -> "#{_helpers.addZero d.getUTCFullYear()}-#{_helpers.addZero d.getMonth() + 1}-#{_helpers.addZero d.getDate()}T#{_helpers.addZero d.getHours()}:#{_helpers.addZero d.getMinutes()}:#{_helpers.addZero d.getSeconds()}.0000000Z"
 
-	@pushMore = (arr, items) ->
-		@push.apply this, arr
-		arr
-
 	###*
 	# Checks if the given original string contains the given query string.
 	#
@@ -56,7 +52,7 @@ class root._helpers
 		left = amount
 		return (result) ->
 			if _.isArray result
-				_helpers.pushMore results, result
+				results = results.concat result
 				left -= result.length
 			else
 				results.push result
