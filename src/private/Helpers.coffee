@@ -63,6 +63,16 @@ class root._helpers
 
 	@date: (date) -> new Date date.getUTCFullYear(), date.getMonth(), date.getDate()
 
+	@cleanHtmlContent: (str) ->
+		if str?
+			_.unescape str
+				.replace /<br\s*\/?>/g, '\n'
+				.replace /<\/\s*p\s*>/g, '\n'
+				.replace /(<[^>]*>)|(&nbsp;)/g, ''
+				.replace /\n{2,}/g, '\n'
+				.trim()
+		else ''
+
 root._getset = (varName, setter, getter) ->
 	return (newVar) ->
 		if newVar?

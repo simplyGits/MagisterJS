@@ -81,7 +81,7 @@ class root.Appointment
 		# @final
 		# @type String
 		###
-		@content = root._getset "_content", null, (x) -> if x? then x.replace(/<br ?\/?>/g, "\n").replace(/(<[^>]*>)|(&nbsp;)/g, "").replace(/\n{2,}/g, "\n").replace(/&amp;/ig, "&").trim() else ""
+		@content = root._getset "_content", null, root._helpers.cleanHtmlContent
 		###*
 		# @property infoType
 		# @final

@@ -42,7 +42,7 @@ class root.Message
 		# @type String
 		# @default ""
 		###
-		@body = root._getset "_body", ((x) => @_body = (x ? "").replace "\n", "<br>"), (x) -> if x? then x.replace(/<br ?\/?>/g, "\n").replace(/(<[^>]*>)|(&nbsp;)/g, "") else ""
+		@body = root._getset "_body", ((x) => @_body = (x ? "").replace "\n", "<br>"), root._helpers.cleanHtmlContent
 		###*
 		# @property attachments
 		# @final

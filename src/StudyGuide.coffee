@@ -132,7 +132,7 @@ class root.StudyGuidePart
 		# @final
 		# @type String
 		###
-		@description = root._getset "_description", null, (x) -> if x? then x.replace(/<br ?\/?>/g, "\n").replace(/(<[^>]*>)|(&nbsp;)/g, "").replace(/&amp;/ig, "&") else x
+		@description = root._getset "_description", null, root._helpers.cleanHtmlContent
 		###*
 		# @property visible
 		# @final
