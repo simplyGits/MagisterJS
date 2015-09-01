@@ -7,13 +7,13 @@ Package.describe({
 });
 
 Npm.depends({
-	"request": "2.55.0"
+	"request": "2.61.0"
 });
 
 Package.onUse(function(api) {
 	api.versionsFrom("1.0.4.2");
 
-	api.use(["coffeescript", "erasaur:meteor-lodash@3.6.0"]);
+	api.use(["coffeescript", "erasaur:meteor-lodash@3.10.1"]);
 
 	api.addFiles([
 		"src/Appointment.coffee",
