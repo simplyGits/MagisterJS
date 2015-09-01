@@ -4,6 +4,22 @@ $(function () {
 	editor.moveCursorTo(1, 14);
 	editor.focus();
 
+	var request = JSON.stringify({
+		url: "http://www.google.nl/",
+		method: "GET"
+	});
+	$.post("http://smallproxy.herokuapp.com/", request, function (result, status, jqHXR) {
+		if (jqHXR.status !== 200) {
+			$("#runButton").text("Proxy is broken af");
+		} else {
+			$("#runButton")
+				.prop("disabled", false)
+				.val("RUN!");
+		}
+	}).fail(function(e){
+		$("#runButton").text("Can't reach proxy.");
+	});
+
 	setTimeout(function () {
 		$("h1, input").addClass("animate");
 	}, 0);
