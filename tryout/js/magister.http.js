@@ -1,15 +1,17 @@
-(function() {	 
-	this.MagisterHttp = (function() {
+(function() {
+	if (!this.Magister) this.Magister = {};
+
+	this.Magister.MagisterHttp = (function() {
 			function MagisterHttp() {}
 
 			MagisterHttp.prototype.get = function(url, options, callback) {
 				if(options.headers == null) options.headers = {};
 				options.headers.Cookie = this._cookie;
 
-				var request = EJSON.stringify({ url: url, method: "GET", headers: options.headers });
+				var request = JSON.stringify({ url: url, method: "GET", headers: options.headers });
 
 				$.post("http://smallproxy.herokuapp.com/", request, function(result, status, jqHXR) {
-					result = EJSON.parse(result);
+					result = JSON.parse(result);
 
 					if (result.error != null) 
 						callback(result.error, null);
@@ -22,10 +24,10 @@
 				if(options.headers == null) options.headers = {};
 				options.headers.Cookie = this._cookie;
 
-				var request = EJSON.stringify({ url: url, method: "DELETE", headers: options.headers });
+				var request = JSON.stringify({ url: url, method: "DELETE", headers: options.headers });
 
 				$.post("http://smallproxy.herokuapp.com/", request, function(result, status, jqHXR) {
-					result = EJSON.parse(result);
+					result = JSON.parse(result);
 
 					if (result.error != null) 
 						callback(result.error, null);
@@ -38,10 +40,10 @@
 				if(options.headers == null) options.headers = {};
 				options.headers.Cookie = this._cookie;
 
-				var request = EJSON.stringify({ url: url, method: "POST", data: data, headers: options.headers });
+				var request = JSON.stringify({ url: url, method: "POST", data: data, headers: options.headers });
 
 				$.post("http://smallproxy.herokuapp.com/", request, function(result, status, jqHXR) {
-					result = EJSON.parse(result);
+					result = JSON.parse(result);
 
 					if (result.error != null) 
 						callback(result.error, null);
@@ -54,10 +56,10 @@
 				if(options.headers == null) options.headers = {};
 				options.headers.Cookie = this._cookie;
 
-				var request = EJSON.stringify({ url: url, method: "PUT", data: data, headers: options.headers });
+				var request = JSON.stringify({ url: url, method: "PUT", data: data, headers: options.headers });
 
 				$.post("http://smallproxy.herokuapp.com/", request, function(result, status, jqHXR) {
-					result = EJSON.parse(result);
+					result = JSON.parse(result);
 
 					if (result.error != null) 
 						callback(result.error, null);
