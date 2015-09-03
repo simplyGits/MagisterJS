@@ -16,8 +16,12 @@
 	<body>
 		<h1>Try Magister.js for <span style="color: red;">FREE</span>!</h1>
 
-<div id="editor">// First parameter should be a query as String (e.g "Adelbert") or { url: String } (e.g { url: "https://adelbert.magister.net" })
-new Magister.Magister("&lt;schoolname&gt;", "&lt;username&gt;", "&lt;password&gt;").ready(function (error) {
+<div id="editor">new Magister.Magister({
+	// Should be a query as String (e.g "Adelbert") or { url: String } (e.g { url: "https://adelbert.magister.net" })
+	school: '&lt;schoolname&gt;',
+	username: '&lt;username&gt;',
+	password: '&lt;password&gt;'
+}).ready(function (error) {
     if (error) console.log("ouch. ", error);
     else alert("Hey, " + this.profileInfo().firstName() + "!");
 });</div>
