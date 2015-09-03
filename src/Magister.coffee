@@ -30,7 +30,7 @@ root.VERSION = "1.8.0"
 #	 @param options.school {MagisterSchool|String} A MagisterSchool to logon to. If this is a String it will use that String as a query to search for a possible school.
 #	 @param [options.username] {String} The username of the user to login to. (Not needed when using an sessionId.)
 #	 @param [options.password] {String} The password of the user to login to. (Not needed when using an sessionId.)
-#	 @param [options.sessionId] {String} An sessionId to use instead of logigging in to retreive a new one.
+#	 @param [options.sessionId] {String} An sessionId to use instead of logging in to retreive a new one.
 #	 @param [options.keepLoggedIn=true] {Boolean} Whether or not to keep the user logged in.
 # @constructor
 ###
