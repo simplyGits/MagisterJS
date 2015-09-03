@@ -73,42 +73,55 @@ describe("Magister", function() {
 		});
 	});
 
-	it("should send messages and retreive them", function (done) {
-		this.timeout(10000);
-		x.ready(function () {
-			var body = "" + ~~(Math.random() * 100);
-			var m = this;
+	describe("messages", function () {
+		it("should send messages and retreive them", function (done) {
+			this.timeout(10000);
+			x.ready(function () {
+				var body = "" + ~~(Math.random() * 100);
+				var m = this;
 
-			m.composeAndSendMessage("Magister.js mocha test.", body, [x.profileInfo().firstName()], function (e, r) {
-				expect(e).to.not.exist;
-				expect(r).to.be.an.instanceof(Message);
-
-				m.inbox().messages(1, false, function(e, r) {
+				m.composeAndSendMessage("Magister.js mocha test.", body, [x.profileInfo().firstName()], function (e, r) {
 					expect(e).to.not.exist;
-					expect(r).to.be.a("array");
-					expect(r).to.not.be.empty;
+					expect(r).to.be.an.instanceof(Message);
 
-					expect(r[0]).to.be.an.instanceof(Message);
-					expect(r[0].body()).to.equal(body);
+					m.inbox().messages(1, false, function(e, r) {
+						expect(e).to.not.exist;
+						expect(r).to.be.a("array");
+						expect(r).to.not.be.empty;
 
-					r[0].remove(done);
+						expect(r[0]).to.be.an.instanceof(Message);
+						expect(r[0].body()).to.equal(body);
+
+						r[0].remove(done);
+					});
 				});
 			});
 		});
 	});
 
-	it("should correctly get courses", function (done) {
-		x.ready(function () {
-			var self = this;
-
-			self.courses(function (e, r) {
-				expect(e).to.not.exist;
-				expect(r).to.be.a("array");
-				var course = r[0];
-
-				self.currentCourse(function (e, r) {
-					expect(r.id()).to.equal(course.id());
+	describe("courses", function () {
+		it("should correctly get the limited current course", function (done) {
+			x.ready(function () {
+				this.getLimitedCurrentCourseInfo(function (e, r) {
+					expect(r).to.be.a("object");
 					done(e);
+				});
+			});
+		});
+
+		it("should correctly get courses", function (done) {
+			x.ready(function () {
+				var self = this;
+
+				self.courses(function (e, r) {
+					expect(e).to.not.exist;
+					expect(r).to.be.a("array");
+					var course = r[0];
+
+					self.currentCourse(function (e, r) {
+						expect(r.id()).to.equal(course.id());
+						done(e);
+					});
 				});
 			});
 		});
@@ -237,15 +250,6 @@ describe("Magister", function() {
 						});
 					}
 				});
-			});
-		});
-	});
-
-	it("should correctly get the limited current course", function (done) {
-		x.ready(function () {
-			this.getLimitedCurrentCourseInfo(function (e, r) {
-				expect(r).to.be.a("object");
-				done(e);
 			});
 		});
 	});
