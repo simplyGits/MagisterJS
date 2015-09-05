@@ -13,8 +13,10 @@
 				$.post("http://smallproxy.herokuapp.com/", request, function(result, status, jqHXR) {
 					result = JSON.parse(result);
 
-					if (result.error != null) 
+					if (result.error != null)
 						callback(result.error, null);
+					else if (result.statusCode >= 400)
+						callback(result.content, null);
 					else
 						callback(null, result);
 				}).fail(function(e){ callback(e, null); });
@@ -29,8 +31,10 @@
 				$.post("http://smallproxy.herokuapp.com/", request, function(result, status, jqHXR) {
 					result = JSON.parse(result);
 
-					if (result.error != null) 
+					if (result.error != null)
 						callback(result.error, null);
+					else if (result.statusCode >= 400)
+						callback(result.content, null);
 					else
 						callback(null, result);
 				}).fail(function(e){ callback(e, null); });
@@ -45,8 +49,10 @@
 				$.post("http://smallproxy.herokuapp.com/", request, function(result, status, jqHXR) {
 					result = JSON.parse(result);
 
-					if (result.error != null) 
+					if (result.error != null)
 						callback(result.error, null);
+					else if (result.statusCode >= 400)
+						callback(result.content, null);
 					else
 						callback(null, result);
 				}).fail(function(e){ callback(e, null); });
@@ -61,8 +67,10 @@
 				$.post("http://smallproxy.herokuapp.com/", request, function(result, status, jqHXR) {
 					result = JSON.parse(result);
 
-					if (result.error != null) 
+					if (result.error != null)
 						callback(result.error, null);
+					else if (result.statusCode >= 400)
+						callback(result.content, null);
 					else
 						callback(null, result);
 				}).fail(function(e){ callback(e, null); });
