@@ -31,6 +31,7 @@ YUI.add("yuidoc-meta", function(Y) {
             "name": "Magister",
             "description": "A JavaScript implementation of the Magister 6 API."
         }
-    ]
+    ],
+    "elements": []
 } };
 });

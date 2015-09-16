@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.7.0</em>
+            <em>API Docs for: 1.8.1</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -59,6 +59,7 @@
                                 <li><a href="../classes/StudyGuide.html">StudyGuide</a></li>
                                 <li><a href="../classes/StudyGuidePart.html">StudyGuidePart</a></li>
                             </ul>
+                
                 
                             <ul id="api-modules" class="apis modules">
                                 <li><a href="../modules/Magister.html">Magister</a></li>
@@ -115,7 +116,7 @@ else
 # @final
 # @type String
 ###
-root.VERSION = &quot;1.7.0&quot;
+root.VERSION = &quot;1.8.1&quot;
 
 ###*
 # A JavaScript implementation of the Magister 6 API.
@@ -131,7 +132,7 @@ root.VERSION = &quot;1.7.0&quot;
 #	 @param options.school {MagisterSchool|String} A MagisterSchool to logon to. If this is a String it will use that String as a query to search for a possible school.
 #	 @param [options.username] {String} The username of the user to login to. (Not needed when using an sessionId.)
 #	 @param [options.password] {String} The password of the user to login to. (Not needed when using an sessionId.)
-#	 @param [options.sessionId] {String} An sessionId to use instead of logigging in to retreive a new one.
+#	 @param [options.sessionId] {String} An sessionId to use instead of logging in to retreive a new one.
 #	 @param [options.keepLoggedIn=true] {Boolean} Whether or not to keep the user logged in.
 # @constructor
 ###
@@ -184,8 +185,9 @@ class root.Magister
 	appointments: -&gt;
 		callback = _.find arguments, (a) -&gt; _.isFunction a
 		fillPersons = _.find(arguments, (a) -&gt; _.isBoolean a) ? no
-		[from, to] = _.where arguments, (a) -&gt; _.isDate a
-		unless _.isDate(to) then to = from
+		dates = _.filter arguments, _.isDate
+		[from, to] = _.sortBy dates, (d) -&gt; d.getDate()
+		to ?= from
 
 		from = root._helpers.date from
 		to = root._helpers.date to
@@ -200,28 +202,18 @@ class root.Magister
 					appointments = (root.Appointment._convertRaw(this, a) for a in result.Items)
 
 					absenceInfo = []
-					changedAppointments = []
 
-					finish = root._helpers.asyncResultWaiter 3, (r) -&gt;
-						_.each appointments, (a) -&gt; a._absenceInfo = _.find absenceInfo, (absence) -&gt; absence.appointmentId is a.id()
+					# Gets run when the appointments persons and absenceInfo is loaded
+					finish = root._helpers.asyncResultWaiter 2, (r) -&gt;
+						_.each appointments, (a) -&gt;
+							a._absenceInfo = _.find absenceInfo, (i) -&gt; i.appointmentId is a.id()
 
 						appointments = _(appointments)
-							.reject (a) -&gt; _.contains changedAppointments, (changedAppointment) -&gt; changedAppointment.id() is a.id()
-							.concat changedAppointments
-							.filter (a) -&gt; root._helpers.date(a.begin()) &lt;= to and root._helpers.date(a.end()) &gt;= from
-							.sortBy &quot;_begin&quot;
+							.filter (a) -&gt; from &lt;= root._helpers.date(a.begin()) and root._helpers.date(a.end()) &lt;= to
+							.sortBy &#x27;_begin&#x27;
 							.value()
 
 						callback null, appointments
-
-					# Get changedAppointments.
-					@http.get &quot;#{@_personUrl}/roosterwijzigingen?tot=#{dateConvert(to)}&amp;van=#{dateConvert(from)}&quot;, {}, (error, result) =&gt;
-						if error?
-							callback error, null
-						else
-							result = JSON.parse result.content
-							changedAppointments.concat (root.Appointment._convertRaw(this, a) for a in result.Items)
-							finish()
 
 					# Get absenceInfo.
 					@http.get &quot;#{@_personUrl}/absenties?tot=#{dateConvert(to)}&amp;van=#{dateConvert(from)}&quot;, {}, (error, result) -&gt;
@@ -385,14 +377,21 @@ class root.Magister
 		@http.get url, {}, (error, result) -&gt;
 			if error? then callback error, null
 			else
-				parsed = JSON.parse result.content
-				callback null,
-					group: parsed.Klas
-					profile: parsed.Profielen # It says &#x27;profielen&#x27; but I really have no idea how multiple profiles are shown in a String...
-					pupilId: parsed.StamNr # Should be the same as &#x60;@userName&#x60; AFAIK.
-					type:
-						year: +/\d+/.exec(parsed.Studie)[0]
-						schoolVariant: /[^\d\s]+/.exec(parsed.Studie)[0]
+				try
+					parsed = JSON.parse result.content
+					callback null,
+						group: (
+							group = parsed.Klas
+							if group?
+								_.find(group.split(&#x27; &#x27;), (str) -&gt; /\d/.test str) ? group
+						)
+						profile: parsed.Profielen # It says &#x27;profielen&#x27; but I really have no idea how multiple profiles are shown in a String...
+						pupilId: parsed.StamNr # Should be the same as &#x60;@userName&#x60; AFAIK.
+						type:
+							year: +/\d+/.exec(parsed.Studie)?[0]
+							schoolVariant: /[^\d\s]+/.exec(parsed.Studie)?[0]
+				catch e
+					callback e, null
 
 	@_cachedPersons: {}
 	###*
@@ -428,7 +427,7 @@ class root.Magister
 					teachers = r
 					b2 = @getPersons query, 4, (e, r) -&gt;
 						if e? then callback e, null
-						else callback null, root._helpers.pushMore r, teachers
+						else callback null, r.concat teachers
 			return b1 or b2
 
 		try
@@ -440,7 +439,7 @@ class root.Magister
 
 				else &quot;Overig&quot;
 		catch e # parse error, most likely
-			callback e, undefined
+			callback e, null
 			return false
 		url = &quot;#{@_personUrl}/contactpersonen?contactPersoonType=#{queryType}&amp;q=#{query.replace /\ +/g, &quot;+&quot;}&quot;
 
@@ -764,6 +763,7 @@ class root.Magister
 			# Copy all keys of the error Magister gave us, but lowerCase the keys.
 			for key of parsed
 				@_magisterLoadError[key.toLowerCase()] = parsed[key]
+			@_magisterLoadError.toString = -&gt; parsed[message] ? &#x27;&#x27;
 		catch
 			@_magisterLoadError = e
 
@@ -800,12 +800,11 @@ class root.Magister
 
 						try
 							result = JSON.parse result.content
-							@_group = result.Groep[0]
 							@_id = result.Persoon.Id
 							@_personUrl = &quot;#{@magisterSchool.url}/api/personen/#{@_id}&quot;
 							@_pupilUrl = &quot;#{@magisterSchool.url}/api/leerlingen/#{@_id}&quot;
 							@_profileInfo = root.ProfileInfo._convertRaw this, result
-						catch e then @_setErrored e
+						catch e then @_setErrored e, result?.statusCode; return
 
 						@_fetchMessageFolders (e, r) =&gt;
 							if e? then @_setErrored e, e.statusCode
@@ -815,18 +814,18 @@ class root.Magister
 
 		if sessionId? then cb sessionId
 		else
-			@http.post url,
+			@http.post url, {
 				Gebruikersnaam: @username
 				Wachtwoord: @password
 				GebruikersnaamOnthouden: yes
-				# If this works for every school, we actually wouldn&#x27;t need a &quot;relogin&quot; method. We will keep it and then see how it goes.
+				# If this works for every school, we actually wouldn&#x27;t need a &quot;relogin&quot;
+				# method. We will keep it and then see how it goes.
 				IngelogdBlijven: @_keepLoggedIn
-			, { headers: &quot;Content-Type&quot;: &quot;application/json;charset=UTF-8&quot; }, (error, result) =&gt;
-				if error? then @_setErrored error
-				else if result.content? # Normally the response doesn&#x27;t contain a body, if it contains one it&#x27;s probaly an error.
-					@_setErrored result.content
-				else
-					cb /[a-z\d-]+/.exec(result.headers[&quot;set-cookie&quot;][0])[0]
+			}, {
+				headers: &quot;Content-Type&quot;: &quot;application/json;charset=UTF-8&quot;
+			}, (error, result) =&gt;
+				if error? then @_setErrored error, result?.statusCode
+				else cb /[a-z\d-]+/.exec(result.headers[&quot;set-cookie&quot;][0])[0]
 
     </pre>
 </div>

@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.7.0</em>
+            <em>API Docs for: 1.8.1</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -59,6 +59,7 @@
                                 <li><a href="../classes/StudyGuide.html">StudyGuide</a></li>
                                 <li><a href="../classes/StudyGuidePart.html">StudyGuidePart</a></li>
                             </ul>
+                
                 
                             <ul id="api-modules" class="apis modules">
                                 <li><a href="../modules/Magister.html">Magister</a></li>
@@ -182,7 +183,7 @@ class root.Appointment
 		# @final
 		# @type String
 		###
-		@content = root._getset &quot;_content&quot;, null, (x) -&gt; if x? then x.replace(/&lt;br ?\/?&gt;/g, &quot;\n&quot;).replace(/(&lt;[^&gt;]*&gt;)|(&amp;nbsp;)/g, &quot;&quot;).replace(/\n{2,}/g, &quot;\n&quot;).replace(/&amp;amp;/ig, &quot;&amp;&quot;).trim() else &quot;&quot;
+		@content = root._getset &quot;_content&quot;, null, root._helpers.cleanHtmlContent
 		###*
 		# @property infoType
 		# @final
@@ -202,7 +203,7 @@ class root.Appointment
 				when 2 then &quot;test&quot;
 				when 3 then &quot;exam&quot;
 				when 4 then &quot;quiz&quot;
-				when 5 then &quot;oral test&quot;
+				when 5 then &quot;oral&quot;
 				when 6 then &quot;information&quot;
 
 				else &quot;unknown&quot;
@@ -303,8 +304,6 @@ class root.Appointment
 
 		return obj
 
-	_makeStorable: -&gt; _.omit this, &quot;_magisterObj&quot;
-
 	@_convertRaw: (magisterObj, raw) -&gt;
 		obj = new root.Appointment magisterObj
 
@@ -330,9 +329,9 @@ class root.Appointment
 		obj._appointmentId = raw.OpdrachtId
 		obj._attachments = raw.Bijlagen
 		obj._url = &quot;#{magisterObj._personUrl}/afspraken/#{obj._id}&quot;
-		obj._scrapped = raw.Status is 0
+		obj._scrapped = raw.Status is 5
 
-		return obj
+		obj
 
 	@_convertStored: (magisterObj, raw) -&gt;
 		obj = _.extend raw, new root.Appointment magisterObj

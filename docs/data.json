@@ -2,7 +2,7 @@
     "project": {
         "name": "Magister.js Docs",
         "description": "A JavaScript implementation of the Magister 6 API.",
-        "version": "1.7.0",
+        "version": "1.8.1",
         "url": "http://simplyGits.github.io/MagisterJS",
         "logo": "http://i.imgur.com/Lrg80ax.png"
     },
@@ -145,6 +145,7 @@
         "Magister": {
             "name": "Magister",
             "submodules": {},
+            "elements": {},
             "classes": {
                 "Appointment": 1,
                 "Assignment": 1,
@@ -468,7 +469,7 @@
                         },
                         {
                             "name": "sessionId",
-                            "description": "An sessionId to use instead of logigging in to retreive a new one.",
+                            "description": "An sessionId to use instead of logging in to retreive a new one.",
                             "type": "String",
                             "optional": true
                         },
@@ -696,6 +697,7 @@
             ]
         }
     },
+    "elements": {},
     "classitems": [
         {
             "file": "server/methods.coffee",
@@ -2262,7 +2264,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 157,
+            "line": 148,
             "description": "Gets the MessageFolders that matches the given query. Or if no query is given, all MessageFolders",
             "itemtype": "method",
             "name": "messageFolders",
@@ -2303,7 +2305,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 185,
+            "line": 176,
             "description": "Fetches the messageFolders for the current Magister object.",
             "itemtype": "method",
             "name": "_fetchMessageFolders",
@@ -2329,7 +2331,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 202,
+            "line": 193,
             "itemtype": "method",
             "name": "inbox",
             "return": {
@@ -2341,7 +2343,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 207,
+            "line": 198,
             "itemtype": "method",
             "name": "sentItems",
             "return": {
@@ -2353,7 +2355,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 212,
+            "line": 203,
             "itemtype": "method",
             "name": "bin",
             "return": {
@@ -2365,7 +2367,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 217,
+            "line": 208,
             "itemtype": "method",
             "name": "alerts",
             "return": {
@@ -2377,7 +2379,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 223,
+            "line": 214,
             "description": "Gets the courses of the current User.",
             "itemtype": "method",
             "name": "courses",
@@ -2408,7 +2410,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 245,
+            "line": 236,
             "description": "Gets the current grade of the current User.",
             "itemtype": "method",
             "name": "currentCourse",
@@ -2439,7 +2441,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 260,
+            "line": 251,
             "description": "Gets limited course info for the current Course for the current User.\n\nThis is quicker than `courses`, however it's not as consistent and\ndoesn't really fit in Magister.js's style, however if you know what\nyou're doing and you're willing to use this, go ahead.",
             "itemtype": "method",
             "name": "getLimitedCurrentCourseInfo",
@@ -2510,7 +2512,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 297,
+            "line": 295,
             "description": "Gets an Array of Persons that matches the given profile.",
             "itemtype": "method",
             "name": "getPersons",
@@ -2556,7 +2558,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 362,
+            "line": 360,
             "description": "Fills the given person(s) by downloading the person from Magister and replacing the local instance.",
             "itemtype": "method",
             "name": "fillPersons",
@@ -2598,7 +2600,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 402,
+            "line": 400,
             "description": "Shortcut for composing and sending a Message.",
             "itemtype": "method",
             "name": "composeAndSendMessage",
@@ -2645,7 +2647,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 427,
+            "line": 425,
             "description": "Gets the FileFolders of the current user.",
             "itemtype": "method",
             "name": "fileFolders",
@@ -2676,7 +2678,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 443,
+            "line": 441,
             "description": "Gets the StudyGuides of the current user.",
             "itemtype": "method",
             "name": "studyGuides",
@@ -2714,7 +2716,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 480,
+            "line": 478,
             "description": "Gets the Assignments for the current user.",
             "itemtype": "method",
             "name": "assignments",
@@ -2773,7 +2775,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 539,
+            "line": 537,
             "description": "Gets the Digital school utilities for the current user.",
             "itemtype": "method",
             "name": "digitalSchoolUtilities",
@@ -2812,7 +2814,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 584,
+            "line": 582,
             "description": "Returns the profile for the current logged in user.",
             "itemtype": "method",
             "name": "profileInfo",
@@ -2847,7 +2849,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 599,
+            "line": 597,
             "description": "Returns the children of the current user.",
             "itemtype": "method",
             "name": "children",
@@ -2877,7 +2879,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 634,
+            "line": 632,
             "description": "Checks if this Magister instance is done logging in.\n\nYou can also provide a callback, which will be called when this instance is done logging in.",
             "itemtype": "method",
             "name": "ready",
@@ -2919,7 +2921,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 677,
+            "line": 676,
             "description": "(Re-)Login the current Magister instance.\n\nUsually not needed to call manually.",
             "itemtype": "method",
             "name": "_reLogin",
@@ -4041,7 +4043,7 @@
     "warnings": [
         {
             "message": "unknown tag: fixme",
-            "line": " Magister.coffee:539"
+            "line": " Magister.coffee:537"
         }
     ]
 }
