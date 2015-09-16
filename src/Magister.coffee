@@ -83,8 +83,9 @@ class root.Magister
 	appointments: ->
 		callback = _.find arguments, (a) -> _.isFunction a
 		fillPersons = _.find(arguments, (a) -> _.isBoolean a) ? no
-		[from, to] = _.where arguments, (a) -> _.isDate a
-		unless _.isDate(to) then to = from
+		dates = _.filter arguments, _.isDate
+		[from, to] = _.sortBy dates, (d) -> d.getDate()
+		to ?= from
 
 		from = root._helpers.date from
 		to = root._helpers.date to
@@ -99,28 +100,18 @@ class root.Magister
 					appointments = (root.Appointment._convertRaw(this, a) for a in result.Items)
 
 					absenceInfo = []
-					changedAppointments = []
 
-					finish = root._helpers.asyncResultWaiter 3, (r) ->
-						_.each appointments, (a) -> a._absenceInfo = _.find absenceInfo, (absence) -> absence.appointmentId is a.id()
+					# Gets run when the appointments persons and absenceInfo is loaded
+					finish = root._helpers.asyncResultWaiter 2, (r) ->
+						_.each appointments, (a) ->
+							a._absenceInfo = _.find absenceInfo, (i) -> i.appointmentId is a.id()
 
 						appointments = _(appointments)
-							.reject (a) -> _.contains changedAppointments, (changedAppointment) -> changedAppointment.id() is a.id()
-							.concat changedAppointments
-							.filter (a) -> root._helpers.date(a.begin()) <= to and root._helpers.date(a.end()) >= from
-							.sortBy "_begin"
+							.filter (a) -> from <= root._helpers.date(a.begin()) and root._helpers.date(a.end()) <= to
+							.sortBy '_begin'
 							.value()
 
 						callback null, appointments
-
-					# Get changedAppointments.
-					@http.get "#{@_personUrl}/roosterwijzigingen?tot=#{dateConvert(to)}&van=#{dateConvert(from)}", {}, (error, result) =>
-						if error?
-							callback error, null
-						else
-							result = JSON.parse result.content
-							changedAppointments.concat (root.Appointment._convertRaw(this, a) for a in result.Items)
-							finish()
 
 					# Get absenceInfo.
 					@http.get "#{@_personUrl}/absenties?tot=#{dateConvert(to)}&van=#{dateConvert(from)}", {}, (error, result) ->

@@ -202,8 +202,6 @@ class root.Appointment
 
 		return obj
 
-	_makeStorable: -> _.omit this, "_magisterObj"
-
 	@_convertRaw: (magisterObj, raw) ->
 		obj = new root.Appointment magisterObj
 
@@ -229,9 +227,9 @@ class root.Appointment
 		obj._appointmentId = raw.OpdrachtId
 		obj._attachments = raw.Bijlagen
 		obj._url = "#{magisterObj._personUrl}/afspraken/#{obj._id}"
-		obj._scrapped = raw.Status is 0
+		obj._scrapped = raw.Status is 5
 
-		return obj
+		obj
 
 	@_convertStored: (magisterObj, raw) ->
 		obj = _.extend raw, new root.Appointment magisterObj
