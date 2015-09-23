@@ -1,7 +1,7 @@
 {
 	"name": "magister.js",
 	"description": "A JavaScript implementation of the Magister 6 API",
-	"version": "1.8.1",
+	"version": "1.8.2",
 	"author": "simplyApps",
 	"maintainers": [
 		"Lieuwe Rooijakkers <lieuwerooijakkers@gmail.com>"
