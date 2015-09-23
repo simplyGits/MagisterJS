@@ -201,6 +201,8 @@ class root.Course
 				callback error, null
 			else
 				result = JSON.parse(result.content).Items
+				result = _.filter result, (raw) -> raw.CijferId isnt 0
+
 				pushResult = root._helpers.asyncResultWaiter result.length, (r) ->
 					_(r) # Make sure that every class with the same ID can be compared with the === operator.
 						.uniq (g) -> g.class().id
