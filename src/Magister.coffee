@@ -665,6 +665,7 @@ class root.Magister
 			# Copy all keys of the error Magister gave us, but lowerCase the keys.
 			for key of parsed
 				@_magisterLoadError[key.toLowerCase()] = parsed[key]
+			@_magisterLoadError.toString = -> parsed[message] ? ''
 		catch
 			@_magisterLoadError = e
 
