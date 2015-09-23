@@ -107,7 +107,11 @@ class root.Magister
 							a._absenceInfo = _.find absenceInfo, (i) -> i.appointmentId is a.id()
 
 						appointments = _(appointments)
-							.filter (a) -> from <= root._helpers.date(a.begin()) and root._helpers.date(a.end()) <= to
+							.filter (a) ->
+								begin = root._helpers.date(a.begin())
+								end = root._helpers.date(a.end())
+								a.end() > from and begin <= to and end >= from
+
 							.sortBy '_begin'
 							.value()
 
