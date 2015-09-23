@@ -43,57 +43,49 @@ describe("Magister", function() {
 	"use strict";
 
 	this.timeout(7000);
-	var x = new Magister(options.school, options.userName, options.password);
-
-	it("should be a correct Magister object", function (done) {
-		expect(x).to.be.a("object");
-		expect(x).to.have.a.property("ready").be.a("function");
-
-		expect(x).to.have.a.property("magisterSchool").be.a("object");
-		expect(x).to.have.a.property("magisterSchool").to.have.a.property("url");
-
-		x.ready(function () {
-			expect(this).to.equal(x);
-			done();
-		});
-	});
-
-	it("should login", function (done) {
-		x.ready(function (e) {
+	var m;
+	before(function (done) {
+		new Magister({
+			school: options.school,
+			username: options.userName,
+			password: options.password,
+		}).ready(function (e) {
+			m = this;
 			done(e);
 		});
 	});
 
-	it("should contain profileInfo", function (done) {
-		x.ready(function () {
-			expect(this.profileInfo()).to.be.a("object");
-			expect(this.profileInfo()).to.be.an.instanceof(ProfileInfo);
-			expect(this.profileInfo().profilePicture()).to.be.a("string");
-			done();
-		});
+	it("should be a correct Magister object", function () {
+		expect(m).to.be.an.instanceof(Magister);
+		expect(m).to.have.a.property("ready").be.a("function");
+
+		expect(m).to.have.a.property("magisterSchool").be.a("object");
+		expect(m).to.have.a.property("magisterSchool").to.have.a.property("url");
+	});
+
+	it("should contain profileInfo", function () {
+		expect(m.profileInfo()).to.be.a("object");
+		expect(m.profileInfo()).to.be.an.instanceof(ProfileInfo);
+		expect(m.profileInfo().profilePicture()).to.be.a("string");
 	});
 
 	describe("messages", function () {
 		it("should send messages and retreive them", function (done) {
 			this.timeout(10000);
-			x.ready(function () {
-				var body = "" + ~~(Math.random() * 100);
-				var m = this;
+			var body = "" + ~~(Math.random() * 100);
+			m.composeAndSendMessage("Magister.js mocha test.", body, [m.profileInfo().firstName()], function (e, r) {
+				expect(e).to.not.exist;
+				expect(r).to.be.an.instanceof(Message);
 
-				m.composeAndSendMessage("Magister.js mocha test.", body, [x.profileInfo().firstName()], function (e, r) {
+				m.inbox().messages(1, false, function(e, r) {
 					expect(e).to.not.exist;
-					expect(r).to.be.an.instanceof(Message);
+					expect(r).to.be.a("array");
+					expect(r).to.not.be.empty;
 
-					m.inbox().messages(1, false, function(e, r) {
-						expect(e).to.not.exist;
-						expect(r).to.be.a("array");
-						expect(r).to.not.be.empty;
+					expect(r[0]).to.be.an.instanceof(Message);
+					expect(r[0].body()).to.equal(body);
 
-						expect(r[0]).to.be.an.instanceof(Message);
-						expect(r[0].body()).to.equal(body);
-
-						r[0].remove(done);
-					});
+					r[0].remove(done);
 				});
 			});
 		});
@@ -101,27 +93,21 @@ describe("Magister", function() {
 
 	describe("courses", function () {
 		it("should correctly get the limited current course", function (done) {
-			x.ready(function () {
-				this.getLimitedCurrentCourseInfo(function (e, r) {
-					expect(r).to.be.a("object");
-					done(e);
-				});
+			m.getLimitedCurrentCourseInfo(function (e, r) {
+				expect(r).to.be.a("object");
+				done(e);
 			});
 		});
 
 		it("should correctly get courses", function (done) {
-			x.ready(function () {
-				var self = this;
+			m.courses(function (e, r) {
+				expect(e).to.not.exist;
+				expect(r).to.be.a("array");
+				var course = r[0];
 
-				self.courses(function (e, r) {
-					expect(e).to.not.exist;
-					expect(r).to.be.a("array");
-					var course = r[0];
-
-					self.currentCourse(function (e, r) {
-						expect(r.id()).to.equal(course.id());
-						done(e);
-					});
+				m.currentCourse(function (e, r) {
+					expect(r.id()).to.equal(course.id());
+					done(e);
 				});
 			});
 		});
@@ -129,160 +115,141 @@ describe("Magister", function() {
 
 	describe("appointments", function () {
 		it("should give appointments", function (done) {
-			x.ready(function () {
-				this.appointments(new Date(), false, function(e, r) {
-					expect(e).to.not.exist;
-					expect(r).to.be.a("array");
+			m.appointments(new Date(), false, function(e, r) {
+				expect(e).to.not.exist;
+				expect(r).to.be.a("array");
 
-					r.forEach(function (appointment) {
-						expect(appointment).to.be.an.instanceof(Appointment);
-						expect(appointment.teachers()).to.be.a("array");
-					});
-
-					done();
+				r.forEach(function (appointment) {
+					expect(appointment).to.be.an.instanceof(Appointment);
+					expect(appointment.teachers()).to.be.a("array");
 				});
+
+				done();
 			});
 		});
 
 		it("should be able to mark appointments as ready", function (done) {
-			x.ready(function () {
-				this.appointments(new Date(), false, function(e, r) {
-					expect(e).to.not.exist;
-					expect(r).to.be.a("array");
-					if (r[0] != null) {
-						expect(r[0]).to.be.an.instanceof(Appointment);
-						expect(r[0]).to.have.a.property("isDone").be.a("function");
+			m.appointments(new Date(), false, function(e, r) {
+				expect(e).to.not.exist;
+				expect(r).to.be.a("array");
+				if (r[0] != null) {
+					expect(r[0]).to.be.an.instanceof(Appointment);
+					expect(r[0]).to.have.a.property("isDone").be.a("function");
 
-						r[0].isDone(true);
-						r[0].isDone(false);
-					}
-					done();
-				});
+					r[0].isDone(true);
+					r[0].isDone(false);
+				}
+				done();
 			});
 		});
 	});
 
 	describe("files", function () {
 		it("should download files", function (done) {
-			x.ready(function () {
-				this.fileFolders(function (error, result) {
-					result[0].files(function (error, result) {
-						result[0].download(false, function(e, r) {
-							expect(r).to.be.a("string");
-							done(e);
-						});
+			m.fileFolders(function (error, result) {
+				result[0].files(function (error, result) {
+					result[0].download(false, function(e, r) {
+						expect(r).to.be.a("string");
+						done(e);
 					});
 				});
 			});
 		});
 
 		it("should download attachments", function (done) {
-			x.ready(function () {
-				this.inbox().messages(false, function(e, r) {
-					expect(r[0].attachments()).to.be.a("array");
-					var foundAttachment = false;
+			m.inbox().messages(false, function(e, r) {
+				expect(r[0].attachments()).to.be.a("array");
+				var foundAttachment = false;
 
-					for (var i = 0; i < r.length; i++) {
-						var msg = r[i];
+				for (var i = 0; i < r.length; i++) {
+					var msg = r[i];
 
-						if (msg.attachments().length > 0) {
-							foundAttachment = true;
-							var attachment = msg.attachments()[0];
+					if (msg.attachments().length > 0) {
+						foundAttachment = true;
+						var attachment = msg.attachments()[0];
 
-							expect(attachment).to.be.an.instanceof(File);
-							expect(attachment.download(false, function(e, r) {
-								expect(r).to.be.a("string");
-								done(e);
-							}));
-							break;
-						}
+						expect(attachment).to.be.an.instanceof(File);
+						expect(attachment.download(false, function(e, r) {
+							expect(r).to.be.a("string");
+							done(e);
+						}));
+						break;
 					}
-					if (!foundAttachment) done();
-				});
+				}
+				if (!foundAttachment) done();
 			});
 		});
 	});
 
 	describe("grades", function () {
 		it("should correctly get grades", function (done) {
-			x.ready(function () {
-				this.currentCourse(function (e, r) {
-					if (e != null) { // case covered by 'should correctly get courses'.
-						done();
-					} else {
-						r.grades(false, false, false, function (e, r) {
-							expect(e).to.not.exist;
-							expect(r).to.be.a("array");
+			m.currentCourse(function (e, r) {
+				if (e != null) { // case covered by 'should correctly get courses'.
+					done();
+				} else {
+					r.grades(false, false, false, function (e, r) {
+						expect(e).to.not.exist;
+						expect(r).to.be.a("array");
 
-							r.forEach(function (g) {
-								expect(g).to.be.an.instanceof(Grade);
-							});
-
-							var grade = r[0];
-							if (grade) {
-								grade.fillGrade(function (e, r) {
-									expect(r).to.be.an.instanceof(Grade);
-									done(e);
-								});
-							} else {
-								done();
-							}
+						r.forEach(function (g) {
+							expect(g).to.be.an.instanceof(Grade);
 						});
-					}
-				});
+
+						var grade = r[0];
+						if (grade) {
+							grade.fillGrade(function (e, r) {
+								expect(r).to.be.an.instanceof(Grade);
+								done(e);
+							});
+						} else {
+							done();
+						}
+					});
+				}
 			});
 		});
 
 		it("should correctly get gradePeriods", function (done) {
-			x.ready(function () {
-				this.currentCourse(function (e, r) {
-					if (e != null) { // case covered by 'should correctly get courses'.
-						done();
-					} else {
-						r.gradePeriods(function (e, r) {
-							expect(r).to.be.a("array");
+			m.currentCourse(function (e, r) {
+				if (e != null) { // case covered by 'should correctly get courses'.
+					done();
+				} else {
+					r.gradePeriods(function (e, r) {
+						expect(r).to.be.a("array");
 
-							r.forEach(function (p) {
-								expect(p).to.be.an.instanceof(GradePeriod);
-							});
-
-							done(e);
+						r.forEach(function (p) {
+							expect(p).to.be.an.instanceof(GradePeriod);
 						});
-					}
-				});
+
+						done(e);
+					});
+				}
 			});
 		});
 	});
 
 	describe("persons", function () {
 		it("should handle empty queries correctly", function (done) {
-			x.ready(function () {
-				this.getPersons(null, function (e, r) {
-					expect(r).to.be.an("array").to.have.length(0);
-					done(e);
-				});
+			m.getPersons(null, function (e, r) {
+				expect(r).to.be.an("array").to.have.length(0);
+				done(e);
 			});
 		});
 
 		it("should get persons", function (done) {
-			x.ready(function () {
-				this.getPersons(x.profileInfo().firstName(), function (e, r) {
-					expect(r).to.be.an("array").to.have.length.above(0);
+			m.getPersons(m.profileInfo().firstName(), function (e, r) {
+				expect(r).to.be.an("array").to.have.length.above(0);
 
-					expect(r[0]).to.be.an.instanceof(Person);
-					expect(r[0].type()).to.equal("pupil"); // test if it correctly get a persons type
+				expect(r[0]).to.be.an.instanceof(Person);
+				expect(r[0].type()).to.equal("pupil"); // test if it correctly get a persons type
 
-					done(e);
-				});
+				done(e);
 			});
 		});
 
-		it("should cache persons", function (done) {
-			x.ready(function () {
-				var cached = this.getPersons(x.profileInfo().firstName(), function () {});
-				expect(cached).to.equal(true);
-				done();
-			});
+		it("should cache persons", function () {
+			var cached = m.getPersons(m.profileInfo().firstName(), function () {});
+			expect(cached).to.equal(true);
 		});
 	});
 });
