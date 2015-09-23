@@ -718,6 +718,10 @@ class root.Magister
 		if sessionId? then cb sessionId
 		else
 			@http.delete deleteUrl, {}, (e, r) =>
+				if e?
+					@_setErrored e, r?.statusCode
+					return
+
 				@http._cookie = r.headers["set-cookie"][0]
 				@http.post url, {
 					Gebruikersnaam: @username
