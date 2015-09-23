@@ -685,7 +685,8 @@ class root.Magister
 		@_ready = no
 		@_magisterLoadError = null
 		@magisterSchool.url = @magisterSchool.url.replace /^https?/, "https" # Force HTTPS.
-		url = "#{@magisterSchool.url}/api/sessie"
+		deleteUrl = "#{@magisterSchool.url}/api/sessies/huidige"
+		url = "#{@magisterSchool.url}/api/sessies"
 
 		cb = (sessionId) =>
 			try
@@ -711,15 +712,17 @@ class root.Magister
 
 		if sessionId? then cb sessionId
 		else
-			@http.post url, {
-				Gebruikersnaam: @username
-				Wachtwoord: @password
-				GebruikersnaamOnthouden: yes
-				# If this works for every school, we actually wouldn't need a "relogin"
-				# method. We will keep it and then see how it goes.
-				IngelogdBlijven: @_keepLoggedIn
-			}, {
-				headers: "Content-Type": "application/json;charset=UTF-8"
-			}, (error, result) =>
-				if error? then @_setErrored error, result?.statusCode
-				else cb /[a-z\d-]+/.exec(result.headers["set-cookie"][0])[0]
+			@http.delete deleteUrl, {}, (e, r) =>
+				@http._cookie = r.headers["set-cookie"][0]
+				@http.post url, {
+					Gebruikersnaam: @username
+					Wachtwoord: @password
+					GebruikersnaamOnthouden: yes
+					# If this works for every school, we actually wouldn't need a "relogin"
+					# method. We will keep it and then see how it goes.
+					IngelogdBlijven: @_keepLoggedIn
+				}, {
+					headers: "Content-Type": "application/json;charset=UTF-8"
+				}, (error, result) =>
+					if error? then @_setErrored error, result?.statusCode
+					else cb /[a-z\d-]+/.exec(result.headers["set-cookie"][0])[0]
