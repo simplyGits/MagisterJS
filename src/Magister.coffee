@@ -543,8 +543,6 @@ class root.Magister
 	#
 	# @method digitalSchoolUtilities
 	# @async
-	# @param [fillClass=true] {Boolean} Whether or not to download the full class objects from the server. If this is false .class() will return a limited class object.
-	# @fixme /NOT WORKING/ (Weird ID mismatch) @param [class] {Class|Number} The class or ID of a class to get the Digital school utitlities for. If none is given it will return every DigitalSchoolUtility.
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
 	# 	@param [callback.result] {DigitalSchoolUtility[]} An array containing DigitalSchoolUtilities.
@@ -553,35 +551,19 @@ class root.Magister
 		@_forceReady()
 
 		fillClass = _.find(arguments, (a) -> _.isBoolean a) ? yes
-		#_class = _.find arguments, (a) -> _.isNumber a or _.isObject a
 		callback = _.find arguments, (a) -> _.isFunction a
 		return unless callback?
 
-		_class = _class.id() if _.isObject _class
+		url = "#{@_personUrl}/lesmateriaal"
 
-		url = if _class? then "#{@_personUrl}/lesmateriaal?vakken=#{_class}" else "#{@_personUrl}/lesmateriaal"
+		@http.get url, {}, (e, r) =>
+			if e?
+				callback e, null
+			else
+				convert = _.partial root.DigitalSchoolUtility._convertRaw, this
 
-		cb = (classes) =>
-			@http.get url, {}, (error, result) =>
-				if error? then callback error, null
-				else
-					utilities = ( root.DigitalSchoolUtility._convertRaw this, u for u in JSON.parse(result.content).Items )
-
-					if classes? then for u in utilities
-						do (u) ->
-							u._class = _.find classes, (c) -> c.abbreviation() is u._class.Afkorting and c.description() is u._class.Omschrijving
-
-					else for u in utilities
-						do (u) => u._class = root.Class._convertRaw this, u._class
-
-					callback null, utilities
-
-		if fillClass
-			@courses (e, r) ->
-				if r? and r.length isnt 0
-					_.last(r).classes (e, r) ->
-						cb r
-		else cb()
+				parsed = JSON.parse(r.content).Items
+				callback null, _.map(parsed, convert)
 
 	###*
 	# Returns the profile for the current logged in user.

@@ -83,7 +83,7 @@ class root.DigitalSchoolUtility
 		obj._begin = new Date Date.parse raw.Start
 		obj._end = new Date Date.parse raw.Eind
 		obj._EAN = (Number) raw.EAN
-		obj._url = raw.Url
-		obj._class = raw.Vak # Will be replace with a Class object by Magister.digitalSchoolUtitlies(...) if everything goes correctly.
+		obj._url = _.find(raw.Links, (l) -> l.Rel is 'content')?.Href
+		obj._class = root.Class._convertRaw magisterObj, raw.Vak
 
 		return obj
