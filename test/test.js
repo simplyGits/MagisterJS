@@ -10,6 +10,8 @@ var File = magisterjs.File;
 var Grade = magisterjs.Grade;
 var GradePeriod = magisterjs.GradePeriod;
 var Person = magisterjs.Person;
+var DigitalSchoolUtility = magisterjs.DigitalSchoolUtility;
+var Class = magisterjs.Class;
 
 var options = null;
 
@@ -250,6 +252,26 @@ describe("Magister", function() {
 		it("should cache persons", function () {
 			var cached = m.getPersons(m.profileInfo().firstName(), function () {});
 			expect(cached).to.equal(true);
+		});
+	});
+
+	describe("digitalSchoolUtilities", function () {
+		it("should get digitalSchoolUtilities", function (done) {
+			m.digitalSchoolUtilities(function (e, r) {
+				expect(e).to.not.exist;
+				expect(r).to.be.an('array');
+
+				r.forEach(function (u) {
+					expect(u).to.be.an.instanceof(DigitalSchoolUtility);
+
+					expect(u.url()).to.be.an('string');
+					expect(u.url()).to.not.be.empty;
+
+					expect(u.class()).to.be.an.instanceof(Class);
+				});
+
+				done();
+			});
 		});
 	});
 });
