@@ -84,7 +84,7 @@ class root.Magister
 		callback = _.find arguments, (a) -> _.isFunction a
 		fillPersons = _.find(arguments, (a) -> _.isBoolean a) ? no
 		dates = _.filter arguments, _.isDate
-		[from, to] = _.sortBy dates, (d) -> d.getDate()
+		[from, to] = _.sortBy dates
 		to ?= from
 
 		from = root._helpers.date from
