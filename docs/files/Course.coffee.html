@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.8.1</em>
+            <em>API Docs for: 1.9.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -303,6 +303,8 @@ class root.Course
 				callback error, null
 			else
 				result = JSON.parse(result.content).Items
+				result = _.filter result, (raw) -&gt; raw.CijferId isnt 0
+
 				pushResult = root._helpers.asyncResultWaiter result.length, (r) -&gt;
 					_(r) # Make sure that every class with the same ID can be compared with the === operator.
 						.uniq (g) -&gt; g.class().id

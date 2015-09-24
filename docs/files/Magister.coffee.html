@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.8.1</em>
+            <em>API Docs for: 1.9.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -116,7 +116,7 @@ else
 # @final
 # @type String
 ###
-root.VERSION = &quot;1.8.1&quot;
+root.VERSION = &quot;1.9.0&quot;
 
 ###*
 # A JavaScript implementation of the Magister 6 API.
@@ -186,7 +186,7 @@ class root.Magister
 		callback = _.find arguments, (a) -&gt; _.isFunction a
 		fillPersons = _.find(arguments, (a) -&gt; _.isBoolean a) ? no
 		dates = _.filter arguments, _.isDate
-		[from, to] = _.sortBy dates, (d) -&gt; d.getDate()
+		[from, to] = _.sortBy dates
 		to ?= from
 
 		from = root._helpers.date from
@@ -209,7 +209,11 @@ class root.Magister
 							a._absenceInfo = _.find absenceInfo, (i) -&gt; i.appointmentId is a.id()
 
 						appointments = _(appointments)
-							.filter (a) -&gt; from &lt;= root._helpers.date(a.begin()) and root._helpers.date(a.end()) &lt;= to
+							.filter (a) -&gt;
+								begin = root._helpers.date(a.begin())
+								end = root._helpers.date(a.end())
+								a.end() &gt; from and begin &lt;= to and end &gt;= from
+
 							.sortBy &#x27;_begin&#x27;
 							.value()
 
@@ -641,8 +645,6 @@ class root.Magister
 	#
 	# @method digitalSchoolUtilities
 	# @async
-	# @param [fillClass=true] {Boolean} Whether or not to download the full class objects from the server. If this is false .class() will return a limited class object.
-	# @fixme /NOT WORKING/ (Weird ID mismatch) @param [class] {Class|Number} The class or ID of a class to get the Digital school utitlities for. If none is given it will return every DigitalSchoolUtility.
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
 	# 	@param [callback.result] {DigitalSchoolUtility[]} An array containing DigitalSchoolUtilities.
@@ -651,35 +653,19 @@ class root.Magister
 		@_forceReady()
 
 		fillClass = _.find(arguments, (a) -&gt; _.isBoolean a) ? yes
-		#_class = _.find arguments, (a) -&gt; _.isNumber a or _.isObject a
 		callback = _.find arguments, (a) -&gt; _.isFunction a
 		return unless callback?
 
-		_class = _class.id() if _.isObject _class
+		url = &quot;#{@_personUrl}/lesmateriaal&quot;
 
-		url = if _class? then &quot;#{@_personUrl}/lesmateriaal?vakken=#{_class}&quot; else &quot;#{@_personUrl}/lesmateriaal&quot;
+		@http.get url, {}, (e, r) =&gt;
+			if e?
+				callback e, null
+			else
+				convert = _.partial root.DigitalSchoolUtility._convertRaw, this
 
-		cb = (classes) =&gt;
-			@http.get url, {}, (error, result) =&gt;
-				if error? then callback error, null
-				else
-					utilities = ( root.DigitalSchoolUtility._convertRaw this, u for u in JSON.parse(result.content).Items )
-
-					if classes? then for u in utilities
-						do (u) -&gt;
-							u._class = _.find classes, (c) -&gt; c.abbreviation() is u._class.Afkorting and c.description() is u._class.Omschrijving
-
-					else for u in utilities
-						do (u) =&gt; u._class = root.Class._convertRaw this, u._class
-
-					callback null, utilities
-
-		if fillClass
-			@courses (e, r) -&gt;
-				if r? and r.length isnt 0
-					_.last(r).classes (e, r) -&gt;
-						cb r
-		else cb()
+				parsed = JSON.parse(r.content).Items
+				callback null, _.map(parsed, convert)
 
 	###*
 	# Returns the profile for the current logged in user.
@@ -788,7 +774,8 @@ class root.Magister
 		@_ready = no
 		@_magisterLoadError = null
 		@magisterSchool.url = @magisterSchool.url.replace /^https?/, &quot;https&quot; # Force HTTPS.
-		url = &quot;#{@magisterSchool.url}/api/sessie&quot;
+		deleteUrl = &quot;#{@magisterSchool.url}/api/sessies/huidige&quot;
+		url = &quot;#{@magisterSchool.url}/api/sessies&quot;
 
 		cb = (sessionId) =&gt;
 			try
@@ -814,18 +801,24 @@ class root.Magister
 
 		if sessionId? then cb sessionId
 		else
-			@http.post url, {
-				Gebruikersnaam: @username
-				Wachtwoord: @password
-				GebruikersnaamOnthouden: yes
-				# If this works for every school, we actually wouldn&#x27;t need a &quot;relogin&quot;
-				# method. We will keep it and then see how it goes.
-				IngelogdBlijven: @_keepLoggedIn
-			}, {
-				headers: &quot;Content-Type&quot;: &quot;application/json;charset=UTF-8&quot;
-			}, (error, result) =&gt;
-				if error? then @_setErrored error, result?.statusCode
-				else cb /[a-z\d-]+/.exec(result.headers[&quot;set-cookie&quot;][0])[0]
+			@http.delete deleteUrl, {}, (e, r) =&gt;
+				if e?
+					@_setErrored e, r?.statusCode
+					return
+
+				@http._cookie = r.headers[&quot;set-cookie&quot;][0]
+				@http.post url, {
+					Gebruikersnaam: @username
+					Wachtwoord: @password
+					GebruikersnaamOnthouden: yes
+					# If this works for every school, we actually wouldn&#x27;t need a &quot;relogin&quot;
+					# method. We will keep it and then see how it goes.
+					IngelogdBlijven: @_keepLoggedIn
+				}, {
+					headers: &quot;Content-Type&quot;: &quot;application/json;charset=UTF-8&quot;
+				}, (error, result) =&gt;
+					if error? then @_setErrored error, result?.statusCode
+					else cb /[a-z\d-]+/.exec(result.headers[&quot;set-cookie&quot;][0])[0]
 
     </pre>
 </div>
