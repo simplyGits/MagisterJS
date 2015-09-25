@@ -18,6 +18,7 @@ install:
 before_script:
   - grunt --version
   - mocha --version
+  - test/version.sh
   - grunt
 script:
   - mocha
