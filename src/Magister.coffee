@@ -675,10 +675,12 @@ class root.Magister
 		deleteUrl = "#{@magisterSchool.url}/api/sessies/huidige"
 		url = "#{@magisterSchool.url}/api/sessies"
 
-		cb = (sessionId) =>
+		setSessionId = (sessionId) =>
+			@_sessionId = sessionId
+			@http._cookie = "SESSION_ID=#{@_sessionId}; M6UserName=#{@username}"
+
+		cb = =>
 			try
-				@_sessionId = sessionId
-				@http._cookie = "SESSION_ID=#{@_sessionId}; M6UserName=#{@username}"
 				@http.get "#{@magisterSchool.url}/api/account", {},
 					(error, result) =>
 						if error? then @_setErrored error, result?.statusCode; return
@@ -697,18 +699,19 @@ class root.Magister
 
 			catch e then @_setErrored e
 
-		if sessionId? then cb sessionId
+		if sessionId?
+			setSessionId sessionId
+			cb()
 		else
 			@http.delete deleteUrl, {}, (e, r) =>
 				if e?
 					@_setErrored e, r?.statusCode
 					return
 
-				@http._cookie = r.headers["set-cookie"][0]
+				setSessionId /[a-z\d-]+/.exec(r.headers["set-cookie"][0])[0]
 				@http.post url, {
 					Gebruikersnaam: @username
 					Wachtwoord: @password
-					GebruikersnaamOnthouden: yes
 					# If this works for every school, we actually wouldn't need a "relogin"
 					# method. We will keep it and then see how it goes.
 					IngelogdBlijven: @_keepLoggedIn
@@ -716,4 +719,4 @@ class root.Magister
 					headers: "Content-Type": "application/json;charset=UTF-8"
 				}, (error, result) =>
 					if error? then @_setErrored error, result?.statusCode
-					else cb /[a-z\d-]+/.exec(result.headers["set-cookie"][0])[0]
+					else cb()
