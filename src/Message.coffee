@@ -140,7 +140,8 @@ class root.Message
 		if _.isString recipient
 			@_tasks++
 			@_magisterObj.getPersons recipient, type, (e, r) =>
-				if r.length isnt 0
+				if e? then @_reset(); throw e
+				else if r.length isnt 0
 					@recipients().push r[0]
 					@_tickDown()
 				else if type? then @_reset(); throw new Error "Couldn't find a person with the type: \"#{type}\" and with the query: \"#{recipient}\""
