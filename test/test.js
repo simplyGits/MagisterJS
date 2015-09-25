@@ -149,10 +149,13 @@ describe("Magister", function() {
 	describe("files", function () {
 		it("should download files", function (done) {
 			m.fileFolders(function (error, result) {
+				expect(error).to.not.exist;
 				result[0].files(function (error, result) {
+					expect(error).to.not.exist;
 					result[0].download(false, function(e, r) {
+						expect(e).to.not.exist;
 						expect(r).to.be.a("string");
-						done(e);
+						done();
 					});
 				});
 			});
@@ -217,13 +220,14 @@ describe("Magister", function() {
 					done();
 				} else {
 					r.gradePeriods(function (e, r) {
+						expect(e).to.not.exist;
 						expect(r).to.be.a("array");
 
 						r.forEach(function (p) {
 							expect(p).to.be.an.instanceof(GradePeriod);
 						});
 
-						done(e);
+						done();
 					});
 				}
 			});
