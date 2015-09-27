@@ -577,16 +577,11 @@ class root.Magister
 	# Returns the profile for the current logged in user.
 	#
 	# @method profileInfo
-	# @param [callback] {Function} Not useful at all, just here to prevent possible mistakes.
-	#	@param [callback.error] {Null} Will always be null
-	#	@param [callback.result] {ProfileInfo} The profile of the current logged in user.
 	# @return {ProfileInfo} The profile of the current logged in user.
 	###
-	profileInfo: (callback) ->
+	profileInfo: ->
 		@_forceReady()
-
-		callback? null, @_profileInfo
-		return @_profileInfo
+		@_profileInfo
 
 	###*
 	# Returns the children of the current user.
