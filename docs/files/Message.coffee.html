@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.9.0</em>
+            <em>API Docs for: 1.10.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -242,7 +242,8 @@ class root.Message
 		if _.isString recipient
 			@_tasks++
 			@_magisterObj.getPersons recipient, type, (e, r) =&gt;
-				if r.length isnt 0
+				if e? then @_reset(); throw e
+				else if r.length isnt 0
 					@recipients().push r[0]
 					@_tickDown()
 				else if type? then @_reset(); throw new Error &quot;Couldn&#x27;t find a person with the type: \&quot;#{type}\&quot; and with the query: \&quot;#{recipient}\&quot;&quot;

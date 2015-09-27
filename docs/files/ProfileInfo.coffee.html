@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.9.0</em>
+            <em>API Docs for: 1.10.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -188,6 +188,18 @@ class root.ProfileInfo
 		# @type Date
 		###
 		@birthDate = root._getset &quot;_birthDate&quot;
+		###*
+		# @property isChild
+		# @final
+		# @type Boolean
+		###
+		@isChild = root._getset &#x27;_isChild&#x27;
+		###*
+		# @property isVisibleForParent
+		# @final
+		# @type Boolean
+		###
+		@isVisibleForParent = root._getset &#x27;_isVisibleForParent&#x27;
 
 	###*
 	# The profile picture of the current User.
@@ -221,7 +233,6 @@ class root.ProfileInfo
 			else push JSON.parse r.content
 
 	@_convertRaw: (magisterObj, raw) -&gt;
-		raw = raw.Persoon
 		obj = new root.ProfileInfo magisterObj, raw.Roepnaam, raw.Achternaam, new Date Date.parse raw.Geboortedatum
 
 		obj._id = raw.Id
@@ -232,6 +243,9 @@ class root.ProfileInfo
 		obj._birthSurname = raw.GeboorteAchternaam
 		obj._birthNamePrefix = raw.GeboortenaamTussenvoegsel
 		obj._useBirthname = raw.GebruikGeboortenaam
+
+		obj._isChild = raw.ZichtbaarVoorOuder?
+		obj._isVisibleForParent = raw.ZichtbaarVoorOuder
 
 		return obj
 

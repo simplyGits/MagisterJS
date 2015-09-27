@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.9.0</em>
+            <em>API Docs for: 1.10.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -116,7 +116,7 @@ else
 # @final
 # @type String
 ###
-root.VERSION = &quot;1.9.0&quot;
+root.VERSION = &quot;1.10.0&quot;
 
 ###*
 # A JavaScript implementation of the Magister 6 API.
@@ -134,11 +134,14 @@ root.VERSION = &quot;1.9.0&quot;
 #	 @param [options.password] {String} The password of the user to login to. (Not needed when using an sessionId.)
 #	 @param [options.sessionId] {String} An sessionId to use instead of logging in to retreive a new one.
 #	 @param [options.keepLoggedIn=true] {Boolean} Whether or not to keep the user logged in.
+#	 @param [options.login=true] {Boolean} If this is set to false you will have to call &#x60;Magister::_reLogin&#x60; yourself.
 # @constructor
 ###
 class root.Magister
 	constructor: -&gt;
-		options = keepLoggedIn: yes
+		options =
+			keepLoggedIn: yes
+			login: yes
 
 		if arguments.length is 1 and _.isObject arguments[0] # Options object.
 			options = _.extend options, arguments[0]
@@ -151,6 +154,11 @@ class root.Magister
 			keepLoggedIn = arguments[3]
 
 			options = _.extend options, { school, username, password, keepLoggedIn }
+
+		if not options.school? or
+		_.isEmpty(options.username) or
+		_.isEmpty(options.password)
+			throw new Error &#x27;school, username and password are required.&#x27;
 
 		@_readyCallbacks = [] # Fixes weird bug where callbacks from previous Magister objects were mixed with the new ones.
 		@http = new root.MagisterHttp()
@@ -166,9 +174,9 @@ class root.Magister
 				else if r.length is 0 then @_setErrored new Error &quot;No school with the query #{@magisterSchool} found.&quot;
 				else
 					@magisterSchool = r[0]
-					@_reLogin options.sessionId
+					@_reLogin options.sessionId if options.login
 
-		else @_reLogin options.sessionId
+		else if options.login then @_reLogin options.sessionId
 
 	###*
 	# Get the appoinments of the current User between the two given Dates.
@@ -277,7 +285,7 @@ class root.Magister
 		else
 			result = @_messageFolders
 
-		result
+		result ? []
 
 	###*
 	# Fetches the messageFolders for the current Magister object.
@@ -671,16 +679,11 @@ class root.Magister
 	# Returns the profile for the current logged in user.
 	#
 	# @method profileInfo
-	# @param [callback] {Function} Not useful at all, just here to prevent possible mistakes.
-	#	@param [callback.error] {Null} Will always be null
-	#	@param [callback.result] {ProfileInfo} The profile of the current logged in user.
 	# @return {ProfileInfo} The profile of the current logged in user.
 	###
-	profileInfo: (callback) -&gt;
+	profileInfo: -&gt;
 		@_forceReady()
-
-		callback? null, @_profileInfo
-		return @_profileInfo
+		@_profileInfo
 
 	###*
 	# Returns the children of the current user.
@@ -688,7 +691,7 @@ class root.Magister
 	# @method children
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
-	# 	@param [callback.result] {ProfileInfo[]} An array containing ProfileInfo instances.
+	# 	@param [callback.result] {Magister[]} An array containg an Magister instance for each child.
 	###
 	children: (callback) -&gt;
 		@http.get &quot;#{@_personUrl}/kinderen&quot;, {}, (error, result) =&gt;
@@ -701,19 +704,24 @@ class root.Magister
 
 				res = []
 				for raw in parsed.Items
-					c = root.ProfileInfo._convertRaw this, c
-					c._profilePicture = &quot;#{@magisterSchool.url}/api/personen/#{raw.Id}/foto&quot;
-					c.magister (callback) =&gt;
-						r = _.clone this
-						r._id = raw.Id
-						r._personUrl = &quot;#{@magisterSchool.url}/api/personen/#{r._id}&quot;
-						r._pupilUrl = &quot;#{@magisterSchool.url}/api/leerlingen/#{r._id}&quot;
-						r._profileInfo = c
-						@http.get &quot;#{r._personUrl}/berichten/mappen&quot;, {}, (error, result) -&gt;
-							r._messageFolders = (root.MessageFolder._convertRaw(r, m) for m in JSON.parse(result.content).Items)
-							callback r
-						return undefined
-					res.push c
+					info = root.ProfileInfo._convertRaw this, raw
+					info._profilePicture = &quot;#{@magisterSchool.url}/api/personen/#{raw.Id}/foto&quot;
+					res.push (
+						m = new Magister
+							school: @magisterSchool
+							username: @username
+							password: @password
+							login: false
+						m.http = @http
+
+						m._id = raw.Id
+						m._personUrl = &quot;#{@magisterSchool.url}/api/personen/#{m._id}&quot;
+						m._pupilUrl = &quot;#{@magisterSchool.url}/api/leerlingen/#{m._id}&quot;
+						m._profileInfo = info
+						m._ready = yes
+
+						m
+					)
 
 				callback null, res
 
@@ -749,7 +757,7 @@ class root.Magister
 			# Copy all keys of the error Magister gave us, but lowerCase the keys.
 			for key of parsed
 				@_magisterLoadError[key.toLowerCase()] = parsed[key]
-			@_magisterLoadError.toString = -&gt; parsed[message] ? &#x27;&#x27;
+			@_magisterLoadError.toString = -&gt; parsed.message ? &#x27;&#x27;
 		catch
 			@_magisterLoadError = e
 
@@ -777,10 +785,12 @@ class root.Magister
 		deleteUrl = &quot;#{@magisterSchool.url}/api/sessies/huidige&quot;
 		url = &quot;#{@magisterSchool.url}/api/sessies&quot;
 
-		cb = (sessionId) =&gt;
+		setSessionId = (sessionId) =&gt;
+			@_sessionId = sessionId
+			@http._cookie = &quot;SESSION_ID=#{@_sessionId}; M6UserName=#{@username}&quot;
+
+		cb = =&gt;
 			try
-				@_sessionId = sessionId
-				@http._cookie = &quot;SESSION_ID=#{@_sessionId}; M6UserName=#{@username}&quot;
 				@http.get &quot;#{@magisterSchool.url}/api/account&quot;, {},
 					(error, result) =&gt;
 						if error? then @_setErrored error, result?.statusCode; return
@@ -790,27 +800,28 @@ class root.Magister
 							@_id = result.Persoon.Id
 							@_personUrl = &quot;#{@magisterSchool.url}/api/personen/#{@_id}&quot;
 							@_pupilUrl = &quot;#{@magisterSchool.url}/api/leerlingen/#{@_id}&quot;
-							@_profileInfo = root.ProfileInfo._convertRaw this, result
+							@_profileInfo = root.ProfileInfo._convertRaw this, result.Persoon
 						catch e then @_setErrored e, result?.statusCode; return
 
-						@_fetchMessageFolders (e, r) =&gt;
+						@_fetchMessageFolders (e) =&gt;
 							if e? then @_setErrored e, e.statusCode
 							else @_setReady()
 
 			catch e then @_setErrored e
 
-		if sessionId? then cb sessionId
+		if sessionId?
+			setSessionId sessionId
+			cb()
 		else
 			@http.delete deleteUrl, {}, (e, r) =&gt;
 				if e?
 					@_setErrored e, r?.statusCode
 					return
 
-				@http._cookie = r.headers[&quot;set-cookie&quot;][0]
+				setSessionId /[a-z\d-]+/.exec(r.headers[&quot;set-cookie&quot;][0])[0]
 				@http.post url, {
 					Gebruikersnaam: @username
 					Wachtwoord: @password
-					GebruikersnaamOnthouden: yes
 					# If this works for every school, we actually wouldn&#x27;t need a &quot;relogin&quot;
 					# method. We will keep it and then see how it goes.
 					IngelogdBlijven: @_keepLoggedIn
@@ -818,7 +829,7 @@ class root.Magister
 					headers: &quot;Content-Type&quot;: &quot;application/json;charset=UTF-8&quot;
 				}, (error, result) =&gt;
 					if error? then @_setErrored error, result?.statusCode
-					else cb /[a-z\d-]+/.exec(result.headers[&quot;set-cookie&quot;][0])[0]
+					else cb()
 
     </pre>
 </div>
