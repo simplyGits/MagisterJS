@@ -32,11 +32,14 @@ root.VERSION = "1.9.0"
 #	 @param [options.password] {String} The password of the user to login to. (Not needed when using an sessionId.)
 #	 @param [options.sessionId] {String} An sessionId to use instead of logging in to retreive a new one.
 #	 @param [options.keepLoggedIn=true] {Boolean} Whether or not to keep the user logged in.
+#	 @param [options.login=true] {Boolean} If this is set to false you will have to call `Magister::_reLogin` yourself.
 # @constructor
 ###
 class root.Magister
 	constructor: ->
-		options = keepLoggedIn: yes
+		options =
+			keepLoggedIn: yes
+			login: yes
 
 		if arguments.length is 1 and _.isObject arguments[0] # Options object.
 			options = _.extend options, arguments[0]
@@ -69,9 +72,9 @@ class root.Magister
 				else if r.length is 0 then @_setErrored new Error "No school with the query #{@magisterSchool} found."
 				else
 					@magisterSchool = r[0]
-					@_reLogin options.sessionId
+					@_reLogin options.sessionId if options.login
 
-		else @_reLogin options.sessionId
+		else if options.login then @_reLogin options.sessionId
 
 	###*
 	# Get the appoinments of the current User between the two given Dates.
@@ -180,7 +183,7 @@ class root.Magister
 		else
 			result = @_messageFolders
 
-		result
+		result ? []
 
 	###*
 	# Fetches the messageFolders for the current Magister object.
@@ -591,7 +594,7 @@ class root.Magister
 	# @method children
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
-	# 	@param [callback.result] {ProfileInfo[]} An array containing ProfileInfo instances.
+	# 	@param [callback.result] {Magister[]} An array containg an Magister instance for each child.
 	###
 	children: (callback) ->
 		@http.get "#{@_personUrl}/kinderen", {}, (error, result) =>
@@ -604,19 +607,24 @@ class root.Magister
 
 				res = []
 				for raw in parsed.Items
-					c = root.ProfileInfo._convertRaw this, c
-					c._profilePicture = "#{@magisterSchool.url}/api/personen/#{raw.Id}/foto"
-					c.magister (callback) =>
-						r = _.clone this
-						r._id = raw.Id
-						r._personUrl = "#{@magisterSchool.url}/api/personen/#{r._id}"
-						r._pupilUrl = "#{@magisterSchool.url}/api/leerlingen/#{r._id}"
-						r._profileInfo = c
-						@http.get "#{r._personUrl}/berichten/mappen", {}, (error, result) ->
-							r._messageFolders = (root.MessageFolder._convertRaw(r, m) for m in JSON.parse(result.content).Items)
-							callback r
-						return undefined
-					res.push c
+					info = root.ProfileInfo._convertRaw this, raw
+					info._profilePicture = "#{@magisterSchool.url}/api/personen/#{raw.Id}/foto"
+					res.push (
+						m = new Magister
+							school: @magisterSchool
+							username: @username
+							password: @password
+							login: false
+						m.http = @http
+
+						m._id = raw.Id
+						m._personUrl = "#{@magisterSchool.url}/api/personen/#{m._id}"
+						m._pupilUrl = "#{@magisterSchool.url}/api/leerlingen/#{m._id}"
+						m._profileInfo = info
+						m._ready = yes
+
+						m
+					)
 
 				callback null, res
 
@@ -695,10 +703,10 @@ class root.Magister
 							@_id = result.Persoon.Id
 							@_personUrl = "#{@magisterSchool.url}/api/personen/#{@_id}"
 							@_pupilUrl = "#{@magisterSchool.url}/api/leerlingen/#{@_id}"
-							@_profileInfo = root.ProfileInfo._convertRaw this, result
+							@_profileInfo = root.ProfileInfo._convertRaw this, result.Persoon
 						catch e then @_setErrored e, result?.statusCode; return
 
-						@_fetchMessageFolders (e, r) =>
+						@_fetchMessageFolders (e) =>
 							if e? then @_setErrored e, e.statusCode
 							else @_setReady()
 

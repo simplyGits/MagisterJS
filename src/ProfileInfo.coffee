@@ -86,6 +86,18 @@ class root.ProfileInfo
 		# @type Date
 		###
 		@birthDate = root._getset "_birthDate"
+		###*
+		# @property isChild
+		# @final
+		# @type Boolean
+		###
+		@isChild = root._getset '_isChild'
+		###*
+		# @property isVisibleForParent
+		# @final
+		# @type Boolean
+		###
+		@isVisibleForParent = root._getset '_isVisibleForParent'
 
 	###*
 	# The profile picture of the current User.
@@ -119,7 +131,6 @@ class root.ProfileInfo
 			else push JSON.parse r.content
 
 	@_convertRaw: (magisterObj, raw) ->
-		raw = raw.Persoon
 		obj = new root.ProfileInfo magisterObj, raw.Roepnaam, raw.Achternaam, new Date Date.parse raw.Geboortedatum
 
 		obj._id = raw.Id
@@ -130,6 +141,9 @@ class root.ProfileInfo
 		obj._birthSurname = raw.GeboorteAchternaam
 		obj._birthNamePrefix = raw.GeboortenaamTussenvoegsel
 		obj._useBirthname = raw.GebruikGeboortenaam
+
+		obj._isChild = raw.ZichtbaarVoorOuder?
+		obj._isVisibleForParent = raw.ZichtbaarVoorOuder
 
 		return obj
 
