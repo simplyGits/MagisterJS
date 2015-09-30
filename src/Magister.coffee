@@ -53,9 +53,10 @@ class root.Magister
 
 			options = _.extend options, { school, username, password, keepLoggedIn }
 
-		if not options.school? or
-		_.isEmpty(options.username) or
-		_.isEmpty(options.password)
+		if not options.school? or (
+			not options.sessionId? and
+			(_.isEmpty(options.username) or _.isEmpty(options.password))
+		)
 			throw new Error 'school, username and password are required.'
 
 		@_readyCallbacks = [] # Fixes weird bug where callbacks from previous Magister objects were mixed with the new ones.
