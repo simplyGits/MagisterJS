@@ -72,6 +72,13 @@ describe("Magister", function() {
 	});
 
 	describe("messages", function () {
+		it("should search messageFolders correctly", function () {
+			expect(
+				m.messageFolders('postvak in')[0].id() ===
+				m.messageFolders('mededelingen')[0].id()
+			).to.be.false;
+		});
+
 		it("should send messages and retreive them", function (done) {
 			this.timeout(10000);
 			var body = "" + ~~(Math.random() * 100);
