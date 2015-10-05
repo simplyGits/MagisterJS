@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.10.0</em>
+            <em>API Docs for: 1.11.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -116,7 +116,7 @@ else
 # @final
 # @type String
 ###
-root.VERSION = &quot;1.10.0&quot;
+root.VERSION = &quot;1.11.0&quot;
 
 ###*
 # A JavaScript implementation of the Magister 6 API.
@@ -155,9 +155,10 @@ class root.Magister
 
 			options = _.extend options, { school, username, password, keepLoggedIn }
 
-		if not options.school? or
-		_.isEmpty(options.username) or
-		_.isEmpty(options.password)
+		if not options.school? or (
+			not options.sessionId? and
+			(_.isEmpty(options.username) or _.isEmpty(options.password))
+		)
 			throw new Error &#x27;school, username and password are required.&#x27;
 
 		@_readyCallbacks = [] # Fixes weird bug where callbacks from previous Magister objects were mixed with the new ones.
@@ -278,12 +279,12 @@ class root.Magister
 				else callback null, @messageFolders query
 			return undefined
 
-		query = query.trim()
-
-		if _.isString(query) and query isnt &quot;&quot;
-			result = _.where @_messageFolders, (mF) -&gt; root._helpers.contains mF.name(), query, yes
-		else
+		unless _.isString query
 			result = @_messageFolders
+		else
+			query = query.trim()
+			result = _.filter @_messageFolders, (mF) -&gt;
+				root._helpers.contains mF.name(), query, yes
 
 		result ? []
 

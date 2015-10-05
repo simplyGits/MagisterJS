@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.10.0</em>
+            <em>API Docs for: 1.11.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -314,6 +314,30 @@ class root.GradeType
 		###
 		@type = root._getset &quot;_type&quot;
 		###*
+		# type parsed as a string.
+		# @property typeString
+		# @final
+		# @type String
+		###
+		@typeString = root._getset &quot;_type&quot;, null, (x) -&gt;
+			switch x
+				when 1 then &quot;grade&quot;
+				when 2 then &quot;average&quot;
+				when 3 then &quot;maximum&quot;
+				when 4 then &quot;formula&quot;
+				when 5 then &quot;minimum&quot;
+				when 6 then &quot;sum&quot;
+				when 7 then &quot;count&quot;
+				when 8 then &quot;cevo&quot;
+				when 9 then &quot;text&quot;
+				when 10 then &quot;cevocpe&quot;
+				when 11 then &quot;cevocie&quot;
+				when 12 then &quot;weight&quot;
+				when 13 then &quot;end&quot;
+				when 14 then &quot;deficit&quot;
+
+				else &quot;unknown&quot;
+		###*
 		# @property isAtLaterDate
 		# @final
 		# @type Boolean
@@ -348,7 +372,7 @@ class root.GradeType
 		# @final
 		# @type Boolean
 		###
-		@isEnd = -&gt; @type() is 2
+		@isEnd = -&gt; @type() in [ 2, 3, 4, 5, 6, 7, 13, 14 ]
 
 	@_convertRaw: (magisterObj, raw) -&gt;
 		obj = new root.GradeType magisterObj
