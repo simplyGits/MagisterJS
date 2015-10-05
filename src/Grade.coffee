@@ -212,6 +212,30 @@ class root.GradeType
 		###
 		@type = root._getset "_type"
 		###*
+		# type parsed as a string.
+		# @property typeString
+		# @final
+		# @type String
+		###
+		@typeString = root._getset "_type", null, (x) ->
+			switch x
+				when 1 then "grade"
+				when 2 then "average"
+				when 3 then "maximum"
+				when 4 then "formula"
+				when 5 then "minimum"
+				when 6 then "sum"
+				when 7 then "count"
+				when 8 then "cevo"
+				when 9 then "text"
+				when 10 then "cevocpe"
+				when 11 then "cevocie"
+				when 12 then "weight"
+				when 13 then "end"
+				when 14 then "deficit"
+
+				else "unknown"
+		###*
 		# @property isAtLaterDate
 		# @final
 		# @type Boolean
