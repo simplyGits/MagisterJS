@@ -270,7 +270,7 @@ class root.GradeType
 		# @final
 		# @type Boolean
 		###
-		@isEnd = -> @type() is 2
+		@isEnd = -> @type() in [ 2, 3, 4, 5, 6, 7, 13, 14 ]
 
 	@_convertRaw: (magisterObj, raw) ->
 		obj = new root.GradeType magisterObj
