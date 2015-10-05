@@ -14,7 +14,7 @@ else
 # @final
 # @type String
 ###
-root.VERSION = "1.10.2"
+root.VERSION = "1.11.0"
 
 ###*
 # A JavaScript implementation of the Magister 6 API.
