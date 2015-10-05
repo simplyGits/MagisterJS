@@ -7,6 +7,8 @@ messageFolder = (magisterObj, x) ->
 		when 3 then magisterObj.bin()
 		when 4 then magisterObj.alerts()
 
+		# TODO: allow search with id to `Magister::messageFolders` so that we can
+		# give back the real messagefolder.
 		else root.MessageFolder._convertRaw { Id: x }
 
 #TODO: Support sending Attachments.
