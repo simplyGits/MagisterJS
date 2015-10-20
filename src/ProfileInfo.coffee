@@ -111,24 +111,35 @@ class root.ProfileInfo
 	profilePicture: (width = 640, height = 640, crop = no) -> "#{@_magisterObj._personUrl}/foto?width=#{width}&height=#{height}&crop=#{crop}"
 
 	###*
-	# Fetch more detailedInfo of the current User.
-	#
-	# @method detailedInfo
+	# Fetch address info of the current user.
+	# @method address
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
-	# 	@param [callback.result] {DetailedProfileInfo} The detailed profile info of the current User.
+	# 	@param [callback.result] {AddressInfo} The address info of the current user.
 	###
-	detailedInfo: (callback) ->
-		unless callback? then throw new Error "`callback` is required."
-		push = root._helpers.asyncResultWaiter 2, (r) -> callback null, root.DetailedProfileInfo._convertRaw _.extend r[0], r[1]
-
-		@_magisterObj.http.get "#{@_magisterObj._personUrl}/profiel", {}, (e, r) ->
+	address: (callback) ->
+		url = "#{@_magisterObj._personUrl}/adresprofiel"
+		@_magisterObj.http.get url, {}, (e, r) ->
 			if e? then callback e, null
-			else push JSON.parse r.content
+			else
+				parsed = JSON.parse r.content
+				callback null, root.AddressInfo._convertRaw @_magisterObj, parsed
 
-		@_magisterObj.http.get "#{@_magisterObj._personUrl}/adresprofiel", {}, (e, r) ->
+	###*
+	# Fetch extra profile info of the current User.
+	#
+	# @method extraInfo
+	# @param callback {Function} A standard callback.
+	# 	@param [callback.error] {Object} The error, if it exists.
+	# 	@param [callback.result] {ExtraProfileInfo} The extra profile info of the current User.
+	###
+	extraInfo: (callback) ->
+		url = "#{@_magisterObj._personUrl}/profiel"
+		@_magisterObj.http.get url, {}, (e, r) ->
 			if e? then callback e, null
-			else push JSON.parse r.content
+			else
+				parsed = JSON.parse r.content
+				callback null, root.ExtraProfileInfo._convertRaw @_magisterObj, parsed
 
 	@_convertRaw: (magisterObj, raw) ->
 		obj = new root.ProfileInfo magisterObj, raw.Roepnaam, raw.Achternaam, new Date Date.parse raw.Geboortedatum
@@ -150,11 +161,11 @@ class root.ProfileInfo
 ###*
 # More detailed information of the logged in user. Or a child.
 #
-# @class DetailedProfileInfo
+# @class ExtraProfileInfo
 # @private
 # @constructor
 ###
-class root.DetailedProfileInfo
+class root.ExtraProfileInfo
 	constructor: ->
 		###*
 		# @property redirectMagisterMessages
@@ -174,6 +185,25 @@ class root.DetailedProfileInfo
 		# @type String
 		###
 		@mobileNumber = root._getset "_mobileNumber"
+
+	@_convertRaw: (magisterObj, raw) ->
+		obj = new root.ExtraProfileInfo
+
+		obj._redirectMagisterMessages = raw.EloBerichtenDoorsturen
+		obj._emailAddress = raw.EmailAdres
+		obj._mobileNumber = raw.Mobiel
+
+		obj
+
+###*
+# Address info of the current logged in user. Or a child.
+#
+# @class AddressInfo
+# @private
+# @constructor
+###
+class @AddressInfo
+	constructor: ->
 		###*
 		# @property postalCode
 		# @final
@@ -207,15 +237,8 @@ class root.DetailedProfileInfo
 		###
 		@city = root._getset "_city"
 
-	@_convertRaw: ->
-		# Normally `_convertRaw` functions require 2 params.
-		raw = arguments[if arguments.length is 2 then 1 else 0]
-
-		obj = new root.DetailedProfileInfo
-
-		obj._redirectMagisterMessages = raw.EloBerichtenDoorsturen
-		obj._emailAddress = raw.EmailAdres
-		obj._mobileNumber = raw.Mobiel
+	@_convertRaw: (magisterObj, raw) ->
+		obj = new root.AddressInfo
 
 		obj._postalCode = raw.Postcode
 		obj._street = raw.Straatnaam
@@ -223,4 +246,4 @@ class root.DetailedProfileInfo
 		obj._suffix = raw.Toevoeging
 		obj._city = raw.Woonplaats
 
-		return obj
+		obj

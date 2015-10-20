@@ -12,6 +12,8 @@ var GradePeriod = magisterjs.GradePeriod;
 var Person = magisterjs.Person;
 var DigitalSchoolUtility = magisterjs.DigitalSchoolUtility;
 var Class = magisterjs.Class;
+var AddressInfo = magisterjs.AddressInfo;
+var ExtraProfileInfo = magisterjs.ExtraProfileInfo;
 
 var options = null;
 
@@ -65,10 +67,28 @@ describe("Magister", function() {
 		expect(m).to.have.a.property("magisterSchool").to.have.a.property("url");
 	});
 
-	it("should contain profileInfo", function () {
-		expect(m.profileInfo()).to.be.a("object");
-		expect(m.profileInfo()).to.be.an.instanceof(ProfileInfo);
-		expect(m.profileInfo().profilePicture()).to.be.a("string");
+	describe("profileInfo", function () {
+		it("should contain profileInfo", function () {
+			expect(m.profileInfo()).to.be.a("object");
+			expect(m.profileInfo()).to.be.an.instanceof(ProfileInfo);
+			expect(m.profileInfo().profilePicture()).to.be.a("string");
+		});
+
+		it("should fetch address info", function (done) {
+			m.profileInfo().address(function (e, r) {
+				expect(e).to.not.exist;
+				expect(r).to.be.an.instanceof(AddressInfo);
+				done();
+			});
+		});
+
+		it("should fetch extra profile info", function (done) {
+			m.profileInfo().extraInfo(function (e, r) {
+				expect(e).to.not.exist;
+				expect(r).to.be.an.instanceof(ExtraProfileInfo);
+				done();
+			});
+		});
 	});
 
 	describe("messages", function () {
