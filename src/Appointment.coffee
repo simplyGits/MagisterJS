@@ -71,11 +71,56 @@ class root.Appointment
 		###
 		@type = root._getset "_type"
 		###*
+		# type parsed as a string.
+		# @property typeString
+		# @final
+		# @type String
+		###
+		@typeString = root._getset "_type", null, (x) ->
+			switch x
+				when 0 then 'none'
+				when 1 then 'personal'
+				when 2 then 'general'
+				when 3 then 'schoolwide'
+				when 4 then 'internship'
+				when 5 then 'intake'
+				when 6 then 'scheduleFree'
+				when 7 then 'kwt'
+				when 8 then 'standby'
+				when 9 then 'block'
+				when 10 then 'miscellaneous'
+				when 11 then 'localBlock'
+				when 12 then 'classBlock'
+				when 13 then 'lesson'
+				when 14 then 'studiehuis'
+				when 15 then 'scheduleFreeStudy'
+				when 16 then 'planning'
+				# what's up with this big hole here, schoolmaster?
+				when 101 then 'actions'
+				when 102 then 'presences'
+				when 103 then 'examSchedule'
+
+				else 'unknown'
+		###*
 		# @property displayType
 		# @final
 		# @type Number
 		###
 		@displayType = root._getset "_displayType"
+		###*
+		# displayType parsed as a string.
+		# @property displayTypeString
+		# @final
+		# @type String
+		###
+		@displayTypeString = root._getset "_displayType", null, (x) ->
+			switch x
+				when 1 then 'available'
+				when 2 then 'provisionallyScheduled'
+				when 3 then 'scheduled'
+				when 4 then 'absent'
+
+				else 'unknown'
 		###*
 		# @property content
 		# @final
@@ -95,16 +140,17 @@ class root.Appointment
 		# @type String
 		###
 		@infoTypeString = root._getset "_infoType", null, (x) ->
-			return switch x
-				when 0 then "none"
-				when 1 then "homework"
-				when 2 then "test"
-				when 3 then "exam"
-				when 4 then "quiz"
-				when 5 then "oral"
-				when 6 then "information"
+			switch x
+				when 0 then 'none'
+				when 1 then 'homework'
+				when 2 then 'test'
+				when 3 then 'exam'
+				when 4 then 'quiz'
+				when 5 then 'oral'
+				when 6 then 'information'
+				when 7 then 'annotation'
 
-				else "unknown"
+				else 'unknown'
 		###*
 		# @property notes
 		# @final
@@ -169,6 +215,12 @@ class root.Appointment
 		###
 		@scrapped = root._getset "_scrapped"
 		###*
+		# @property changed
+		# @final
+		# @type Boolean
+		###
+		@changed = root._getset "_changed"
+		###*
 		# @property absenceInfo
 		# @final
 		# @type Object
@@ -227,7 +279,8 @@ class root.Appointment
 		obj._appointmentId = raw.OpdrachtId
 		obj._attachments = raw.Bijlagen
 		obj._url = "#{magisterObj._personUrl}/afspraken/#{obj._id}"
-		obj._scrapped = raw.Status is 5
+		obj._scrapped = raw.Status in [ 4, 5 ]
+		obj._changed = raw.Status in [ 3, 9, 10 ]
 
 		obj
 
