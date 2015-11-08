@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.11.0</em>
+            <em>API Docs for: 1.12.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -38,13 +38,14 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/AddressInfo.html">AddressInfo</a></li>
                                 <li><a href="../classes/Appointment.html">Appointment</a></li>
                                 <li><a href="../classes/Assignment.html">Assignment</a></li>
                                 <li><a href="../classes/AssignmentVersion.html">AssignmentVersion</a></li>
                                 <li><a href="../classes/Class.html">Class</a></li>
                                 <li><a href="../classes/Course.html">Course</a></li>
-                                <li><a href="../classes/DetailedProfileInfo.html">DetailedProfileInfo</a></li>
                                 <li><a href="../classes/DigitalSchoolUtility.html">DigitalSchoolUtility</a></li>
+                                <li><a href="../classes/ExtraProfileInfo.html">ExtraProfileInfo</a></li>
                                 <li><a href="../classes/File.html">File</a></li>
                                 <li><a href="../classes/FileFolder.html">FileFolder</a></li>
                                 <li><a href="../classes/Grade.html">Grade</a></li>
@@ -291,6 +292,10 @@
 
                             </li>
                             <li class="index-item method">
+                                <a href="#method_createAppointment">createAppointment</a>
+
+                            </li>
+                            <li class="index-item method">
                                 <a href="#method_currentCourse">currentCourse</a>
 
                             </li>
@@ -381,7 +386,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Magister.coffee.html#l189"><code>Magister.coffee:189</code></a>
+        <a href="../files/Magister.coffee.html#l264"><code>Magister.coffee:264</code></a>
         </p>
 
 
@@ -448,7 +453,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Magister.coffee.html#l671"><code>Magister.coffee:671</code></a>
+        <a href="../files/Magister.coffee.html#l746"><code>Magister.coffee:746</code></a>
         </p>
 
 
@@ -501,7 +506,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Magister.coffee.html#l221"><code>Magister.coffee:221</code></a>
+        <a href="../files/Magister.coffee.html#l296"><code>Magister.coffee:296</code></a>
         </p>
 
 
@@ -682,7 +687,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Magister.coffee.html#l491"><code>Magister.coffee:491</code></a>
+        <a href="../files/Magister.coffee.html#l566"><code>Magister.coffee:566</code></a>
         </p>
 
 
@@ -805,7 +810,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Magister.coffee.html#l216"><code>Magister.coffee:216</code></a>
+        <a href="../files/Magister.coffee.html#l291"><code>Magister.coffee:291</code></a>
         </p>
 
 
@@ -850,7 +855,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Magister.coffee.html#l587"><code>Magister.coffee:587</code></a>
+        <a href="../files/Magister.coffee.html#l662"><code>Magister.coffee:662</code></a>
         </p>
 
 
@@ -937,7 +942,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Magister.coffee.html#l413"><code>Magister.coffee:413</code></a>
+        <a href="../files/Magister.coffee.html#l488"><code>Magister.coffee:488</code></a>
         </p>
 
 
@@ -1051,7 +1056,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Magister.coffee.html#l227"><code>Magister.coffee:227</code></a>
+        <a href="../files/Magister.coffee.html#l302"><code>Magister.coffee:302</code></a>
         </p>
 
 
@@ -1108,6 +1113,174 @@
 
 
 </div>
+<div id="method_createAppointment" class="method item">
+    <h3 class="name"><code>createAppointment</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>options</code>
+                </li>
+                <li class="arg">
+                        <code>callback</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/Magister.coffee.html#l161"><code>Magister.coffee:161</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Creates a new appointment based on the given <code>options</code>.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">options</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+                    <div class="param-description">
+                        <p>An object containing options and stuff.</p>
+
+                    </div>
+
+                        <ul class="params-list">
+                            <li class="param">
+                                    <code class="param-name">name</code>
+                                    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+
+                                <div class="param-description">
+                                    <p>The name of the appointment.</p>
+
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name">start</code>
+                                    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" class="crosslink external" target="_blank">Date</a></span>
+
+                                <div class="param-description">
+                                    <p>The start of the appointment, time is ignored when <code>options.fullDay</code> is set to true.</p>
+
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name">end</code>
+                                    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" class="crosslink external" target="_blank">Date</a></span>
+
+                                <div class="param-description">
+                                    <p>The end of the appointment, this is ignored when <code>options.fullDay</code> is set to true.</p>
+
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name optional">[fullDay=false]</code>
+                                    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+
+                                <div class="param-description">
+                                    <p>When this is true, <code>options.end</code> is ignored and only <code>options.start</code> is used to set the begin and the end for the appointment.</p>
+
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name optional">[location]</code>
+                                    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+
+                                <div class="param-description">
+                                    <p>The location (classroom for example) for the appointment.</p>
+
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name optional">[content]</code>
+                                    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+
+                                <div class="param-description">
+                                    <p>Some random string of characters you want to save.</p>
+
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name optional">[type=1]</code>
+                                    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+
+                                <div class="param-description">
+                                    <p>The type of the appointment: 1 for personal or 16 for planning</p>
+
+                                </div>
+
+                            </li>
+                        </ul>
+                </li>
+                <li class="param">
+                        <code class="param-name">callback</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></span>
+
+
+                    <div class="param-description">
+                        <p>A standard callback.</p>
+
+                    </div>
+
+                        <ul class="params-list">
+                            <li class="param">
+                                    <code class="param-name optional">[error]</code>
+                                    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+
+                                <div class="param-description">
+                                    <p>The error, if it exists.</p>
+
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name optional">[result]</code>
+                                    <span class="type"><a href="../classes/Appointment.html" class="crosslink">Appointment</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+
+                                <div class="param-description">
+                                    <p>The newly created appointment.</p>
+
+                                </div>
+
+                            </li>
+                        </ul>
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
 <div id="method_currentCourse" class="method item">
     <h3 class="name"><code>currentCourse</code></h3>
 
@@ -1130,7 +1303,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Magister.coffee.html#l249"><code>Magister.coffee:249</code></a>
+        <a href="../files/Magister.coffee.html#l324"><code>Magister.coffee:324</code></a>
         </p>
 
 
@@ -1209,7 +1382,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Magister.coffee.html#l550"><code>Magister.coffee:550</code></a>
+        <a href="../files/Magister.coffee.html#l625"><code>Magister.coffee:625</code></a>
         </p>
 
 
@@ -1288,7 +1461,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Magister.coffee.html#l438"><code>Magister.coffee:438</code></a>
+        <a href="../files/Magister.coffee.html#l513"><code>Magister.coffee:513</code></a>
         </p>
 
 
@@ -1373,7 +1546,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Magister.coffee.html#l373"><code>Magister.coffee:373</code></a>
+        <a href="../files/Magister.coffee.html#l448"><code>Magister.coffee:448</code></a>
         </p>
 
 
@@ -1476,7 +1649,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Magister.coffee.html#l264"><code>Magister.coffee:264</code></a>
+        <a href="../files/Magister.coffee.html#l339"><code>Magister.coffee:339</code></a>
         </p>
 
 
@@ -1624,7 +1797,7 @@ you're doing and you're willing to use this, go ahead.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Magister.coffee.html#l308"><code>Magister.coffee:308</code></a>
+        <a href="../files/Magister.coffee.html#l383"><code>Magister.coffee:383</code></a>
         </p>
 
 
@@ -1731,7 +1904,7 @@ you're doing and you're willing to use this, go ahead.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Magister.coffee.html#l206"><code>Magister.coffee:206</code></a>
+        <a href="../files/Magister.coffee.html#l281"><code>Magister.coffee:281</code></a>
         </p>
 
 
@@ -1782,7 +1955,7 @@ you're doing and you're willing to use this, go ahead.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Magister.coffee.html#l161"><code>Magister.coffee:161</code></a>
+        <a href="../files/Magister.coffee.html#l236"><code>Magister.coffee:236</code></a>
         </p>
 
 
@@ -1879,7 +2052,7 @@ you're doing and you're willing to use this, go ahead.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Magister.coffee.html#l577"><code>Magister.coffee:577</code></a>
+        <a href="../files/Magister.coffee.html#l652"><code>Magister.coffee:652</code></a>
         </p>
 
 
@@ -1928,7 +2101,7 @@ you're doing and you're willing to use this, go ahead.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Magister.coffee.html#l627"><code>Magister.coffee:627</code></a>
+        <a href="../files/Magister.coffee.html#l702"><code>Magister.coffee:702</code></a>
         </p>
 
 
@@ -2024,7 +2197,7 @@ you're doing and you're willing to use this, go ahead.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Magister.coffee.html#l211"><code>Magister.coffee:211</code></a>
+        <a href="../files/Magister.coffee.html#l286"><code>Magister.coffee:286</code></a>
         </p>
 
 
@@ -2073,7 +2246,7 @@ you're doing and you're willing to use this, go ahead.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Magister.coffee.html#l454"><code>Magister.coffee:454</code></a>
+        <a href="../files/Magister.coffee.html#l529"><code>Magister.coffee:529</code></a>
         </p>
 
 

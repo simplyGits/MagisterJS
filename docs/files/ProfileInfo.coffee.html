@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.11.0</em>
+            <em>API Docs for: 1.12.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -38,13 +38,14 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/AddressInfo.html">AddressInfo</a></li>
                                 <li><a href="../classes/Appointment.html">Appointment</a></li>
                                 <li><a href="../classes/Assignment.html">Assignment</a></li>
                                 <li><a href="../classes/AssignmentVersion.html">AssignmentVersion</a></li>
                                 <li><a href="../classes/Class.html">Class</a></li>
                                 <li><a href="../classes/Course.html">Course</a></li>
-                                <li><a href="../classes/DetailedProfileInfo.html">DetailedProfileInfo</a></li>
                                 <li><a href="../classes/DigitalSchoolUtility.html">DigitalSchoolUtility</a></li>
+                                <li><a href="../classes/ExtraProfileInfo.html">ExtraProfileInfo</a></li>
                                 <li><a href="../classes/File.html">File</a></li>
                                 <li><a href="../classes/FileFolder.html">FileFolder</a></li>
                                 <li><a href="../classes/Grade.html">Grade</a></li>
@@ -213,24 +214,35 @@ class root.ProfileInfo
 	profilePicture: (width = 640, height = 640, crop = no) -&gt; &quot;#{@_magisterObj._personUrl}/foto?width=#{width}&amp;height=#{height}&amp;crop=#{crop}&quot;
 
 	###*
-	# Fetch more detailedInfo of the current User.
-	#
-	# @method detailedInfo
+	# Fetch address info of the current user.
+	# @method address
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
-	# 	@param [callback.result] {DetailedProfileInfo} The detailed profile info of the current User.
+	# 	@param [callback.result] {AddressInfo} The address info of the current user.
 	###
-	detailedInfo: (callback) -&gt;
-		unless callback? then throw new Error &quot;&#x60;callback&#x60; is required.&quot;
-		push = root._helpers.asyncResultWaiter 2, (r) -&gt; callback null, root.DetailedProfileInfo._convertRaw _.extend r[0], r[1]
-
-		@_magisterObj.http.get &quot;#{@_magisterObj._personUrl}/profiel&quot;, {}, (e, r) -&gt;
+	address: (callback) -&gt;
+		url = &quot;#{@_magisterObj._personUrl}/adresprofiel&quot;
+		@_magisterObj.http.get url, {}, (e, r) -&gt;
 			if e? then callback e, null
-			else push JSON.parse r.content
+			else
+				parsed = JSON.parse r.content
+				callback null, root.AddressInfo._convertRaw @_magisterObj, parsed
 
-		@_magisterObj.http.get &quot;#{@_magisterObj._personUrl}/adresprofiel&quot;, {}, (e, r) -&gt;
+	###*
+	# Fetch extra profile info of the current User.
+	#
+	# @method extraInfo
+	# @param callback {Function} A standard callback.
+	# 	@param [callback.error] {Object} The error, if it exists.
+	# 	@param [callback.result] {ExtraProfileInfo} The extra profile info of the current User.
+	###
+	extraInfo: (callback) -&gt;
+		url = &quot;#{@_magisterObj._personUrl}/profiel&quot;
+		@_magisterObj.http.get url, {}, (e, r) -&gt;
 			if e? then callback e, null
-			else push JSON.parse r.content
+			else
+				parsed = JSON.parse r.content
+				callback null, root.ExtraProfileInfo._convertRaw @_magisterObj, parsed
 
 	@_convertRaw: (magisterObj, raw) -&gt;
 		obj = new root.ProfileInfo magisterObj, raw.Roepnaam, raw.Achternaam, new Date Date.parse raw.Geboortedatum
@@ -252,11 +264,11 @@ class root.ProfileInfo
 ###*
 # More detailed information of the logged in user. Or a child.
 #
-# @class DetailedProfileInfo
+# @class ExtraProfileInfo
 # @private
 # @constructor
 ###
-class root.DetailedProfileInfo
+class root.ExtraProfileInfo
 	constructor: -&gt;
 		###*
 		# @property redirectMagisterMessages
@@ -276,6 +288,25 @@ class root.DetailedProfileInfo
 		# @type String
 		###
 		@mobileNumber = root._getset &quot;_mobileNumber&quot;
+
+	@_convertRaw: (magisterObj, raw) -&gt;
+		obj = new root.ExtraProfileInfo
+
+		obj._redirectMagisterMessages = raw.EloBerichtenDoorsturen
+		obj._emailAddress = raw.EmailAdres
+		obj._mobileNumber = raw.Mobiel
+
+		obj
+
+###*
+# Address info of the current logged in user. Or a child.
+#
+# @class AddressInfo
+# @private
+# @constructor
+###
+class @AddressInfo
+	constructor: -&gt;
 		###*
 		# @property postalCode
 		# @final
@@ -309,15 +340,8 @@ class root.DetailedProfileInfo
 		###
 		@city = root._getset &quot;_city&quot;
 
-	@_convertRaw: -&gt;
-		# Normally &#x60;_convertRaw&#x60; functions require 2 params.
-		raw = arguments[if arguments.length is 2 then 1 else 0]
-
-		obj = new root.DetailedProfileInfo
-
-		obj._redirectMagisterMessages = raw.EloBerichtenDoorsturen
-		obj._emailAddress = raw.EmailAdres
-		obj._mobileNumber = raw.Mobiel
+	@_convertRaw: (magisterObj, raw) -&gt;
+		obj = new root.AddressInfo
 
 		obj._postalCode = raw.Postcode
 		obj._street = raw.Straatnaam
@@ -325,7 +349,7 @@ class root.DetailedProfileInfo
 		obj._suffix = raw.Toevoeging
 		obj._city = raw.Woonplaats
 
-		return obj
+		obj
 
     </pre>
 </div>

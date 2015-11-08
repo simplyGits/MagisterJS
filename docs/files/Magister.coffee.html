@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.11.0</em>
+            <em>API Docs for: 1.12.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -38,13 +38,14 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/AddressInfo.html">AddressInfo</a></li>
                                 <li><a href="../classes/Appointment.html">Appointment</a></li>
                                 <li><a href="../classes/Assignment.html">Assignment</a></li>
                                 <li><a href="../classes/AssignmentVersion.html">AssignmentVersion</a></li>
                                 <li><a href="../classes/Class.html">Class</a></li>
                                 <li><a href="../classes/Course.html">Course</a></li>
-                                <li><a href="../classes/DetailedProfileInfo.html">DetailedProfileInfo</a></li>
                                 <li><a href="../classes/DigitalSchoolUtility.html">DigitalSchoolUtility</a></li>
+                                <li><a href="../classes/ExtraProfileInfo.html">ExtraProfileInfo</a></li>
                                 <li><a href="../classes/File.html">File</a></li>
                                 <li><a href="../classes/FileFolder.html">FileFolder</a></li>
                                 <li><a href="../classes/Grade.html">Grade</a></li>
@@ -116,7 +117,7 @@ else
 # @final
 # @type String
 ###
-root.VERSION = &quot;1.11.0&quot;
+root.VERSION = &quot;1.12.0&quot;
 
 ###*
 # A JavaScript implementation of the Magister 6 API.
@@ -259,6 +260,81 @@ class root.Magister
 								pushResult()
 							), 3
 					else finish()
+
+	###*
+	# Creates a new appointment based on the given &#x60;options&#x60;.
+	#
+	# @method createAppointment
+	# @param options {Object} An object containing options and stuff.
+	# 	@param options.name {String} The name of the appointment.
+	# 	@param options.start {Date} The start of the appointment, time is ignored when &#x60;options.fullDay&#x60; is set to true.
+	# 	@param options.end {Date} The end of the appointment, this is ignored when &#x60;options.fullDay&#x60; is set to true.
+	# 	@param [options.fullDay=false] {Boolean} When this is true, &#x60;options.end&#x60; is ignored and only &#x60;options.start&#x60; is used to set the begin and the end for the appointment.
+	# 	@param [options.location] {String} The location (classroom for example) for the appointment.
+	# 	@param [options.content] {String} Some random string of characters you want to save.
+	# 	@param [options.type=1] {Number} The type of the appointment: 1 for personal or 16 for planning
+	# @param callback {Function} A standard callback.
+	# 	@param [callback.error] {Object} The error, if it exists.
+	# 	@param [callback.result] {Appointment} The newly created appointment.
+	###
+	createAppointment: (options, callback) -&gt;
+		@_forceReady()
+
+		required = [ &#x27;name&#x27;, &#x27;start&#x27;, &#x27;end&#x27; ]
+		for key in required
+			unless options[key]?
+				callback new Error(&quot;Not all required fields for &#x60;options&#x60; are given, required are: [ #{required.join &#x27;, &#x27;} ]&quot;), null
+				return undefined
+
+		start = (
+			if options.fullDay
+				root._helpers.date options.start
+			else
+				options.start
+		)
+		payload =
+			Start: root._helpers.toUtcString start
+			Einde: root._helpers.toUtcString (
+				if options.fullDay
+					new Date start.getTime() + ( 1000 * 60 * 60 * 24 )
+				else
+					options.end
+			)
+			Omschrijving: options.name
+
+			Lokatie: options.location ? &#x27;&#x27;
+			Inhoud: (
+				content = options.content?.trim()
+				if content? and content.length &gt; 0 then _.escape options.content
+				else null
+			)
+			Type: options.type ? 1
+			DuurtHeleDag: options.fullDay
+
+			# Static non-configurable stuff.
+			InfoType: 0
+			WeergaveType: 1
+			Status: 2
+			HeeftBijlagen: false
+			Bijlagen: null
+			LesuurVan: null
+			LesuurTotMet: null
+			Aantekening: null
+			Afgerond: false
+			Vakken: null
+			Docenten: null
+			Links: null
+			Id: 0
+			Lokalen: null
+			Groepen: null
+			OpdrachtId: 0
+
+		@http.post &quot;#{@_personUrl}/afspraken&quot;, payload, {}, (e, r) =&gt;
+			if e? then callback e, null
+			else
+				appointment = root.Appointment._convertRaw this, payload
+				appointment._url = @magisterSchool.url + JSON.parse(r.content).Url
+				callback null, appointment
 
 	###*
 	# Gets the MessageFolders that matches the given query. Or if no query is given, all MessageFolders

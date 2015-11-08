@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.11.0</em>
+            <em>API Docs for: 1.12.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -38,13 +38,14 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/AddressInfo.html">AddressInfo</a></li>
                                 <li><a href="../classes/Appointment.html">Appointment</a></li>
                                 <li><a href="../classes/Assignment.html">Assignment</a></li>
                                 <li><a href="../classes/AssignmentVersion.html">AssignmentVersion</a></li>
                                 <li><a href="../classes/Class.html">Class</a></li>
                                 <li><a href="../classes/Course.html">Course</a></li>
-                                <li><a href="../classes/DetailedProfileInfo.html">DetailedProfileInfo</a></li>
                                 <li><a href="../classes/DigitalSchoolUtility.html">DigitalSchoolUtility</a></li>
+                                <li><a href="../classes/ExtraProfileInfo.html">ExtraProfileInfo</a></li>
                                 <li><a href="../classes/File.html">File</a></li>
                                 <li><a href="../classes/FileFolder.html">FileFolder</a></li>
                                 <li><a href="../classes/Grade.html">Grade</a></li>
@@ -173,11 +174,56 @@ class root.Appointment
 		###
 		@type = root._getset &quot;_type&quot;
 		###*
+		# type parsed as a string.
+		# @property typeString
+		# @final
+		# @type String
+		###
+		@typeString = root._getset &quot;_type&quot;, null, (x) -&gt;
+			switch x
+				when 0 then &#x27;none&#x27;
+				when 1 then &#x27;personal&#x27;
+				when 2 then &#x27;general&#x27;
+				when 3 then &#x27;schoolwide&#x27;
+				when 4 then &#x27;internship&#x27;
+				when 5 then &#x27;intake&#x27;
+				when 6 then &#x27;scheduleFree&#x27;
+				when 7 then &#x27;kwt&#x27;
+				when 8 then &#x27;standby&#x27;
+				when 9 then &#x27;block&#x27;
+				when 10 then &#x27;miscellaneous&#x27;
+				when 11 then &#x27;localBlock&#x27;
+				when 12 then &#x27;classBlock&#x27;
+				when 13 then &#x27;lesson&#x27;
+				when 14 then &#x27;studiehuis&#x27;
+				when 15 then &#x27;scheduleFreeStudy&#x27;
+				when 16 then &#x27;planning&#x27;
+				# what&#x27;s up with this big hole here, schoolmaster?
+				when 101 then &#x27;actions&#x27;
+				when 102 then &#x27;presences&#x27;
+				when 103 then &#x27;examSchedule&#x27;
+
+				else &#x27;unknown&#x27;
+		###*
 		# @property displayType
 		# @final
 		# @type Number
 		###
 		@displayType = root._getset &quot;_displayType&quot;
+		###*
+		# displayType parsed as a string.
+		# @property displayTypeString
+		# @final
+		# @type String
+		###
+		@displayTypeString = root._getset &quot;_displayType&quot;, null, (x) -&gt;
+			switch x
+				when 1 then &#x27;available&#x27;
+				when 2 then &#x27;provisionallyScheduled&#x27;
+				when 3 then &#x27;scheduled&#x27;
+				when 4 then &#x27;absent&#x27;
+
+				else &#x27;unknown&#x27;
 		###*
 		# @property content
 		# @final
@@ -197,16 +243,17 @@ class root.Appointment
 		# @type String
 		###
 		@infoTypeString = root._getset &quot;_infoType&quot;, null, (x) -&gt;
-			return switch x
-				when 0 then &quot;none&quot;
-				when 1 then &quot;homework&quot;
-				when 2 then &quot;test&quot;
-				when 3 then &quot;exam&quot;
-				when 4 then &quot;quiz&quot;
-				when 5 then &quot;oral&quot;
-				when 6 then &quot;information&quot;
+			switch x
+				when 0 then &#x27;none&#x27;
+				when 1 then &#x27;homework&#x27;
+				when 2 then &#x27;test&#x27;
+				when 3 then &#x27;exam&#x27;
+				when 4 then &#x27;quiz&#x27;
+				when 5 then &#x27;oral&#x27;
+				when 6 then &#x27;information&#x27;
+				when 7 then &#x27;annotation&#x27;
 
-				else &quot;unknown&quot;
+				else &#x27;unknown&#x27;
 		###*
 		# @property notes
 		# @final
@@ -271,11 +318,28 @@ class root.Appointment
 		###
 		@scrapped = root._getset &quot;_scrapped&quot;
 		###*
+		# @property changed
+		# @final
+		# @type Boolean
+		###
+		@changed = root._getset &quot;_changed&quot;
+		###*
 		# @property absenceInfo
 		# @final
 		# @type Object
 		###
 		@absenceInfo = root._getset &quot;_absenceInfo&quot;
+
+	###*
+	# WARNING. Removes the current Appointment if created by the user.
+	# @method remove
+	# @param [callback] {Function} An optional callback.
+	# 	@param [callback.error] {Object} An error, if it exists.
+	###
+	remove: (cb) -&gt;
+		# quit if this appointment isn&#x27;t made by the user.
+		return unless @_type in [ 1, 16 ]
+		@_magisterObj.http.delete @_url, {}, _.ary cb, 1
 
 	_toMagisterStyle: -&gt;
 		obj = {}
@@ -329,7 +393,8 @@ class root.Appointment
 		obj._appointmentId = raw.OpdrachtId
 		obj._attachments = raw.Bijlagen
 		obj._url = &quot;#{magisterObj._personUrl}/afspraken/#{obj._id}&quot;
-		obj._scrapped = raw.Status is 5
+		obj._scrapped = raw.Status in [ 4, 5 ]
+		obj._changed = raw.Status in [ 3, 9, 10 ]
 
 		obj
 

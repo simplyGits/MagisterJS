@@ -1,13 +1,14 @@
 YUI.add("yuidoc-meta", function(Y) {
    Y.YUIDoc = { meta: {
     "classes": [
+        "AddressInfo",
         "Appointment",
         "Assignment",
         "AssignmentVersion",
         "Class",
         "Course",
-        "DetailedProfileInfo",
         "DigitalSchoolUtility",
+        "ExtraProfileInfo",
         "File",
         "FileFolder",
         "Grade",
