@@ -227,6 +227,17 @@ class root.Appointment
 		###
 		@absenceInfo = root._getset "_absenceInfo"
 
+	###*
+	# WARNING. Removes the current Appointment if created by the user.
+	# @method remove
+	# @param [callback] {Function} An optional callback.
+	# 	@param [callback.error] {Object} An error, if it exists.
+	###
+	remove: (cb) ->
+		# quit if this appointment isn't made by the user.
+		return unless @_type in [ 1, 16 ]
+		@_magisterObj.http.delete @_url, {}, _.ary cb, 1
+
 	_toMagisterStyle: ->
 		obj = {}
 

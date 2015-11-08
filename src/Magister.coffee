@@ -159,6 +159,81 @@ class root.Magister
 					else finish()
 
 	###*
+	# Creates a new appointment based on the given `options`.
+	#
+	# @method createAppointment
+	# @param options {Object} An object containing options and stuff.
+	# 	@param options.name {String} The name of the appointment.
+	# 	@param options.start {Date} The start of the appointment, time is ignored when `options.fullDay` is set to true.
+	# 	@param options.end {Date} The end of the appointment, this is ignored when `options.fullDay` is set to true.
+	# 	@param [options.fullDay=false] {Boolean} When this is true, `options.end` is ignored and only `options.start` is used to set the begin and the end for the appointment.
+	# 	@param [options.location] {String} The location (classroom for example) for the appointment.
+	# 	@param [options.content] {String} Some random string of characters you want to save.
+	# 	@param [options.type=1] {Number} The type of the appointment: 1 for personal or 16 for planning
+	# @param callback {Function} A standard callback.
+	# 	@param [callback.error] {Object} The error, if it exists.
+	# 	@param [callback.result] {Appointment} The newly created appointment.
+	###
+	createAppointment: (options, callback) ->
+		@_forceReady()
+
+		required = [ 'name', 'start', 'end' ]
+		for key in required
+			unless options[key]?
+				callback new Error("Not all required fields for `options` are given, required are: [ #{required.join ', '} ]"), null
+				return undefined
+
+		start = (
+			if options.fullDay
+				root._helpers.date options.start
+			else
+				options.start
+		)
+		payload =
+			Start: root._helpers.toUtcString start
+			Einde: root._helpers.toUtcString (
+				if options.fullDay
+					new Date start.getTime() + ( 1000 * 60 * 60 * 24 )
+				else
+					options.end
+			)
+			Omschrijving: options.name
+
+			Lokatie: options.location ? ''
+			Inhoud: (
+				content = options.content?.trim()
+				if content? and content.length > 0 then _.escape options.content
+				else null
+			)
+			Type: options.type ? 1
+			DuurtHeleDag: options.fullDay
+
+			# Static non-configurable stuff.
+			InfoType: 0
+			WeergaveType: 1
+			Status: 2
+			HeeftBijlagen: false
+			Bijlagen: null
+			LesuurVan: null
+			LesuurTotMet: null
+			Aantekening: null
+			Afgerond: false
+			Vakken: null
+			Docenten: null
+			Links: null
+			Id: 0
+			Lokalen: null
+			Groepen: null
+			OpdrachtId: 0
+
+		@http.post "#{@_personUrl}/afspraken", payload, {}, (e, r) =>
+			if e? then callback e, null
+			else
+				appointment = root.Appointment._convertRaw this, payload
+				appointment._url = @magisterSchool.url + JSON.parse(r.content).Url
+				callback null, appointment
+
+	###*
 	# Gets the MessageFolders that matches the given query. Or if no query is given, all MessageFolders
 	#
 	# @method messageFolders

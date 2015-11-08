@@ -171,6 +171,19 @@ describe("Magister", function() {
 				done();
 			});
 		});
+
+		it("should be able to create appointments and delete them", function (done) {
+			var now = new Date();
+			m.createAppointment({
+				start: now,
+				end: new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1),
+				name: 'magister.js test appointment',
+			}, function (e, r) {
+				expect(e).to.not.exist;
+				expect(r).to.be.an.instanceof(Appointment);
+				r.remove(done);
+			});
+		});
 	});
 
 	describe("files", function () {
