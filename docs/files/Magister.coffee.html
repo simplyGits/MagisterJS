@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.12.0</em>
+            <em>API Docs for: 1.13.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -38,6 +38,7 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/AbsenceInfo.html">AbsenceInfo</a></li>
                                 <li><a href="../classes/AddressInfo.html">AddressInfo</a></li>
                                 <li><a href="../classes/Appointment.html">Appointment</a></li>
                                 <li><a href="../classes/Assignment.html">Assignment</a></li>
@@ -117,7 +118,7 @@ else
 # @final
 # @type String
 ###
-root.VERSION = &quot;1.12.0&quot;
+root.VERSION = &quot;1.13.0&quot;
 
 ###*
 # A JavaScript implementation of the Magister 6 API.
@@ -211,12 +212,12 @@ class root.Magister
 					result = JSON.parse result.content
 					appointments = (root.Appointment._convertRaw(this, a) for a in result.Items)
 
-					absenceInfo = []
+					absenceInfo = null
 
 					# Gets run when the appointments persons and absenceInfo is loaded
 					finish = root._helpers.asyncResultWaiter 2, (r) -&gt;
 						_.each appointments, (a) -&gt;
-							a._absenceInfo = _.find absenceInfo, (i) -&gt; i.appointmentId is a.id()
+							a._absenceInfo = _.find absenceInfo, (i) -&gt; i.appointment().id() is a.id()
 
 						appointments = _(appointments)
 							.filter (a) -&gt;
@@ -230,22 +231,13 @@ class root.Magister
 						callback null, appointments
 
 					# Get absenceInfo.
-					@http.get &quot;#{@_personUrl}/absenties?tot=#{dateConvert(to)}&amp;van=#{dateConvert(from)}&quot;, {}, (error, result) -&gt;
+					@http.get &quot;#{@_personUrl}/absenties?tot=#{dateConvert(to)}&amp;van=#{dateConvert(from)}&quot;, {}, (error, result) =&gt;
 						if error?
 							callback error, null
 						else
 							result = JSON.parse(result.content).Items
-							for a in result
-								absenceInfo.push
-									id: a.Id
-									begin: new Date Date.parse a.Start
-									end: new Date Date.parse a.Eind
-									schoolHour: a.Lesuur
-									permitted: a.Geoorloofd
-									appointmentId: a.AfspraakId
-									description: a.Omschrijving.trim()
-									type: a.VerantwoordingType
-									code: a.Code
+							absenceInfo = result.map (i) =&gt;
+								root.AbsenceInfo._convertRaw this, i
 							finish()
 
 					# Get persons.

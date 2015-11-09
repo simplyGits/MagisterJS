@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.12.0</em>
+            <em>API Docs for: 1.13.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -38,6 +38,7 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/AbsenceInfo.html">AbsenceInfo</a></li>
                                 <li><a href="../classes/AddressInfo.html">AddressInfo</a></li>
                                 <li><a href="../classes/Appointment.html">Appointment</a></li>
                                 <li><a href="../classes/Assignment.html">Assignment</a></li>
@@ -326,7 +327,7 @@ class root.Appointment
 		###*
 		# @property absenceInfo
 		# @final
-		# @type Object
+		# @type AbsenceInfo
 		###
 		@absenceInfo = root._getset &quot;_absenceInfo&quot;
 
@@ -404,6 +405,103 @@ class root.Appointment
 		obj._begin = new Date Date.parse raw._begin
 		obj._end = new Date Date.parse raw._end
 		return obj
+
+###*
+# Info about absence for an appointment.
+#
+# @class AbsenceInfo
+# @private
+# @param _magisterObj {Magister} A Magister object this AbsenceInfo is child of.
+# @constructor
+###
+class root.AbsenceInfo
+	constructor: (@_magisterObj) -&gt;
+		###*
+		# @property id
+		# @final
+		# @type Number
+		###
+		@id = root._getset &quot;_id&quot;
+		###*
+		# @property begin
+		# @final
+		# @type Date
+		###
+		@begin = root._getset &quot;_begin&quot;
+		###*
+		# @property end
+		# @final
+		# @type Date
+		###
+		@end = root._getset &quot;_end&quot;
+		###*
+		# @property schoolHour
+		# @final
+		# @type Number
+		###
+		@schoolHour = root._getset &quot;_schoolHour&quot;
+		###*
+		# @property permitted
+		# @final
+		# @type Boolean
+		###
+		@permitted = root._getset &quot;_permitted&quot;
+		###*
+		# @property description
+		# @final
+		# @type String
+		###
+		@description = root._getset &quot;_description&quot;
+		###*
+		# @property type
+		# @final
+		# @type Number
+		###
+		@type = root._getset &quot;_type&quot;
+		###*
+		# type parsed as a string.
+		# @property typeString
+		# @final
+		# @type String
+		###
+		@typeString = root._getset &quot;_type&quot;, null, (x) -&gt;
+			switch x
+				when 1 then &#x27;absent&#x27;
+				when 2 then &#x27;late&#x27;
+				when 3 then &#x27;sick&#x27;
+				when 4 then &#x27;discharged&#x27;
+				when 6 then &#x27;exemption&#x27;
+				when 7 then &#x27;books&#x27;
+				when 8 then &#x27;homework&#x27;
+
+				else &#x27;unknown&#x27;
+		###*
+		# @property code
+		# @final
+		# @type String
+		###
+		@code = root._getset &quot;_code&quot;
+		###*
+		# @property appointment
+		# @final
+		# @type Appointment
+		###
+		@appointment = root._getset &quot;_appointment&quot;
+
+	@_convertRaw: (magisterObj, raw) -&gt;
+		obj = new root.AbsenceInfo magisterObj
+
+		obj._id = raw.Id
+		obj._begin = new Date Date.parse raw.Start
+		obj._end = new Date Date.parse raw.Eind
+		obj._schoolHour = raw.Lesuur
+		obj._permitted = raw.Geoorloofd
+		obj._description = raw.Omschrijving?.trim() ? &#x27;&#x27;
+		obj._type = raw.Verantwoordingtype
+		obj._code = raw.Code ? &#x27;&#x27;
+		obj._appointment = root.Appointment._convertRaw magisterObj, raw.Afspraak
+
+		obj
 
     </pre>
 </div>
