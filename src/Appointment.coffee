@@ -223,7 +223,7 @@ class root.Appointment
 		###*
 		# @property absenceInfo
 		# @final
-		# @type Object
+		# @type AbsenceInfo
 		###
 		@absenceInfo = root._getset "_absenceInfo"
 
@@ -301,3 +301,100 @@ class root.Appointment
 		obj._begin = new Date Date.parse raw._begin
 		obj._end = new Date Date.parse raw._end
 		return obj
+
+###*
+# Info about absence for an appointment.
+#
+# @class AbsenceInfo
+# @private
+# @param _magisterObj {Magister} A Magister object this AbsenceInfo is child of.
+# @constructor
+###
+class root.AbsenceInfo
+	constructor: (@_magisterObj) ->
+		###*
+		# @property id
+		# @final
+		# @type Number
+		###
+		@id = root._getset "_id"
+		###*
+		# @property begin
+		# @final
+		# @type Date
+		###
+		@begin = root._getset "_begin"
+		###*
+		# @property end
+		# @final
+		# @type Date
+		###
+		@end = root._getset "_end"
+		###*
+		# @property schoolHour
+		# @final
+		# @type Number
+		###
+		@schoolHour = root._getset "_schoolHour"
+		###*
+		# @property permitted
+		# @final
+		# @type Boolean
+		###
+		@permitted = root._getset "_permitted"
+		###*
+		# @property description
+		# @final
+		# @type String
+		###
+		@description = root._getset "_description"
+		###*
+		# @property type
+		# @final
+		# @type Number
+		###
+		@type = root._getset "_type"
+		###*
+		# type parsed as a string.
+		# @property typeString
+		# @final
+		# @type String
+		###
+		@typeString = root._getset "_type", null, (x) ->
+			switch x
+				when 1 then 'absent'
+				when 2 then 'late'
+				when 3 then 'sick'
+				when 4 then 'discharged'
+				when 6 then 'exemption'
+				when 7 then 'books'
+				when 8 then 'homework'
+
+				else 'unknown'
+		###*
+		# @property code
+		# @final
+		# @type String
+		###
+		@code = root._getset "_code"
+		###*
+		# @property appointment
+		# @final
+		# @type Appointment
+		###
+		@appointment = root._getset "_appointment"
+
+	@_convertRaw: (magisterObj, raw) ->
+		obj = new root.AbsenceInfo magisterObj
+
+		obj._id = raw.Id
+		obj._begin = new Date Date.parse raw.Start
+		obj._end = new Date Date.parse raw.Eind
+		obj._schoolHour = raw.Lesuur
+		obj._permitted = raw.Geoorloofd
+		obj._description = raw.Omschrijving?.trim() ? ''
+		obj._type = raw.Verantwoordingtype
+		obj._code = raw.Code ? ''
+		obj._appointment = root.Appointment._convertRaw magisterObj, raw.Afspraak
+
+		obj

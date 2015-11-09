@@ -108,12 +108,12 @@ class root.Magister
 					result = JSON.parse result.content
 					appointments = (root.Appointment._convertRaw(this, a) for a in result.Items)
 
-					absenceInfo = []
+					absenceInfo = null
 
 					# Gets run when the appointments persons and absenceInfo is loaded
 					finish = root._helpers.asyncResultWaiter 2, (r) ->
 						_.each appointments, (a) ->
-							a._absenceInfo = _.find absenceInfo, (i) -> i.appointmentId is a.id()
+							a._absenceInfo = _.find absenceInfo, (i) -> i.appointment().id() is a.id()
 
 						appointments = _(appointments)
 							.filter (a) ->
@@ -127,22 +127,13 @@ class root.Magister
 						callback null, appointments
 
 					# Get absenceInfo.
-					@http.get "#{@_personUrl}/absenties?tot=#{dateConvert(to)}&van=#{dateConvert(from)}", {}, (error, result) ->
+					@http.get "#{@_personUrl}/absenties?tot=#{dateConvert(to)}&van=#{dateConvert(from)}", {}, (error, result) =>
 						if error?
 							callback error, null
 						else
 							result = JSON.parse(result.content).Items
-							for a in result
-								absenceInfo.push
-									id: a.Id
-									begin: new Date Date.parse a.Start
-									end: new Date Date.parse a.Eind
-									schoolHour: a.Lesuur
-									permitted: a.Geoorloofd
-									appointmentId: a.AfspraakId
-									description: a.Omschrijving.trim()
-									type: a.VerantwoordingType
-									code: a.Code
+							absenceInfo = result.map (i) =>
+								root.AbsenceInfo._convertRaw this, i
 							finish()
 
 					# Get persons.
