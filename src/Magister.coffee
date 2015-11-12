@@ -748,7 +748,7 @@ class root.Magister
 		@_magisterLoadError = null
 		@magisterSchool.url = @magisterSchool.url.replace /^https?/, "https" # Force HTTPS.
 		deleteUrl = "#{@magisterSchool.url}/api/sessies/huidige"
-		url = "#{@magisterSchool.url}/api/sessies"
+		postUrl = "#{@magisterSchool.url}/api/sessies"
 
 		setSessionId = (sessionId) =>
 			@_sessionId = sessionId
@@ -758,7 +758,9 @@ class root.Magister
 			try
 				@http.get "#{@magisterSchool.url}/api/account", {},
 					(error, result) =>
-						if error? then @_setErrored error, result?.statusCode; return
+						if error?
+							@_setErrored error, result?.statusCode
+							return
 
 						try
 							result = JSON.parse result.content
@@ -766,7 +768,9 @@ class root.Magister
 							@_personUrl = "#{@magisterSchool.url}/api/personen/#{@_id}"
 							@_pupilUrl = "#{@magisterSchool.url}/api/leerlingen/#{@_id}"
 							@_profileInfo = root.ProfileInfo._convertRaw this, result.Persoon
-						catch e then @_setErrored e, result?.statusCode; return
+						catch e
+							@_setErrored e, result?.statusCode
+							return
 
 						@_fetchMessageFolders (e) =>
 							if e? then @_setErrored e, e.statusCode
@@ -784,7 +788,7 @@ class root.Magister
 					return
 
 				setSessionId /[a-z\d-]+/.exec(r.headers["set-cookie"][0])[0]
-				@http.post url, {
+				@http.post postUrl, {
 					Gebruikersnaam: @username
 					Wachtwoord: @password
 					# If this works for every school, we actually wouldn't need a "relogin"
@@ -794,4 +798,6 @@ class root.Magister
 					headers: "Content-Type": "application/json;charset=UTF-8"
 				}, (error, result) =>
 					if error? then @_setErrored error, result?.statusCode
-					else cb()
+					else
+						setSessionId /[a-z\d-]+/.exec(result.headers["set-cookie"][0])[0]
+						cb()
