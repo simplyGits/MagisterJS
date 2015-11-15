@@ -237,7 +237,11 @@ class root.Appointment
 			if error? then cb error, null
 			else
 				parsed = JSON.parse(result.content).Bijlagen
-				cb null, ( root.File._convertRaw @_magisterObj, undefined, f for f in parsed )
+				person = @_teachers[0]
+
+				cb null, parsed.map (f) =>
+					f._addedBy = person
+					root.File._convertRaw @_magisterObj, undefined, f
 
 		undefined
 
