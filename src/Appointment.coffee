@@ -197,12 +197,6 @@ class root.Appointment
 		###
 		@appointmentId = root._getset "_appointmentId"
 		###*
-		# @property attachments
-		# @final
-		# @type File[]
-		###
-		@attachments = root._getset "_attachments"
-		###*
 		# @property url
 		# @final
 		# @type String
@@ -226,6 +220,26 @@ class root.Appointment
 		# @type AbsenceInfo
 		###
 		@absenceInfo = root._getset "_absenceInfo"
+
+	###*
+	# Gets the attachments for the current Appointment.
+	# @method attachments
+	# @param callback {Function} A standard callback.
+	# 	@param [callback.error] {Object} The error, if it exists.
+	# 	@param [callback.result] {File[]} An array containing the attachments.
+	###
+	attachments: (cb) ->
+		unless @_hasAttachments
+			cb null, []
+			return
+
+		@_magisterObj.http.get @_url, {}, (error, result) =>
+			if error? then cb error, null
+			else
+				parsed = JSON.parse(result.content).Bijlagen
+				cb null, ( root.File._convertRaw @_magisterObj, undefined, f for f in parsed )
+
+		undefined
 
 	###*
 	# WARNING. Removes the current Appointment if created by the user.
@@ -261,7 +275,7 @@ class root.Appointment
 		obj.Vakken = ( { Naam: c } for c in @_classes )
 		obj.Groepen = @_groups
 		obj.OpdrachtId = @_appointmentId
-		obj.Bijlagen = @_attachments ? []
+		obj.Bijlagen = []
 
 		return obj
 
@@ -288,7 +302,7 @@ class root.Appointment
 		obj._classRooms = if raw.Lokalen? then (c.Naam for c in raw.Lokalen) else []
 		obj._groups = raw.Groepen # ?
 		obj._appointmentId = raw.OpdrachtId
-		obj._attachments = raw.Bijlagen
+		obj._hasAttachments = raw.HeeftBijlagen
 		obj._url = "#{magisterObj._personUrl}/afspraken/#{obj._id}"
 		obj._scrapped = raw.Status in [ 4, 5 ]
 		obj._changed = raw.Status in [ 3, 9, 10 ]
