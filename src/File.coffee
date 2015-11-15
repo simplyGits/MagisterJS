@@ -255,7 +255,7 @@ class root.File
 
 		return obj
 
-	@_convertRaw: (magisterObj, sender, raw) ->
+	@_convertRaw: (magisterObj, fileFolder, raw) ->
 		if raw._addedBy? then addedBy = raw._addedBy
 		else
 			addedBy = new root.Person magisterObj, null, "", ""
@@ -274,7 +274,7 @@ class root.File
 		obj._creationDate = new Date Date.parse (raw.GemaaktOp ? raw.Datum)
 		obj._addedBy = addedBy
 		obj._fileBlobId = raw.FileBlobId
-		obj._fileFolder = sender
+		obj._fileFolder = fileFolder
 		obj._uniqueId = raw.UniqueId
 
 		l = _.find(raw.Links, Rel: "Contents")
