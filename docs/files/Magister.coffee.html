@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.13.0</em>
+            <em>API Docs for: 1.14.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -118,7 +118,7 @@ else
 # @final
 # @type String
 ###
-root.VERSION = &quot;1.13.0&quot;
+root.VERSION = &quot;1.14.0&quot;
 
 ###*
 # A JavaScript implementation of the Magister 6 API.
@@ -220,11 +220,6 @@ class root.Magister
 							a._absenceInfo = _.find absenceInfo, (i) -&gt; i.appointment().id() is a.id()
 
 						appointments = _(appointments)
-							.filter (a) -&gt;
-								begin = root._helpers.date(a.begin())
-								end = root._helpers.date(a.end())
-								a.end() &gt; from and begin &lt;= to and end &gt;= from
-
 							.sortBy &#x27;_begin&#x27;
 							.value()
 
@@ -852,7 +847,7 @@ class root.Magister
 		@_magisterLoadError = null
 		@magisterSchool.url = @magisterSchool.url.replace /^https?/, &quot;https&quot; # Force HTTPS.
 		deleteUrl = &quot;#{@magisterSchool.url}/api/sessies/huidige&quot;
-		url = &quot;#{@magisterSchool.url}/api/sessies&quot;
+		postUrl = &quot;#{@magisterSchool.url}/api/sessies&quot;
 
 		setSessionId = (sessionId) =&gt;
 			@_sessionId = sessionId
@@ -862,7 +857,9 @@ class root.Magister
 			try
 				@http.get &quot;#{@magisterSchool.url}/api/account&quot;, {},
 					(error, result) =&gt;
-						if error? then @_setErrored error, result?.statusCode; return
+						if error?
+							@_setErrored error, result?.statusCode
+							return
 
 						try
 							result = JSON.parse result.content
@@ -870,7 +867,9 @@ class root.Magister
 							@_personUrl = &quot;#{@magisterSchool.url}/api/personen/#{@_id}&quot;
 							@_pupilUrl = &quot;#{@magisterSchool.url}/api/leerlingen/#{@_id}&quot;
 							@_profileInfo = root.ProfileInfo._convertRaw this, result.Persoon
-						catch e then @_setErrored e, result?.statusCode; return
+						catch e
+							@_setErrored e, result?.statusCode
+							return
 
 						@_fetchMessageFolders (e) =&gt;
 							if e? then @_setErrored e, e.statusCode
@@ -888,7 +887,7 @@ class root.Magister
 					return
 
 				setSessionId /[a-z\d-]+/.exec(r.headers[&quot;set-cookie&quot;][0])[0]
-				@http.post url, {
+				@http.post postUrl, {
 					Gebruikersnaam: @username
 					Wachtwoord: @password
 					# If this works for every school, we actually wouldn&#x27;t need a &quot;relogin&quot;
@@ -898,7 +897,9 @@ class root.Magister
 					headers: &quot;Content-Type&quot;: &quot;application/json;charset=UTF-8&quot;
 				}, (error, result) =&gt;
 					if error? then @_setErrored error, result?.statusCode
-					else cb()
+					else
+						setSessionId /[a-z\d-]+/.exec(result.headers[&quot;set-cookie&quot;][0])[0]
+						cb()
 
     </pre>
 </div>

@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.13.0</em>
+            <em>API Docs for: 1.14.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -359,7 +359,7 @@ class root.File
 
 		return obj
 
-	@_convertRaw: (magisterObj, sender, raw) -&gt;
+	@_convertRaw: (magisterObj, fileFolder, raw) -&gt;
 		if raw._addedBy? then addedBy = raw._addedBy
 		else
 			addedBy = new root.Person magisterObj, null, &quot;&quot;, &quot;&quot;
@@ -378,7 +378,7 @@ class root.File
 		obj._creationDate = new Date Date.parse (raw.GemaaktOp ? raw.Datum)
 		obj._addedBy = addedBy
 		obj._fileBlobId = raw.FileBlobId
-		obj._fileFolder = sender
+		obj._fileFolder = fileFolder
 		obj._uniqueId = raw.UniqueId
 
 		l = _.find(raw.Links, Rel: &quot;Contents&quot;)
