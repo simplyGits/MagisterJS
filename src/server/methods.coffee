@@ -12,6 +12,10 @@ Meteor.methods
 	###
 	"magisterjs-http": (method, url, options = {}) ->
 		@unblock()
+		check method, String
+		check url, String
+		check options, Object
+
 		headers = options.headers ? {}
 		fut = new future()
 
