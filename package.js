@@ -13,7 +13,7 @@ Npm.depends({
 Package.onUse(function(api) {
 	api.versionsFrom("1.0.4.2");
 
-	api.use(["coffeescript", "erasaur:meteor-lodash@3.10.1", "check"]);
+	api.use(["coffeescript", "stevezhu:lodash@3.10.1", "check"]);
 
 	api.addFiles([
 		"src/Appointment.coffee",
