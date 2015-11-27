@@ -22,6 +22,11 @@ To start:
 
 [Read the Documentation](http://www.simplyapps.nl/MagisterJS/docs/index.html)
 
+Be featured!
+==========
+Have you build a project using MagisterJS? Want to get some extra publicity?
+Just send an email to hello@simplyapps.nl or create an issue. We're happy to add you to our showcase.
+
 How to compile from source
 ==========
 1. Be sure you have grunt-cli installed.
