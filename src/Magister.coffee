@@ -6,7 +6,7 @@ else if module?.exports? and require? and not window?
 else if @_?
 	_ = @_
 else
-	throw new Error "Lo-dash is required."
+	throw new Error "Lo-dash or underscore is required."
 
 ###*
 # The version of this Magister.js.
@@ -115,7 +115,7 @@ class root.Magister
 						_.each appointments, (a) ->
 							a._absenceInfo = _.find absenceInfo, (i) -> i.appointment().id() is a.id()
 
-						appointments = _(appointments)
+						appointments = _.chain(appointments)
 							.sortBy '_begin'
 							.value()
 
@@ -305,7 +305,7 @@ class root.Magister
 				else
 					result = JSON.parse result.content
 					converted = (root.Course._convertRaw(this, c) for c in result.Items)
-					callback null, _(converted).sortBy("_beginDate").sortBy((x) -> not x._current).value()
+					callback null, _.chain(converted).sortBy("_beginDate").sortBy((x) -> not x._current).value()
 
 	###*
 	# Gets the current grade of the current User.
@@ -487,7 +487,7 @@ class root.Magister
 
 		[subject, body] = _.filter arguments, (a) -> _.isString a
 		callback = _.find arguments, (a) -> _.isFunction a
-		recipients = _.findLast arguments, (a) -> a isnt callback
+		recipients = _.last _.filter(arguments, (a) -> a isnt callback)
 		if arguments.length is 2 then body = ""
 
 		m = new root.Message this

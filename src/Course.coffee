@@ -204,7 +204,7 @@ class root.Course
 				result = _.filter result, (raw) -> raw.CijferId isnt 0
 
 				pushResult = root._helpers.asyncResultWaiter result.length, (r) ->
-					_(r) # Make sure that every class with the same ID can be compared with the === operator.
+					_.chain(r) # Make sure that every class with the same ID can be compared with the === operator.
 						.uniq (g) -> g.class().id
 						.pluck "_class"
 						.forEach (c) ->

@@ -254,7 +254,7 @@ class root.Appointment
 	remove: (cb) ->
 		# quit if this appointment isn't made by the user.
 		return unless @_type in [ 1, 16 ]
-		@_magisterObj.http.delete @_url, {}, _.ary cb, 1
+		@_magisterObj.http.delete @_url, {}, (e, r) -> cb e
 
 	_toMagisterStyle: ->
 		obj = {}
