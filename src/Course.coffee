@@ -292,6 +292,6 @@ class root.Course
 		obj._profile = raw.Profiel
 		obj._alternativeProfile = raw.Profiel2
 
-		obj._current = obj._begin.getTime() <= _.now() <= obj._end.getTime()
+		obj._current = obj._begin <= new Date() <= obj._end
 
 		obj
