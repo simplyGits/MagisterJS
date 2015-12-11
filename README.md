@@ -42,7 +42,7 @@ Programming style
 ==========
 [<img src="http://i.imgur.com/yPYusgq.jpg" width="300"/>](http://www.reddit.com/r/ProgrammerHumor/comments/2c67bs/my_manager_sent_me_a_picture_good_programming/)
 * Document your code with [YUIDoc](http://yui.github.io/yuidoc/syntax/index.html).
-* Respect and follow the current programming stlyle.
+* Respect and follow the current programming style.
 * Test your changes manually.
 * Test your changes with `grunt && mocha`
 * Only commit the `src/` and `test/` directory.
