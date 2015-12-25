@@ -21,7 +21,7 @@ class root._helpers
 		else
 			original.toString()
 
-	@toUtcString: (d) -> "#{_helpers.addZero d.getUTCFullYear()}-#{_helpers.addZero d.getMonth() + 1}-#{_helpers.addZero d.getDate()}T#{_helpers.addZero d.getHours()}:#{_helpers.addZero d.getMinutes()}:#{_helpers.addZero d.getSeconds()}.0000000Z"
+	@toUtcString: (d) -> "#{_helpers.addZero d.getFullYear()}-#{_helpers.addZero d.getMonth() + 1}-#{_helpers.addZero d.getDate()}T#{_helpers.addZero d.getHours()}:#{_helpers.addZero d.getMinutes()}:#{_helpers.addZero d.getSeconds()}.0000000Z"
 
 	###*
 	# Checks if the given original string contains the given query string.
@@ -59,9 +59,9 @@ class root._helpers
 				left--
 			callback(results) if left is 0
 
-	@urlDateConvert: (date) -> "#{date.getUTCFullYear()}-#{_helpers.addZero(date.getMonth() + 1)}-#{_helpers.addZero(date.getDate())}"
+	@urlDateConvert: (date) -> "#{date.getFullYear()}-#{_helpers.addZero(date.getMonth() + 1)}-#{_helpers.addZero(date.getDate())}"
 
-	@date: (date) -> new Date date.getUTCFullYear(), date.getMonth(), date.getDate()
+	@date: (date) -> new Date date.getFullYear(), date.getMonth(), date.getDate()
 
 	@cleanHtmlContent: (str) ->
 		if str?

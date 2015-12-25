@@ -176,7 +176,7 @@ describe("Magister", function() {
 			var now = new Date();
 			m.createAppointment({
 				start: now,
-				end: new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1),
+				end: new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1),
 				name: 'magister.js test appointment',
 			}, function (e, r) {
 				expect(e).to.not.exist;
