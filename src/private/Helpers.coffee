@@ -73,6 +73,12 @@ class root._helpers
 				.trim()
 		else ''
 
+	@defer: (callback, args...) ->
+		if process?.nextTick?
+			process.nextTick -> callback args...
+		else
+			_.defer callback, args...
+
 root._getset = (varName, setter, getter) ->
 	return (newVar) ->
 		if newVar?

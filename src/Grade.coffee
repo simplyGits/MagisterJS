@@ -102,7 +102,8 @@ class root.Grade
 		@weight = root._getset "_weight"
 
 	###*
-	# Downloads extra info, if it's not downloaded yet and fills the current grade with it.
+	# Downloads extra info, if it's not downloaded yet and fills the current grade
+	# with it.
 	#
 	# @method fillGrade
 	# @param callback {Function} A standard callback.

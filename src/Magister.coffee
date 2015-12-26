@@ -416,10 +416,7 @@ class root.Magister
 		url = "#{@_personUrl}/contactpersonen?contactPersoonType=#{queryType}&q=#{query.replace /\ +/g, "+"}"
 
 		if (val = root.Magister._cachedPersons["#{@_id}#{type}#{query}"])?
-			if process?.nextTick?
-				process.nextTick -> callback null, val
-			else
-				_.defer callback, null, val
+			root._helpers.defer callback, null, val
 			true
 		else
 			@http.get url, {}, (error, result) =>
