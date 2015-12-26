@@ -269,6 +269,46 @@ class root.Message
 	###
 	remove: (cb) -> @_magisterObj.http.delete "#{@_magisterObj._personUrl}/berichten/#{@id()}", {}, (error, result) -> cb? error
 
+	###*
+	# Downloads extra info, if it's not downloaded yet and fills the current
+	# message with it.
+	#
+	# @method fillMessage
+	# @param {Boolean} [fillPersons=false] Whether or not to download the users from the server.
+	# @param callback {Function} A standard callback.
+	# 	@param [callback.error] {Object} The error, if it exists.
+	# 	@param [callback.result] {Grade} The current message filled with the newely downloaded info.
+	###
+	fillMessage: ->
+		fillPersons = _.first(arguments) ? no
+		callback = _.last arguments
+
+		if @_filled
+			root._helpers.defer callback, null, this
+		else if callback?
+			@_magisterObj.http.get @_fillUrl, {}, (error, result) =>
+				if error? then callback? error, null
+				else
+					parsed = JSON.parse(result.content)
+					@_body = parsed.Inhoud
+					@_attachments = (root.File._convertRaw(@_magisterObj, undefined, a) for a in (parsed.Bijlagen ? []))
+
+					if fillPersons
+						pushPeople = root._helpers.asyncResultWaiter m.recipients().length + 1, =>
+							@_filled = yes
+							callback? null, this
+
+						@_magisterObj.fillPersons m.recipients(), (e, r) ->
+							m._recipients = r
+							pushPeople r
+
+						@_magisterObj.fillPersons m.sender(), (e, r) ->
+							m._sender = r
+							pushPeople r
+					else
+						@_filled = yes
+						callback? null, this
+
 	_update: -> @_magisterObj.http.put "#{@_magisterObj._personUrl}/berichten/#{@id()}?berichtSoort=#{@type()}", @_toMagisterStyle(), {}, (->)
 
 	_toMagisterStyle: ->
@@ -307,5 +347,7 @@ class root.Message
 		obj._isFlagged = raw.HeeftPrioriteit
 		obj._type = raw.Soort
 		obj._canSend = no
+
+		obj._fillUrl = "#{magisterObj._personUrl}/berichten/#{obj._id}?berichtSoort=#{obj._type}"
 
 		return obj

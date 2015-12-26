@@ -1,19 +1,5 @@
 root = (module?.exports ? this.Magister ?= {})
 
-findQueries = (queries) ->
-	final = ""
-
-	if _.any(["unread", "ongelezen"], (x) -> root._helpers.contains queries, x, yes)
-		final += "&gelezen=false"
-	else if _.any(["read", "gelezen"], (x) -> root._helpers.contains queries, x, yes)
-		final += "&gelezen=true"
-
-	if (result = /(skip \d+)|(sla \d+ over)/ig.exec(queries))?
-		numbers = /\d+/.exec(result[0])[0]
-		final += "&skip=#{numbers}"
-
-	return final
-
 ###*
 # A MessageFolder.
 #
@@ -54,53 +40,52 @@ class root.MessageFolder
 	#
 	# @method messages
 	# @async
-	# @param [limit=10] {Number} The limit of the amount of Messages to fetch.
-	# @param [queries=""] {String} Queries to do on the message (e.g: "unread, skip 5")
-	# @param [fillPersons=false] {Boolean} Whether or not to download the users from the server.
+	# @param {Object} [options={}]
+	# 	@param {Number} [options.limit=10] The limit of the amount of Messages to fetch.
+	# 	@param {Number} [options.skip=0] The amount of messages in front to skip.
+	# 	@param {String} [options.readState='all'] One of: 'all', 'read', 'unread'.
+	# 	@param {Boolean} [options.fillPersons=false] Whether or not to download the users from the server.
+	# 	@param {Boolean} [options.fill=true] Whether or not to call `fillMessage` on every message.
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
 	# 	@param [callback.result] {Message[]} An array containing the Messages.
 	###
 	messages: ->
-		limit = _.find(arguments, (a) -> _.isNumber a) ? 10
-		queries = _.find(arguments, (a) -> _.isString a) ? ""
-		fillPersons = _.find(arguments, (a) -> _.isBoolean a) ? no
-
-		callback = _.find(arguments, (a) -> _.isFunction a)
-		throw new Error("Callback is null") unless callback?
+		options = _.first(arguments) ? {}
+		callback = _.last arguments
+		{ limit, skip, readState, fillPersons, fill } = options
+		limit ?= 10
+		skip ?= 0
+		readState ?= 'all'
+		fillPersons ?= no
+		fill ?= yes
 
 		if limit is 0
-			callback null, []
+			root._helpers.defer callback, null, []
 			return undefined
 
-		url = "#{@_magisterObj._personUrl}/berichten?mapId=#{@id()}&top=#{limit}#{findQueries queries}"
+		url = "#{@_magisterObj._personUrl}/berichten?mapId=#{@id()}&top=#{limit}&skip=#{skip}"
+		url += switch readState
+			when 'read' then '&gelezen=true'
+			when 'unread' then '&gelezen=false'
+			else ''
 
 		@_magisterObj.http.get url, {}, (error, result) =>
 			if error?
 				callback error, null
 			else
 				messages = ( root.Message._convertRaw(@_magisterObj, m) for m in JSON.parse(result.content).Items )
-				pushMessage = root._helpers.asyncResultWaiter messages.length, (r) -> callback null, _.sortBy(r, (m) -> m.sendDate()).reverse()
+				pushMessage = root._helpers.asyncResultWaiter messages.length, (r) ->
+					callback null, _.sortBy(r, (m) -> m.sendDate()).reverse()
 
-				for m in messages
-					do (m) =>
-						url = "#{@_magisterObj._personUrl}/berichten/#{m.id()}?berichtSoort=#{m.type()}"
-						@_magisterObj.http.get url, {}, (error, result) =>
-							parsed = JSON.parse(result.content)
-							m._body = parsed.Inhoud
-							m._attachments = (root.File._convertRaw(@_magisterObj, undefined, a) for a in (parsed.Bijlagen ? []))
-
-							if fillPersons
-								pushPeople = root._helpers.asyncResultWaiter m.recipients().length + 1, -> pushMessage m
-
-								@_magisterObj.fillPersons m.recipients(), (e, r) ->
-									m._recipients = r
-									pushPeople r
-								@_magisterObj.fillPersons m.sender(), (e, r) ->
-									m._sender = r
-									pushPeople r
-							else
-								pushMessage m
+				if fill
+					for m in messages then do (m) ->
+						m.fillMessage fillPersons, (e, r) ->
+							if e? then callback e, null
+							else pushMessage r
+				else
+					for m in messages
+						pushMessage m
 
 			undefined
 

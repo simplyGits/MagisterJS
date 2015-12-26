@@ -106,7 +106,13 @@ describe("Magister", function() {
 				expect(e).to.not.exist;
 				expect(r).to.be.an.instanceof(Message);
 
-				m.inbox().messages(1, false, function(e, r) {
+				m.inbox().messages({
+					limit: 1,
+					skip: 0,
+					readState: 'all',
+					fillPersons: false,
+					fill: true,
+				}, function (e, r) {
 					expect(e).to.not.exist;
 					expect(r).to.be.a("array");
 					expect(r).to.not.be.empty;
@@ -202,7 +208,7 @@ describe("Magister", function() {
 		});
 
 		it("should download attachments", function (done) {
-			m.inbox().messages(false, function(e, r) {
+			m.inbox().messages(function(e, r) {
 				expect(r[0].attachments()).to.be.a("array");
 				var foundAttachment = false;
 
