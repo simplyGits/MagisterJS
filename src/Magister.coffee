@@ -1,6 +1,6 @@
 root = (module?.exports ? this.Magister ?= {})
-if Meteor? and Package['stevezhu:lodash']?
-	@_ = _ = Package['stevezhu:lodash'].lodash
+if Meteor?
+	@_ = _ = lodash
 else if module?.exports? and require? and not window?
 	@_ = _ = require("lodash") if not _?
 else if @_?
