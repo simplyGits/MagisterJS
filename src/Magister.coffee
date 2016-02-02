@@ -192,7 +192,7 @@ class root.Magister
 				else null
 			)
 			Type: options.type ? 1
-			DuurtHeleDag: options.fullDay
+			DuurtHeleDag: options.fullDay ? no
 
 			# Static non-configurable stuff.
 			InfoType: 0
