@@ -1,7 +1,7 @@
 root = (module?.exports ? this.Magister ?= {})
 
 wrapCallback = (cb) ->
-	(e, r) ->
+	Meteor.bindEnvironment (e, r) ->
 		if r?.statusCode >= 400 then cb r.content, null
 		else cb e, r
 
