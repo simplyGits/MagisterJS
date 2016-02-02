@@ -68,7 +68,7 @@ class root._helpers
 			_.unescape str
 				.replace /<br\s*\/?>/g, '\n'
 				.replace /<\/\s*p\s*>/g, '\n'
-				.replace /(<[^>]*>)|(&nbsp;)/g, ''
+				.replace /(<[^>]*>)|(&nbsp;)|(&#x200b;)/g, ''
 				.replace /\n{2,}/g, '\n'
 				.trim()
 		else ''
