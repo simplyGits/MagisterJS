@@ -277,8 +277,11 @@ class root.File
 		obj._fileFolder = fileFolder
 		obj._uniqueId = raw.UniqueId
 
-		l = _.find(raw.Links, Rel: "Contents")
-		l ?= _.find(raw.Links, Rel: "Self")
-		obj._downloadUrl = magisterObj.magisterSchool.url + l.Href
+		l = _.find raw.Links, Rel: 'Contents'
+		l ?= _.find raw.Links, Rel: 'Self'
+		if /^https?/.test l.Href
+			obj._downloadUrl = l.Href
+		else
+			obj._downloadUrl = magisterObj.magisterSchool.url + l.Href
 
 		return obj
