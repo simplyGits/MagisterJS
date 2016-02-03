@@ -73,7 +73,11 @@ class root.StudyGuide
 
 				for id in (p.Id for p in result)
 					@_magisterObj.http.get "#{@_magisterObj._pupilUrl}/studiewijzers/#{@id()}/onderdelen/#{id}", {}, (error, result) =>
-						pushResult root.StudyGuidePart._convertRaw @_magisterObj, JSON.parse(result.content)
+						if error? then callback error, null
+						else
+							parsed = JSON.parse result.content
+							part = root.StudyGuidePart._convertRaw @_magisterObj, parsed
+							pushResult part
 
 	@_convertRaw: (magisterObj, raw) ->
 		obj = new root.StudyGuide magisterObj
