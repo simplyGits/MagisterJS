@@ -127,7 +127,7 @@ class root.Message
 	_tasks: 0
 	_sendAfterFinished: no
 	_finishedCallback: null
-	_working: -> @_tasks isnt 0
+	_isWorking: -> @_tasks isnt 0
 	_tickDown: -> if --@_tasks is 0 and @_sendAfterFinished then @send @_finishedCallback
 	_reset: -> @_tasks = 0; @_sendAfterFinished = no
 
@@ -226,25 +226,33 @@ class root.Message
 	# Sends the current Message. Sending will be delayed if there are processes running in the background.
 	#
 	# @method send
-	# @param [callback] {Function} An optional callback.
-	# 	@param [callback.error] {Object} An error, if it exists.
-	# 	@param [callback.result] {Message} The sent message.
+	# @param [cb] {Function} An optional callback.
+	# 	@param [cb.error] {Object} An error, if it exists.
+	# 	@param [cb.result] {Message} The sent message.
 	# @return {Boolean} False if the sending is delayed, otherwise true.
 	###
-	send: (callback) ->
-		if @_working()
+	send: (cb) ->
+		if @_isWorking()
 			@_sendAfterFinished = yes
-			@_finishedCallback = callback
-			return no
-		throw new Error "This message is marked as unsendable" unless @_canSend
-		throw new Error "Sender and/or recipients cannot be null" unless @recipients()? and @sender()?
-		throw new Error "Subject cannot be null or empty" if _.isEmpty @subject()
+			@_finishedCallback = cb
+			no
+		else
+			error = (str) -> root._helpers.defer cb, new Error(str), null
+			unless @_canSend
+				error 'this message is marked as unsendable'
+				return undefined
+			unless @recipients()? and @sender()?
+				error 'both sender and recipients must have a value'
+				return undefined
+			if _.isEmpty @subject()
+				error "subject can't be empty"
+				return undefined
 
-		@_magisterObj.http.post "#{@_magisterObj._personUrl}/berichten", @_toMagisterStyle(), {}, (e, r) =>
-			if e? then callback? e, null
-			else callback? null, this
+			@_magisterObj.http.post "#{@_magisterObj._personUrl}/berichten", @_toMagisterStyle(), {}, (e, r) =>
+				if e? then cb? e, null
+				else cb? null, this
 
-		return yes
+			yes
 
 	###*
 	# Move the current message to the given position.
