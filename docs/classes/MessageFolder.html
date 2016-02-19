@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.14.0</em>
+            <em>API Docs for: 1.15.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -103,7 +103,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/MessageFolder.coffee.html#l17"><code>MessageFolder.coffee:17</code></a>
+            Defined in: <a href="../files/MessageFolder.coffee.html#l3"><code>MessageFolder.coffee:3</code></a>
         </div>
 
             Module: <a href="../modules/Magister.html">Magister</a>
@@ -140,7 +140,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/MessageFolder.coffee.html#l17"><code>MessageFolder.coffee:17</code></a>
+        <a href="../files/MessageFolder.coffee.html#l3"><code>MessageFolder.coffee:3</code></a>
         </p>
 
 
@@ -267,7 +267,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/MessageFolder.coffee.html#l141"><code>MessageFolder.coffee:141</code></a>
+        <a href="../files/MessageFolder.coffee.html#l133"><code>MessageFolder.coffee:133</code></a>
         </p>
 
 
@@ -363,7 +363,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/MessageFolder.coffee.html#l107"><code>MessageFolder.coffee:107</code></a>
+        <a href="../files/MessageFolder.coffee.html#l99"><code>MessageFolder.coffee:99</code></a>
         </p>
 
 
@@ -446,13 +446,7 @@
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code class="optional">[limit=10]</code>
-                </li>
-                <li class="arg">
-                        <code class="optional">[queries=&quot;&quot;]</code>
-                </li>
-                <li class="arg">
-                        <code class="optional">[fillPersons=false]</code>
+                        <code class="optional">[options={}]</code>
                 </li>
                 <li class="arg">
                         <code>callback</code>
@@ -471,7 +465,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/MessageFolder.coffee.html#l52"><code>MessageFolder.coffee:52</code></a>
+        <a href="../files/MessageFolder.coffee.html#l38"><code>MessageFolder.coffee:38</code></a>
         </p>
 
 
@@ -488,40 +482,72 @@
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name optional">[limit=10]</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+                        <code class="param-name optional">[options={}]</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
 
 
                     <div class="param-description">
-                        <p>The limit of the amount of Messages to fetch.</p>
-
+                         
                     </div>
 
-                </li>
-                <li class="param">
-                        <code class="param-name optional">[queries=&quot;&quot;]</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                        <ul class="params-list">
+                            <li class="param">
+                                    <code class="param-name optional">[limit=10]</code>
+                                    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
 
+                                <div class="param-description">
+                                    <p>The limit of the amount of Messages to fetch.</p>
 
-                    <div class="param-description">
-                        <p>Queries to do on the message (e.g: &quot;unread, skip 5&quot;)</p>
+                                </div>
 
-                    </div>
+                            </li>
+                            <li class="param">
+                                    <code class="param-name optional">[skip=0]</code>
+                                    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
 
-                </li>
-                <li class="param">
-                        <code class="param-name optional">[fillPersons=false]</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                                <div class="param-description">
+                                    <p>The amount of messages in front to skip.</p>
 
+                                </div>
 
-                    <div class="param-description">
-                        <p>Whether or not to download the users from the server.</p>
+                            </li>
+                            <li class="param">
+                                    <code class="param-name optional">[readState=&#x27;all&#x27;]</code>
+                                    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
 
-                    </div>
+                                <div class="param-description">
+                                    <p>One of: 'all', 'read', 'unread'.</p>
 
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name optional">[fill=true]</code>
+                                    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+
+                                <div class="param-description">
+                                    <p>Whether or not to call <code>fillMessage</code> on every message.</p>
+
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name optional">[fillPersons=false]</code>
+                                    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+
+                                <div class="param-description">
+                                    <p>Whether or not to download the users from the server. <code>options.fill</code> has to be true for this option to take effect.</p>
+
+                                </div>
+
+                            </li>
+                        </ul>
                 </li>
                 <li class="param">
                         <code class="param-name">callback</code>
@@ -579,7 +605,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/MessageFolder.coffee.html#l162"><code>MessageFolder.coffee:162</code></a>
+        <a href="../files/MessageFolder.coffee.html#l154"><code>MessageFolder.coffee:154</code></a>
         </p>
 
 
@@ -610,7 +636,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/MessageFolder.coffee.html#l135"><code>MessageFolder.coffee:135</code></a>
+        <a href="../files/MessageFolder.coffee.html#l127"><code>MessageFolder.coffee:127</code></a>
         </p>
 
 
@@ -643,7 +669,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/MessageFolder.coffee.html#l39"><code>MessageFolder.coffee:39</code></a>
+        <a href="../files/MessageFolder.coffee.html#l25"><code>MessageFolder.coffee:25</code></a>
         </p>
 
 
@@ -668,7 +694,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/MessageFolder.coffee.html#l27"><code>MessageFolder.coffee:27</code></a>
+        <a href="../files/MessageFolder.coffee.html#l13"><code>MessageFolder.coffee:13</code></a>
         </p>
 
 
@@ -693,7 +719,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/MessageFolder.coffee.html#l45"><code>MessageFolder.coffee:45</code></a>
+        <a href="../files/MessageFolder.coffee.html#l31"><code>MessageFolder.coffee:31</code></a>
         </p>
 
 
@@ -718,7 +744,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/MessageFolder.coffee.html#l33"><code>MessageFolder.coffee:33</code></a>
+        <a href="../files/MessageFolder.coffee.html#l19"><code>MessageFolder.coffee:19</code></a>
         </p>
 
 

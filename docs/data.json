@@ -2,7 +2,7 @@
     "project": {
         "name": "Magister.js Docs",
         "description": "A JavaScript implementation of the Magister 6 API.",
-        "version": "1.14.0",
+        "version": "1.15.2",
         "url": "http://simplyGits.github.io/MagisterJS",
         "logo": "http://i.imgur.com/Lrg80ax.png"
     },
@@ -176,7 +176,7 @@
             "namespaces": {},
             "tag": "module",
             "file": "StudyGuide.coffee",
-            "line": 96,
+            "line": 100,
             "description": "A JavaScript implementation of the Magister 6 API.",
             "author": "Lieuwe Rooijakkers"
         }
@@ -215,7 +215,7 @@
             "extension_for": [],
             "module": "Magister",
             "file": "Appointment.coffee",
-            "line": 319,
+            "line": 323,
             "description": "Info about absence for an appointment.",
             "access": "private",
             "tagname": "",
@@ -422,7 +422,7 @@
             "extension_for": [],
             "module": "Magister",
             "file": "Grade.coffee",
-            "line": 168,
+            "line": 169,
             "description": "A Type of a Grade object.",
             "access": "private",
             "tagname": "",
@@ -445,7 +445,7 @@
             "extension_for": [],
             "module": "Magister",
             "file": "Grade.coffee",
-            "line": 294,
+            "line": 295,
             "description": "A Grade period.",
             "access": "private",
             "tagname": "",
@@ -552,7 +552,7 @@
             "module": "Magister",
             "namespace": "",
             "file": "MessageFolder.coffee",
-            "line": 17,
+            "line": 3,
             "description": "A MessageFolder.",
             "access": "private",
             "tagname": "",
@@ -734,7 +734,7 @@
             "module": "Magister",
             "namespace": "",
             "file": "StudyGuide.coffee",
-            "line": 96,
+            "line": 100,
             "description": "A part of a StudyGuide.",
             "access": "private",
             "tagname": "",
@@ -1055,7 +1055,7 @@
         },
         {
             "file": "Appointment.coffee",
-            "line": 244,
+            "line": 248,
             "description": "WARNING. Removes the current Appointment if created by the user.",
             "itemtype": "method",
             "name": "remove",
@@ -1079,7 +1079,7 @@
         },
         {
             "file": "Appointment.coffee",
-            "line": 329,
+            "line": 333,
             "itemtype": "property",
             "name": "id",
             "final": 1,
@@ -1088,7 +1088,7 @@
         },
         {
             "file": "Appointment.coffee",
-            "line": 335,
+            "line": 339,
             "itemtype": "property",
             "name": "begin",
             "final": 1,
@@ -1097,7 +1097,7 @@
         },
         {
             "file": "Appointment.coffee",
-            "line": 341,
+            "line": 345,
             "itemtype": "property",
             "name": "end",
             "final": 1,
@@ -1106,7 +1106,7 @@
         },
         {
             "file": "Appointment.coffee",
-            "line": 347,
+            "line": 351,
             "itemtype": "property",
             "name": "schoolHour",
             "final": 1,
@@ -1115,7 +1115,7 @@
         },
         {
             "file": "Appointment.coffee",
-            "line": 353,
+            "line": 357,
             "itemtype": "property",
             "name": "permitted",
             "final": 1,
@@ -1124,7 +1124,7 @@
         },
         {
             "file": "Appointment.coffee",
-            "line": 359,
+            "line": 363,
             "itemtype": "property",
             "name": "description",
             "final": 1,
@@ -1133,7 +1133,7 @@
         },
         {
             "file": "Appointment.coffee",
-            "line": 365,
+            "line": 369,
             "itemtype": "property",
             "name": "type",
             "final": 1,
@@ -1142,7 +1142,7 @@
         },
         {
             "file": "Appointment.coffee",
-            "line": 371,
+            "line": 375,
             "description": "type parsed as a string.",
             "itemtype": "property",
             "name": "typeString",
@@ -1152,7 +1152,7 @@
         },
         {
             "file": "Appointment.coffee",
-            "line": 388,
+            "line": 392,
             "itemtype": "property",
             "name": "code",
             "final": 1,
@@ -1161,7 +1161,7 @@
         },
         {
             "file": "Appointment.coffee",
-            "line": 394,
+            "line": 398,
             "itemtype": "property",
             "name": "appointment",
             "final": 1,
@@ -2239,7 +2239,7 @@
         {
             "file": "Grade.coffee",
             "line": 104,
-            "description": "Downloads extra info, if it's not downloaded yet and fills the current grade with it.",
+            "description": "Downloads extra info, if it's not downloaded yet and fills the current grade\nwith it.",
             "itemtype": "method",
             "name": "fillGrade",
             "params": [
@@ -2267,7 +2267,7 @@
         },
         {
             "file": "Grade.coffee",
-            "line": 178,
+            "line": 179,
             "itemtype": "property",
             "name": "id",
             "final": 1,
@@ -2276,7 +2276,7 @@
         },
         {
             "file": "Grade.coffee",
-            "line": 184,
+            "line": 185,
             "itemtype": "property",
             "name": "name",
             "final": 1,
@@ -2285,7 +2285,7 @@
         },
         {
             "file": "Grade.coffee",
-            "line": 190,
+            "line": 191,
             "itemtype": "property",
             "name": "number",
             "final": 1,
@@ -2294,7 +2294,7 @@
         },
         {
             "file": "Grade.coffee",
-            "line": 196,
+            "line": 197,
             "itemtype": "property",
             "name": "header",
             "final": 1,
@@ -2303,7 +2303,7 @@
         },
         {
             "file": "Grade.coffee",
-            "line": 202,
+            "line": 203,
             "itemtype": "property",
             "name": "description",
             "final": 1,
@@ -2312,7 +2312,7 @@
         },
         {
             "file": "Grade.coffee",
-            "line": 208,
+            "line": 209,
             "itemtype": "property",
             "name": "type",
             "final": 1,
@@ -2321,7 +2321,7 @@
         },
         {
             "file": "Grade.coffee",
-            "line": 214,
+            "line": 215,
             "description": "type parsed as a string.",
             "itemtype": "property",
             "name": "typeString",
@@ -2331,7 +2331,7 @@
         },
         {
             "file": "Grade.coffee",
-            "line": 238,
+            "line": 239,
             "itemtype": "property",
             "name": "isAtLaterDate",
             "final": 1,
@@ -2340,7 +2340,7 @@
         },
         {
             "file": "Grade.coffee",
-            "line": 244,
+            "line": 245,
             "itemtype": "property",
             "name": "isTeacher",
             "final": 1,
@@ -2349,7 +2349,7 @@
         },
         {
             "file": "Grade.coffee",
-            "line": 250,
+            "line": 251,
             "itemtype": "property",
             "name": "hasNestedTypes",
             "final": 1,
@@ -2358,7 +2358,7 @@
         },
         {
             "file": "Grade.coffee",
-            "line": 256,
+            "line": 257,
             "itemtype": "property",
             "name": "isPTA",
             "final": 1,
@@ -2367,7 +2367,7 @@
         },
         {
             "file": "Grade.coffee",
-            "line": 262,
+            "line": 263,
             "description": "Have no idea what this is. If anybody has an idea, tell me please so we can make this doc at least a bit useful.",
             "itemtype": "property",
             "name": "level",
@@ -2376,7 +2376,7 @@
         },
         {
             "file": "Grade.coffee",
-            "line": 268,
+            "line": 269,
             "itemtype": "property",
             "name": "isEnd",
             "final": 1,
@@ -2385,7 +2385,7 @@
         },
         {
             "file": "Grade.coffee",
-            "line": 303,
+            "line": 304,
             "itemtype": "property",
             "name": "id",
             "final": 1,
@@ -2394,7 +2394,7 @@
         },
         {
             "file": "Grade.coffee",
-            "line": 309,
+            "line": 310,
             "itemtype": "property",
             "name": "begin",
             "final": 1,
@@ -2403,7 +2403,7 @@
         },
         {
             "file": "Grade.coffee",
-            "line": 315,
+            "line": 316,
             "itemtype": "property",
             "name": "end",
             "final": 1,
@@ -2412,7 +2412,7 @@
         },
         {
             "file": "Grade.coffee",
-            "line": 321,
+            "line": 322,
             "itemtype": "property",
             "name": "name",
             "final": 1,
@@ -2421,7 +2421,7 @@
         },
         {
             "file": "Grade.coffee",
-            "line": 327,
+            "line": 328,
             "itemtype": "property",
             "name": "description",
             "final": 1,
@@ -2861,7 +2861,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 434,
+            "line": 431,
             "description": "Fills the given person(s) by downloading the person from Magister and replacing the local instance.",
             "itemtype": "method",
             "name": "fillPersons",
@@ -2903,7 +2903,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 474,
+            "line": 471,
             "description": "Shortcut for composing and sending a Message.",
             "itemtype": "method",
             "name": "composeAndSendMessage",
@@ -2950,7 +2950,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 499,
+            "line": 496,
             "description": "Gets the FileFolders of the current user.",
             "itemtype": "method",
             "name": "fileFolders",
@@ -2981,7 +2981,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 515,
+            "line": 512,
             "description": "Gets the StudyGuides of the current user.",
             "itemtype": "method",
             "name": "studyGuides",
@@ -3019,7 +3019,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 552,
+            "line": 549,
             "description": "Gets the Assignments for the current user.",
             "itemtype": "method",
             "name": "assignments",
@@ -3078,7 +3078,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 611,
+            "line": 608,
             "description": "Gets the Digital school utilities for the current user.",
             "itemtype": "method",
             "name": "digitalSchoolUtilities",
@@ -3109,7 +3109,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 638,
+            "line": 635,
             "description": "Returns the profile for the current logged in user.",
             "itemtype": "method",
             "name": "profileInfo",
@@ -3122,7 +3122,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 648,
+            "line": 645,
             "description": "Returns the children of the current user.",
             "itemtype": "method",
             "name": "children",
@@ -3152,7 +3152,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 688,
+            "line": 685,
             "description": "Checks if this Magister instance is done logging in.\n\nYou can also provide a callback, which will be called when this instance is done logging in.",
             "itemtype": "method",
             "name": "ready",
@@ -3194,7 +3194,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 732,
+            "line": 729,
             "description": "(Re-)Login the current Magister instance.\n\nUsually not needed to call manually.",
             "itemtype": "method",
             "name": "_reLogin",
@@ -3446,7 +3446,7 @@
             "name": "send",
             "params": [
                 {
-                    "name": "callback",
+                    "name": "cb",
                     "description": "An optional callback.",
                     "type": "Function",
                     "optional": true,
@@ -3475,7 +3475,7 @@
         },
         {
             "file": "Message.coffee",
-            "line": 249,
+            "line": 257,
             "description": "Move the current message to the given position.",
             "itemtype": "method",
             "name": "move",
@@ -3491,7 +3491,7 @@
         },
         {
             "file": "Message.coffee",
-            "line": 263,
+            "line": 271,
             "description": "WARNING. Removes the current Message.",
             "itemtype": "method",
             "name": "remove",
@@ -3515,8 +3515,45 @@
             "module": "Magister"
         },
         {
+            "file": "Message.coffee",
+            "line": 280,
+            "description": "Downloads extra info, if it's not downloaded yet and fills the current\nmessage with it.",
+            "itemtype": "method",
+            "name": "fillMessage",
+            "params": [
+                {
+                    "name": "fillPersons",
+                    "description": "Whether or not to download the users from the server.",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "false"
+                },
+                {
+                    "name": "callback",
+                    "description": "A standard callback.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "error",
+                            "description": "The error, if it exists.",
+                            "type": "Object",
+                            "optional": true
+                        },
+                        {
+                            "name": "result",
+                            "description": "The current message filled with the newely downloaded info.",
+                            "type": "Grade",
+                            "optional": true
+                        }
+                    ]
+                }
+            ],
+            "class": "Message",
+            "module": "Magister"
+        },
+        {
             "file": "MessageFolder.coffee",
-            "line": 27,
+            "line": 13,
             "itemtype": "property",
             "name": "name",
             "final": 1,
@@ -3526,7 +3563,7 @@
         },
         {
             "file": "MessageFolder.coffee",
-            "line": 33,
+            "line": 19,
             "itemtype": "property",
             "name": "unreadMessagesCount",
             "final": 1,
@@ -3536,7 +3573,7 @@
         },
         {
             "file": "MessageFolder.coffee",
-            "line": 39,
+            "line": 25,
             "itemtype": "property",
             "name": "id",
             "final": 1,
@@ -3546,7 +3583,7 @@
         },
         {
             "file": "MessageFolder.coffee",
-            "line": 45,
+            "line": 31,
             "itemtype": "property",
             "name": "parentId",
             "final": 1,
@@ -3556,32 +3593,55 @@
         },
         {
             "file": "MessageFolder.coffee",
-            "line": 52,
+            "line": 38,
             "description": "Gets the Messages of this MessageFolder.",
             "itemtype": "method",
             "name": "messages",
             "async": 1,
             "params": [
                 {
-                    "name": "limit",
-                    "description": "The limit of the amount of Messages to fetch.",
-                    "type": "Number",
+                    "name": "options",
+                    "description": "",
+                    "type": "Object",
                     "optional": true,
-                    "optdefault": "10"
-                },
-                {
-                    "name": "queries",
-                    "description": "Queries to do on the message (e.g: \"unread, skip 5\")",
-                    "type": "String",
-                    "optional": true,
-                    "optdefault": "\"\""
-                },
-                {
-                    "name": "fillPersons",
-                    "description": "Whether or not to download the users from the server.",
-                    "type": "Boolean",
-                    "optional": true,
-                    "optdefault": "false"
+                    "optdefault": "{}",
+                    "props": [
+                        {
+                            "name": "limit",
+                            "description": "The limit of the amount of Messages to fetch.",
+                            "type": "Number",
+                            "optional": true,
+                            "optdefault": "10"
+                        },
+                        {
+                            "name": "skip",
+                            "description": "The amount of messages in front to skip.",
+                            "type": "Number",
+                            "optional": true,
+                            "optdefault": "0"
+                        },
+                        {
+                            "name": "readState",
+                            "description": "One of: 'all', 'read', 'unread'.",
+                            "type": "String",
+                            "optional": true,
+                            "optdefault": "'all'"
+                        },
+                        {
+                            "name": "fill",
+                            "description": "Whether or not to call `fillMessage` on every message.",
+                            "type": "Boolean",
+                            "optional": true,
+                            "optdefault": "true"
+                        },
+                        {
+                            "name": "fillPersons",
+                            "description": "Whether or not to download the users from the server. `options.fill` has to be true for this option to take effect.",
+                            "type": "Boolean",
+                            "optional": true,
+                            "optdefault": "false"
+                        }
+                    ]
                 },
                 {
                     "name": "callback",
@@ -3608,7 +3668,7 @@
         },
         {
             "file": "MessageFolder.coffee",
-            "line": 107,
+            "line": 99,
             "description": "Gets the MessageFolders in this MessageFolder that matches the given query. Or if no query is given, all MessageFolders",
             "itemtype": "method",
             "name": "messageFolders",
@@ -3648,7 +3708,7 @@
         },
         {
             "file": "MessageFolder.coffee",
-            "line": 135,
+            "line": 127,
             "description": "DANGER. Removes ALL messages from the current MessageFolder.",
             "itemtype": "method",
             "name": "removeAllMessages",
@@ -3657,7 +3717,7 @@
         },
         {
             "file": "MessageFolder.coffee",
-            "line": 141,
+            "line": 133,
             "description": "Creates a new MessageFolder inside of this MessageFolder with the given name.",
             "itemtype": "method",
             "name": "createMessageFolder",
@@ -3693,7 +3753,7 @@
         },
         {
             "file": "MessageFolder.coffee",
-            "line": 162,
+            "line": 154,
             "description": "DANGER. Removes the current MessageFolder.",
             "itemtype": "method",
             "name": "remove",
@@ -4284,7 +4344,7 @@
         },
         {
             "file": "StudyGuide.coffee",
-            "line": 106,
+            "line": 110,
             "itemtype": "property",
             "name": "id",
             "final": 1,
@@ -4294,7 +4354,7 @@
         },
         {
             "file": "StudyGuide.coffee",
-            "line": 112,
+            "line": 116,
             "itemtype": "property",
             "name": "from",
             "final": 1,
@@ -4304,7 +4364,7 @@
         },
         {
             "file": "StudyGuide.coffee",
-            "line": 118,
+            "line": 122,
             "itemtype": "property",
             "name": "to",
             "final": 1,
@@ -4314,7 +4374,7 @@
         },
         {
             "file": "StudyGuide.coffee",
-            "line": 124,
+            "line": 128,
             "itemtype": "property",
             "name": "name",
             "final": 1,
@@ -4324,7 +4384,7 @@
         },
         {
             "file": "StudyGuide.coffee",
-            "line": 130,
+            "line": 134,
             "itemtype": "property",
             "name": "description",
             "final": 1,
@@ -4334,7 +4394,7 @@
         },
         {
             "file": "StudyGuide.coffee",
-            "line": 136,
+            "line": 140,
             "itemtype": "property",
             "name": "visible",
             "final": 1,
@@ -4344,7 +4404,7 @@
         },
         {
             "file": "StudyGuide.coffee",
-            "line": 142,
+            "line": 146,
             "itemtype": "property",
             "name": "number",
             "final": 1,
@@ -4354,7 +4414,7 @@
         },
         {
             "file": "StudyGuide.coffee",
-            "line": 148,
+            "line": 152,
             "itemtype": "property",
             "name": "files",
             "final": 1,

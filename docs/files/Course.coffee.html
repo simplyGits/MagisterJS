@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.14.0</em>
+            <em>API Docs for: 1.15.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -175,7 +175,7 @@ class root.Class
 		obj._teacher = root.Person._convertRaw magisterObj, Docentcode: raw.docent
 		obj._classExemption = raw.VakDispensatie or raw.VakVrijstelling
 
-		return obj
+		obj
 
 ###*
 # A Course (like: 4 VWO E/M 14-15).
@@ -308,7 +308,7 @@ class root.Course
 				result = _.filter result, (raw) -&gt; raw.CijferId isnt 0
 
 				pushResult = root._helpers.asyncResultWaiter result.length, (r) -&gt;
-					_(r) # Make sure that every class with the same ID can be compared with the === operator.
+					_.chain(r) # Make sure that every class with the same ID can be compared with the === operator.
 						.uniq (g) -&gt; g.class().id
 						.pluck &quot;_class&quot;
 						.forEach (c) -&gt;

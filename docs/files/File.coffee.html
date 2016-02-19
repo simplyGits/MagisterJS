@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.14.0</em>
+            <em>API Docs for: 1.15.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -170,7 +170,7 @@ class root.FileFolder
 		obj._rights = raw.Privilege
 		obj._parentId = raw.ParentId
 
-		return obj
+		obj
 
 ###*
 # A file from Magister, can be downloaded.
@@ -357,7 +357,7 @@ class root.File
 		obj.ParentId = @_fileFolder.id()
 		obj.UniqueId = @_uniqueId
 
-		return obj
+		obj
 
 	@_convertRaw: (magisterObj, fileFolder, raw) -&gt;
 		if raw._addedBy? then addedBy = raw._addedBy
@@ -381,11 +381,14 @@ class root.File
 		obj._fileFolder = fileFolder
 		obj._uniqueId = raw.UniqueId
 
-		l = _.find(raw.Links, Rel: &quot;Contents&quot;)
-		l ?= _.find(raw.Links, Rel: &quot;Self&quot;)
-		obj._downloadUrl = magisterObj.magisterSchool.url + l.Href
+		l = _.find raw.Links, Rel: &#x27;Contents&#x27;
+		l ?= _.find raw.Links, Rel: &#x27;Self&#x27;
+		if /^https?/.test l.Href
+			obj._downloadUrl = l.Href
+		else
+			obj._downloadUrl = magisterObj.magisterSchool.url + l.Href
 
-		return obj
+		obj
 
     </pre>
 </div>

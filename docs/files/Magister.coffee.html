@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.14.0</em>
+            <em>API Docs for: 1.15.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -110,7 +110,7 @@ else if module?.exports? and require? and not window?
 else if @_?
 	_ = @_
 else
-	throw new Error &quot;Lo-dash is required.&quot;
+	throw new Error &quot;Lo-dash or underscore is required.&quot;
 
 ###*
 # The version of this Magister.js.
@@ -118,7 +118,7 @@ else
 # @final
 # @type String
 ###
-root.VERSION = &quot;1.14.0&quot;
+root.VERSION = &quot;1.15.2&quot;
 
 ###*
 # A JavaScript implementation of the Magister 6 API.
@@ -219,7 +219,7 @@ class root.Magister
 						_.each appointments, (a) -&gt;
 							a._absenceInfo = _.find absenceInfo, (i) -&gt; i.appointment().id() is a.id()
 
-						appointments = _(appointments)
+						appointments = _.chain(appointments)
 							.sortBy &#x27;_begin&#x27;
 							.value()
 
@@ -296,7 +296,7 @@ class root.Magister
 				else null
 			)
 			Type: options.type ? 1
-			DuurtHeleDag: options.fullDay
+			DuurtHeleDag: options.fullDay ? no
 
 			# Static non-configurable stuff.
 			InfoType: 0
@@ -409,7 +409,7 @@ class root.Magister
 				else
 					result = JSON.parse result.content
 					converted = (root.Course._convertRaw(this, c) for c in result.Items)
-					callback null, _(converted).sortBy(&quot;_beginDate&quot;).sortBy((x) -&gt; not x._current).value()
+					callback null, _.chain(converted).sortBy(&quot;_beginDate&quot;).sortBy((x) -&gt; not x._current).value()
 
 	###*
 	# Gets the current grade of the current User.
@@ -520,10 +520,7 @@ class root.Magister
 		url = &quot;#{@_personUrl}/contactpersonen?contactPersoonType=#{queryType}&amp;q=#{query.replace /\ +/g, &quot;+&quot;}&quot;
 
 		if (val = root.Magister._cachedPersons[&quot;#{@_id}#{type}#{query}&quot;])?
-			if process?.nextTick?
-				process.nextTick -&gt; callback null, val
-			else
-				_.defer callback, null, val
+			root._helpers.defer callback, null, val
 			true
 		else
 			@http.get url, {}, (error, result) =&gt;
@@ -573,7 +570,7 @@ class root.Magister
 		else
 			throw new Error &quot;Expected persons to be an Array or an Object, got a(n) #{typeof persons}&quot;
 
-		return undefined
+		undefined
 
 	###*
 	# Shortcut for composing and sending a Message.
@@ -591,7 +588,7 @@ class root.Magister
 
 		[subject, body] = _.filter arguments, (a) -&gt; _.isString a
 		callback = _.find arguments, (a) -&gt; _.isFunction a
-		recipients = _.findLast arguments, (a) -&gt; a isnt callback
+		recipients = _.last _.filter(arguments, (a) -&gt; a isnt callback)
 		if arguments.length is 2 then body = &quot;&quot;
 
 		m = new root.Message this

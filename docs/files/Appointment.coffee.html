@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.14.0</em>
+            <em>API Docs for: 1.15.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -341,7 +341,11 @@ class root.Appointment
 			if error? then cb error, null
 			else
 				parsed = JSON.parse(result.content).Bijlagen
-				cb null, ( root.File._convertRaw @_magisterObj, undefined, f for f in parsed )
+				person = @_teachers[0]
+
+				cb null, parsed.map (f) =&gt;
+					f._addedBy = person
+					root.File._convertRaw @_magisterObj, undefined, f
 
 		undefined
 
@@ -354,7 +358,7 @@ class root.Appointment
 	remove: (cb) -&gt;
 		# quit if this appointment isn&#x27;t made by the user.
 		return unless @_type in [ 1, 16 ]
-		@_magisterObj.http.delete @_url, {}, _.ary cb, 1
+		@_magisterObj.http.delete @_url, {}, (e, r) -&gt; cb e
 
 	_toMagisterStyle: -&gt;
 		obj = {}
@@ -381,7 +385,7 @@ class root.Appointment
 		obj.OpdrachtId = @_appointmentId
 		obj.Bijlagen = []
 
-		return obj
+		obj
 
 	@_convertRaw: (magisterObj, raw) -&gt;
 		obj = new root.Appointment magisterObj
@@ -418,7 +422,7 @@ class root.Appointment
 		obj._magisterObj = magisterObj
 		obj._begin = new Date Date.parse raw._begin
 		obj._end = new Date Date.parse raw._end
-		return obj
+		obj
 
 ###*
 # Info about absence for an appointment.

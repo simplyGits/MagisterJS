@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.14.0</em>
+            <em>API Docs for: 1.15.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -206,7 +206,8 @@ class root.Grade
 		@weight = root._getset &quot;_weight&quot;
 
 	###*
-	# Downloads extra info, if it&#x27;s not downloaded yet and fills the current grade with it.
+	# Downloads extra info, if it&#x27;s not downloaded yet and fills the current grade
+	# with it.
 	#
 	# @method fillGrade
 	# @param callback {Function} A standard callback.
@@ -267,7 +268,7 @@ class root.Grade
 		obj._description = &quot;&quot;
 		obj._weight = 0
 
-		return obj
+		obj
 
 ###*
 # A Type of a Grade object.
@@ -374,7 +375,7 @@ class root.GradeType
 		# @final
 		# @type Boolean
 		###
-		@isEnd = -&gt; @type() in [ 2, 3, 4, 5, 6, 7, 13, 14 ]
+		@isEnd = -&gt; @type() in [ 2, 13 ]
 
 	@_convertRaw: (magisterObj, raw) -&gt;
 		obj = new root.GradeType magisterObj
@@ -393,7 +394,7 @@ class root.GradeType
 		obj._level = null # I have no idea...
 		obj._description = &quot;&quot;
 
-		return obj
+		obj
 
 ###*
 # A Grade period.

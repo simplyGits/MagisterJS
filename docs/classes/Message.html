@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.14.0</em>
+            <em>API Docs for: 1.15.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -203,6 +203,10 @@
                             </li>
                             <li class="index-item method">
                                 <a href="#method_createReplyToAllMessage">createReplyToAllMessage</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_fillMessage">fillMessage</a>
 
                             </li>
                             <li class="index-item method">
@@ -559,6 +563,100 @@
 
 
 </div>
+<div id="method_fillMessage" class="method item">
+    <h3 class="name"><code>fillMessage</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code class="optional">[fillPersons=false]</code>
+                </li>
+                <li class="arg">
+                        <code>callback</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/Message.coffee.html#l280"><code>Message.coffee:280</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Downloads extra info, if it's not downloaded yet and fills the current
+message with it.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name optional">[fillPersons=false]</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                        <p>Whether or not to download the users from the server.</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">callback</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></span>
+
+
+                    <div class="param-description">
+                        <p>A standard callback.</p>
+
+                    </div>
+
+                        <ul class="params-list">
+                            <li class="param">
+                                    <code class="param-name optional">[error]</code>
+                                    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+
+                                <div class="param-description">
+                                    <p>The error, if it exists.</p>
+
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name optional">[result]</code>
+                                    <span class="type"><a href="../classes/Grade.html" class="crosslink">Grade</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+
+                                <div class="param-description">
+                                    <p>The current message filled with the newely downloaded info.</p>
+
+                                </div>
+
+                            </li>
+                        </ul>
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
 <div id="method_move" class="method item">
     <h3 class="name"><code>move</code></h3>
 
@@ -580,7 +678,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Message.coffee.html#l249"><code>Message.coffee:249</code></a>
+        <a href="../files/Message.coffee.html#l257"><code>Message.coffee:257</code></a>
         </p>
 
 
@@ -634,7 +732,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Message.coffee.html#l263"><code>Message.coffee:263</code></a>
+        <a href="../files/Message.coffee.html#l271"><code>Message.coffee:271</code></a>
         </p>
 
 
@@ -687,7 +785,7 @@
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code class="optional">[callback]</code>
+                        <code class="optional">[cb]</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -722,7 +820,7 @@
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name optional">[callback]</code>
+                        <code class="param-name optional">[cb]</code>
                         <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
 

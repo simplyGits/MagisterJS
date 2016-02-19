@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.14.0</em>
+            <em>API Docs for: 1.15.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -116,6 +116,10 @@ Meteor.methods
 	###
 	&quot;magisterjs-http&quot;: (method, url, options = {}) -&gt;
 		@unblock()
+		check method, String
+		check url, String
+		check options, Object
+
 		headers = options.headers ? {}
 		fut = new future()
 

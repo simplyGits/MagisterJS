@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.14.0</em>
+            <em>API Docs for: 1.15.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -231,7 +231,7 @@ class root.Message
 	_tasks: 0
 	_sendAfterFinished: no
 	_finishedCallback: null
-	_working: -&gt; @_tasks isnt 0
+	_isWorking: -&gt; @_tasks isnt 0
 	_tickDown: -&gt; if --@_tasks is 0 and @_sendAfterFinished then @send @_finishedCallback
 	_reset: -&gt; @_tasks = 0; @_sendAfterFinished = no
 
@@ -262,7 +262,7 @@ class root.Message
 			@_reset()
 			throw new Error &quot;Expected recipient to be a String or an Object, got a(n) #{typeof recipient}&quot;
 
-		return undefined
+		undefined
 
 	###*
 	# Creates a new Message that replies to the sender of the current Message.
@@ -283,7 +283,7 @@ class root.Message
 		msg._subject = subject
 		msg._recipients = [ @sender() ]
 
-		return msg
+		msg
 
 	###*
 	# Creates a new Message that replies to the sender and recipients of the current Message.
@@ -304,7 +304,7 @@ class root.Message
 		msg._subject = subject
 		msg._recipients = _.reject(@recipients(), (x) -&gt; x.id() is @_magisterObj.profileInfo().id()).concat [ @sender() ]
 
-		return msg
+		msg
 
 	###*
 	# Creates a new Message that forwards the current Message.
@@ -324,31 +324,39 @@ class root.Message
 		msg._body = (if newContent? then &quot;#{newContent}&lt;br&gt;&lt;br&gt;---------------&lt;br&gt;&quot; else &quot;&quot;) + &quot;&lt;b&gt;Van:&lt;/b&gt; #{@sender().description()}&lt;br&gt;&lt;b&gt;Verzonden:&lt;/b&gt; #{@sendDate().toLocaleString()}&lt;br&gt;&lt;b&gt;Aan:&lt;/b&gt; #{@recipients().map((x) -&gt; x.fullName()).join &quot;, &quot;}&lt;br&gt;&lt;b&gt;Onderwerp:&lt;/b&gt; #{@subject()}&lt;br&gt;&lt;br&gt;\&quot;#{@body()}\&quot;&lt;br&gt;&lt;br&gt;&quot;
 		msg._subject = subject
 
-		return msg
+		msg
 
 	###*
 	# Sends the current Message. Sending will be delayed if there are processes running in the background.
 	#
 	# @method send
-	# @param [callback] {Function} An optional callback.
-	# 	@param [callback.error] {Object} An error, if it exists.
-	# 	@param [callback.result] {Message} The sent message.
+	# @param [cb] {Function} An optional callback.
+	# 	@param [cb.error] {Object} An error, if it exists.
+	# 	@param [cb.result] {Message} The sent message.
 	# @return {Boolean} False if the sending is delayed, otherwise true.
 	###
-	send: (callback) -&gt;
-		if @_working()
+	send: (cb) -&gt;
+		if @_isWorking()
 			@_sendAfterFinished = yes
-			@_finishedCallback = callback
-			return no
-		throw new Error &quot;This message is marked as unsendable&quot; unless @_canSend
-		throw new Error &quot;Sender and/or recipients cannot be null&quot; unless @recipients()? and @sender()?
-		throw new Error &quot;Subject cannot be null or empty&quot; if _.isEmpty @subject()
+			@_finishedCallback = cb
+			no
+		else
+			error = (str) -&gt; root._helpers.defer cb, new Error(str), null
+			unless @_canSend
+				error &#x27;this message is marked as unsendable&#x27;
+				return undefined
+			unless @recipients()? and @sender()?
+				error &#x27;both sender and recipients must have a value&#x27;
+				return undefined
+			if _.isEmpty @subject()
+				error &quot;subject can&#x27;t be empty&quot;
+				return undefined
 
-		@_magisterObj.http.post &quot;#{@_magisterObj._personUrl}/berichten&quot;, @_toMagisterStyle(), {}, (e, r) =&gt;
-			if e? then callback? e, null
-			else callback? null, this
+			@_magisterObj.http.post &quot;#{@_magisterObj._personUrl}/berichten&quot;, @_toMagisterStyle(), {}, (e, r) =&gt;
+				if e? then cb? e, null
+				else cb? null, this
 
-		return yes
+			yes
 
 	###*
 	# Move the current message to the given position.
@@ -373,6 +381,46 @@ class root.Message
 	###
 	remove: (cb) -&gt; @_magisterObj.http.delete &quot;#{@_magisterObj._personUrl}/berichten/#{@id()}&quot;, {}, (error, result) -&gt; cb? error
 
+	###*
+	# Downloads extra info, if it&#x27;s not downloaded yet and fills the current
+	# message with it.
+	#
+	# @method fillMessage
+	# @param {Boolean} [fillPersons=false] Whether or not to download the users from the server.
+	# @param callback {Function} A standard callback.
+	# 	@param [callback.error] {Object} The error, if it exists.
+	# 	@param [callback.result] {Grade} The current message filled with the newely downloaded info.
+	###
+	fillMessage: -&gt;
+		fillPersons = _.first(arguments) ? no
+		callback = _.last arguments
+
+		if @_filled
+			root._helpers.defer callback, null, this
+		else if callback?
+			@_magisterObj.http.get @_fillUrl, {}, (error, result) =&gt;
+				if error? then callback? error, null
+				else
+					parsed = JSON.parse(result.content)
+					@_body = parsed.Inhoud
+					@_attachments = (root.File._convertRaw(@_magisterObj, undefined, a) for a in (parsed.Bijlagen ? []))
+
+					if fillPersons
+						pushPeople = root._helpers.asyncResultWaiter m.recipients().length + 1, =&gt;
+							@_filled = yes
+							callback? null, this
+
+						@_magisterObj.fillPersons m.recipients(), (e, r) -&gt;
+							m._recipients = r
+							pushPeople r
+
+						@_magisterObj.fillPersons m.sender(), (e, r) -&gt;
+							m._sender = r
+							pushPeople r
+					else
+						@_filled = yes
+						callback? null, this
+
 	_update: -&gt; @_magisterObj.http.put &quot;#{@_magisterObj._personUrl}/berichten/#{@id()}?berichtSoort=#{@type()}&quot;, @_toMagisterStyle(), {}, (-&gt;)
 
 	_toMagisterStyle: -&gt;
@@ -392,7 +440,7 @@ class root.Message
 		obj.HeeftPrioriteit = @_isFlagged
 		obj.Soort = @_type
 
-		return obj
+		obj
 
 	@_convertRaw: (magisterObj, raw) -&gt;
 		obj = new root.Message magisterObj
@@ -412,7 +460,9 @@ class root.Message
 		obj._type = raw.Soort
 		obj._canSend = no
 
-		return obj
+		obj._fillUrl = &quot;#{magisterObj._personUrl}/berichten/#{obj._id}?berichtSoort=#{obj._type}&quot;
+
+		obj
 
     </pre>
 </div>
