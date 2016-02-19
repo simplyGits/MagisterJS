@@ -271,7 +271,7 @@ class root.GradeType
 		# @final
 		# @type Boolean
 		###
-		@isEnd = -> @type() in [ 2, 3, 4, 5, 6, 7, 13, 14 ]
+		@isEnd = -> @type() in [ 2, 13 ]
 
 	@_convertRaw: (magisterObj, raw) ->
 		obj = new root.GradeType magisterObj
