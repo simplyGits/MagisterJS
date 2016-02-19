@@ -86,4 +86,4 @@ class root.DigitalSchoolUtility
 		obj._url = _.find(raw.Links, (l) -> l.Rel is 'content')?.Href
 		obj._class = root.Class._convertRaw magisterObj, raw.Vak
 
-		return obj
+		obj

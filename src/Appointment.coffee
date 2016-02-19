@@ -281,7 +281,7 @@ class root.Appointment
 		obj.OpdrachtId = @_appointmentId
 		obj.Bijlagen = []
 
-		return obj
+		obj
 
 	@_convertRaw: (magisterObj, raw) ->
 		obj = new root.Appointment magisterObj
@@ -318,7 +318,7 @@ class root.Appointment
 		obj._magisterObj = magisterObj
 		obj._begin = new Date Date.parse raw._begin
 		obj._end = new Date Date.parse raw._end
-		return obj
+		obj
 
 ###*
 # Info about absence for an appointment.

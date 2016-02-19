@@ -95,7 +95,7 @@ class root.StudyGuide
 		obj._name = raw.Titel
 		obj._archived = raw.InLeerlingArchief
 
-		return obj
+		obj
 
 ###*
 # A part of a StudyGuide.
@@ -174,4 +174,4 @@ class root.StudyGuidePart
 
 		obj._files = ( root.File._convertRaw magisterObj, undefined, f for f in raw.Bronnen )
 
-		return obj
+		obj

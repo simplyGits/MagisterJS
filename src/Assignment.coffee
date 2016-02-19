@@ -123,7 +123,7 @@ class root.Assignment
 		obj._finished = raw.Afgesloten
 		obj._canHandIn = raw.MagInleveren
 
-		return obj
+		obj
 
 ###*
 # An (handed in) version of an Assignment.
@@ -231,4 +231,4 @@ class root.AssignmentVersion
 		obj._version = raw.VersieNummer
 		obj._tooLate = raw.IsTeLaat
 
-		return obj
+		obj

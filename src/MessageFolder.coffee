@@ -158,7 +158,7 @@ class root.MessageFolder
 		obj.Id = @_id
 		obj.ParentId = @_parentId
 
-		return obj
+		obj
 
 	@_convertRaw: (magisterObj, raw) ->
 		obj = new root.MessageFolder magisterObj
@@ -168,4 +168,4 @@ class root.MessageFolder
 		obj._id = raw.Id
 		obj._parentId = raw.ParentId
 
-		return obj
+		obj

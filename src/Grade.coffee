@@ -164,7 +164,7 @@ class root.Grade
 		obj._description = ""
 		obj._weight = 0
 
-		return obj
+		obj
 
 ###*
 # A Type of a Grade object.
@@ -290,7 +290,7 @@ class root.GradeType
 		obj._level = null # I have no idea...
 		obj._description = ""
 
-		return obj
+		obj
 
 ###*
 # A Grade period.

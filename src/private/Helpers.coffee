@@ -50,7 +50,7 @@ class root._helpers
 		callback [] if amount is 0
 		results = []
 		left = amount
-		return (result) ->
+		(result) ->
 			if _.isArray result
 				results = results.concat result
 				left -= result.length
@@ -79,12 +79,14 @@ class root._helpers
 		else
 			_.defer callback, args...
 
+		undefined
+
 root._getset = (varName, setter, getter) ->
-	return (newVar) ->
+	(newVar) ->
 		if newVar?
 			if _.isFunction(setter) then setter(newVar, yes)
 			else throw new Error "Changes on this property aren't allowed"
-		return if _.isFunction(getter) then getter(@[varName], no) else @[varName]
+		if _.isFunction(getter) then getter(@[varName], no) else @[varName]
 
 unless Array.isArray? # isArray polyfill
 	_.isArray = jQuery.isArray = Array.isArray = (x) -> Object.prototype.toString.call x is "[object Array]"

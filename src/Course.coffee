@@ -71,7 +71,7 @@ class root.Class
 		obj._teacher = root.Person._convertRaw magisterObj, Docentcode: raw.docent
 		obj._classExemption = raw.VakDispensatie or raw.VakVrijstelling
 
-		return obj
+		obj
 
 ###*
 # A Course (like: 4 VWO E/M 14-15).

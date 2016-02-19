@@ -66,7 +66,7 @@ class root.FileFolder
 		obj._rights = raw.Privilege
 		obj._parentId = raw.ParentId
 
-		return obj
+		obj
 
 ###*
 # A file from Magister, can be downloaded.
@@ -253,7 +253,7 @@ class root.File
 		obj.ParentId = @_fileFolder.id()
 		obj.UniqueId = @_uniqueId
 
-		return obj
+		obj
 
 	@_convertRaw: (magisterObj, fileFolder, raw) ->
 		if raw._addedBy? then addedBy = raw._addedBy
@@ -284,4 +284,4 @@ class root.File
 		else
 			obj._downloadUrl = magisterObj.magisterSchool.url + l.Href
 
-		return obj
+		obj

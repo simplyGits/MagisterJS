@@ -158,7 +158,7 @@ class root.Message
 			@_reset()
 			throw new Error "Expected recipient to be a String or an Object, got a(n) #{typeof recipient}"
 
-		return undefined
+		undefined
 
 	###*
 	# Creates a new Message that replies to the sender of the current Message.
@@ -179,7 +179,7 @@ class root.Message
 		msg._subject = subject
 		msg._recipients = [ @sender() ]
 
-		return msg
+		msg
 
 	###*
 	# Creates a new Message that replies to the sender and recipients of the current Message.
@@ -200,7 +200,7 @@ class root.Message
 		msg._subject = subject
 		msg._recipients = _.reject(@recipients(), (x) -> x.id() is @_magisterObj.profileInfo().id()).concat [ @sender() ]
 
-		return msg
+		msg
 
 	###*
 	# Creates a new Message that forwards the current Message.
@@ -220,7 +220,7 @@ class root.Message
 		msg._body = (if newContent? then "#{newContent}<br><br>---------------<br>" else "") + "<b>Van:</b> #{@sender().description()}<br><b>Verzonden:</b> #{@sendDate().toLocaleString()}<br><b>Aan:</b> #{@recipients().map((x) -> x.fullName()).join ", "}<br><b>Onderwerp:</b> #{@subject()}<br><br>\"#{@body()}\"<br><br>"
 		msg._subject = subject
 
-		return msg
+		msg
 
 	###*
 	# Sends the current Message. Sending will be delayed if there are processes running in the background.
@@ -336,7 +336,7 @@ class root.Message
 		obj.HeeftPrioriteit = @_isFlagged
 		obj.Soort = @_type
 
-		return obj
+		obj
 
 	@_convertRaw: (magisterObj, raw) ->
 		obj = new root.Message magisterObj
@@ -358,4 +358,4 @@ class root.Message
 
 		obj._fillUrl = "#{magisterObj._personUrl}/berichten/#{obj._id}?berichtSoort=#{obj._type}"
 
-		return obj
+		obj

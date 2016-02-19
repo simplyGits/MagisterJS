@@ -466,7 +466,7 @@ class root.Magister
 		else
 			throw new Error "Expected persons to be an Array or an Object, got a(n) #{typeof persons}"
 
-		return undefined
+		undefined
 
 	###*
 	# Shortcut for composing and sending a Message.

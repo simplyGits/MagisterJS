@@ -156,7 +156,7 @@ class root.ProfileInfo
 		obj._isChild = raw.ZichtbaarVoorOuder?
 		obj._isVisibleForParent = raw.ZichtbaarVoorOuder
 
-		return obj
+		obj
 
 ###*
 # More detailed information of the logged in user. Or a child.
