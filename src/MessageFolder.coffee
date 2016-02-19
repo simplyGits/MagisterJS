@@ -44,8 +44,8 @@ class root.MessageFolder
 	# 	@param {Number} [options.limit=10] The limit of the amount of Messages to fetch.
 	# 	@param {Number} [options.skip=0] The amount of messages in front to skip.
 	# 	@param {String} [options.readState='all'] One of: 'all', 'read', 'unread'.
-	# 	@param {Boolean} [options.fillPersons=false] Whether or not to download the users from the server.
 	# 	@param {Boolean} [options.fill=true] Whether or not to call `fillMessage` on every message.
+	# 	@param {Boolean} [options.fillPersons=false] Whether or not to download the users from the server. `options.fill` has to be true for this option to take effect.
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
 	# 	@param [callback.result] {Message[]} An array containing the Messages.
@@ -57,8 +57,8 @@ class root.MessageFolder
 		limit ?= 10
 		skip ?= 0
 		readState ?= 'all'
-		fillPersons ?= no
 		fill ?= yes
+		fillPersons ?= no
 
 		if limit is 0
 			root._helpers.defer callback, null, []
