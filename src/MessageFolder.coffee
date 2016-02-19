@@ -51,8 +51,15 @@ class root.MessageFolder
 	# 	@param [callback.result] {Message[]} An array containing the Messages.
 	###
 	messages: ->
-		options = _.first(arguments) ? {}
-		callback = _.last arguments
+		if arguments.length is 0
+			return undefined
+		else if arguments.length is 1
+			options = {}
+			callback = arguments[0]
+		else
+			options = arguments[0]
+			callback = arguments[1]
+
 		{ limit, skip, readState, fillPersons, fill } = options
 		limit ?= 10
 		skip ?= 0
