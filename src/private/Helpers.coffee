@@ -74,7 +74,9 @@ class root._helpers
 		else ''
 
 	@defer: (callback, args...) ->
-		if process?.nextTick?
+		if Meteor?.defer?
+			Meteor.defer -> callback args...
+		else if process?.nextTick?
 			process.nextTick -> callback args...
 		else
 			_.defer callback, args...
