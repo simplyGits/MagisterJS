@@ -121,10 +121,3 @@ root._getset = (varName, setter, getter) ->
 			if _.isFunction(setter) then setter(newVar, yes)
 			else throw new Error "Changes on this property aren't allowed"
 		if _.isFunction(getter) then getter(@[varName], no) else @[varName]
-
-unless Array.isArray? # isArray polyfill
-	_.isArray = jQuery.isArray = Array.isArray = (x) -> Object.prototype.toString.call x is "[object Array]"
-
-String::trim ?= ->
-	if @length > 0 then @replace /^\s+|\s+$/g, ""
-	else ""

@@ -16,6 +16,8 @@ Package.onUse(function(api) {
 	api.use(["coffeescript", "stevezhu:lodash@3.10.1", "check"]);
 
 	api.addFiles([
+		"src/private/Helpers.coffee",
+		"src/private/polyfills.coffee",
 		"src/Appointment.coffee",
 		"src/Assignment.coffee",
 		"src/Course.coffee",
@@ -26,7 +28,6 @@ Package.onUse(function(api) {
 		"src/Message.coffee",
 		"src/MessageFolder.coffee",
 		"src/Person.coffee",
-		"src/private/Helpers.coffee",
 		"src/ProfileInfo.coffee",
 		"src/School.coffee",
 		"src/StudyGuide.coffee",
