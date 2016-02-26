@@ -19,13 +19,13 @@ class root.Class
 		###*
 		# @property beginDate
 		# @final
-		# @type Date
+		# @type Date|undefined
 		###
 		@beginDate = root._getset "_beginDate"
 		###*
 		# @property endDate
 		# @final
-		# @type Date
+		# @type Date|undefined
 		###
 		@endDate = root._getset "_endDate"
 		###*
@@ -63,8 +63,8 @@ class root.Class
 		obj = new root.Class magisterObj
 
 		obj._id = raw.id ? raw.Id
-		obj._beginDate = new Date Date.parse raw.begindatum
-		obj._endDate = new Date Date.parse raw.einddatum
+		obj._beginDate = root._helpers.parseDate raw.begindatum
+		obj._endDate = root._helpers.parseDate raw.einddatum
 		obj._abbreviation = raw.afkorting ? raw.Afkorting
 		obj._description = raw.omschrijving ? raw.Omschrijving
 		obj._number = raw.volgnr ? raw.Volgnr
@@ -92,13 +92,13 @@ class root.Course
 		###*
 		# @property begin
 		# @final
-		# @type Date
+		# @type Date|undefined
 		###
 		@begin = root._getset "_begin"
 		###*
 		# @property end
 		# @final
-		# @type Date
+		# @type Date|undefined
 		###
 		@end = root._getset "_end"
 		###*
@@ -275,8 +275,8 @@ class root.Course
 		obj._columnUrlPrefix = obj._gradesUrlPrefix + "/extracijferkolominfo/"
 
 		obj._id = raw.Id
-		obj._begin = new Date Date.parse raw.Start
-		obj._end = new Date Date.parse raw.Einde
+		obj._begin = root._helpers.parseDate raw.Start
+		obj._end = root._helpers.parseDate raw.Einde
 		obj._schoolPeriod = raw.Lesperiode
 		obj._type =
 			id: raw.Studie.Id

@@ -19,13 +19,13 @@ class root.Appointment
 		###*
 		# @property begin
 		# @final
-		# @type Date
+		# @type Date|undefined
 		###
 		@begin = root._getset "_begin"
 		###*
 		# @property end
 		# @final
-		# @type Date
+		# @type Date|undefined
 		###
 		@end = root._getset "_end"
 		###*
@@ -287,8 +287,8 @@ class root.Appointment
 		obj = new root.Appointment magisterObj
 
 		obj._id = raw.Id
-		obj._begin = new Date Date.parse raw.Start
-		obj._end = new Date Date.parse raw.Einde
+		obj._begin = root._helpers.parseDate raw.Start
+		obj._end = root._helpers.parseDate raw.Einde
 		obj._beginBySchoolHour = raw.LesuurVan
 		obj._endBySchoolHour = raw.LesuurTotMet
 		obj._fullDay = raw.DuurtHeleDag
@@ -316,8 +316,8 @@ class root.Appointment
 	@_convertStored: (magisterObj, raw) ->
 		obj = _.extend raw, new root.Appointment magisterObj
 		obj._magisterObj = magisterObj
-		obj._begin = new Date Date.parse raw._begin
-		obj._end = new Date Date.parse raw._end
+		obj._begin = root._helpers.parseDate raw._begin
+		obj._end = root._helpers.parseDate raw._end
 		obj
 
 ###*
@@ -339,13 +339,13 @@ class root.AbsenceInfo
 		###*
 		# @property begin
 		# @final
-		# @type Date
+		# @type Date|undefined
 		###
 		@begin = root._getset "_begin"
 		###*
 		# @property end
 		# @final
-		# @type Date
+		# @type Date|undefined
 		###
 		@end = root._getset "_end"
 		###*
@@ -406,8 +406,8 @@ class root.AbsenceInfo
 		obj = new root.AbsenceInfo magisterObj
 
 		obj._id = raw.Id
-		obj._begin = new Date Date.parse raw.Start
-		obj._end = new Date Date.parse raw.Eind
+		obj._begin = root._helpers.parseDate raw.Start
+		obj._end = root._helpers.parseDate raw.Eind
 		obj._schoolHour = raw.Lesuur
 		obj._permitted = raw.Geoorloofd
 		obj._description = raw.Omschrijving?.trim() ? ''

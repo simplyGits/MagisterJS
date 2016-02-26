@@ -43,13 +43,13 @@ class root.DigitalSchoolUtility
 		###*
 		# @property begin
 		# @final
-		# @type Date
+		# @type Date|undefined
 		###
 		@begin = root._getset "_begin"
 		###*
 		# @property end
 		# @final
-		# @type Date
+		# @type Date|undefined
 		###
 		@end = root._getset "_end"
 		###*
@@ -80,8 +80,8 @@ class root.DigitalSchoolUtility
 		obj._name = raw.Titel
 		obj._publisher = raw.Uitgeverij
 		obj._state = raw.Status
-		obj._begin = new Date Date.parse raw.Start
-		obj._end = new Date Date.parse raw.Eind
+		obj._begin = root._helpers.parseDate raw.Start
+		obj._end = root._helpers.parseDate raw.Eind
 		obj._EAN = (Number) raw.EAN
 		obj._url = _.find(raw.Links, (l) -> l.Rel is 'content')?.Href
 		obj._class = root.Class._convertRaw magisterObj, raw.Vak

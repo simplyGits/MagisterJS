@@ -31,13 +31,13 @@ class root.Grade
 		###*
 		# @property dateFilledIn
 		# @final
-		# @type Date
+		# @type Date|undefined
 		###
 		@dateFilledIn = root._getset "_dateFilledIn"
 		###*
 		# @property testDate
 		# @final
-		# @type Date
+		# @type Date|undefined
 		###
 		@testDate = root._getset "_testdate"
 		###*
@@ -116,7 +116,7 @@ class root.Grade
 				if error? then callback? error, null
 				else
 					result = JSON.parse(result.content)
-					@_testDate = new Date Date.parse result.WerkinformatieDatumIngevoerd
+					@_testDate = root._helpers.parseDate result.WerkinformatieDatumIngevoerd
 					@_description = result.WerkInformatieOmschrijving ? ""
 
 					@_weight = (Number) result.Weging
@@ -135,7 +135,7 @@ class root.Grade
 		obj._id = raw.CijferId
 		obj._grade = raw.CijferStr
 		obj._passed = raw.IsVoldoende
-		obj._dateFilledIn = new Date Date.parse raw.DatumIngevoerd
+		obj._dateFilledIn = root._helpers.parseDate raw.DatumIngevoerd
 
 		obj._gradePeriod =
 			id: raw.CijferPeriode.Id
@@ -310,13 +310,13 @@ class root.GradePeriod
 		###*
 		# @property begin
 		# @final
-		# @type Date
+		# @type Date|undefined
 		###
 		@begin = root._getset "_begin"
 		###*
 		# @property end
 		# @final
-		# @type Date
+		# @type Date|undefined
 		###
 		@end = root._getset "_end"
 		###*
@@ -336,8 +336,8 @@ class root.GradePeriod
 		obj = new root.GradePeriod magisterObj
 
 		obj._id = raw.Id
-		obj._begin = new Date Date.parse raw.Start
-		obj._end = new Date Date.parse raw.Einde
+		obj._begin = root._helpers.parseDate raw.Start
+		obj._end = root._helpers.parseDate raw.Einde
 		obj._name = raw.Naam ? ""
 		obj._description = raw.Omschrijving ? ""
 

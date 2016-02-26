@@ -124,13 +124,13 @@ class root.File
 		###*
 		# @property changedDate
 		# @final
-		# @type Date
+		# @type Date|undefined
 		###
 		@changedDate = root._getset "_changedDate"
 		###*
 		# @property creationDate
 		# @final
-		# @type Date
+		# @type Date|undefined
 		###
 		@creationDate = root._getset "_creationDate"
 		###*
@@ -270,8 +270,10 @@ class root.File
 		obj._size = raw.Grootte
 		obj._rights = raw.Privilege
 		obj._mime = raw.ContentType
-		obj._changedDate = new Date Date.parse raw.GewijzigdOp
-		obj._creationDate = new Date Date.parse (raw.GemaaktOp ? raw.Datum)
+
+		obj._changedDate = root._helpers.parseDate raw.GewijzigdOp
+		obj._creationDate = root._helpers.parseDate (raw.GemaaktOp ? raw.Datum)
+
 		obj._addedBy = addedBy
 		obj._fileBlobId = raw.FileBlobId
 		obj._fileFolder = fileFolder

@@ -79,20 +79,20 @@ class root.Message
 		###*
 		# @property sendDate
 		# @final
-		# @type Date
+		# @type Date|undefined
 		# @default new Date()
 		###
 		@sendDate = root._getset "_sendDate"
 		###*
 		# @property begin
 		# @final
-		# @type Date
+		# @type Date|undefined
 		###
 		@begin = root._getset "_begin"
 		###*
 		# @property end
 		# @final
-		# @type Date
+		# @type Date|undefined
 		###
 		@end = root._getset "_end"
 		###*
@@ -347,9 +347,9 @@ class root.Message
 		obj._subject = raw.Onderwerp
 		obj._sender = root.Person._convertRaw magisterObj, raw.Afzender
 		obj._recipients = ( root.Person._convertRaw magisterObj, o for o in (raw.Ontvangers ? []) )
-		obj._sendDate = new Date Date.parse raw.VerstuurdOp
-		obj._begin = new Date Date.parse raw.Begin
-		obj._end = new Date Date.parse raw.Einde
+		obj._sendDate = root._helpers.parseDate raw.VerstuurdOp
+		obj._begin = root._helpers.parseDate raw.Begin
+		obj._end = root._helpers.parseDate raw.Einde
 		obj._isRead = raw.IsGelezen
 		obj._state = raw.Status
 		obj._isFlagged = raw.HeeftPrioriteit

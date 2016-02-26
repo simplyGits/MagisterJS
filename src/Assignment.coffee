@@ -37,13 +37,13 @@ class root.Assignment
 		###*
 		# @property deadline
 		# @final
-		# @type Date
+		# @type Date|undefined
 		###
 		@deadline = root._getset "_deadline"
 		###*
 		# @property handedInOn
 		# @final
-		# @type Date
+		# @type Date|undefined
 		###
 		@handedInOn = root._getset "_handedInOn"
 		###*
@@ -67,7 +67,7 @@ class root.Assignment
 		###*
 		# @property markedOn
 		# @final
-		# @type Date
+		# @type Date|undefined
 		###
 		@markedOn = root._getset "_markedOn"
 		###*
@@ -112,13 +112,13 @@ class root.Assignment
 		obj._name = raw.Titel
 		obj._description = raw.Omschrijving
 		obj._class = raw.Vak
-		obj._deadline = new Date Date.parse raw.InleverenVoor
-		obj._handedInOn = new Date Date.parse raw.IngeleverdOp
+		obj._deadline = root._helpers.parseDate raw.InleverenVoor
+		obj._handedInOn = root._helpers.parseDate raw.IngeleverdOp
 		obj._files = ( root.File._convertRaw magisterObj, undefined, f for f in raw.Bijlagen )
 		obj._teachers = if raw.Docenten? then (root.Person._convertRaw(magisterObj, p) for p in raw.Docenten) else undefined
 		obj._versionIds = ( v.Id for v in raw.VersieNavigatieItems )
 		obj._grade = raw.Beoordeling
-		obj._markedOn = new Date Date.parse raw.BeoordeeldOp
+		obj._markedOn = root._helpers.parseDate raw.BeoordeeldOp
 		obj._handInAgain = raw.OpnieuwInleveren
 		obj._finished = raw.Afgesloten
 		obj._canHandIn = raw.MagInleveren
@@ -180,13 +180,13 @@ class root.AssignmentVersion
 		###*
 		# @property deadline
 		# @final
-		# @type Date
+		# @type Date|undefined
 		###
 		@deadline = root._getset "_deadline"
 		###*
 		# @property handedInOn
 		# @final
-		# @type Date
+		# @type Date|undefined
 		###
 		@handedInOn = root._getset "_handedInOn"
 		###*
@@ -198,7 +198,7 @@ class root.AssignmentVersion
 		###*
 		# @property markedOn
 		# @final
-		# @type Date
+		# @type Date|undefined
 		###
 		@markedOn = root._getset "_markedOn"
 		###*
@@ -224,10 +224,10 @@ class root.AssignmentVersion
 		obj._teacherNotice = raw.DocentOpmerking
 		obj._handedInFiles = ( root.File._convertRaw magisterObj, undefined, f for f in raw.LeerlingBijlagen )
 		obj._feedbackFiles = ( root.File._convertRaw magisterObj, undefined, f for f in raw.FeedbackBijlagen )
-		obj._deadline = new Date Date.parse raw.InleverenVoor
-		obj._handedInOn = new Date Date.parse raw.IngeleverdOp
+		obj._deadline = root._helpers.parseDate raw.InleverenVoor
+		obj._handedInOn = root._helpers.parseDate raw.IngeleverdOp
 		obj._grade = raw.Beoordeling
-		obj._markedOn = new Date Date.parse raw.BeoordeeldOp
+		obj._markedOn = root._helpers.parseDate raw.BeoordeeldOp
 		obj._version = raw.VersieNummer
 		obj._tooLate = raw.IsTeLaat
 

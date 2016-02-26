@@ -19,13 +19,13 @@ class root.StudyGuide
 		###*
 		# @property from
 		# @final
-		# @type Date|null
+		# @type Date|undefined
 		###
 		@from = root._getset "_from"
 		###*
 		# @property to
 		# @final
-		# @type Date|null
+		# @type Date|undefined
 		###
 		@to = root._getset "_to"
 		###*
@@ -83,13 +83,8 @@ class root.StudyGuide
 		obj = new root.StudyGuide magisterObj
 
 		obj._id = raw.Id
-
-		obj._from = new Date Date.parse raw.Van
-		obj._from = null if _.isNaN obj._from.getTime()
-
-		obj._to = new Date Date.parse raw.TotEnMet
-		obj._to = null if _.isNaN obj._to.getTime()
-
+		obj._from = root._helpers.parseDate raw.Van
+		obj._to = root._helpers.parseDate raw.TotEnMet
 		obj._classCodes = raw.VakCodes
 		obj._class = raw.VakCodes[0]
 		obj._name = raw.Titel
@@ -116,13 +111,13 @@ class root.StudyGuidePart
 		###*
 		# @property from
 		# @final
-		# @type Date|null
+		# @type Date|undefined
 		###
 		@from = root._getset "_from"
 		###*
 		# @property to
 		# @final
-		# @type Date|null
+		# @type Date|undefined
 		###
 		@to = root._getset "_to"
 		###*
@@ -160,13 +155,8 @@ class root.StudyGuidePart
 		obj = new root.StudyGuidePart magisterObj
 
 		obj._id = raw.Id
-
-		obj._from = new Date Date.parse raw.Van
-		obj._from = null if _.isNaN obj._from.getTime()
-
-		obj._to = new Date Date.parse raw.TotEnMet
-		obj._to = null if _.isNaN obj._to.getTime()
-
+		obj._from = root._helpers.parseDate raw.Van
+		obj._to = root._helpers.parseDate raw.TotEnMet
 		obj._name = raw.Titel
 		obj._description = raw.Omschrijving ? ""
 		obj._visible = raw.IsZichtbaar

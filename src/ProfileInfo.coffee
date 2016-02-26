@@ -83,7 +83,7 @@ class root.ProfileInfo
 		###*
 		# @property birthDate
 		# @final
-		# @type Date
+		# @type Date|undefined
 		###
 		@birthDate = root._getset "_birthDate"
 		###*
@@ -142,7 +142,7 @@ class root.ProfileInfo
 				callback null, root.ExtraProfileInfo._convertRaw @_magisterObj, parsed
 
 	@_convertRaw: (magisterObj, raw) ->
-		obj = new root.ProfileInfo magisterObj, raw.Roepnaam, raw.Achternaam, new Date Date.parse raw.Geboortedatum
+		obj = new root.ProfileInfo magisterObj, raw.Roepnaam, raw.Achternaam, root._helpers.parseDate raw.Geboortedatum
 
 		obj._id = raw.Id
 		obj._officialFirstNames = raw.OfficieleVoornamen

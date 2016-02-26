@@ -83,6 +83,18 @@ class root._helpers
 
 		undefined
 
+	###*
+	# Tries to parse `val` to a date, if it fails this function will return
+	# `undefined` instead of an invalid date.
+	#
+	# @method parseDate
+	# @param {any} val
+	# @return {Date|undefined}
+	###
+	@parseDate: (val) ->
+		n = Date.parse val
+		val = new Date n unless isNaN n
+
 root._getset = (varName, setter, getter) ->
 	(newVar) ->
 		if newVar?
