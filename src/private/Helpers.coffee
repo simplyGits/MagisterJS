@@ -59,10 +59,25 @@ class root._helpers
 				left--
 			callback(results) if left is 0
 
+	###*
+	# @method urlDateConvert
+	# @param {Date} date
+	# @return {String}
+	###
 	@urlDateConvert: (date) -> "#{date.getFullYear()}-#{_helpers.addZero(date.getMonth() + 1)}-#{_helpers.addZero(date.getDate())}"
 
+	###*
+	# @method date
+	# @param {Date} date
+	# @return {Date}
+	###
 	@date: (date) -> new Date date.getFullYear(), date.getMonth(), date.getDate()
 
+	###*
+	# @method cleanHtmlContent
+	# @param {String} str
+	# @return {String}
+	###
 	@cleanHtmlContent: (str) ->
 		if str?
 			_.unescape str
@@ -73,6 +88,11 @@ class root._helpers
 				.trim()
 		else ''
 
+	###*
+	# @method defer
+	# @param {Function} callback
+	# @param {mixed} args...
+	###
 	@defer: (callback, args...) ->
 		if Meteor?.defer?
 			Meteor.defer -> callback args...
