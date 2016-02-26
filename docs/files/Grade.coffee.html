@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.15.2</em>
+            <em>API Docs for: 1.16.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -135,13 +135,13 @@ class root.Grade
 		###*
 		# @property dateFilledIn
 		# @final
-		# @type Date
+		# @type Date|undefined
 		###
 		@dateFilledIn = root._getset &quot;_dateFilledIn&quot;
 		###*
 		# @property testDate
 		# @final
-		# @type Date
+		# @type Date|undefined
 		###
 		@testDate = root._getset &quot;_testdate&quot;
 		###*
@@ -220,7 +220,7 @@ class root.Grade
 				if error? then callback? error, null
 				else
 					result = JSON.parse(result.content)
-					@_testDate = new Date Date.parse result.WerkinformatieDatumIngevoerd
+					@_testDate = root._helpers.parseDate result.WerkinformatieDatumIngevoerd
 					@_description = result.WerkInformatieOmschrijving ? &quot;&quot;
 
 					@_weight = (Number) result.Weging
@@ -239,7 +239,7 @@ class root.Grade
 		obj._id = raw.CijferId
 		obj._grade = raw.CijferStr
 		obj._passed = raw.IsVoldoende
-		obj._dateFilledIn = new Date Date.parse raw.DatumIngevoerd
+		obj._dateFilledIn = root._helpers.parseDate raw.DatumIngevoerd
 
 		obj._gradePeriod =
 			id: raw.CijferPeriode.Id
@@ -414,13 +414,13 @@ class root.GradePeriod
 		###*
 		# @property begin
 		# @final
-		# @type Date
+		# @type Date|undefined
 		###
 		@begin = root._getset &quot;_begin&quot;
 		###*
 		# @property end
 		# @final
-		# @type Date
+		# @type Date|undefined
 		###
 		@end = root._getset &quot;_end&quot;
 		###*
@@ -440,8 +440,8 @@ class root.GradePeriod
 		obj = new root.GradePeriod magisterObj
 
 		obj._id = raw.Id
-		obj._begin = new Date Date.parse raw.Start
-		obj._end = new Date Date.parse raw.Einde
+		obj._begin = root._helpers.parseDate raw.Start
+		obj._end = root._helpers.parseDate raw.Einde
 		obj._name = raw.Naam ? &quot;&quot;
 		obj._description = raw.Omschrijving ? &quot;&quot;
 

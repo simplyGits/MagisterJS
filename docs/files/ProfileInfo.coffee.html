@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.15.2</em>
+            <em>API Docs for: 1.16.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -187,7 +187,7 @@ class root.ProfileInfo
 		###*
 		# @property birthDate
 		# @final
-		# @type Date
+		# @type Date|undefined
 		###
 		@birthDate = root._getset &quot;_birthDate&quot;
 		###*
@@ -246,7 +246,7 @@ class root.ProfileInfo
 				callback null, root.ExtraProfileInfo._convertRaw @_magisterObj, parsed
 
 	@_convertRaw: (magisterObj, raw) -&gt;
-		obj = new root.ProfileInfo magisterObj, raw.Roepnaam, raw.Achternaam, new Date Date.parse raw.Geboortedatum
+		obj = new root.ProfileInfo magisterObj, raw.Roepnaam, raw.Achternaam, root._helpers.parseDate raw.Geboortedatum
 
 		obj._id = raw.Id
 		obj._officialFirstNames = raw.OfficieleVoornamen

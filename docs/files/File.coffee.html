@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.15.2</em>
+            <em>API Docs for: 1.16.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -228,13 +228,13 @@ class root.File
 		###*
 		# @property changedDate
 		# @final
-		# @type Date
+		# @type Date|undefined
 		###
 		@changedDate = root._getset &quot;_changedDate&quot;
 		###*
 		# @property creationDate
 		# @final
-		# @type Date
+		# @type Date|undefined
 		###
 		@creationDate = root._getset &quot;_creationDate&quot;
 		###*
@@ -374,8 +374,10 @@ class root.File
 		obj._size = raw.Grootte
 		obj._rights = raw.Privilege
 		obj._mime = raw.ContentType
-		obj._changedDate = new Date Date.parse raw.GewijzigdOp
-		obj._creationDate = new Date Date.parse (raw.GemaaktOp ? raw.Datum)
+
+		obj._changedDate = root._helpers.parseDate raw.GewijzigdOp
+		obj._creationDate = root._helpers.parseDate (raw.GemaaktOp ? raw.Datum)
+
 		obj._addedBy = addedBy
 		obj._fileBlobId = raw.FileBlobId
 		obj._fileFolder = fileFolder

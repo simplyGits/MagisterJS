@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.15.2</em>
+            <em>API Docs for: 1.16.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -147,13 +147,13 @@ class root.DigitalSchoolUtility
 		###*
 		# @property begin
 		# @final
-		# @type Date
+		# @type Date|undefined
 		###
 		@begin = root._getset &quot;_begin&quot;
 		###*
 		# @property end
 		# @final
-		# @type Date
+		# @type Date|undefined
 		###
 		@end = root._getset &quot;_end&quot;
 		###*
@@ -184,8 +184,8 @@ class root.DigitalSchoolUtility
 		obj._name = raw.Titel
 		obj._publisher = raw.Uitgeverij
 		obj._state = raw.Status
-		obj._begin = new Date Date.parse raw.Start
-		obj._end = new Date Date.parse raw.Eind
+		obj._begin = root._helpers.parseDate raw.Start
+		obj._end = root._helpers.parseDate raw.Eind
 		obj._EAN = (Number) raw.EAN
 		obj._url = _.find(raw.Links, (l) -&gt; l.Rel is &#x27;content&#x27;)?.Href
 		obj._class = root.Class._convertRaw magisterObj, raw.Vak

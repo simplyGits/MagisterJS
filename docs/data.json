@@ -2,7 +2,7 @@
     "project": {
         "name": "Magister.js Docs",
         "description": "A JavaScript implementation of the Magister 6 API.",
-        "version": "1.15.2",
+        "version": "1.16.0",
         "url": "http://simplyGits.github.io/MagisterJS",
         "logo": "http://i.imgur.com/Lrg80ax.png"
     },
@@ -176,7 +176,7 @@
             "namespaces": {},
             "tag": "module",
             "file": "StudyGuide.coffee",
-            "line": 100,
+            "line": 95,
             "description": "A JavaScript implementation of the Magister 6 API.",
             "author": "Lieuwe Rooijakkers"
         }
@@ -734,7 +734,7 @@
             "module": "Magister",
             "namespace": "",
             "file": "StudyGuide.coffee",
-            "line": 100,
+            "line": 95,
             "description": "A part of a StudyGuide.",
             "access": "private",
             "tagname": "",
@@ -794,7 +794,7 @@
             "itemtype": "property",
             "name": "begin",
             "final": 1,
-            "type": "Date",
+            "type": "Date|undefined",
             "class": "Appointment"
         },
         {
@@ -803,7 +803,7 @@
             "itemtype": "property",
             "name": "end",
             "final": 1,
-            "type": "Date",
+            "type": "Date|undefined",
             "class": "Appointment"
         },
         {
@@ -1092,7 +1092,7 @@
             "itemtype": "property",
             "name": "begin",
             "final": 1,
-            "type": "Date",
+            "type": "Date|undefined",
             "class": "AbsenceInfo"
         },
         {
@@ -1101,7 +1101,7 @@
             "itemtype": "property",
             "name": "end",
             "final": 1,
-            "type": "Date",
+            "type": "Date|undefined",
             "class": "AbsenceInfo"
         },
         {
@@ -1210,7 +1210,7 @@
             "itemtype": "property",
             "name": "deadline",
             "final": 1,
-            "type": "Date",
+            "type": "Date|undefined",
             "class": "Assignment"
         },
         {
@@ -1219,7 +1219,7 @@
             "itemtype": "property",
             "name": "handedInOn",
             "final": 1,
-            "type": "Date",
+            "type": "Date|undefined",
             "class": "Assignment"
         },
         {
@@ -1255,7 +1255,7 @@
             "itemtype": "property",
             "name": "markedOn",
             "final": 1,
-            "type": "Date",
+            "type": "Date|undefined",
             "class": "Assignment"
         },
         {
@@ -1384,7 +1384,7 @@
             "itemtype": "property",
             "name": "deadline",
             "final": 1,
-            "type": "Date",
+            "type": "Date|undefined",
             "class": "AssignmentVersion"
         },
         {
@@ -1393,7 +1393,7 @@
             "itemtype": "property",
             "name": "handedInOn",
             "final": 1,
-            "type": "Date",
+            "type": "Date|undefined",
             "class": "AssignmentVersion"
         },
         {
@@ -1411,7 +1411,7 @@
             "itemtype": "property",
             "name": "markedOn",
             "final": 1,
-            "type": "Date",
+            "type": "Date|undefined",
             "class": "AssignmentVersion"
         },
         {
@@ -1447,7 +1447,7 @@
             "itemtype": "property",
             "name": "beginDate",
             "final": 1,
-            "type": "Date",
+            "type": "Date|undefined",
             "class": "Class"
         },
         {
@@ -1456,7 +1456,7 @@
             "itemtype": "property",
             "name": "endDate",
             "final": 1,
-            "type": "Date",
+            "type": "Date|undefined",
             "class": "Class"
         },
         {
@@ -1519,7 +1519,7 @@
             "itemtype": "property",
             "name": "begin",
             "final": 1,
-            "type": "Date",
+            "type": "Date|undefined",
             "class": "Course"
         },
         {
@@ -1528,7 +1528,7 @@
             "itemtype": "property",
             "name": "end",
             "final": 1,
-            "type": "Date",
+            "type": "Date|undefined",
             "class": "Course"
         },
         {
@@ -1804,7 +1804,7 @@
             "itemtype": "property",
             "name": "begin",
             "final": 1,
-            "type": "Date",
+            "type": "Date|undefined",
             "class": "DigitalSchoolUtility"
         },
         {
@@ -1813,7 +1813,7 @@
             "itemtype": "property",
             "name": "end",
             "final": 1,
-            "type": "Date",
+            "type": "Date|undefined",
             "class": "DigitalSchoolUtility"
         },
         {
@@ -1982,7 +1982,7 @@
             "itemtype": "property",
             "name": "changedDate",
             "final": 1,
-            "type": "Date",
+            "type": "Date|undefined",
             "class": "File"
         },
         {
@@ -1991,7 +1991,7 @@
             "itemtype": "property",
             "name": "creationDate",
             "final": 1,
-            "type": "Date",
+            "type": "Date|undefined",
             "class": "File"
         },
         {
@@ -2134,7 +2134,7 @@
             "itemtype": "property",
             "name": "dateFilledIn",
             "final": 1,
-            "type": "Date",
+            "type": "Date|undefined",
             "class": "Grade"
         },
         {
@@ -2143,7 +2143,7 @@
             "itemtype": "property",
             "name": "testDate",
             "final": 1,
-            "type": "Date",
+            "type": "Date|undefined",
             "class": "Grade"
         },
         {
@@ -2398,7 +2398,7 @@
             "itemtype": "property",
             "name": "begin",
             "final": 1,
-            "type": "Date",
+            "type": "Date|undefined",
             "class": "GradePeriod"
         },
         {
@@ -2407,7 +2407,7 @@
             "itemtype": "property",
             "name": "end",
             "final": 1,
-            "type": "Date",
+            "type": "Date|undefined",
             "class": "GradePeriod"
         },
         {
@@ -3288,7 +3288,7 @@
             "itemtype": "property",
             "name": "sendDate",
             "final": 1,
-            "type": "Date",
+            "type": "Date|undefined",
             "default": "new Date()",
             "class": "Message",
             "module": "Magister"
@@ -3299,7 +3299,7 @@
             "itemtype": "property",
             "name": "begin",
             "final": 1,
-            "type": "Date",
+            "type": "Date|undefined",
             "class": "Message",
             "module": "Magister"
         },
@@ -3309,7 +3309,7 @@
             "itemtype": "property",
             "name": "end",
             "final": 1,
-            "type": "Date",
+            "type": "Date|undefined",
             "class": "Message",
             "module": "Magister"
         },
@@ -3976,7 +3976,7 @@
             "itemtype": "property",
             "name": "birthDate",
             "final": 1,
-            "type": "Date",
+            "type": "Date|undefined",
             "class": "ProfileInfo",
             "module": "Magister"
         },
@@ -4257,7 +4257,7 @@
             "itemtype": "property",
             "name": "from",
             "final": 1,
-            "type": "Date|null",
+            "type": "Date|undefined",
             "class": "StudyGuide",
             "module": "Magister"
         },
@@ -4267,7 +4267,7 @@
             "itemtype": "property",
             "name": "to",
             "final": 1,
-            "type": "Date|null",
+            "type": "Date|undefined",
             "class": "StudyGuide",
             "module": "Magister"
         },
@@ -4344,7 +4344,7 @@
         },
         {
             "file": "StudyGuide.coffee",
-            "line": 110,
+            "line": 105,
             "itemtype": "property",
             "name": "id",
             "final": 1,
@@ -4354,27 +4354,27 @@
         },
         {
             "file": "StudyGuide.coffee",
-            "line": 116,
+            "line": 111,
             "itemtype": "property",
             "name": "from",
             "final": 1,
-            "type": "Date|null",
+            "type": "Date|undefined",
             "class": "StudyGuidePart",
             "module": "Magister"
         },
         {
             "file": "StudyGuide.coffee",
-            "line": 122,
+            "line": 117,
             "itemtype": "property",
             "name": "to",
             "final": 1,
-            "type": "Date|null",
+            "type": "Date|undefined",
             "class": "StudyGuidePart",
             "module": "Magister"
         },
         {
             "file": "StudyGuide.coffee",
-            "line": 128,
+            "line": 123,
             "itemtype": "property",
             "name": "name",
             "final": 1,
@@ -4384,7 +4384,7 @@
         },
         {
             "file": "StudyGuide.coffee",
-            "line": 134,
+            "line": 129,
             "itemtype": "property",
             "name": "description",
             "final": 1,
@@ -4394,7 +4394,7 @@
         },
         {
             "file": "StudyGuide.coffee",
-            "line": 140,
+            "line": 135,
             "itemtype": "property",
             "name": "visible",
             "final": 1,
@@ -4404,7 +4404,7 @@
         },
         {
             "file": "StudyGuide.coffee",
-            "line": 146,
+            "line": 141,
             "itemtype": "property",
             "name": "number",
             "final": 1,
@@ -4414,7 +4414,7 @@
         },
         {
             "file": "StudyGuide.coffee",
-            "line": 152,
+            "line": 147,
             "itemtype": "property",
             "name": "files",
             "final": 1,

@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.15.2</em>
+            <em>API Docs for: 1.16.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -123,13 +123,13 @@ class root.Appointment
 		###*
 		# @property begin
 		# @final
-		# @type Date
+		# @type Date|undefined
 		###
 		@begin = root._getset &quot;_begin&quot;
 		###*
 		# @property end
 		# @final
-		# @type Date
+		# @type Date|undefined
 		###
 		@end = root._getset &quot;_end&quot;
 		###*
@@ -391,8 +391,8 @@ class root.Appointment
 		obj = new root.Appointment magisterObj
 
 		obj._id = raw.Id
-		obj._begin = new Date Date.parse raw.Start
-		obj._end = new Date Date.parse raw.Einde
+		obj._begin = root._helpers.parseDate raw.Start
+		obj._end = root._helpers.parseDate raw.Einde
 		obj._beginBySchoolHour = raw.LesuurVan
 		obj._endBySchoolHour = raw.LesuurTotMet
 		obj._fullDay = raw.DuurtHeleDag
@@ -420,8 +420,8 @@ class root.Appointment
 	@_convertStored: (magisterObj, raw) -&gt;
 		obj = _.extend raw, new root.Appointment magisterObj
 		obj._magisterObj = magisterObj
-		obj._begin = new Date Date.parse raw._begin
-		obj._end = new Date Date.parse raw._end
+		obj._begin = root._helpers.parseDate raw._begin
+		obj._end = root._helpers.parseDate raw._end
 		obj
 
 ###*
@@ -443,13 +443,13 @@ class root.AbsenceInfo
 		###*
 		# @property begin
 		# @final
-		# @type Date
+		# @type Date|undefined
 		###
 		@begin = root._getset &quot;_begin&quot;
 		###*
 		# @property end
 		# @final
-		# @type Date
+		# @type Date|undefined
 		###
 		@end = root._getset &quot;_end&quot;
 		###*
@@ -510,8 +510,8 @@ class root.AbsenceInfo
 		obj = new root.AbsenceInfo magisterObj
 
 		obj._id = raw.Id
-		obj._begin = new Date Date.parse raw.Start
-		obj._end = new Date Date.parse raw.Eind
+		obj._begin = root._helpers.parseDate raw.Start
+		obj._end = root._helpers.parseDate raw.Eind
 		obj._schoolHour = raw.Lesuur
 		obj._permitted = raw.Geoorloofd
 		obj._description = raw.Omschrijving?.trim() ? &#x27;&#x27;

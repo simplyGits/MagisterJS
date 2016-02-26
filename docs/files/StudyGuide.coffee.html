@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.15.2</em>
+            <em>API Docs for: 1.16.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -123,13 +123,13 @@ class root.StudyGuide
 		###*
 		# @property from
 		# @final
-		# @type Date|null
+		# @type Date|undefined
 		###
 		@from = root._getset &quot;_from&quot;
 		###*
 		# @property to
 		# @final
-		# @type Date|null
+		# @type Date|undefined
 		###
 		@to = root._getset &quot;_to&quot;
 		###*
@@ -187,13 +187,8 @@ class root.StudyGuide
 		obj = new root.StudyGuide magisterObj
 
 		obj._id = raw.Id
-
-		obj._from = new Date Date.parse raw.Van
-		obj._from = null if _.isNaN obj._from.getTime()
-
-		obj._to = new Date Date.parse raw.TotEnMet
-		obj._to = null if _.isNaN obj._to.getTime()
-
+		obj._from = root._helpers.parseDate raw.Van
+		obj._to = root._helpers.parseDate raw.TotEnMet
 		obj._classCodes = raw.VakCodes
 		obj._class = raw.VakCodes[0]
 		obj._name = raw.Titel
@@ -220,13 +215,13 @@ class root.StudyGuidePart
 		###*
 		# @property from
 		# @final
-		# @type Date|null
+		# @type Date|undefined
 		###
 		@from = root._getset &quot;_from&quot;
 		###*
 		# @property to
 		# @final
-		# @type Date|null
+		# @type Date|undefined
 		###
 		@to = root._getset &quot;_to&quot;
 		###*
@@ -264,13 +259,8 @@ class root.StudyGuidePart
 		obj = new root.StudyGuidePart magisterObj
 
 		obj._id = raw.Id
-
-		obj._from = new Date Date.parse raw.Van
-		obj._from = null if _.isNaN obj._from.getTime()
-
-		obj._to = new Date Date.parse raw.TotEnMet
-		obj._to = null if _.isNaN obj._to.getTime()
-
+		obj._from = root._helpers.parseDate raw.Van
+		obj._to = root._helpers.parseDate raw.TotEnMet
 		obj._name = raw.Titel
 		obj._description = raw.Omschrijving ? &quot;&quot;
 		obj._visible = raw.IsZichtbaar
