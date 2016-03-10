@@ -85,13 +85,18 @@ class root.Magister
 	# @param from {Date} The start date for the Appointments, you won't get appointments from before this date.
 	# @param [to] {Date} The end date for the Appointments, you won't get appointments from after this date.
 	# @param [fillPersons=false] {Boolean} Whether or not to download the full user objects from the server.
+	# @param [ignoreAbsenceErrors=true] {Boolean} When true, the callback will not be called with an error if only fetching the absences failed.
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
 	# 	@param [callback.result] {Appointment[]} An array containing the Appointments.
 	###
 	appointments: ->
 		callback = _.find arguments, (a) -> _.isFunction a
-		fillPersons = _.find(arguments, (a) -> _.isBoolean a) ? no
+
+		[ fillPersons, ignoreAbsenceErrors ] = _.filter arguments, (a) -> _.isBoolean a
+		fillPersons ?= no
+		ignoreAbsenceErrors ?= yes
+
 		dates = _.filter arguments, _.isDate
 		[from, to] = _.sortBy dates
 		to ?= from
@@ -124,7 +129,8 @@ class root.Magister
 					# Get absenceInfo.
 					@http.get "#{@_personUrl}/absenties?tot=#{dateConvert(to)}&van=#{dateConvert(from)}", {}, (error, result) =>
 						if error?
-							callback error, null
+							if ignoreAbsenceErrors then finish()
+							else callback error, null
 						else
 							result = JSON.parse(result.content).Items
 							absenceInfo = result.map (i) =>
