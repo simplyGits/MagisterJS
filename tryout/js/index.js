@@ -8,7 +8,7 @@ $(function () {
 		url: "http://www.google.nl/",
 		method: "GET"
 	});
-	$.post("http://smallproxy.herokuapp.com/", request, function (result, status, jqHXR) {
+	$.post("https://smallproxy.herokuapp.com/", request, function (result, status, jqHXR) {
 		if (jqHXR.status !== 200) {
 			$("#runButton").text("Proxy is broken af");
 		} else {

@@ -10,7 +10,7 @@
 
 				var request = JSON.stringify({ url: url, method: "GET", headers: options.headers });
 
-				$.post("http://smallproxy.herokuapp.com/", request, function(result, status, jqHXR) {
+				$.post("https://smallproxy.herokuapp.com/", request, function(result, status, jqHXR) {
 					result = JSON.parse(result);
 
 					if (result.error != null)
@@ -28,7 +28,7 @@
 
 				var request = JSON.stringify({ url: url, method: "DELETE", headers: options.headers });
 
-				$.post("http://smallproxy.herokuapp.com/", request, function(result, status, jqHXR) {
+				$.post("https://smallproxy.herokuapp.com/", request, function(result, status, jqHXR) {
 					result = JSON.parse(result);
 
 					if (result.error != null)
@@ -46,7 +46,7 @@
 
 				var request = JSON.stringify({ url: url, method: "POST", data: data, headers: options.headers });
 
-				$.post("http://smallproxy.herokuapp.com/", request, function(result, status, jqHXR) {
+				$.post("https://smallproxy.herokuapp.com/", request, function(result, status, jqHXR) {
 					result = JSON.parse(result);
 
 					if (result.error != null)
@@ -64,7 +64,7 @@
 
 				var request = JSON.stringify({ url: url, method: "PUT", data: data, headers: options.headers });
 
-				$.post("http://smallproxy.herokuapp.com/", request, function(result, status, jqHXR) {
+				$.post("https://smallproxy.herokuapp.com/", request, function(result, status, jqHXR) {
 					result = JSON.parse(result);
 
 					if (result.error != null)
