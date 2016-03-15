@@ -5,55 +5,67 @@
         <link href="css/index.css" rel="stylesheet"/>
         <link href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,700" rel="stylesheet" type="text/css"/>
         <link href="css/prism.css" rel="stylesheet" type="text/css"/>
-		
+
 		<script src="https://code.jquery.com/jquery-2.1.1.min.js" type="application/javascript" defer></script>
 		<script src="js/index.js" defer></script>
 		<script src="js/prism.js"></script>
     </head>
-    
+
     <body>
 		<div class="head">
 			<h1>Magister.js</h1>
 			<h2>A <div id="frameworks">browserside</div> implementation of the Magister 6 API</h2>
 		</div>
 		<div class="main">
-			Magister.js is an opensource asynchronous JavaScript implementation of the non-public API of <a href="http://magister6.nl" target="_blank">Magister</a>, built by <a href="http://lieuwex.github.io/" target="_blank">Lieuwe</a> @ <a href="https://github.com/simplyGits" target="_blank">simplyApps</a>.<br>
+			Magister.js is an opensource asynchronous JavaScript implementation of the non-public API of <a href="http://magister6.nl" target="_blank">Magister</a>, built by <a href="http://lieuwex.github.io/" target="_blank">Lieuwe</a> @ <a href="http://simplyapps.nl/" target="_blank">simplyApps</a>.<br>
 			The goal is to create an easy to use and open way to communicate with Magister.<br><br>
 			Help by making pull requests and issues at <a href="https://github.com/simplyGits/magisterJS">the Magister.js repo</a>.<br>
 			Code is <a href="docs/index.html">documented</a> with YUIDoc.<br><br>
-			
+
 			<a href="tryout/index.html">Try Magister.js in your browser!</a><br><br>
 
 			<div class="subHeading">Get started</div>
-			
+
 			<div class="platformTitle">Node.js</div>
 			<pre><code class="language-markup" >npm install magister.js</code></pre>
-		
+
 			<div class="platformTitle">Meteor</div>
 			<pre><code class="language-markup" >meteor add simply:magisterjs</code></pre>
 			<div class="platformTitle">Browserside</div>
-			<pre class="language-markup"><a href="https://github.com/simplyGits/MagisterJS/raw/master/Magister.js.zip" download>Download minified JS with README</a></pre>
-						
+			<pre class="language-markup"><a href="https://github.com/simplyGits/MagisterJS/raw/master/Magister.js-browser.zip" download>Download minified JS with README</a></pre>
+
 			<br><br><div class="subHeading">Examples</div><br>
-			
+
 			<div class="codeExampleDescription" style="margin-top: 5px;">Log the full name of the teacher for the first lesson of today.</div>
-			<pre><code class="language-javascript" >new Magister({ url: "https://adelbert.magister.net" }, "xxxx", "xxxxx").ready(function (m) {
-	m.appointments( new Date(), function (error, result) {
-		console.log(result[0].teachers[0].fullName());
+			<pre><code class="language-javascript" >new Magister.Magister({ school: 'Adelbert', username: 'xxxx', password: 'xxxx' }).ready(function () {
+	this.appointments( new Date(), function (error, result) {
+		console.log(result[0].teachers()[0].fullName());
 	});
 });</code></pre>
 			<div class="codeExampleDescription">Send a message to my 'friends', I.. I... don't have friends..</div>
-			<pre><code class="language-javascript" >new Magister({ url: "https://adelbert.magister.net" }, "xxxx", "xxxxx").ready(function (m) {
-	m.composeAndSendMessage("subject", "body", ["Thomas", "Tom", "Jesse"]);
+			<pre><code class="language-javascript" >new Magister.Magister({ school: 'Adelbert', username: 'xxxx', password: 'xxxx' }).ready(function () {
+	this.composeAndSendMessage("subject", "body", ["Thomas", "Tom", "Jesse"]);
 });</code></pre>
-			<div class="codeExampleDescription">Download the first File in the first FileFolder from Magister.</div>
-			<pre><code class="language-javascript" >new Magister({ url: "https://adelbert.magister.net" }, "xxxx", "xxxxx").ready(function (m) {
-	m.fileFolders(function (error, result) {
-		result[0].files(function (error, result) {
-			result[0].download();
+			<div class="codeExampleDescription">Get recent grades.</div>
+			<pre><code class="language-javascript" >new Magister.Magister({ school: 'Adelbert', username: 'xxxx', password: 'xxxx' }).ready(function () {
+	this.courses(function (error, result) {
+		result[0].grades(true, true, true, function (error, result) {
+			console.log(result.map(function (g) {
+				return g.grade();
+			}));
 		});
 	});
 });</code></pre>
+			<br><br><div class="subHeading">Showcase</div><br>
+
+			Some awesome (totally unbiased) projects that use Magister.js:
+
+			<ul>
+				<li><a href="https://github.com/lesander/magister-calendar" target="_blank">Magister Calendar</a> by <a href="https://github.com/lesander" target="_blank">Sander Laarhoven</a></li>
+				<li><a href="http://simplyHomework.nl/" target="_blank">simplyHomework</a> by <a href="http://simplyApps.nl/" target="_blank">simplyApps</a></li>
+				<li><a href="https://github.com/lieuwex/MahGister" target="_blank">MahGister</a> by <a href="https://github.com/lieuwex" target="_blank">Lieuwe Rooijakkers</a></li>
+			</ul>
+
 		</div>
     </body>
 </html>

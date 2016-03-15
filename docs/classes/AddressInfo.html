@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>GradeType - Magister.js Docs</title>
+    <title>AddressInfo - Magister.js Docs</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -98,12 +98,12 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>GradeType Class</h1>
+<h1>AddressInfo Class</h1>
 <div class="box meta">
 
 
         <div class="foundat">
-            Defined in: <a href="../files/Grade.coffee.html#l169"><code>Grade.coffee:169</code></a>
+            Defined in: <a href="../files/ProfileInfo.coffee.html#l198"><code>ProfileInfo.coffee:198</code></a>
         </div>
 
             Module: <a href="../modules/Magister.html">Magister</a>
@@ -112,22 +112,16 @@
 
 
 <div class="box intro">
-    <p>A Type of a Grade object.</p>
+    <p>Address info of the current logged in user. Or a child.</p>
 
 </div>
 
     <div class="constructor">
         <h2>Constructor</h2>
-<div id="method_GradeType" class="method item private">
-    <h3 class="name"><code>GradeType</code></h3>
+<div id="method_AddressInfo" class="method item private">
+    <h3 class="name"><code>AddressInfo</code></h3>
 
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>_magisterObj</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
+        <span class="paren">()</span>
 
 
 
@@ -140,7 +134,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Grade.coffee.html#l169"><code>Grade.coffee:169</code></a>
+        <a href="../files/ProfileInfo.coffee.html#l198"><code>ProfileInfo.coffee:198</code></a>
         </p>
 
 
@@ -151,23 +145,6 @@
         
     </div>
 
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">_magisterObj</code>
-                        <span class="type"><a href="../classes/Magister.html" class="crosslink">Magister</a></span>
-
-
-                    <div class="param-description">
-                        <p>A Magister object this GradeType is child of.</p>
-
-                    </div>
-
-                </li>
-            </ul>
-        </div>
 
 
 
@@ -191,55 +168,23 @@
 
                     <ul class="index-list properties">
                             <li class="index-item property">
-                                <a href="#property_description">description</a>
+                                <a href="#property_city">city</a>
 
                             </li>
                             <li class="index-item property">
-                                <a href="#property_hasNestedTypes">hasNestedTypes</a>
+                                <a href="#property_houseNumber">houseNumber</a>
 
                             </li>
                             <li class="index-item property">
-                                <a href="#property_header">header</a>
+                                <a href="#property_postalCode">postalCode</a>
 
                             </li>
                             <li class="index-item property">
-                                <a href="#property_id">id</a>
+                                <a href="#property_street">street</a>
 
                             </li>
                             <li class="index-item property">
-                                <a href="#property_isAtLaterDate">isAtLaterDate</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_isEnd">isEnd</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_isPTA">isPTA</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_isTeacher">isTeacher</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_level">level</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_name">name</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_number">number</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_type">type</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_typeString">typeString</a>
+                                <a href="#property_suffix">suffix</a>
 
                             </li>
                     </ul>
@@ -252,8 +197,8 @@
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
 
-<div id="property_description" class="property item">
-    <h3 class="name"><code>description</code></h3>
+<div id="property_city" class="property item">
+    <h3 class="name"><code>city</code></h3>
     <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
 
 
@@ -264,7 +209,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Grade.coffee.html#l203"><code>Grade.coffee:203</code></a>
+        <a href="../files/ProfileInfo.coffee.html#l233"><code>ProfileInfo.coffee:233</code></a>
         </p>
 
 
@@ -277,58 +222,8 @@
 
 
 </div>
-<div id="property_hasNestedTypes" class="property item">
-    <h3 class="name"><code>hasNestedTypes</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
-
-
-
-        <span class="flag final">final</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/Grade.coffee.html#l251"><code>Grade.coffee:251</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-<div id="property_header" class="property item">
-    <h3 class="name"><code>header</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-
-
-
-        <span class="flag final">final</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/Grade.coffee.html#l197"><code>Grade.coffee:197</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-<div id="property_id" class="property item">
-    <h3 class="name"><code>id</code></h3>
+<div id="property_houseNumber" class="property item">
+    <h3 class="name"><code>houseNumber</code></h3>
     <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
 
 
@@ -339,7 +234,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Grade.coffee.html#l179"><code>Grade.coffee:179</code></a>
+        <a href="../files/ProfileInfo.coffee.html#l219"><code>ProfileInfo.coffee:219</code></a>
         </p>
 
 
@@ -352,134 +247,8 @@
 
 
 </div>
-<div id="property_isAtLaterDate" class="property item">
-    <h3 class="name"><code>isAtLaterDate</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
-
-
-
-        <span class="flag final">final</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/Grade.coffee.html#l239"><code>Grade.coffee:239</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-<div id="property_isEnd" class="property item">
-    <h3 class="name"><code>isEnd</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
-
-
-
-        <span class="flag final">final</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/Grade.coffee.html#l269"><code>Grade.coffee:269</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-<div id="property_isPTA" class="property item">
-    <h3 class="name"><code>isPTA</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
-
-
-
-        <span class="flag final">final</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/Grade.coffee.html#l257"><code>Grade.coffee:257</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-<div id="property_isTeacher" class="property item">
-    <h3 class="name"><code>isTeacher</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
-
-
-
-        <span class="flag final">final</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/Grade.coffee.html#l245"><code>Grade.coffee:245</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-<div id="property_level" class="property item">
-    <h3 class="name"><code>level</code></h3>
-    <span class="type">Unknown</span>
-
-
-
-        <span class="flag final">final</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/Grade.coffee.html#l263"><code>Grade.coffee:263</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>Have no idea what this is. If anybody has an idea, tell me please so we can make this doc at least a bit useful.</p>
-
-    </div>
-
-
-
-</div>
-<div id="property_name" class="property item">
-    <h3 class="name"><code>name</code></h3>
+<div id="property_postalCode" class="property item">
+    <h3 class="name"><code>postalCode</code></h3>
     <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
 
 
@@ -490,7 +259,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Grade.coffee.html#l185"><code>Grade.coffee:185</code></a>
+        <a href="../files/ProfileInfo.coffee.html#l207"><code>ProfileInfo.coffee:207</code></a>
         </p>
 
 
@@ -503,58 +272,8 @@
 
 
 </div>
-<div id="property_number" class="property item">
-    <h3 class="name"><code>number</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
-
-
-
-        <span class="flag final">final</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/Grade.coffee.html#l191"><code>Grade.coffee:191</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-<div id="property_type" class="property item">
-    <h3 class="name"><code>type</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
-
-
-
-        <span class="flag final">final</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/Grade.coffee.html#l209"><code>Grade.coffee:209</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-<div id="property_typeString" class="property item">
-    <h3 class="name"><code>typeString</code></h3>
+<div id="property_street" class="property item">
+    <h3 class="name"><code>street</code></h3>
     <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
 
 
@@ -565,14 +284,39 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Grade.coffee.html#l215"><code>Grade.coffee:215</code></a>
+        <a href="../files/ProfileInfo.coffee.html#l213"><code>ProfileInfo.coffee:213</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>type parsed as a string.</p>
+        
+    </div>
+
+
+
+</div>
+<div id="property_suffix" class="property item">
+    <h3 class="name"><code>suffix</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+
+
+
+        <span class="flag final">final</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/ProfileInfo.coffee.html#l225"><code>ProfileInfo.coffee:225</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>String behind the <code>houseNumber</code> (eg 'A')</p>
 
     </div>
 

@@ -1,4 +1,4 @@
-/* http://prismjs.com/download.html?themes=prism&languages=clike+javascript */
+/* http://prismjs.com/download.html?themes=prism&languages=markup+clike+javascript */
 /**
  * prism.js default theme for JavaScript, CSS and HTML
  * Based on dabblet (http://dabblet.com)
@@ -123,8 +123,12 @@ pre[class*="language-"] {
 	color: #e90;
 }
 
-.token.important {
+.token.important,
+.token.bold {
 	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
 }
 
 .token.entity {

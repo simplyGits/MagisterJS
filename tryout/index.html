@@ -2,26 +2,55 @@
 <html>
 	<head>
 		<title>Magister.js TryOut.</title>
-		<link href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,700" rel="stylesheet" type="text/css"/>
+		<link href="http://fonts.googleapis.com/css?family=Roboto:100" rel="stylesheet" type="text/css"/>
 		<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
 		<script src="https://code.jquery.com/jquery-2.1.1.min.js" type="application/javascript" defer></script>
 		<script src="ace-builds/src-min/ace.js" type="text/javascript" charset="utf-8" defer></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.8.0/lodash.min.js" type="application/javascript" defer></script>
 		<script src="js/magister.http.js" type="application/javascript" defer></script>
-		<script src="https://rawgit.com/simplyGits/MagisterJS/master/lib/separateHttp/magister-browser-noHttp.min.js" type="application/javascript" defer></script>
+		<script src="https://rawgit.com/simplyGits/MagisterJS/master/lib/browser/separateHttp/magister-browser-noHttp.min.js" type="application/javascript" defer></script>
 		<script src="js/index.js" type="application/javascript" defer></script>
 		<link href="css/index.css" rel="stylesheet"/>
 	</head>
-	
+
 	<body>
 		<h1>Try Magister.js for <span style="color: red;">FREE</span>!</h1>
-		
-<div id="editor">// First parameter should be a query as String (e.g "Adelbert") or { url: String } (e.g { url: "https://adelbert.magister.net" })
-new Magister("&lt;schoolname&gt;", "&lt;username&gt;", "&lt;password&gt;").ready(function (m) {
-    alert("Hey, " + m.profileInfo().firstName() + "!");
+
+<div id="editor">new Magister.Magister({
+	// Should be a query as String (e.g "Adelbert") or { url: String } (e.g { url: "https://adelbert.magister.net" })
+	school: '&lt;schoolname&gt;',
+	username: '&lt;username&gt;',
+	password: '&lt;password&gt;'
+}).ready(function (error) {
+    if (error) console.log("ouch. ", error);
+    else alert("Hey, " + this.profileInfo().firstName() + "!");
 });</div>
-			
+
 		<div id="buttonContainer">
-			<input type="button" class="btn btn-success" value="RUN!" id="runButton"/>
+			<input type="button" class="btn btn-success" value="Waiting for proxy..." id="runButton" disabled/>
+		</div>
+
+		<div id="warning" class="hidden">
+			<h1 class="noanimate">privacymelding</h1>
+			<div>
+				Omdat het niet mogelijk is om direct met Magister te verbinden
+				vanuit de browser hebben wij (simplyApps) een gratis proxy
+				opgezet waarmee je magister.js kan testen. Hierdoor wordt wel
+				alle data verstuurd naar deze proxy, dit gebeurd via een
+				beveiligde TLS verbinding. De proxy draait op <a href="https://www.heroku.com/">Heroku</a>. De code van de proxy is
+				<a href="https://github.com/lieuwex/SmallProxy/blob/master/main.js">hier beschikbaar</a>, wij draaien deze code ongewijzigd. Er wordt door ons géén
+				data opgeslagen. Als je liever wilt dat je data alleen naar Magister verstuurd wordt kan je het gemakkelijkste magister.js testen met <a href="https://www.npmjs.com/package/magister.js">node.js</a>.
+
+				<br>
+				<br>
+				<label>
+					<input type="checkbox" id="ignorewarning" class="noanimate"/>
+					deze waarschuwing niet meer tonen
+				</label>
+				<br>
+				<br>
+				<button class="btn btn-primary" class="noanimate" id="closewarning">waarschuwing sluiten</button>
+			</div>
 		</div>
 	</body>
 </html>
