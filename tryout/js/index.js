@@ -21,7 +21,7 @@ $(function () {
 	});
 
 	setTimeout(function () {
-		$("h1, input").addClass("animate");
+		$("h1:not(.noanimate), input:not(.noanimate)").addClass("animate");
 	}, 0);
 
 	$("#runButton").click(function () {
@@ -31,4 +31,24 @@ $(function () {
 	editor.on("change", function () { // Leave warning when file is edited.
 		window.onbeforeunload = function () { return "You've edited the file."; }
 	});
+
+	var $warning = document.getElementById('warning');
+	var $checkbox = document.getElementById('ignorewarning');
+	var $closebutton = document.getElementById('closewarning');
+	var hideWarning = function () {
+		$warning.remove();
+	};
+
+	if (localStorage.getItem('ignorewarning') === 'true') {
+		hideWarning();
+	} else {
+		$warning.className = '';
+		$closebutton.addEventListener('click', function () {
+			hideWarning();
+
+			if ($checkbox.checked) {
+				localStorage.setItem('ignorewarning', 'true');
+			}
+		});
+	}
 });

@@ -29,5 +29,28 @@
 		<div id="buttonContainer">
 			<input type="button" class="btn btn-success" value="Waiting for proxy..." id="runButton" disabled/>
 		</div>
+
+		<div id="warning" class="hidden">
+			<h1 class="noanimate">privacymelding</h1>
+			<div>
+				Omdat het niet mogelijk is om direct met Magister te verbinden
+				vanuit de browser hebben wij (simplyApps) een gratis proxy
+				opgezet waarmee je magister.js kan testen. Hierdoor wordt wel
+				alle data verstuurd naar deze proxy, dit gebeurd via een
+				beveiligde TLS verbinding. De proxy draait op <a href="https://www.heroku.com/">Heroku</a>. De code van de proxy is
+				<a href="https://github.com/lieuwex/SmallProxy/blob/master/main.js">hier beschikbaar</a>, wij draaien deze code ongewijzigd. Er wordt door ons géén
+				data opgeslagen. Als je liever wilt dat je data alleen naar Magister verstuurd wordt kan je het gemakkelijkste magister.js testen met <a href="https://www.npmjs.com/package/magister.js">node.js</a>.
+
+				<br>
+				<br>
+				<label>
+					<input type="checkbox" id="ignorewarning" class="noanimate"/>
+					deze waarschuwing niet meer tonen
+				</label>
+				<br>
+				<br>
+				<button class="btn btn-primary" class="noanimate" id="closewarning">waarschuwing sluiten</button>
+			</div>
+		</div>
 	</body>
 </html>
