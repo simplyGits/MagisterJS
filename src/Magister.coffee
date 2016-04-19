@@ -688,6 +688,29 @@ class root.Magister
 				callback null, res
 
 	###*
+	# @method versionInfo
+	# @param callback {Function} A standard callback.
+	# 	@param [callback.error] {Object} The error, if it exists.
+	# 	@param [callback.result] {Object}
+	#			@param [callback.result.core] {String}
+	#			@param [callback.result.api] {String}
+	#			@param [callback.result.db] {String}
+	#			@param [callback.result.product] {String}
+	#			@param [callback.result.releasedOn] {Date}
+	###
+	versionInfo: (callback) ->
+		@http.get "#{@magisterSchool.url}/api/versie", {}, (e, r) ->
+			if e? then callback e, null
+			else
+				parsed = JSON.parse r.content
+				callback null,
+					core: parsed.CoreVersie
+					api: parsed.ApiVersie
+					db: parsed.DatabaseVersie
+					product: parsed.ProductVersie
+					releasedOn: root._helpers.parseDate parsed.ReleaseDatum
+
+	###*
 	# Checks if this Magister instance is done logging in.
 	#
 	# You can also provide a callback, which will be called when this instance is done logging in.
