@@ -488,14 +488,13 @@ class root.Magister
 	composeAndSendMessage: ->
 		@_forceReady()
 
-		[subject, body] = _.filter arguments, (a) -> _.isString a
-		callback = _.find arguments, (a) -> _.isFunction a
+		[ subject, body ] = _.filter arguments, _.isString
+		callback = _.find arguments, _.isFunction
 		recipients = _.last _.filter(arguments, (a) -> a isnt callback)
-		if arguments.length is 2 then body = ""
 
 		m = new root.Message this
 		m.subject subject
-		m.body body ? ""
+		m.body body ? ''
 		m.addRecipient recipients
 		m.send callback
 
