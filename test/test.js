@@ -327,7 +327,7 @@ describe("Magister", function() {
 
 	describe("version info", function () {
 		it("should get version infos", function (done) {
-			m.versionInfo(function (e, r) {
+			m.magisterSchool.versionInfo(function (e, r) {
 				expect(e).not.to.exist;
 				expect(r).to.be.an('object');
 				done();
