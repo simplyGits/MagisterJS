@@ -1,6 +1,8 @@
-var expect = require("chai").expect;
+/* global describe, it, before */
 
-var magisterjs = require("../");
+var expect = require('chai').expect;
+
+var magisterjs = require('../');
 var Magister = magisterjs.Magister;
 var Message = magisterjs.Message;
 var ProfileInfo = magisterjs.ProfileInfo;
@@ -19,7 +21,7 @@ var Helpers = magisterjs._helpers;
 var options = null;
 
 try {
-	options = require("./testOptions.json");
+	options = require('./testOptions.json');
 } catch (e) { // For Travis CI we use environment variables.
 	options = { school: {} };
 
@@ -28,7 +30,7 @@ try {
 	options.password = process.env.TEST_PASSWORD;
 }
 if (options.school.url == null || options.userName == null || options.password == null) {
-	throw new Error("No login information found.");
+	throw new Error('No login information found.');
 }
 
 /*
@@ -36,16 +38,16 @@ if (options.school.url == null || options.userName == null || options.password =
 		Create a file in this folder called testOptions.json with as content (fill in your information):
 
 		{
-			"school": {
-				"url": "https://<schoolname>.magister.net"
+			'school': {
+				'url': 'https://<schoolname>.magister.net'
 			},
-			"userName": "<username>",
-			"password": "<password>"
+			'userName': '<username>',
+			'password': '<password>'
 		}
 */
 
-describe("Magister", function() {
-	"use strict";
+describe('Magister', function() {
+	'use strict';
 
 	this.timeout(7000);
 	var m;
@@ -60,22 +62,22 @@ describe("Magister", function() {
 		});
 	});
 
-	it("should be a correct Magister object", function () {
+	it('should be a correct Magister object', function () {
 		expect(m).to.be.an.instanceof(Magister);
-		expect(m).to.have.a.property("ready").be.a("function");
+		expect(m).to.have.a.property('ready').be.a('function');
 
-		expect(m).to.have.a.property("magisterSchool").be.a("object");
-		expect(m).to.have.a.property("magisterSchool").to.have.a.property("url");
+		expect(m).to.have.a.property('magisterSchool').be.an.instanceof(MagisterSchool);
+		expect(m).to.have.a.property('magisterSchool').to.have.a.property('url');
 	});
 
-	describe("profileInfo", function () {
-		it("should contain profileInfo", function () {
-			expect(m.profileInfo()).to.be.a("object");
+	describe('profileInfo', function () {
+		it('should contain profileInfo', function () {
+			expect(m.profileInfo()).to.be.a('object');
 			expect(m.profileInfo()).to.be.an.instanceof(ProfileInfo);
-			expect(m.profileInfo().profilePicture()).to.be.a("string");
+			expect(m.profileInfo().profilePicture()).to.be.a('string');
 		});
 
-		it("should fetch address info", function (done) {
+		it('should fetch address info', function (done) {
 			m.profileInfo().address(function (e, r) {
 				expect(e).to.not.exist;
 				expect(r).to.be.an.instanceof(AddressInfo);
@@ -83,7 +85,7 @@ describe("Magister", function() {
 			});
 		});
 
-		it("should fetch extra profile info", function (done) {
+		it('should fetch extra profile info', function (done) {
 			m.profileInfo().extraInfo(function (e, r) {
 				expect(e).to.not.exist;
 				expect(r).to.be.an.instanceof(ExtraProfileInfo);
@@ -92,18 +94,18 @@ describe("Magister", function() {
 		});
 	});
 
-	describe("messages", function () {
-		it("should search messageFolders correctly", function () {
+	describe('messages', function () {
+		it('should search messageFolders correctly', function () {
 			expect(
 				m.messageFolders('postvak in')[0].id() ===
 				m.messageFolders('mededelingen')[0].id()
 			).to.be.false;
 		});
 
-		it("should send messages and retreive them", function (done) {
+		it('should send messages and retreive them', function (done) {
 			this.timeout(10000);
-			var body = "" + ~~(Math.random() * 100);
-			m.composeAndSendMessage("Magister.js mocha test.", body, [m.profileInfo().firstName()], function (e, r) {
+			var body = '' + ~~(Math.random() * 100);
+			m.composeAndSendMessage('Magister.js mocha test.', body, [m.profileInfo().firstName()], function (e, r) {
 				expect(e).to.not.exist;
 				expect(r).to.be.an.instanceof(Message);
 
@@ -115,7 +117,7 @@ describe("Magister", function() {
 					fill: true,
 				}, function (e, r) {
 					expect(e).to.not.exist;
-					expect(r).to.be.a("array");
+					expect(r).to.be.a('array');
 					expect(r).to.not.be.empty;
 
 					expect(r[0]).to.be.an.instanceof(Message);
@@ -127,18 +129,18 @@ describe("Magister", function() {
 		});
 	});
 
-	describe("courses", function () {
-		it("should correctly get the limited current course", function (done) {
+	describe('courses', function () {
+		it('should correctly get the limited current course', function (done) {
 			m.getLimitedCurrentCourseInfo(function (e, r) {
-				expect(r).to.be.a("object");
+				expect(r).to.be.a('object');
 				done(e);
 			});
 		});
 
-		it("should correctly get courses", function (done) {
+		it('should correctly get courses', function (done) {
 			m.courses(function (e, r) {
 				expect(e).to.not.exist;
-				expect(r).to.be.a("array");
+				expect(r).to.be.a('array');
 				var course = r[0];
 
 				m.currentCourse(function (e, r) {
@@ -149,28 +151,28 @@ describe("Magister", function() {
 		});
 	});
 
-	describe("appointments", function () {
-		it("should give appointments", function (done) {
+	describe('appointments', function () {
+		it('should give appointments', function (done) {
 			m.appointments(new Date(), false, function(e, r) {
 				expect(e).to.not.exist;
-				expect(r).to.be.a("array");
+				expect(r).to.be.a('array');
 
 				r.forEach(function (appointment) {
 					expect(appointment).to.be.an.instanceof(Appointment);
-					expect(appointment.teachers()).to.be.a("array");
+					expect(appointment.teachers()).to.be.a('array');
 				});
 
 				done();
 			});
 		});
 
-		it("should be able to mark appointments as ready", function (done) {
+		it('should be able to mark appointments as ready', function (done) {
 			m.appointments(new Date(), false, function(e, r) {
 				expect(e).to.not.exist;
-				expect(r).to.be.a("array");
+				expect(r).to.be.a('array');
 				if (r[0] != null) {
 					expect(r[0]).to.be.an.instanceof(Appointment);
-					expect(r[0]).to.have.a.property("isDone").be.a("function");
+					expect(r[0]).to.have.a.property('isDone').be.a('function');
 
 					r[0].isDone(true);
 					r[0].isDone(false);
@@ -179,7 +181,7 @@ describe("Magister", function() {
 			});
 		});
 
-		it("should be able to create appointments and delete them", function (done) {
+		it('should be able to create appointments and delete them', function (done) {
 			var now = new Date();
 			m.createAppointment({
 				start: now,
@@ -193,24 +195,24 @@ describe("Magister", function() {
 		});
 	});
 
-	describe("files", function () {
-		it("should download files", function (done) {
+	describe('files', function () {
+		it('should download files', function (done) {
 			m.fileFolders(function (error, result) {
 				expect(error).to.not.exist;
 				result[0].files(function (error, result) {
 					expect(error).to.not.exist;
 					result[0].download(false, function(e, r) {
 						expect(e).to.not.exist;
-						expect(r).to.be.a("string");
+						expect(r).to.be.a('string');
 						done();
 					});
 				});
 			});
 		});
 
-		it("should download attachments", function (done) {
+		it('should download attachments', function (done) {
 			m.inbox().messages(function(e, r) {
-				expect(r[0].attachments()).to.be.a("array");
+				expect(r[0].attachments()).to.be.a('array');
 				var foundAttachment = false;
 
 				for (var i = 0; i < r.length; i++) {
@@ -222,7 +224,7 @@ describe("Magister", function() {
 
 						expect(attachment).to.be.an.instanceof(File);
 						expect(attachment.download(false, function(e, r) {
-							expect(r).to.be.a("string");
+							expect(r).to.be.a('string');
 							done(e);
 						}));
 						break;
@@ -233,15 +235,15 @@ describe("Magister", function() {
 		});
 	});
 
-	describe("grades", function () {
-		it("should correctly get grades", function (done) {
+	describe('grades', function () {
+		it('should correctly get grades', function (done) {
 			m.currentCourse(function (e, r) {
 				if (e != null) { // case covered by 'should correctly get courses'.
 					done();
 				} else {
 					r.grades(false, false, false, function (e, r) {
 						expect(e).to.not.exist;
-						expect(r).to.be.a("array");
+						expect(r).to.be.a('array');
 
 						r.forEach(function (g) {
 							expect(g).to.be.an.instanceof(Grade);
@@ -261,14 +263,14 @@ describe("Magister", function() {
 			});
 		});
 
-		it("should correctly get gradePeriods", function (done) {
+		it('should correctly get gradePeriods', function (done) {
 			m.currentCourse(function (e, r) {
 				if (e != null) { // case covered by 'should correctly get courses'.
 					done();
 				} else {
 					r.gradePeriods(function (e, r) {
 						expect(e).to.not.exist;
-						expect(r).to.be.a("array");
+						expect(r).to.be.a('array');
 
 						r.forEach(function (p) {
 							expect(p).to.be.an.instanceof(GradePeriod);
@@ -281,33 +283,33 @@ describe("Magister", function() {
 		});
 	});
 
-	describe("persons", function () {
-		it("should handle empty queries correctly", function (done) {
+	describe('persons', function () {
+		it('should handle empty queries correctly', function (done) {
 			m.getPersons(null, function (e, r) {
-				expect(r).to.be.an("array").to.have.length(0);
+				expect(r).to.be.an('array').to.have.length(0);
 				done(e);
 			});
 		});
 
-		it("should get persons", function (done) {
+		it('should get persons', function (done) {
 			m.getPersons(m.profileInfo().firstName(), function (e, r) {
-				expect(r).to.be.an("array").to.have.length.above(0);
+				expect(r).to.be.an('array').to.have.length.above(0);
 
 				expect(r[0]).to.be.an.instanceof(Person);
-				expect(r[0].type()).to.equal("pupil"); // test if it correctly get a persons type
+				expect(r[0].type()).to.equal('pupil'); // test if it correctly get a persons type
 
 				done(e);
 			});
 		});
 
-		it("should cache persons", function () {
+		it('should cache persons', function () {
 			var cached = m.getPersons(m.profileInfo().firstName(), function () {});
 			expect(cached).to.equal(true);
 		});
 	});
 
-	describe("digitalSchoolUtilities", function () {
-		it("should get digitalSchoolUtilities", function (done) {
+	describe('digitalSchoolUtilities', function () {
+		it('should get digitalSchoolUtilities', function (done) {
 			m.digitalSchoolUtilities(function (e, r) {
 				expect(e).to.not.exist;
 				expect(r).to.be.an('array');
@@ -326,8 +328,8 @@ describe("Magister", function() {
 		});
 	});
 
-	describe("version info", function () {
-		it("should get version infos", function (done) {
+	describe('version info', function () {
+		it('should get version infos', function (done) {
 			m.magisterSchool.versionInfo(function (e, r) {
 				expect(e).not.to.exist;
 				expect(r).to.be.an('object');
@@ -359,7 +361,7 @@ describe('Helpers', function () {
 			expect(Helpers.date(a).getTime()).to.equal(b.getTime());
 		});
 
-		it("should correctly convert a date to Magister's url format", function () {
+		it('should correctly convert a date to Magister\'s url format', function () {
 			var a = new Date(2016, 3, 22);
 			var b = '2016-04-22';
 			expect(Helpers.urlDateConvert(a)).to.equal(b);
