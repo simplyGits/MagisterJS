@@ -321,7 +321,7 @@ class root.Magister
 	# @async
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
-	# 	@param [callback.result] {Course} An array containing the current Course.
+	# 	@param [callback.result] {Course} The current Course.
 	###
 	currentCourse: (callback) ->
 		@_forceReady()
