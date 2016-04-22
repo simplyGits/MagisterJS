@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.16.0</em>
+            <em>API Docs for: 1.19.1</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -118,7 +118,7 @@ else
 # @final
 # @type String
 ###
-root.VERSION = &quot;1.16.0&quot;
+root.VERSION = &quot;1.19.1&quot;
 
 ###*
 # A JavaScript implementation of the Magister 6 API.
@@ -171,15 +171,16 @@ class root.Magister
 		@password = options.password
 		@_keepLoggedIn = options.keepLoggedIn
 
-		if _.isString(@magisterSchool)
+		if _.isString @magisterSchool
 			root.MagisterSchool.getSchools @magisterSchool, (e, r) =&gt;
 				if e? then @_setErrored e
 				else if r.length is 0 then @_setErrored new Error &quot;No school with the query #{@magisterSchool} found.&quot;
 				else
 					@magisterSchool = r[0]
 					@_reLogin options.sessionId if options.login
-
-		else if options.login then @_reLogin options.sessionId
+		else
+			@magisterSchool = _.extend new root.MagisterSchool, @magisterSchool
+			@_reLogin options.sessionId if options.login
 
 	###*
 	# Get the appoinments of the current User between the two given Dates.
@@ -189,13 +190,18 @@ class root.Magister
 	# @param from {Date} The start date for the Appointments, you won&#x27;t get appointments from before this date.
 	# @param [to] {Date} The end date for the Appointments, you won&#x27;t get appointments from after this date.
 	# @param [fillPersons=false] {Boolean} Whether or not to download the full user objects from the server.
+	# @param [ignoreAbsenceErrors=true] {Boolean} When true, the callback will not be called with an error if only fetching the absences failed.
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
 	# 	@param [callback.result] {Appointment[]} An array containing the Appointments.
 	###
 	appointments: -&gt;
 		callback = _.find arguments, (a) -&gt; _.isFunction a
-		fillPersons = _.find(arguments, (a) -&gt; _.isBoolean a) ? no
+
+		[ fillPersons, ignoreAbsenceErrors ] = _.filter arguments, (a) -&gt; _.isBoolean a
+		fillPersons ?= no
+		ignoreAbsenceErrors ?= yes
+
 		dates = _.filter arguments, _.isDate
 		[from, to] = _.sortBy dates
 		to ?= from
@@ -228,7 +234,8 @@ class root.Magister
 					# Get absenceInfo.
 					@http.get &quot;#{@_personUrl}/absenties?tot=#{dateConvert(to)}&amp;van=#{dateConvert(from)}&quot;, {}, (error, result) =&gt;
 						if error?
-							callback error, null
+							if ignoreAbsenceErrors then finish()
+							else callback error, null
 						else
 							result = JSON.parse(result.content).Items
 							absenceInfo = result.map (i) =&gt;
@@ -418,7 +425,7 @@ class root.Magister
 	# @async
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
-	# 	@param [callback.result] {Course} An array containing the current Course.
+	# 	@param [callback.result] {Course} The current Course.
 	###
 	currentCourse: (callback) -&gt;
 		@_forceReady()
@@ -586,14 +593,13 @@ class root.Magister
 	composeAndSendMessage: -&gt;
 		@_forceReady()
 
-		[subject, body] = _.filter arguments, (a) -&gt; _.isString a
-		callback = _.find arguments, (a) -&gt; _.isFunction a
+		[ subject, body ] = _.filter arguments, _.isString
+		callback = _.find arguments, _.isFunction
 		recipients = _.last _.filter(arguments, (a) -&gt; a isnt callback)
-		if arguments.length is 2 then body = &quot;&quot;
 
 		m = new root.Message this
 		m.subject subject
-		m.body body ? &quot;&quot;
+		m.body body ? &#x27;&#x27;
 		m.addRecipient recipients
 		m.send callback
 

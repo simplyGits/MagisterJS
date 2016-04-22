@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.16.0</em>
+            <em>API Docs for: 1.19.1</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -129,6 +129,29 @@ class root.MagisterSchool
 	# @type String
 	###
 	constructor: (@id, @name, @url) -&gt;
+
+	###*
+	# @method versionInfo
+	# @param callback {Function} A standard callback.
+	# 	@param [callback.error] {Object} The error, if it exists.
+	# 	@param [callback.result] {Object}
+	#			@param [callback.result.core] {String}
+	#			@param [callback.result.api] {String}
+	#			@param [callback.result.db] {String}
+	#			@param [callback.result.product] {String}
+	#			@param [callback.result.releasedOn] {Date}
+	###
+	versionInfo: (callback) -&gt;
+		new root.MagisterHttp().get &quot;#{@url}/api/versie&quot;, {}, (e, r) -&gt;
+			if e? then callback e, null
+			else
+				parsed = JSON.parse r.content
+				callback null,
+					core: parsed.CoreVersie
+					api: parsed.ApiVersie
+					db: parsed.DatabaseVersie
+					product: parsed.ProductVersie
+					releasedOn: root._helpers.parseDate parsed.ReleaseDatum
 
 	###*
 	# Gets the schools that matches the given query.

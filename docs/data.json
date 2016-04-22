@@ -2,7 +2,7 @@
     "project": {
         "name": "Magister.js Docs",
         "description": "A JavaScript implementation of the Magister 6 API.",
-        "version": "1.16.0",
+        "version": "1.19.1",
         "url": "http://simplyGits.github.io/MagisterJS",
         "logo": "http://i.imgur.com/Lrg80ax.png"
     },
@@ -2440,7 +2440,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 80,
+            "line": 81,
             "description": "Get the appoinments of the current User between the two given Dates.",
             "itemtype": "method",
             "name": "appointments",
@@ -2463,6 +2463,13 @@
                     "type": "Boolean",
                     "optional": true,
                     "optdefault": "false"
+                },
+                {
+                    "name": "ignoreAbsenceErrors",
+                    "description": "When true, the callback will not be called with an error if only fetching the absences failed.",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "true"
                 },
                 {
                     "name": "callback",
@@ -2489,7 +2496,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 147,
+            "line": 154,
             "description": "Creates a new appointment based on the given `options`.",
             "itemtype": "method",
             "name": "createAppointment",
@@ -2567,7 +2574,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 222,
+            "line": 229,
             "description": "Gets the MessageFolders that matches the given query. Or if no query is given, all MessageFolders",
             "itemtype": "method",
             "name": "messageFolders",
@@ -2608,7 +2615,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 250,
+            "line": 257,
             "description": "Fetches the messageFolders for the current Magister object.",
             "itemtype": "method",
             "name": "_fetchMessageFolders",
@@ -2634,7 +2641,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 267,
+            "line": 274,
             "itemtype": "method",
             "name": "inbox",
             "return": {
@@ -2646,7 +2653,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 272,
+            "line": 279,
             "itemtype": "method",
             "name": "sentItems",
             "return": {
@@ -2658,7 +2665,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 277,
+            "line": 284,
             "itemtype": "method",
             "name": "bin",
             "return": {
@@ -2670,7 +2677,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 282,
+            "line": 289,
             "itemtype": "method",
             "name": "alerts",
             "return": {
@@ -2682,7 +2689,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 288,
+            "line": 295,
             "description": "Gets the courses of the current User.",
             "itemtype": "method",
             "name": "courses",
@@ -2713,7 +2720,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 310,
+            "line": 317,
             "description": "Gets the current grade of the current User.",
             "itemtype": "method",
             "name": "currentCourse",
@@ -2732,7 +2739,7 @@
                         },
                         {
                             "name": "result",
-                            "description": "An array containing the current Course.",
+                            "description": "The current Course.",
                             "type": "Course",
                             "optional": true
                         }
@@ -2744,7 +2751,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 325,
+            "line": 332,
             "description": "Gets limited course info for the current Course for the current User.\n\nThis is quicker than `courses`, however it's not as consistent and\ndoesn't really fit in Magister.js's style, however if you know what\nyou're doing and you're willing to use this, go ahead.",
             "itemtype": "method",
             "name": "getLimitedCurrentCourseInfo",
@@ -2815,7 +2822,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 369,
+            "line": 376,
             "description": "Gets an Array of Persons that matches the given profile.",
             "itemtype": "method",
             "name": "getPersons",
@@ -2861,7 +2868,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 431,
+            "line": 438,
             "description": "Fills the given person(s) by downloading the person from Magister and replacing the local instance.",
             "itemtype": "method",
             "name": "fillPersons",
@@ -2903,7 +2910,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 471,
+            "line": 478,
             "description": "Shortcut for composing and sending a Message.",
             "itemtype": "method",
             "name": "composeAndSendMessage",
@@ -2950,7 +2957,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 496,
+            "line": 502,
             "description": "Gets the FileFolders of the current user.",
             "itemtype": "method",
             "name": "fileFolders",
@@ -2981,7 +2988,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 512,
+            "line": 518,
             "description": "Gets the StudyGuides of the current user.",
             "itemtype": "method",
             "name": "studyGuides",
@@ -3019,7 +3026,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 549,
+            "line": 555,
             "description": "Gets the Assignments for the current user.",
             "itemtype": "method",
             "name": "assignments",
@@ -3078,7 +3085,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 608,
+            "line": 614,
             "description": "Gets the Digital school utilities for the current user.",
             "itemtype": "method",
             "name": "digitalSchoolUtilities",
@@ -3109,7 +3116,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 635,
+            "line": 641,
             "description": "Returns the profile for the current logged in user.",
             "itemtype": "method",
             "name": "profileInfo",
@@ -3122,7 +3129,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 645,
+            "line": 651,
             "description": "Returns the children of the current user.",
             "itemtype": "method",
             "name": "children",
@@ -3152,7 +3159,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 685,
+            "line": 691,
             "description": "Checks if this Magister instance is done logging in.\n\nYou can also provide a callback, which will be called when this instance is done logging in.",
             "itemtype": "method",
             "name": "ready",
@@ -3194,7 +3201,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 729,
+            "line": 735,
             "description": "(Re-)Login the current Magister instance.\n\nUsually not needed to call manually.",
             "itemtype": "method",
             "name": "_reLogin",
@@ -4207,6 +4214,67 @@
         {
             "file": "School.coffee",
             "line": 29,
+            "itemtype": "method",
+            "name": "versionInfo",
+            "params": [
+                {
+                    "name": "callback",
+                    "description": "A standard callback.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "error",
+                            "description": "The error, if it exists.",
+                            "type": "Object",
+                            "optional": true
+                        },
+                        {
+                            "name": "result",
+                            "description": "",
+                            "type": "Object",
+                            "optional": true,
+                            "props": [
+                                {
+                                    "name": "core",
+                                    "description": "",
+                                    "type": "String",
+                                    "optional": true
+                                },
+                                {
+                                    "name": "api",
+                                    "description": "",
+                                    "type": "String",
+                                    "optional": true
+                                },
+                                {
+                                    "name": "db",
+                                    "description": "",
+                                    "type": "String",
+                                    "optional": true
+                                },
+                                {
+                                    "name": "product",
+                                    "description": "",
+                                    "type": "String",
+                                    "optional": true
+                                },
+                                {
+                                    "name": "releasedOn",
+                                    "description": "",
+                                    "type": "Date",
+                                    "optional": true
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "class": "MagisterSchool",
+            "module": "Magister"
+        },
+        {
+            "file": "School.coffee",
+            "line": 52,
             "description": "Gets the schools that matches the given query.",
             "itemtype": "method",
             "name": "getSchools",
