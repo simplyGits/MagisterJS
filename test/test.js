@@ -14,6 +14,7 @@ var DigitalSchoolUtility = magisterjs.DigitalSchoolUtility;
 var Class = magisterjs.Class;
 var AddressInfo = magisterjs.AddressInfo;
 var ExtraProfileInfo = magisterjs.ExtraProfileInfo;
+var Helpers = magisterjs._helpers;
 
 var options = null;
 
@@ -332,6 +333,57 @@ describe("Magister", function() {
 				expect(r).to.be.an('object');
 				done();
 			});
+		});
+	});
+});
+
+describe('Helpers', function () {
+	describe('html stripping', function () {
+		it('should strip html tags', function () {
+			var a = '<p syle="font-size: 10px">kaas</p>';
+			var b = 'kaas';
+			expect(Helpers.cleanHtmlContent(a)).to.equal(b);
+		});
+
+		it('should convert nonbreaking spaces to normal spaces', function () {
+			var a = 'kaas&nbsp;swag';
+			var b = 'kaas swag';
+			expect(Helpers.cleanHtmlContent(a)).to.equal(b);
+		});
+	});
+
+	describe('dates', function () {
+		it('should be able to get the date of a Date object', function () {
+			var a = new Date(2016, 4, 20, 13, 37, 69);
+			var b = new Date(2016, 4, 20);
+			expect(Helpers.date(a).getTime()).to.equal(b.getTime());
+		});
+
+		it("should correctly convert a date to Magister's url format", function () {
+			var a = new Date(2016, 3, 22);
+			var b = '2016-04-22';
+			expect(Helpers.urlDateConvert(a)).to.equal(b);
+		});
+
+		it('should parse dates correctly', function () {
+			expect(Helpers.parseDate('2016-01-01')).to.be.a('Date');
+			expect(Helpers.parseDate('jkdsjfds')).to.be.undefined;
+		});
+	});
+
+	describe('contains', function () {
+		it('should correctly check if a string contains a substring', function () {
+			var str = 'kaas is lekker';
+			expect(Helpers.contains(str, 'kaas')).to.be.true;
+			expect(Helpers.contains(str, 'is')).to.be.true;
+			expect(Helpers.contains(str, 'swag')).to.be.false;
+		});
+
+		it('should correctly handle case', function () {
+			var str = 'kaas Is lekker';
+			expect(Helpers.contains(str, 'is')).to.be.false;
+			expect(Helpers.contains(str, 'Is')).to.be.true;
+			expect(Helpers.contains(str, 'is', true)).to.be.true;
 		});
 	});
 });
