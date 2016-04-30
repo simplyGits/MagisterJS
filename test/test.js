@@ -388,4 +388,15 @@ describe('Helpers', function () {
 			expect(Helpers.contains(str, 'is', true)).to.be.true;
 		});
 	});
+
+	describe('defer', function () {
+		it('should defer the execution correctly', function (done) {
+			var b = false;
+			Helpers.defer(function () {
+				expect(b).to.be.true;
+				done();
+			});
+			b = true; // this should be executed before the callback above
+		});
+	});
 });
