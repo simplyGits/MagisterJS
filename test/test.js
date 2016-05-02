@@ -399,4 +399,44 @@ describe('Helpers', function () {
 			b = true; // this should be executed before the callback above
 		});
 	});
+
+	describe('asyncResultWaiter', function () {
+		it('should wait for all callbacks to be done', function (done) {
+			var push = Helpers.asyncResultWaiter(5, function (r) {
+				expect(r).to.be.an('array');
+				expect(r).to.have.length(5);
+
+				expect(r[0]).to.equals(0);
+				expect(r[4]).to.equals(4);
+
+				done();
+			});
+
+			for (var i = 0; i < 5; i++) {
+				push(i);
+			}
+		});
+
+		it('should group the results together if some consits of an array', function (done) {
+			var push = Helpers.asyncResultWaiter(5, function (r) {
+				expect(r).to.be.an('array');
+				expect(r).to.have.length(5);
+
+				expect(r[0]).to.equals(0);
+				expect(r[4]).to.equals(4);
+
+				done();
+			});
+
+			for (var i = 0; i < 5; i++) {
+				push([ i ]);
+			}
+		});
+
+		it('should handle invocations with length set to 0', function (done) {
+			Helpers.asyncResultWaiter(0, function () {
+				done();
+			});
+		});
+	})
 });
