@@ -126,20 +126,20 @@ class root.ProfileInfo
 				callback null, root.AddressInfo._convertRaw @_magisterObj, parsed
 
 	###*
-	# Fetch extra profile info of the current User.
+	# Fetch the profile settings of the current User.
 	#
-	# @method extraInfo
+	# @method settings
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
-	# 	@param [callback.result] {ExtraProfileInfo} The extra profile info of the current User.
+	# 	@param [callback.result] {ProfileSettings} The profile settings of the current User.
 	###
-	extraInfo: (callback) ->
+	settings: (callback) ->
 		url = "#{@_magisterObj._personUrl}/profiel"
-		@_magisterObj.http.get url, {}, (e, r) ->
+		@_magisterObj.http.get url, {}, (e, r) =>
 			if e? then callback e, null
 			else
 				parsed = JSON.parse r.content
-				callback null, root.ExtraProfileInfo._convertRaw @_magisterObj, parsed
+				callback null, root.ProfileSettings._convertRaw @_magisterObj, parsed
 
 	@_convertRaw: (magisterObj, raw) ->
 		obj = new root.ProfileInfo magisterObj, raw.Roepnaam, raw.Achternaam, root._helpers.parseDate raw.Geboortedatum
@@ -159,35 +159,55 @@ class root.ProfileInfo
 		obj
 
 ###*
-# More detailed information of the logged in user. Or a child.
+# Settings related to the profile of the logged in user. Or a child.
 #
-# @class ExtraProfileInfo
+# @class ProfileSettings
 # @private
 # @constructor
 ###
-class root.ExtraProfileInfo
-	constructor: ->
+class root.ProfileSettings
+	constructor: (@_magisterObj) ->
 		###*
 		# @property redirectMagisterMessages
-		# @final
 		# @type Boolean
 		###
-		@redirectMagisterMessages = root._getset "_redirectMagisterMessages"
+		@redirectMagisterMessages = root._getset '_redirectMagisterMessages', (x) => @_redirectMagisterMessages = x
 		###*
 		# @property emailAddress
-		# @final
 		# @type String
 		###
-		@emailAddress = root._getset "_emailAddress"
+		@emailAddress = root._getset '_emailAddress', (x) => @_emailAddress = x
 		###*
 		# @property mobileNumber
-		# @final
 		# @type String
 		###
-		@mobileNumber = root._getset "_mobileNumber"
+		@mobileNumber = root._getset '_mobileNumber', (x) => @_mobileNumber = x
+
+	###*
+	# @method update
+	# @param callback {Function} A standard callback.
+	# 	@param [callback.error] {Object} The error, if it exists.
+	###
+	update: (callback) ->
+		url = "#{@_magisterObj._personUrl}/profiel"
+		@_magisterObj.http.put url, @_toMagisterStyle(), {}, (e, r) -> callback e
+
+	###*
+	# @method _toMagisterStyle
+	# @private
+	# @return {Object}
+	###
+	_toMagisterStyle: ->
+		obj = {}
+
+		obj.EloBerichtenDoorsturen = @_redirectMagisterMessages
+		obj.EmailAdres = @_emailAddress
+		obj.Mobiel = @_mobileNumber
+
+		obj
 
 	@_convertRaw: (magisterObj, raw) ->
-		obj = new root.ExtraProfileInfo
+		obj = new root.ProfileSettings magisterObj
 
 		obj._redirectMagisterMessages = raw.EloBerichtenDoorsturen
 		obj._emailAddress = raw.EmailAdres

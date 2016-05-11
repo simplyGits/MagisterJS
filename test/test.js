@@ -15,7 +15,7 @@ var Person = magisterjs.Person;
 var DigitalSchoolUtility = magisterjs.DigitalSchoolUtility;
 var Class = magisterjs.Class;
 var AddressInfo = magisterjs.AddressInfo;
-var ExtraProfileInfo = magisterjs.ExtraProfileInfo;
+var ProfileSettings = magisterjs.ProfileSettings;
 var Helpers = magisterjs._helpers;
 
 var options = null;
@@ -85,10 +85,10 @@ describe('Magister', function() {
 			});
 		});
 
-		it('should fetch extra profile info', function (done) {
-			m.profileInfo().extraInfo(function (e, r) {
+		it('should fetch profile settings', function (done) {
+			m.profileInfo().settings(function (e, r) {
 				expect(e).to.not.exist;
-				expect(r).to.be.an.instanceof(ExtraProfileInfo);
+				expect(r).to.be.an.instanceof(ProfileSettings);
 				done();
 			});
 		});
