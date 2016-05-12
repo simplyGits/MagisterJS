@@ -2,7 +2,7 @@
     "project": {
         "name": "Magister.js Docs",
         "description": "A JavaScript implementation of the Magister 6 API.",
-        "version": "1.19.1",
+        "version": "1.20.0",
         "url": "http://simplyGits.github.io/MagisterJS",
         "logo": "http://i.imgur.com/Lrg80ax.png"
     },
@@ -117,7 +117,7 @@
             "modules": {},
             "classes": {
                 "ProfileInfo": 1,
-                "ExtraProfileInfo": 1,
+                "ProfileSettings": 1,
                 "AddressInfo": 1
             },
             "fors": {},
@@ -166,7 +166,7 @@
                 "MessageFolder": 1,
                 "Person": 1,
                 "ProfileInfo": 1,
-                "ExtraProfileInfo": 1,
+                "ProfileSettings": 1,
                 "AddressInfo": 1,
                 "MagisterSchool": 1,
                 "StudyGuide": 1,
@@ -638,9 +638,9 @@
             ],
             "is_constructor": 1
         },
-        "ExtraProfileInfo": {
-            "name": "ExtraProfileInfo",
-            "shortname": "ExtraProfileInfo",
+        "ProfileSettings": {
+            "name": "ProfileSettings",
+            "shortname": "ProfileSettings",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -650,7 +650,7 @@
             "namespace": "",
             "file": "ProfileInfo.coffee",
             "line": 161,
-            "description": "More detailed information of the logged in user. Or a child.",
+            "description": "Settings related to the profile of the logged in user. Or a child.",
             "access": "private",
             "tagname": "",
             "is_constructor": 1
@@ -666,7 +666,7 @@
             "module": "Magister",
             "namespace": "",
             "file": "ProfileInfo.coffee",
-            "line": 198,
+            "line": 218,
             "description": "Address info of the current logged in user. Or a child.",
             "access": "private",
             "tagname": "",
@@ -4073,9 +4073,9 @@
         {
             "file": "ProfileInfo.coffee",
             "line": 128,
-            "description": "Fetch extra profile info of the current User.",
+            "description": "Fetch the profile settings of the current User.",
             "itemtype": "method",
-            "name": "extraInfo",
+            "name": "settings",
             "params": [
                 {
                     "name": "callback",
@@ -4090,8 +4090,8 @@
                         },
                         {
                             "name": "result",
-                            "description": "The extra profile info of the current User.",
-                            "type": "ExtraProfileInfo",
+                            "description": "The profile settings of the current User.",
+                            "type": "ProfileSettings",
                             "optional": true
                         }
                     ]
@@ -4105,34 +4105,68 @@
             "line": 170,
             "itemtype": "property",
             "name": "redirectMagisterMessages",
-            "final": 1,
             "type": "Boolean",
-            "class": "ExtraProfileInfo",
+            "class": "ProfileSettings",
             "module": "Magister"
         },
         {
             "file": "ProfileInfo.coffee",
-            "line": 176,
+            "line": 175,
             "itemtype": "property",
             "name": "emailAddress",
-            "final": 1,
             "type": "String",
-            "class": "ExtraProfileInfo",
+            "class": "ProfileSettings",
             "module": "Magister"
         },
         {
             "file": "ProfileInfo.coffee",
-            "line": 182,
+            "line": 180,
             "itemtype": "property",
             "name": "mobileNumber",
-            "final": 1,
             "type": "String",
-            "class": "ExtraProfileInfo",
+            "class": "ProfileSettings",
             "module": "Magister"
         },
         {
             "file": "ProfileInfo.coffee",
-            "line": 207,
+            "line": 186,
+            "itemtype": "method",
+            "name": "update",
+            "params": [
+                {
+                    "name": "callback",
+                    "description": "A standard callback.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "error",
+                            "description": "The error, if it exists.",
+                            "type": "Object",
+                            "optional": true
+                        }
+                    ]
+                }
+            ],
+            "class": "ProfileSettings",
+            "module": "Magister"
+        },
+        {
+            "file": "ProfileInfo.coffee",
+            "line": 195,
+            "itemtype": "method",
+            "name": "_toMagisterStyle",
+            "access": "private",
+            "tagname": "",
+            "return": {
+                "description": "",
+                "type": "Object"
+            },
+            "class": "ProfileSettings",
+            "module": "Magister"
+        },
+        {
+            "file": "ProfileInfo.coffee",
+            "line": 227,
             "itemtype": "property",
             "name": "postalCode",
             "final": 1,
@@ -4142,7 +4176,7 @@
         },
         {
             "file": "ProfileInfo.coffee",
-            "line": 213,
+            "line": 233,
             "itemtype": "property",
             "name": "street",
             "final": 1,
@@ -4152,7 +4186,7 @@
         },
         {
             "file": "ProfileInfo.coffee",
-            "line": 219,
+            "line": 239,
             "itemtype": "property",
             "name": "houseNumber",
             "final": 1,
@@ -4162,7 +4196,7 @@
         },
         {
             "file": "ProfileInfo.coffee",
-            "line": 225,
+            "line": 245,
             "description": "String behind the `houseNumber` (eg 'A')",
             "itemtype": "property",
             "name": "suffix",
@@ -4173,7 +4207,7 @@
         },
         {
             "file": "ProfileInfo.coffee",
-            "line": 233,
+            "line": 253,
             "itemtype": "property",
             "name": "city",
             "final": 1,

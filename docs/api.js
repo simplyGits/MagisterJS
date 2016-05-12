@@ -9,7 +9,6 @@ YUI.add("yuidoc-meta", function(Y) {
         "Class",
         "Course",
         "DigitalSchoolUtility",
-        "ExtraProfileInfo",
         "File",
         "FileFolder",
         "Grade",
@@ -21,6 +20,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "MessageFolder",
         "Person",
         "ProfileInfo",
+        "ProfileSettings",
         "StudyGuide",
         "StudyGuidePart"
     ],
