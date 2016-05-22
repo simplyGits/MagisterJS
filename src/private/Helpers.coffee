@@ -119,6 +119,12 @@ class root._helpers
 		n = Date.parse val
 		val = new Date n unless isNaN n
 
+	@typeof: (val) ->
+		if _.isNull val
+			'null'
+		else
+			typeof val
+
 root._getset = (varName, setter, getter) ->
 	(newVar) ->
 		if newVar?

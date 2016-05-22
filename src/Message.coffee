@@ -135,7 +135,7 @@ class root.Message
 	# Adds (a) recipient(s) to the current Message.
 	#
 	# @method addRecipient
-	# @param recipient {String|Person|String[]|Person[]} The recipient(s) to add.
+	# @param recipient {String|Person|Number|String[]|Person[]|Number[]} The recipient(s) to add.
 	# @param [type] {String|Number} The type of the recipient, if none is provided and recipient is a String it will search for persons.
 	###
 	addRecipient: (recipient, type) ->
@@ -155,9 +155,15 @@ class root.Message
 		else if _.isObject recipient
 			@recipients().push recipient
 
+		else if _.isNumber recipient
+			person = new root.Person @_magisterObj, '', ''
+			person._id = recipient
+			person._type = 3
+			@recipients().push person
+
 		else
 			@_reset()
-			throw new Error "Expected recipient to be a String or an Object, got a(n) #{typeof recipient}"
+			throw new Error "Expected recipient to be a String, Number, or an Object, got a(n) #{root._helpers.typeof recipient}"
 
 		undefined
 
