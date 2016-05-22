@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.20.0</em>
+            <em>API Docs for: 1.21.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -239,8 +239,8 @@ class root.Message
 	# Adds (a) recipient(s) to the current Message.
 	#
 	# @method addRecipient
-	# @param recipient {String|Person|String[]|Person[]} The recipient(s) to add.
-	# @param [type] {String|Number} The type of the recipient, if none is provided and recipient is a String it will search for both Teachers and Pupils.
+	# @param recipient {String|Person|Number|String[]|Person[]|Number[]} The recipient(s) to add.
+	# @param [type] {String|Number} The type of the recipient, if none is provided and recipient is a String it will search for persons.
 	###
 	addRecipient: (recipient, type) -&gt;
 		if _.isString recipient
@@ -252,15 +252,22 @@ class root.Message
 					@_tickDown()
 				else if type? then @_reset(); throw new Error &quot;Couldn&#x27;t find a person with the type: \&quot;#{type}\&quot; and with the query: \&quot;#{recipient}\&quot;&quot;
 				else @_reset(); throw new Error &quot;Couldn&#x27;t find a person with the query: \&quot;#{recipient}\&quot;&quot;
+
 		else if _.isArray recipient
 			@addRecipient p, type for p in recipient
 
 		else if _.isObject recipient
 			@recipients().push recipient
 
+		else if _.isNumber recipient
+			person = new root.Person @_magisterObj, &#x27;&#x27;, &#x27;&#x27;
+			person._id = recipient
+			person._type = 3
+			@recipients().push person
+
 		else
 			@_reset()
-			throw new Error &quot;Expected recipient to be a String or an Object, got a(n) #{typeof recipient}&quot;
+			throw new Error &quot;Expected recipient to be a String, Number, or an Object, got a(n) #{root._helpers.typeof recipient}&quot;
 
 		undefined
 

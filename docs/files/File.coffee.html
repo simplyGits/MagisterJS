@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.20.0</em>
+            <em>API Docs for: 1.21.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -185,7 +185,7 @@ class root.File
 		###*
 		# @property id
 		# @final
-		# @type Number
+		# @type String
 		###
 		@id = root._getset &quot;_id&quot;
 		###*
@@ -246,7 +246,7 @@ class root.File
 		###*
 		# @property fileBlobId
 		# @final
-		# @type Number
+		# @type String|undefined
 		###
 		@fileBlobId = root._getset &quot;_fileBlobId&quot;
 		###*
@@ -261,6 +261,12 @@ class root.File
 		# @type String
 		###
 		@uniqueId = root._getset &quot;_uniqueId&quot;
+		###*
+		# @property referenceId
+		# @final
+		# @type String|undefined
+		###
+		@referenceId = root._getset &quot;_referenceId&quot;
 
 	###*
 	# Downloads the current file
@@ -346,16 +352,17 @@ class root.File
 	_toMagisterStyle: -&gt;
 		obj = {}
 
-		obj.Id = @_id
+		obj.Id = parseInt @_id, 10
 		obj.BronSoort = @_type
 		obj.Naam = @_name
 		obj.Uri = @_uri
 		obj.Grootte = @_size
 		obj.Privilege = @_rights
 		obj.ContentType = @_mime
-		obj.FileBlobId = @_fileBlobId
+		obj.FileBlobId = if @_fileBlobId? then parseInt @_fileBlobId, 10
 		obj.ParentId = @_fileFolder.id()
 		obj.UniqueId = @_uniqueId
+		obj.Referentie = if @_referenceId? then parseInt @_referenceId, 10
 
 		obj
 
@@ -367,7 +374,7 @@ class root.File
 
 		obj = new root.File magisterObj
 
-		obj._id = raw.Id
+		obj._id = raw.Id.toString()
 		obj._type = raw.BronSoort
 		obj._name = raw.Naam
 		obj._uri = raw.Uri
@@ -379,9 +386,10 @@ class root.File
 		obj._creationDate = root._helpers.parseDate (raw.GemaaktOp ? raw.Datum)
 
 		obj._addedBy = addedBy
-		obj._fileBlobId = raw.FileBlobId
+		obj._fileBlobId = raw.FileBlobId?.toString()
 		obj._fileFolder = fileFolder
 		obj._uniqueId = raw.UniqueId
+		obj._referenceId = raw.Referentie?.toString()
 
 		l = _.find raw.Links, Rel: &#x27;Contents&#x27;
 		l ?= _.find raw.Links, Rel: &#x27;Self&#x27;

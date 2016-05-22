@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.20.0</em>
+            <em>API Docs for: 1.21.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -118,7 +118,7 @@ else
 # @final
 # @type String
 ###
-root.VERSION = &quot;1.20.0&quot;
+root.VERSION = &quot;1.21.0&quot;
 
 ###*
 # A JavaScript implementation of the Magister 6 API.
@@ -483,7 +483,7 @@ class root.Magister
 	# @method getPersons
 	# @async
 	# @param query {String} The query the persons must match to (e.g: Surname, Name, ...). Should at least be 3 chars long.
-	# @param [type] {String|Number} The type the person must have. If none is given it will search for both Teachers and Pupils.
+	# @param [type] {String} The type the person must have. One of: &#x27;pupil&#x27;, &#x27;teacher&#x27;, &#x27;project&#x27;, &#x27;other&#x27;. If none is given it will search for both Teachers and Pupils.
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
 	# 	@param [callback.result] {Person[]} An array containing the Persons.
@@ -492,7 +492,7 @@ class root.Magister
 	getPersons: -&gt;
 		@_forceReady()
 
-		[query, type] = _.filter arguments, (a) -&gt; _.isNumber(a) or _.isString(a)
+		[query, type] = _.filter arguments, (a) -&gt; _.isString a
 		callback = _.find arguments, (a) -&gt; _.isFunction a
 
 		unless query? and callback? and query.length &gt;= 3
@@ -504,23 +504,22 @@ class root.Magister
 		unless type? # Try both Teachers and Pupils
 			# best varname award goes to...
 			b1 = b2 = no
-			b1 = @getPersons query, 3, (e, r) =&gt;
+			b1 = @getPersons query, &#x27;teacher&#x27;, (e, r) =&gt;
 				if e? then callback e, null
 				else
 					teachers = r
-					b2 = @getPersons query, 4, (e, r) -&gt;
+					b2 = @getPersons query, &#x27;pupil&#x27;, (e, r) -&gt;
 						if e? then callback e, null
 						else callback null, r.concat teachers
 			return b1 or b2
 
 		try
-			type = root.Person._convertType type
 			queryType = switch type
-				when 3 then &quot;Personeel&quot;
-				when 4 then &quot;Leerling&quot;
-				when 8 then &quot;Project&quot;
+				when &#x27;teacher&#x27; then &#x27;Personeel&#x27;
+				when &#x27;pupil&#x27; then &#x27;Leerling&#x27;
+				when &#x27;project&#x27; then &#x27;Project&#x27;
 
-				else &quot;Overig&quot;
+				else &#x27;Overig&#x27;
 		catch e # parse error, most likely
 			callback e, null
 			return false
@@ -534,7 +533,7 @@ class root.Magister
 				if error?
 					callback error, null
 				else
-					result = (root.Person._convertRaw(this, p, type) for p in JSON.parse(result.content).Items)
+					result = (root.Person._convertRaw(this, p) for p in JSON.parse(result.content).Items)
 					root.Magister._cachedPersons[&quot;#{@_id}#{type}#{query}&quot;] = result
 					callback null, result
 			false
@@ -585,7 +584,7 @@ class root.Magister
 	# @method composeAndSendMessage
 	# @param subject {String} The subject of the message
 	# @param [body] {String} The body of the message, if none is given the body will be empty.
-	# @param recipients {Person[]|String[]|Person|String} The recipient(s) the message will be sent to.
+	# @param recipients {Person[]|String[]|Number[]|Person|String|Number} The recipient(s) the message will be sent to.
 	# @param [callback] {Function} An optional callback.
 	# 	@param [callback.error] {Object} An error, if it exists.
 	# 	@param [callback.result] {Message} The sent message.

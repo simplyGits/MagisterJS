@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.20.0</em>
+            <em>API Docs for: 1.21.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -217,19 +217,23 @@ class root.Person
 
 			else
 				switch original.toLowerCase()
-					when &quot;group&quot; then 1
-					when &quot;teacher&quot; or &quot;personnel&quot; then 3
-					when &quot;pupil&quot; then 4
-					when &quot;project&quot; then 8
+					when &#x27;group&#x27; then 1
+					when &#x27;study&#x27; then 2
+					when &#x27;person&#x27;, &#x27;teacher&#x27;, &#x27;personnel&#x27;, &#x27;pupil&#x27; then 3
+					when &#x27;location&#x27; then 6
+					when &#x27;project&#x27; then 8
 
 					else throw new Error &quot;Invalid value: \&quot;#{original}\&quot;.&quot;
 
 		else
 			switch original
-				when 1 then &quot;group&quot;
-				when 3 then &quot;teacher&quot;
-				when 4 then &quot;pupil&quot;
-				when 8 then &quot;project&quot;
+				when 1 then &#x27;group&#x27;
+				when 2 then &#x27;study&#x27;
+				when 3 then &#x27;person&#x27;
+				when 6 then &#x27;location&#x27;
+				when 8 then &#x27;project&#x27;
+
+				else &#x27;unknown&#x27;
 
     </pre>
 </div>
