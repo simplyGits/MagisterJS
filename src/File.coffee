@@ -81,7 +81,7 @@ class root.File
 		###*
 		# @property id
 		# @final
-		# @type Number
+		# @type String
 		###
 		@id = root._getset "_id"
 		###*
@@ -142,7 +142,7 @@ class root.File
 		###*
 		# @property fileBlobId
 		# @final
-		# @type Number
+		# @type String|undefined
 		###
 		@fileBlobId = root._getset "_fileBlobId"
 		###*
@@ -157,6 +157,12 @@ class root.File
 		# @type String
 		###
 		@uniqueId = root._getset "_uniqueId"
+		###*
+		# @property referenceId
+		# @final
+		# @type String|undefined
+		###
+		@referenceId = root._getset "_referenceId"
 
 	###*
 	# Downloads the current file
@@ -242,16 +248,17 @@ class root.File
 	_toMagisterStyle: ->
 		obj = {}
 
-		obj.Id = @_id
+		obj.Id = parseInt @_id, 10
 		obj.BronSoort = @_type
 		obj.Naam = @_name
 		obj.Uri = @_uri
 		obj.Grootte = @_size
 		obj.Privilege = @_rights
 		obj.ContentType = @_mime
-		obj.FileBlobId = @_fileBlobId
+		obj.FileBlobId = if @_fileBlobId? then parseInt @_fileBlobId, 10
 		obj.ParentId = @_fileFolder.id()
 		obj.UniqueId = @_uniqueId
+		obj.Referentie = if @_referenceId? then parseInt @_referenceId, 10
 
 		obj
 
@@ -263,7 +270,7 @@ class root.File
 
 		obj = new root.File magisterObj
 
-		obj._id = raw.Id
+		obj._id = raw.Id.toString()
 		obj._type = raw.BronSoort
 		obj._name = raw.Naam
 		obj._uri = raw.Uri
@@ -275,9 +282,10 @@ class root.File
 		obj._creationDate = root._helpers.parseDate (raw.GemaaktOp ? raw.Datum)
 
 		obj._addedBy = addedBy
-		obj._fileBlobId = raw.FileBlobId
+		obj._fileBlobId = raw.FileBlobId?.toString()
 		obj._fileFolder = fileFolder
 		obj._uniqueId = raw.UniqueId
+		obj._referenceId = raw.Referentie?.toString()
 
 		l = _.find raw.Links, Rel: 'Contents'
 		l ?= _.find raw.Links, Rel: 'Self'
