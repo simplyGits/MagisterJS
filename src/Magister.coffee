@@ -379,7 +379,7 @@ class root.Magister
 	# @method getPersons
 	# @async
 	# @param query {String} The query the persons must match to (e.g: Surname, Name, ...). Should at least be 3 chars long.
-	# @param [type] {String|Number} The type the person must have. If none is given it will search for both Teachers and Pupils.
+	# @param [type] {String} The type the person must have. One of: 'pupil', 'teacher', 'project', 'other'. If none is given it will search for both Teachers and Pupils.
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
 	# 	@param [callback.result] {Person[]} An array containing the Persons.
@@ -388,7 +388,7 @@ class root.Magister
 	getPersons: ->
 		@_forceReady()
 
-		[query, type] = _.filter arguments, (a) -> _.isNumber(a) or _.isString(a)
+		[query, type] = _.filter arguments, (a) -> _.isString a
 		callback = _.find arguments, (a) -> _.isFunction a
 
 		unless query? and callback? and query.length >= 3
@@ -400,23 +400,22 @@ class root.Magister
 		unless type? # Try both Teachers and Pupils
 			# best varname award goes to...
 			b1 = b2 = no
-			b1 = @getPersons query, 3, (e, r) =>
+			b1 = @getPersons query, 'teacher', (e, r) =>
 				if e? then callback e, null
 				else
 					teachers = r
-					b2 = @getPersons query, 4, (e, r) ->
+					b2 = @getPersons query, 'pupil', (e, r) ->
 						if e? then callback e, null
 						else callback null, r.concat teachers
 			return b1 or b2
 
 		try
-			type = root.Person._convertType type
 			queryType = switch type
-				when 3 then "Personeel"
-				when 4 then "Leerling"
-				when 8 then "Project"
+				when 'teacher' then 'Personeel'
+				when 'pupil' then 'Leerling'
+				when 'project' then 'Project'
 
-				else "Overig"
+				else 'Overig'
 		catch e # parse error, most likely
 			callback e, null
 			return false
@@ -430,7 +429,7 @@ class root.Magister
 				if error?
 					callback error, null
 				else
-					result = (root.Person._convertRaw(this, p, type) for p in JSON.parse(result.content).Items)
+					result = (root.Person._convertRaw(this, p) for p in JSON.parse(result.content).Items)
 					root.Magister._cachedPersons["#{@_id}#{type}#{query}"] = result
 					callback null, result
 			false

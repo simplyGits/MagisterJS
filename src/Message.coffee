@@ -136,7 +136,7 @@ class root.Message
 	#
 	# @method addRecipient
 	# @param recipient {String|Person|String[]|Person[]} The recipient(s) to add.
-	# @param [type] {String|Number} The type of the recipient, if none is provided and recipient is a String it will search for both Teachers and Pupils.
+	# @param [type] {String|Number} The type of the recipient, if none is provided and recipient is a String it will search for persons.
 	###
 	addRecipient: (recipient, type) ->
 		if _.isString recipient
@@ -148,6 +148,7 @@ class root.Message
 					@_tickDown()
 				else if type? then @_reset(); throw new Error "Couldn't find a person with the type: \"#{type}\" and with the query: \"#{recipient}\""
 				else @_reset(); throw new Error "Couldn't find a person with the query: \"#{recipient}\""
+
 		else if _.isArray recipient
 			@addRecipient p, type for p in recipient
 

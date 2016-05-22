@@ -296,7 +296,7 @@ describe('Magister', function() {
 				expect(r).to.be.an('array').to.have.length.above(0);
 
 				expect(r[0]).to.be.an.instanceof(Person);
-				expect(r[0].type()).to.equal('pupil'); // test if it correctly get a persons type
+				expect(r[0].type()).to.equal('person'); // test if it correctly get a persons type
 
 				done(e);
 			});

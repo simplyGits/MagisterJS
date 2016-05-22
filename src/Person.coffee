@@ -113,16 +113,20 @@ class root.Person
 
 			else
 				switch original.toLowerCase()
-					when "group" then 1
-					when "teacher" or "personnel" then 3
-					when "pupil" then 4
-					when "project" then 8
+					when 'group' then 1
+					when 'study' then 2
+					when 'person', 'teacher', 'personnel', 'pupil' then 3
+					when 'location' then 6
+					when 'project' then 8
 
 					else throw new Error "Invalid value: \"#{original}\"."
 
 		else
 			switch original
-				when 1 then "group"
-				when 3 then "teacher"
-				when 4 then "pupil"
-				when 8 then "project"
+				when 1 then 'group'
+				when 2 then 'study'
+				when 3 then 'person'
+				when 6 then 'location'
+				when 8 then 'project'
+
+				else 'unknown'
