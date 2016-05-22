@@ -1,7 +1,7 @@
 {
 	"name": "Magister.js Docs",
 	"description": "A JavaScript implementation of the Magister 6 API.",
-	"version": "1.20.0",
+	"version": "1.21.0",
 	"url": "http://simplyGits.github.io/MagisterJS",
 	"logo": "http://i.imgur.com/Lrg80ax.png",
 	"options": {
