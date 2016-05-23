@@ -480,7 +480,7 @@ class root.Magister
 	# @method composeAndSendMessage
 	# @param subject {String} The subject of the message
 	# @param [body] {String} The body of the message, if none is given the body will be empty.
-	# @param recipients {Person[]|String[]|Person|String} The recipient(s) the message will be sent to.
+	# @param recipients {Person[]|String[]|Number[]|Person|String|Number} The recipient(s) the message will be sent to.
 	# @param [callback] {Function} An optional callback.
 	# 	@param [callback.error] {Object} An error, if it exists.
 	# 	@param [callback.result] {Message} The sent message.
