@@ -161,7 +161,7 @@ class root.Magister
 	# 	@param options.end {Date} The end of the appointment, this is ignored when `options.fullDay` is set to true.
 	# 	@param [options.fullDay=false] {Boolean} When this is true, `options.end` is ignored and only `options.start` is used to set the begin and the end for the appointment.
 	# 	@param [options.location] {String} The location (classroom for example) for the appointment.
-	# 	@param [options.content] {String} Some random string of characters you want to save.
+	# 	@param [options.content] {String} Some arbitrary string you want to save.
 	# 	@param [options.type=1] {Number} The type of the appointment: 1 for personal or 16 for planning
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
