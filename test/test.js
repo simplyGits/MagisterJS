@@ -1,5 +1,7 @@
 /* global describe, it, before */
 
+'use strict';
+
 var expect = require('chai').expect;
 
 var magisterjs = require('../');
@@ -21,15 +23,15 @@ var Helpers = magisterjs._helpers;
 var options = null;
 
 try {
-	options = require('./testOptions.json');
+	options = require('./options.json');
 } catch (e) { // For Travis CI we use environment variables.
 	options = { school: {} };
 
 	options.school.url = process.env.TEST_SCHOOLURL;
-	options.userName = process.env.TEST_USERNAME;
+	options.username = process.env.TEST_USERNAME;
 	options.password = process.env.TEST_PASSWORD;
 }
-if (options.school.url == null || options.userName == null || options.password == null) {
+if (options.school.url == null || options.username == null || options.password == null) {
 	throw new Error('No login information found.');
 }
 
@@ -41,20 +43,19 @@ if (options.school.url == null || options.userName == null || options.password =
 			'school': {
 				'url': 'https://<schoolname>.magister.net'
 			},
-			'userName': '<username>',
+			'username': '<username>',
 			'password': '<password>'
 		}
 */
 
 describe('Magister', function() {
-	'use strict';
-
 	this.timeout(7000);
+
 	var m;
 	before(function (done) {
 		new Magister({
 			school: options.school,
-			username: options.userName,
+			username: options.username,
 			password: options.password,
 		}).ready(function (e) {
 			m = this;
