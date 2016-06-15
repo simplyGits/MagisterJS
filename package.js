@@ -11,9 +11,9 @@ Npm.depends({
 });
 
 Package.onUse(function(api) {
-	api.versionsFrom("1.0.4.2");
+	api.versionsFrom("1.2.1");
 
-	api.use(["coffeescript", "stevezhu:lodash@3.10.1", "check"]);
+	api.use(["coffeescript", "stevezhu:lodash@3.10.1", "check", "ecmascript"]);
 
 	api.addFiles([
 		"src/private/Helpers.coffee",
