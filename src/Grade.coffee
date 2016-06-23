@@ -41,11 +41,11 @@ class root.Grade
 		###
 		@testDate = root._getset "_testDate"
 		###*
-		# @property gradePeriod
+		# @property period
 		# @final
-		# @type Object
+		# @type GradePeriod
 		###
-		@gradePeriod = root._getset "_gradePeriod"
+		@period = root._getset "_period"
 		###*
 		# @property class
 		# @final
@@ -137,9 +137,12 @@ class root.Grade
 		obj._passed = raw.IsVoldoende
 		obj._dateFilledIn = root._helpers.parseDate raw.DatumIngevoerd
 
-		obj._gradePeriod =
-			id: raw.CijferPeriode.Id
-			name: raw.CijferPeriode.Naam ? ""
+		obj._period = (
+			period = new root.GradePeriod magisterObj
+			period._id = raw.CijferPeriode.Id
+			period._name = raw.CijferPeriode.Naam ? ""
+			period
+		)
 
 		obj._class =
 			id: raw.Vak.Id
