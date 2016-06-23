@@ -242,7 +242,11 @@ describe('Magister', function() {
 				if (e != null) { // case covered by 'should correctly get courses'.
 					done();
 				} else {
-					r.grades(false, false, false, function (e, r) {
+					r.grades({
+						fillPersons: false,
+						fillGrade: false,
+						onlyRecent: false,
+					}, function (e, r) {
 						expect(e).to.not.exist;
 						expect(r).to.be.a('array');
 

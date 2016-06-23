@@ -181,14 +181,17 @@ class root.Course
 	#
 	# @method grades
 	# @async
-	# @param [fillPersons=false] {Boolean} Whether or not to download the full user objects from the server.
-	# @param [fillGrade=true] {Boolean} Whether or not to download the full grade info should be downloaded from the server. If this is set to false some properties will be not be set or have incorrect values.
+	# @param {Object} [options={}]
+	# 	@param {Boolean} [options.fillPersons=false] Whether or not to download the full user objects from the server.
+	# 	@param {Boolean} [options.fillGrade=true] Whether or not to download the full grade info should be downloaded from the server. If this is set to false some properties will be not be set or have incorrect values.
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
 	# 	@param [callback.result] {Grade[]} An array containing the Grades.
 	###
 	grades: ->
-		[fillPersons, fillGrade] = _.filter arguments, (a) -> _.isBoolean a
+		options = _.find(arguments, (a) -> _.isPlainObject a) ? {}
+		{ fillPersons, fillGrade } = options
+
 		callback = _.find(arguments, (a) -> _.isFunction a)
 		throw new Error "Callback can't be null" unless callback?
 
