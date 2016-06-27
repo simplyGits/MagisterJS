@@ -39,7 +39,7 @@ class root.Grade
 		# @final
 		# @type Date|undefined
 		###
-		@testDate = root._getset "_testdate"
+		@testDate = root._getset "_testDate"
 		###*
 		# @property gradePeriod
 		# @final
