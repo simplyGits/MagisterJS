@@ -11,15 +11,11 @@ notifications:
 node_js:
   - "0.12"
 install:
-  - npm install -g grunt-cli
   - npm install -g mocha
-  - npm install -g coffeelint
   - npm install
 before_script:
-  - grunt --version
   - mocha --version
   - test/version.sh
-  - grunt
 script:
-  - mocha
-  - coffeelint ./
+  - npm test
+  - eslint ./
