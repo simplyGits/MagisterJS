@@ -311,6 +311,16 @@ describe('Magister', function() {
 			var cached = m.getPersons(m.profileInfo().firstName(), function () {});
 			expect(cached).to.equal(true);
 		});
+
+		it('should convert types correctly', function () {
+			var person = new Person(null, 'John', 'Johnson');
+
+			expect(person.type()).to.equal('unknown');
+
+			person.type('person');
+			expect(person.type()).to.equal('person');
+			expect(person._type).to.equal(3);
+		});
 	});
 
 	describe('digitalSchoolUtilities', function () {
