@@ -108,7 +108,7 @@ class root.Person
 	@_convertType: (original, setter = yes) ->
 		if setter
 			if _.isNumber original
-				throw new Error "Invalid value: '#{original}'." unless original in [1, 3, 4, 8]
+				throw new Error "Invalid value: '#{original}'." unless original in [ 1, 2, 3, 6, 8 ]
 				original
 
 			else
