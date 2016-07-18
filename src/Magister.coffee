@@ -265,7 +265,7 @@ class root.Magister
 	_fetchMessageFolders: (callback) ->
 		@http.get "#{@_personUrl}/berichten/mappen", {}, (e, r) =>
 			if e?
-				e.statusCode = result?.statusCode
+				e.statusCode = r?.statusCode
 				callback e
 			else
 				@_messageFolders = (root.MessageFolder._convertRaw(this, m) for m in JSON.parse(r.content).Items)
