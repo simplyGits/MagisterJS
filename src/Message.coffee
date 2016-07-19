@@ -292,7 +292,7 @@ class root.Message
 	# @param {Boolean} [fillPersons=false] Whether or not to download the users from the server.
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
-	# 	@param [callback.result] {Grade} The current message filled with the newely downloaded info.
+	# 	@param [callback.result] {Message} The current message filled with the newely downloaded info.
 	###
 	fillMessage: ->
 		fillPersons = _.first(arguments) ? no
