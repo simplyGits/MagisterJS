@@ -290,9 +290,24 @@ describe('Magister', function() {
 
 	describe('persons', function () {
 		it('should handle empty queries correctly', function (done) {
-			m.getPersons(null, function (e, r) {
-				expect(r).to.be.an('array').to.have.length(0);
-				done(e);
+			var cases = [
+				null,
+				undefined,
+				'',
+				'    ',
+			];
+
+			var push = Helpers.asyncResultWaiter(cases.length, done);
+
+			cases.forEach(function (val) {
+				m.getPersons(val, function (e, r) {
+					if (e) {
+						done(e);
+						return;
+					}
+					expect(r).to.be.an('array').to.have.length(0);
+					push();
+				});
 			});
 		});
 
