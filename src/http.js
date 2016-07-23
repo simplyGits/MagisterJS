@@ -138,6 +138,23 @@ export default class Http {
 	}
 
 	/**
+	 * Puts the given `data` to `url`
+	 * @method put
+	 * @param {String} url
+	 * @param {Object} [data]
+	 * @param {Object} [opt]
+	 * @return {Promise<Response>}
+	 */
+	put(url, data, opt) {
+		return this._request({
+			...opt,
+			method: 'put',
+			url: url,
+			data: data,
+		})
+	}
+
+	/**
 	 * Deletes the content at `url`
 	 * @method delete
 	 * @param {String} url
