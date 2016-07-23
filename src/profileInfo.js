@@ -101,4 +101,41 @@ export default class ProfileInfo extends MagisterThing {
 			`${this.firstName} ${this.lastName}`
 	}
 
+	/**
+	 * Get the URL for the profile picture of the current user with the given
+	 * options.
+	 *
+	 * @method getProfilePictureUrl
+	 * @param {Number} [width=640] The width of the picture.
+	 * @param {Number} [height=640] The height of the picture.
+	 * @param {Boolean} [crop=false] Whether or not to crop the image.
+	 * @return {String} The URL to the picture, including the given options.
+	 */
+	getProfilePictureUrl(width = 640, height = 640, crop = false) {
+		return `${this._magister._personUrl}/foto?width=${width}&height=${height}&crop=${crop}`
+	}
+
+	/**
+	 * @method address
+	 * @return {Promise<Error|AddressInfo>}
+	 */
+	address() {
+		const url = `${this._magister._personUrl}/adresprofiel`
+		return this._magister._privileges.needs('profiel', 'read')
+		.then(() => this._magister.http.get(url))
+		.then(res => res.json())
+		.then(raw => new AddressInfo(this._magister, raw))
+	}
+
+	/**
+	 * @method settings
+	 * @return {Promise<Error|ProfileSettings>}
+	 */
+	settings() {
+		const url = `${this._magister._personUrl}/profiel`
+		return this._magister._privileges.needs('profiel', 'read')
+		.then(() => this._magister.http.get(url))
+		.then(res => res.json())
+		.then(raw => new ProfileSettings(this._magister, raw))
+	}
 }
