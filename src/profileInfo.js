@@ -1,3 +1,4 @@
+import MagisterThing from './magisterThing'
 import { parseDate } from './util'
 
 /**
@@ -6,8 +7,10 @@ import { parseDate } from './util'
  * @param {Magister} magister
  * @param {Object} raw
  */
-export default class ProfileInfo {
+export default class ProfileInfo extends MagisterThing {
 	constructor(magister, raw) {
+		super(magister)
+
 		/**
 		 * @property id
 		 * @final
@@ -98,7 +101,4 @@ export default class ProfileInfo {
 			`${this.firstName} ${this.lastName}`
 	}
 
-	toJSON() {
-		return this
-	}
 }
