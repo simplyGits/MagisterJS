@@ -17,16 +17,17 @@ import ProfileInfo from './profileInfo'
 export class Magister {
 	constructor(options, school, http) {
 		this._options = options
-		this.school = school
+		this.school = _.extend(new School({}), school)
 		this.http = http
 	}
 
 	/**
 	 * Logins to Magister.
-	 * @return {Promise<String>} A promise that resolves when done logging in.  With the current session ID as parameter.
+	 * @param {Boolean} [forceNew=false]
+	 * @return {Promise<String>} A promise that resolves when done logging in. With the current session ID as parameter.
 	 */
-	login() {
-		const setSessionId = (sessionId) => {
+	login(forceNew = false) {
+		const setSessionId = sessionId => {
 			const cookie = `SESSION_ID=${sessionId}; M6UserName=${this._options.username}`
 			this.http._cookie = cookie
 			return sessionId
@@ -38,10 +39,10 @@ export class Magister {
 		const postUrl = `${baseUrl}/api/sessies`
 
 		let promise
-		if (options.sessionId) {
+		if (!forceNew && options.sessionId) {
 			promise = Promise.resolve(options.sessionId)
 		} else {
-			promise = this.http.delete(deleteUrl).then((r) => {
+			promise = this.http.delete(deleteUrl).then(r => {
 				setSessionId(/[a-z\d-]+/.exec(r.headers.get('set-cookie'))[0])
 
 				return this.http.post(postUrl, {
@@ -49,21 +50,22 @@ export class Magister {
 					Wachtwoord: options.password,
 					IngelogdBlijven: options.keepLoggedIn,
 				})
-			}).then((r) => {
+			}).then(r => {
 				return setSessionId(/[a-z\d-]+/.exec(r.headers.get('set-cookie'))[0])
 			})
 		}
 
 		return promise
 		.then(setSessionId)
-		.then((sessionId) => {
+		.then(sessionId => {
 			return this.http.get(`${baseUrl}/api/account`)
-			.then((res) => res.json())
-			.then((res) => {
+			.then(res => res.json())
+			.then(res => {
 				const id = res.Persoon.Id
 
-				this._privileges = res.Groep[0].Privileges
-				this._profileInfo = new ProfileInfo(this, res.Persoon)
+				this.profileInfo = new ProfileInfo(this, res.Persoon)
+
+				this._privileges = new Privileges(this, res.Groep[0].Privileges)
 				this._personUrl = `${baseUrl}/api/personen/${id}`
 				this._pupilUrl = `${baseUrl}/api/leerlingen/${id}`
 
@@ -94,7 +96,7 @@ export class Magister {
 /**
  * @method magister
  * @param {Object} options
- * @return {Promise<Magister>}
+ * @return {Promise<Error|Magister>}
  */
 export default function magister (options) {
 	_.defaults(options, {
@@ -117,37 +119,12 @@ export default function magister (options) {
 	} else {
 		return Promise.resolve(m)
 	}
-
-	/*
-	return new Promise(function (resolve, reject) {
-		if (_.isString(options.school)) {
-			return School
-				.getSchools(options.school)
-				.then((r) => {
-					if (r.length === 0) {
-						reject(new Error(`No school with the query ${options.school} found.`))
-					} else {
-						resolve(r[0])
-					}
-				})
-		} else {
-			resolve(options.school)
-		}
-	}).then(function (school) {
-		const m = new Magister(options, school, http)
-		if (options.login) {
-			return m.login().then(() => m)
-		} else {
-			return m
-		}
-	})
-	*/
 }
 
 /**
  * @method getSchools
  * @param {String} query
- * @return {Promise<School>}
+ * @return {Promise<Error|School>}
  */
 export function getSchools (query) {
 	query = query.replace(/\d/g, '').trim()
@@ -158,11 +135,11 @@ export function getSchools (query) {
 
 	const url = `https://mijn.magister.net/api/schools?filter=${query}`
 	return fetch(url)
-	.then((res) => res.json())
+	.then(res => res.json())
 	.then(function (schools) {
-		return schools.map((school) => new School(school))
+		return schools.map(school => new School(school))
 	})
 }
 
-export const VERSION = '2.0.0-alpha'
+export const VERSION = __VERSION__
 export * from './profileInfo'
