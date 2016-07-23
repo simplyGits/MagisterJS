@@ -5,8 +5,11 @@ import Http from './http'
 import fetch from 'node-fetch'
 import School from './school'
 import ProfileInfo from './profileInfo'
+import Appointment from './appointment'
+import AbsenceInfo from './absenceInfo'
 import Privileges from './privileges'
 import Person from './person'
+import * as util from './util'
 
 // TODO: add nice warnings when trying to do stuff while not logged in yet
 
@@ -23,6 +26,63 @@ export class Magister {
 		this._options = options
 		this.school = _.extend(new School({}), school)
 		this.http = http
+	}
+
+	/**
+	 * @method appointments
+	 * @param {Date} from
+	 * @param {Date} [to=from]
+	 * @param {Object} [options={}]
+	 * 	@param {Boolean} [fillPersons=false]
+	 * 	@param {Boolean} [fetchAbsences=true]
+	 * 	@param {Boolean} [ignoreAbsenceErrors=true]
+	 * @return {Promise<Appointment[]>}
+	 */
+	appointments() {
+		// extract options
+		const {
+			fillPersons = false,
+			fetchAbsences = true,
+			ignoreAbsenceErrors = true,
+		} = _.find(arguments, _.isPlainObject)
+
+		// extract dates
+		let [ from, to ] = _(arguments).filter(_.isDate).sortBy().value()
+		to = to || from
+
+		// REVIEW: do we want this?
+		from = util.date(from)
+		to = util.date(to)
+
+		const fromUrl = util.urlDateConvert(from)
+		const toUrl = util.urlDateConvert(to)
+
+		// fetch appointments
+		const appointmentsUrl = `${this._personUrl}/afspraken?van=${fromUrl}&tot=${toUrl}`
+		const appointmentsPromise = this._privileges.needs('afspraken', 'read')
+		.then(() => this.http.get(appointmentsUrl))
+		.then(res => res.json())
+		.then(res => res.Items.map(a => new Appointment(this, a)))
+
+		// fetch absences
+		let absencesPromise
+		if (fetchAbsences) {
+			const absencesUrl = `${this._personUrl}/absenties?van=${fromUrl}&tot=${toUrl}`
+			absencesPromise = this._privileges.needs('Absenties', 'read')
+			.then(() => this.http.get(absencesUrl))
+			.then(res => res.json())
+			.then(res => res.Items.map(a => new AbsenceInfo(this, a)))
+		} else {
+			absencesPromise = Promise.resolve([])
+		}
+
+		return Promise.all([ appointmentsPromise, absencesPromise ])
+		.then(([ appointments, absences ]) => {
+			for (const appointment of appointments) {
+
+			}
+			console.log(appointments, absences)
+		})
 	}
 
 	/**
