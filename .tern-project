@@ -8,7 +8,6 @@
 	"dontLoad": [ "node_modules", "lib" ],
 	"plugins": {
 		"node": {},
-		"node-resolve": {},
 		"es_modules": {}
 	}
 }
