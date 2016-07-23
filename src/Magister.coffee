@@ -391,11 +391,14 @@ class root.Magister
 		[query, type] = _.filter arguments, (a) -> _.isString a
 		callback = _.find arguments, (a) -> _.isFunction a
 
-		unless query? and callback? and query.length >= 3
+		query = (
+			if query? then query.trim()
+			else ''
+		)
+
+		if query.length < 3
 			callback null, []
 			return false
-
-		query = query.trim()
 
 		unless type? # Try both Teachers and Pupils
 			# best varname award goes to...
@@ -409,16 +412,12 @@ class root.Magister
 						else callback null, r.concat teachers
 			return b1 or b2
 
-		try
-			queryType = switch type
-				when 'teacher' then 'Personeel'
-				when 'pupil' then 'Leerling'
-				when 'project' then 'Project'
+		queryType = switch type
+			when 'teacher' then 'Personeel'
+			when 'pupil' then 'Leerling'
+			when 'project' then 'Project'
 
-				else 'Overig'
-		catch e # parse error, most likely
-			callback e, null
-			return false
+			else 'Overig'
 		url = "#{@_personUrl}/contactpersonen?contactPersoonType=#{queryType}&q=#{query.replace /\ +/g, "+"}"
 
 		if (val = root.Magister._cachedPersons["#{@_id}#{type}#{query}"])?
