@@ -98,6 +98,39 @@ export class Magister {
 	}
 
 	/**
+	 * @method getPersons
+	 * @param {String} query
+	 * @param {String} [type]
+	 * @return {Promise<Error|Person[]>}
+	 */
+	getPersons(query, type) {
+		query = query != null ? query.trim() : ''
+
+		if (query.length < 3) {
+			return Promise.resolve([])
+		} else if (type == null) {
+			return Promise.all([
+				this.getPersons(query, 'teacher'),
+				this.getPersons(query, 'pupil'),
+			]).then(([ teachers, pupils ]) => teachers.concat(pupils))
+		}
+
+		type = ({
+			'teacher': 'Personeel',
+			'pupil': 'Leerling',
+			'project': 'Project',
+		})[type] || 'Overig'
+		query = query.replace(/ +/g, '+')
+
+		const url = `${this._personUrl}/contactpersonen?contactPersoonType=${type}&q=${query}`
+
+		return this._privileges.needs('contactpersonen', 'read')
+		.then(() => this.http.get(url))
+		.then(res => res.json())
+		.then(res => res.Items.map(p => new Person(this, p)))
+	}
+
+	/**
 	 * Logins to Magister.
 	 * @param {Boolean} [forceNew=false]
 	 * @return {Promise<String>} A promise that resolves when done logging in. With the current session ID as parameter.
