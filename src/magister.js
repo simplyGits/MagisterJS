@@ -5,6 +5,10 @@ import Http from './http'
 import fetch from 'node-fetch'
 import School from './school'
 import ProfileInfo from './profileInfo'
+import Privileges from './privileges'
+import Person from './person'
+
+// TODO: add nice warnings when trying to do stuff while not logged in yet
 
 /**
  * Class to communicate with Magister.
@@ -73,24 +77,6 @@ export class Magister {
 			})
 		})
 	}
-
-	/**
-	 * @method _can
-	 * @param {String} thing
-	 * @param {String} action
-	 * @return {Boolean}
-	 */
-	_can(thing, action) {
-		thing = thing.toLowerCase()
-		action = action.toLowerCase()
-
-		return this._privileges.some((x) => {
-			return (
-				x.Naam.toLowerCase() === thing &&
-				x.AccessType.some((a) => a.toLowerCase() === action)
-			)
-		})
-	}
 }
 
 /**
@@ -142,4 +128,9 @@ export function getSchools (query) {
 }
 
 export const VERSION = __VERSION__
-export * from './profileInfo'
+export {
+	School,
+	ProfileInfo,
+	Privileges,
+	Person,
+}
