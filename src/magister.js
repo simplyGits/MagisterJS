@@ -9,6 +9,7 @@ import Appointment from './appointment'
 import AbsenceInfo from './absenceInfo'
 import Privileges from './privileges'
 import Person from './person'
+import MessageFolder from './messageFolder'
 import * as util from './util'
 
 // TODO: add nice warnings when trying to do stuff while not logged in yet
@@ -83,6 +84,17 @@ export class Magister {
 			}
 			console.log(appointments, absences)
 		})
+	}
+
+	/**
+	 * @method messageFolders
+	 * @return {Promise<Error|MessageFolder[]>}
+	 */
+	messageFolders() {
+		return this._privileges.needs('berichten', 'read')
+		.then(() => this.http.get(`${this._personUrl}/berichten/mappen`))
+		.then(res => res.json())
+		.then(res => res.Items.map(m => new MessageFolder(this, m)))
 	}
 
 	/**
