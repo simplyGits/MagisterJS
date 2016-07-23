@@ -1,9 +1,8 @@
 {
 	"presets": [
-		"es2015"
+		"modern-node/5.0"
 	],
 	"plugins": [
-		// "transform-runtime",
 		"transform-object-rest-spread"
 	]
 }
