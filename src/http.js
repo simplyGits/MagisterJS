@@ -1,5 +1,6 @@
 import fetch from 'node-fetch'
 import _ from 'lodash'
+import MagisterError from './magisterError'
 
 /**
  * Class to communicate with the outside world. With those delicious cookies
@@ -33,9 +34,12 @@ export default class Http {
 		}
 
 		info.timeoutId = setInterval(() => {
-			this._ratelimit.queue.forEach(function (info) {
+			for (const info of this._ratelimit.queue) {
 				fetch(info.request).then(info.resolve, info.reject)
-			})
+			}
+
+			info.queue = []
+			info.timeoutId = undefined
 		}, timeLeft*1000 + 10)
 	}
 
@@ -65,16 +69,40 @@ export default class Http {
 			promise = this._enqueue(request)
 		}
 
-		return promise.catch((err) => {
-			// Handle rate limit error.
-			console.log(err)
-			if (err.error.SecondsLeft !== undefined) {
-				const secondsLeft = parseInt(err.error.SecondsLeft, 10)
+		let res
+		return promise
+		.then(r => {
+			// clone to object to pass through to the caller, since we can't
+			// reuse an Response object
+			res = r.clone()
+
+			return r.text()
+		})
+		.then(text => {
+			if (res.ok) {
+				return res
+			}
+
+			// try to get an useful error out of the response
+			let err
+			try {
+				err = new MagisterError(JSON.parse(text))
+			} catch (e) {
+				err = res
+			}
+
+			throw err
+		})
+		.catch(err => {
+			// Handle rate limit errors
+			if ('SecondsLeft' in err) {
+				const secondsLeft = Number.parseInt(err.SecondsLeft, 10)
 
 				this._setRatelimitTime(secondsLeft)
 				return this._enqueue(request)
 			}
 
+			// Error wasn't a ratelimit, pass it through
 			throw err
 		})
 	}
