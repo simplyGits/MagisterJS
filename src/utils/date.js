@@ -1,3 +1,5 @@
+import moment from 'moment'
+
 /**
  * @method addZero
  * @param {Number} n
@@ -41,5 +43,5 @@ export function date (date) {
  * @return {String}
  */
 export function urlDateConvert (date) {
-	return `${date.getFullYear()}-${addZero(date.getMonth() + 1)}-${addZero(date.getDate())}`
+	return moment(date).format('Y-MM-DD')
 }
