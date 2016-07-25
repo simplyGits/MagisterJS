@@ -1,5 +1,5 @@
 export default class MagisterError extends Error {
 	constructor(raw) {
-		super(raw.Message)
+		super(raw.Message || raw.message)
 	}
 }
