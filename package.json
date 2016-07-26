@@ -23,7 +23,7 @@
     "test": "mocha --compilers js:babel-register"
   },
   "engines": {
-    "node": ">=5.0"
+    "node": ">=4.4"
   },
   "repository": {
     "type": "git",
