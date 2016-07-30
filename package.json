@@ -12,6 +12,7 @@
     "node-fetch": "^1.5.3"
   },
   "devDependencies": {
+    "babel-cli": "^6.11.4",
     "babel-plugin-transform-object-rest-spread": "^6.8.0",
     "babel-preset-modern-node": "^2.2.1",
     "chai": "^3.5.0",
