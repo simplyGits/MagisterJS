@@ -245,12 +245,14 @@ class root.Magister
 				else callback null, @messageFolders query
 			return undefined
 
-		unless _.isString query
-			result = @_messageFolders
-		else
-			query = query.trim()
-			result = _.filter @_messageFolders, (mF) ->
-				root._helpers.contains mF.name(), query, yes
+		query = query?.trim()
+		result = (
+			if _.isString query
+				_.filter @_messageFolders, (mF) ->
+					root._helpers.contains mF.name(), query, yes
+			else
+				@_messageFolders
+		)
 
 		result ? []
 
