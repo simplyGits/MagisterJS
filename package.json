@@ -14,9 +14,9 @@
   "devDependencies": {
     "babel-cli": "^6.11.4",
     "babel-plugin-transform-object-rest-spread": "^6.8.0",
-    "babel-preset-modern-node": "^2.2.1",
+    "babel-preset-modern-node": "^3.2.0",
     "chai": "^3.5.0",
-    "mocha": "^2.5.3"
+    "mocha": "^3.0.2"
   },
   "scripts": {
     "build": "babel -s false -d lib/ src/",

@@ -1,6 +1,8 @@
 {
 	"presets": [
-		"modern-node/4.4"
+		["modern-node", {
+			"version": "4.4"
+		}]
 	],
 	"plugins": [
 		"transform-object-rest-spread"
