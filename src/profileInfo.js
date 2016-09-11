@@ -1,4 +1,6 @@
 import MagisterThing from './magisterThing'
+import AddressInfo from './addressInfo'
+import ProfileSettings from './profileSettings'
 import { parseDate } from './util'
 
 /**

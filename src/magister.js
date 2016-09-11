@@ -12,6 +12,9 @@ import Person from './person'
 import MessageFolder from './messageFolder'
 import * as util from './util'
 
+import AddressInfo from './addressInfo'
+import ProfileSettings from './profileSettings'
+
 // TODO: add nice warnings when trying to do stuff while not logged in yet
 
 /**
@@ -246,9 +249,11 @@ export function getSchools (query) {
 export const VERSION = __VERSION__
 export {
 	AbsenceInfo,
+	AddressInfo,
 	Appointment,
 	School,
 	ProfileInfo,
 	Privileges,
 	Person,
+	ProfileSettings,
 }
