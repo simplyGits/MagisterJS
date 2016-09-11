@@ -73,13 +73,9 @@ export default class Appointment extends MagisterThing {
 
 	/**
 	 * @method saveChanges
-	 * @return {Promise<Error|undefined>}
+	 * @return {Promise<undefined>}
 	 */
 	saveChanges() {
-		if (this.type !== 1 && this.type !== 16) {
-			return Promise.reject(new Error('Appointment not created by user'))
-		}
-
 		return this._magister._privileges.needs('afspraken', 'update')
 		.then(() => this._magister.http.put(this._url, this._toMagister()))
 	}
