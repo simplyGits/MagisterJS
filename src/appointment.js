@@ -31,6 +31,7 @@ export default class Appointment extends MagisterThing {
 		this.hasAttachments = raw.HeeftBijlagen // REVIEW: do we want this to be a public property?
 		this.isCancelled = [ 4, 5 ].includes(raw.Status)
 		this.isChanged = [ 3, 9, 10 ].includes(raw.Status)
+		this.absenceInfo = undefined
 
 		this._url = `${magister._personUrl}/afspraken/${this._id}`
 	}

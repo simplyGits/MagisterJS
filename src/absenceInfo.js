@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import MagisterThing from './magisterThing'
+import Appointment from './appointment'
 import * as util from './util'
 
 /**
@@ -29,7 +30,7 @@ export default class AbsenceInfo extends MagisterThing {
 		this.permitted = raw.Geoorloofd
 		this.description = _.toString(raw.Omschrijving).trim()
 		this.code = _.toString(raw.Code)
-		// this.appointment = root.Appointment._convertRaw magisterObj, raw.Afspraak
+		this.appointment = new Appointment(magister, raw.Afspraak) // REVIEW: do we want (and need) this?
 	}
 
 	/**

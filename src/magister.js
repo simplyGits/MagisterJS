@@ -60,29 +60,40 @@ export class Magister {
 
 		// fetch appointments
 		const appointmentsUrl = `${this._personUrl}/afspraken?van=${fromUrl}&tot=${toUrl}`
+
 		const appointmentsPromise = this._privileges.needs('afspraken', 'read')
 		.then(() => this.http.get(appointmentsUrl))
 		.then(res => res.json())
 		.then(res => res.Items.map(a => new Appointment(this, a)))
 
 		// fetch absences
-		let absencesPromise
+		let absencesPromise = Promise.resolve([])
 		if (fetchAbsences) {
 			const absencesUrl = `${this._personUrl}/absenties?van=${fromUrl}&tot=${toUrl}`
+
 			absencesPromise = this._privileges.needs('Absenties', 'read')
 			.then(() => this.http.get(absencesUrl))
 			.then(res => res.json())
 			.then(res => res.Items.map(a => new AbsenceInfo(this, a)))
-		} else {
-			absencesPromise = Promise.resolve([])
+
+			if (ignoreAbsenceErrors) {
+				absencesPromise = absencesPromise.catch(() => [])
+			}
 		}
 
 		return Promise.all([ appointmentsPromise, absencesPromise ])
 		.then(([ appointments, absences ]) => {
-			for (const appointment of appointments) {
-
+			for (const a of appointments) {
+				a.absenceInfo = absences.find(i => i.appointment.id === a.id)
 			}
-			console.log(appointments, absences)
+
+			return _(appointments)
+			.sortBy('start')
+			.value()
+		})
+		.then(appointments => {
+			// TODO: fill persons
+			return appointments
 		})
 	}
 
@@ -234,6 +245,8 @@ export function getSchools (query) {
 
 export const VERSION = __VERSION__
 export {
+	AbsenceInfo,
+	Appointment,
 	School,
 	ProfileInfo,
 	Privileges,
