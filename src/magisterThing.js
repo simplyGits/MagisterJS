@@ -2,22 +2,22 @@ import _ from 'lodash'
 import { Magister } from './magister'
 
 /**
- * @class MagisterThing
- * @constructor
  * @private
- * @param {Magister} magister
  */
-export default class MagisterThing {
+class MagisterThing {
+	/**
+	 * @param {Magister} magister
+	 * @throws Error when `magister` isn't an {@link Magister} instance.
+	 */
 	constructor(magister) {
 		if (!(magister instanceof Magister)) {
 			throw new Error('`magister` must be an `Magister` instance')
 		}
 
 		/**
-		 * @property _magister
-		 * @private
-		 * @final
 		 * @type Magister
+		 * @private
+		 * @readonly
 		 */
 		this._magister = magister
 	}
@@ -27,3 +27,5 @@ export default class MagisterThing {
 		return _.omit(this, [ '_magister' ])
 	}
 }
+
+export default MagisterThing

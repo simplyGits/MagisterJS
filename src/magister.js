@@ -19,13 +19,14 @@ import ProfileSettings from './profileSettings'
 
 /**
  * Class to communicate with Magister.
- * @class Magister
- * @constructor
- * @param {Object} options
- * @param {School} school
- * @param {Http} http
+ * @private
  */
-export class Magister {
+class Magister {
+	/**
+	 * @param {Object} options
+	 * @param {School} school
+	 * @param {Http} http
+	 */
 	constructor(options, school, http) {
 		this._options = options
 		this.school = _.extend(new School({}), school)
@@ -33,7 +34,6 @@ export class Magister {
 	}
 
 	/**
-	 * @method appointments
 	 * @param {Date} from
 	 * @param {Date} [to=from]
 	 * @param {Object} [options={}]
@@ -101,7 +101,6 @@ export class Magister {
 	}
 
 	/**
-	 * @method messageFolders
 	 * @return {Promise<Error|MessageFolder[]>}
 	 */
 	messageFolders() {
@@ -112,7 +111,6 @@ export class Magister {
 	}
 
 	/**
-	 * @method getPersons
 	 * @param {String} query
 	 * @param {String} [type]
 	 * @return {Promise<Error|Person[]>}
@@ -201,7 +199,6 @@ export class Magister {
 }
 
 /**
- * @method magister
  * @param {Object} options
  * 	@param {School} options.school The school to login to.
  * 	@param {String} [options.username] The username of the user to login to.
@@ -235,7 +232,6 @@ export default function magister (options) {
 }
 
 /**
- * @method getSchools
  * @param {String} query
  * @return {Promise<Error|School[]>}
  */
@@ -254,11 +250,17 @@ export function getSchools (query) {
 	})
 }
 
+/**
+ * The version of the library.
+ * @type String
+ * @readonly
+ */
 export const VERSION = __VERSION__
 export {
 	AbsenceInfo,
 	AddressInfo,
 	Appointment,
+	Magister,
 	Person,
 	Privileges,
 	ProfileInfo,

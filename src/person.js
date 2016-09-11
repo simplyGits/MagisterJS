@@ -2,77 +2,67 @@ import _ from 'lodash'
 import MagisterThing from './magisterThing'
 
 /**
- * @class Person
  * @extends MagisterThing
- * @constructor
  * @private
- * @param {Magister} magister
- * @param {Object} raw
- * @param {Number} type
  */
-export default class Person extends MagisterThing {
+class Person extends MagisterThing {
+	/**
+	 * @param {Magister} magister
+	 * @param {Object} raw
+	 * @param {Number} type
+	 */
 	constructor(magister, raw, type) {
 		super(magister)
 
 		/**
-		 * @property id
 		 * @type String
-		 * @final
+		 * @readonly
 		 */
 		this.id = raw.Id
 		/**
-		 * @property type
 		 * @type Number
 		 * @private
-		 * @final
+		 * @readonly
 		 */
 		this._type = type || raw.Type // REVIEW: do we want this to be a String?
 		/**
-		 * @property firstName
 		 * @type String
-		 * @final
+		 * @readonly
 		 */
 		this.firstName = raw.Voornaam
 		/**
-		 * @property lastName
 		 * @type String
-		 * @final
+		 * @readonly
 		 */
 		this.lastName = raw.Achternaam
 		/**
-		 * @property namePrefix
 		 * @type String
-		 * @final
+		 * @readonly
 		 */
 		this.namePrefix = raw.Tussenvoegsel
 		/**
-		 * @property fullName
 		 * @type String
-		 * @final
+		 * @readonly
 		 */
 		this.fullName = raw.Naam
 		/**
-		 * @property description
 		 * @type String
-		 * @final
+		 * @readonly
 		 */
 		this.description = raw.Omschrijving || raw.Naam || raw.naam
 		/**
-		 * @property group
 		 * @type String
-		 * @final
+		 * @readonly
 		 */
 		this.group = raw.Groep
 		/**
-		 * @property teacherCode
 		 * @type String
-		 * @final
+		 * @readonly
 		 */
 		this.teacherCode = raw.Docentcode
 		/**
-		 * @property emailAddress
 		 * @type String
-		 * @final
+		 * @readonly
 		 */
 		this.emailAddress = raw.Emailadres
 	}
@@ -110,3 +100,5 @@ export default class Person extends MagisterThing {
 		return obj
 	}
 }
+
+export default Person

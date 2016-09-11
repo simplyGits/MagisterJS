@@ -1,14 +1,14 @@
 import MagisterThing from './magisterThing'
 
 /**
- * @class ProfileSettings
  * @extends MagisterThing
- * @constructor
  * @private
- * @param {Magister} magister
- * @param {Object} raw
  */
-export default class ProfileSettings extends MagisterThing {
+class ProfileSettings extends MagisterThing {
+	/**
+	 * @param {Magister} magister
+	 * @param {Object} raw
+	 */
 	constructor(magister, raw) {
 		super(magister)
 
@@ -28,3 +28,5 @@ export default class ProfileSettings extends MagisterThing {
 		.then(() => this._magister.http.put(url, this._toMagister()))
 	}
 }
+
+export default ProfileSettings

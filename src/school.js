@@ -4,14 +4,14 @@ import fetch from 'node-fetch'
 import * as util from './util'
 
 /**
- * @class School
- * @constructor
  * @private
- * @param {String} id
- * @param {String} name
- * @param {String} url
  */
-export default class School {
+class School {
+	/**
+	 * @param {String} id
+	 * @param {String} name
+	 * @param {String} url
+	 */
 	constructor(raw) {
 		this.id = raw.Id
 		this.name = raw.Name
@@ -31,3 +31,5 @@ export default class School {
 		}))
 	}
 }
+
+export default School

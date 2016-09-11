@@ -6,10 +6,9 @@ import MagisterError from './magisterError'
  * Class to communicate with the outside world. With those delicious cookies
  * inserted for you.
  * Wraps around fetch.
- * @class Http
- * @constructor
+ * @private
  */
-export default class Http {
+class Http {
 	constructor() {
 		this._ratelimit = {
 			queue: [],
@@ -18,6 +17,10 @@ export default class Http {
 		this._cookie = ''
 	}
 
+	/**
+	 * @private
+	 * @param {Object} request
+	 */
 	_enqueue(request) {
 		return new Promise((resolve, reject) => {
 			this._ratelimit.queue.push({
@@ -27,6 +30,10 @@ export default class Http {
 			})
 		})
 	}
+	/**
+	 * @private
+	 * @param {Number} timeLeft time left for the ratelimit in seconds.
+	 */
 	_setRatelimitTime(timeLeft) {
 		const info = this._ratelimit
 		if (info.timeoutId !== undefined) {
@@ -43,6 +50,10 @@ export default class Http {
 		}, timeLeft*1000 + 10)
 	}
 
+	/**
+	 * @private
+	 * @param {Object} obj
+	 */
 	_request(obj) {
 		const init = {
 			method: obj.method,
@@ -109,7 +120,6 @@ export default class Http {
 
 	/**
 	 * Gets the content at `url`
-	 * @method get
 	 * @param {String} url
 	 * @return {Promise<Response>} A promise that resolves to the content of `url`.
 	 */
@@ -122,7 +132,6 @@ export default class Http {
 
 	/**
 	 * Posts the given `data` to `url`
-	 * @method post
 	 * @param {String} url
 	 * @param {Object} [data]
 	 * @param {Object} [opt]
@@ -139,7 +148,6 @@ export default class Http {
 
 	/**
 	 * Puts the given `data` to `url`
-	 * @method put
 	 * @param {String} url
 	 * @param {Object} [data]
 	 * @param {Object} [opt]
@@ -156,7 +164,6 @@ export default class Http {
 
 	/**
 	 * Deletes the content at `url`
-	 * @method delete
 	 * @param {String} url
 	 * @return {Promise<Response>}
 	 */
@@ -167,3 +174,5 @@ export default class Http {
 		})
 	}
 }
+
+export default Http

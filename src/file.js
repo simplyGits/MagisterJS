@@ -4,15 +4,15 @@ import Person from './person'
 import * as util from './util'
 
 /**
- * @class File
  * @extends MagisterThing
- * @constructor
  * @private
- * @param {Magister} magister
- * @param {FileFolder} fileFolder
- * @param {Object} raw
  */
-export default class File extends MagisterThing {
+class File extends MagisterThing {
+	/**
+	 * @param {Magister} magister
+	 * @param {FileFolder} fileFolder
+	 * @param {Object} raw
+	 */
 	constructor(magister, fileFolder, raw) {
 		super(magister)
 
@@ -75,3 +75,5 @@ export default class File extends MagisterThing {
 
 	}
 }
+
+export default File

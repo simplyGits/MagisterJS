@@ -4,12 +4,14 @@ import ProfileSettings from './profileSettings'
 import { parseDate } from './util'
 
 /**
- * @class ProfileInfo
- * @constructor
- * @param {Magister} magister
- * @param {Object} raw
+ * @extends MagisterThing
+ * @private
  */
-export default class ProfileInfo extends MagisterThing {
+class ProfileInfo extends MagisterThing {
+	/**
+	 * @param {Magister} magister
+	 * @param {Object} raw
+	 */
 	constructor(magister, raw) {
 		super(magister)
 
@@ -141,3 +143,5 @@ export default class ProfileInfo extends MagisterThing {
 		.then(raw => new ProfileSettings(this._magister, raw))
 	}
 }
+
+export default ProfileInfo

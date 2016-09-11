@@ -5,13 +5,13 @@ import File from './file'
 import * as util from './util'
 
 /**
- * @class Appointment
  * @extends MagisterThing
- * @constructor
- * @param {Magister} magister
- * @param {Object} raw
  */
-export default class Appointment extends MagisterThing {
+class Appointment extends MagisterThing {
+	/**
+	 * @param {Magister} magister
+	 * @param {Object} raw
+	 */
 	constructor(magister, raw) {
 		super(magister)
 
@@ -119,3 +119,5 @@ export default class Appointment extends MagisterThing {
 		}
 	}
 }
+
+export default Appointment

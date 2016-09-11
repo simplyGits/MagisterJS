@@ -2,13 +2,13 @@ import _ from 'lodash'
 import MagisterThing from './magisterThing'
 
 /**
- * @class Message
  * @extends MagisterThing
- * @constructor
- * @param {Magister} magister
- * @param {Object} [raw]
  */
-export default class Message extends MagisterThing {
+class Message extends MagisterThing {
+	/**
+	 * @param {Magister} magister
+	 * @param {Object} [raw]
+	 */
 	constructor(magister) {
 		super(magister)
 	}
@@ -49,3 +49,5 @@ export default class Message extends MagisterThing {
 		.then(() => this._magister.http.delete(url))
 	}
 }
+
+export default Message

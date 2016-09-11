@@ -1,11 +1,11 @@
 /**
- * @class Privileges
  * @private
- * @constructor
- * @param {Magister} magister
- * @param {Object} raw
  */
-export default class Privileges {
+class Privileges {
+	/**
+	 * @param {Magister} magister
+	 * @param {Object} raw
+	 */
 	constructor(magister, raw) {
 		/**
 		 * @property _items
@@ -48,3 +48,5 @@ export default class Privileges {
 		}
 	}
 }
+
+export default Privileges

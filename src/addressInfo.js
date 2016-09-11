@@ -1,14 +1,14 @@
 import MagisterThing from './magisterThing'
 
 /**
- * @class AddressInfo
  * @extends MagisterThing
- * @constructor
  * @private
- * @param {Magister} magister
- * @param {Object} raw
  */
-export default class AddressInfo extends MagisterThing {
+class AddressInfo extends MagisterThing {
+	/**
+	 * @param {Magister} magister
+	 * @param {Object} raw
+	 */
 	constructor(magister, raw) {
 		super(magister)
 
@@ -19,3 +19,5 @@ export default class AddressInfo extends MagisterThing {
 		this.city = raw.Woonplaats
 	}
 }
+
+export default AddressInfo

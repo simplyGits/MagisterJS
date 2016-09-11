@@ -4,22 +4,21 @@ import Appointment from './appointment'
 import * as util from './util'
 
 /**
- * @class AbsenceInfo
  * @extends MagisterThing
- * @constructor
  * @private
- * @param {Magister} magister
- * @param {Object} raw
  */
-export default class AbsenceInfo extends MagisterThing {
+class AbsenceInfo extends MagisterThing {
+	/**
+	 * @param {Magister} magister
+	 * @param {Object} raw
+	 */
 	constructor(magister, raw) {
 		super(magister)
 
 		/**
-		 * @property _type
-		 * @private
-		 * @final
 		 * @type Number
+		 * @private
+		 * @readonly
 		 */
 		this._type = raw.Verantwoordingtype
 
@@ -34,9 +33,8 @@ export default class AbsenceInfo extends MagisterThing {
 	}
 
 	/**
-	 * @property type
-	 * @final
 	 * @type String
+	 * @readonly
 	 */
 	get type() {
 		switch (this._type) {
@@ -52,3 +50,5 @@ export default class AbsenceInfo extends MagisterThing {
 		}
 	}
 }
+
+export default AbsenceInfo

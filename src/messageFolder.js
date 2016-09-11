@@ -1,7 +1,7 @@
 import MagisterThing from './magisterThing'
 import Message from './message'
 
-export default class MessageFolder extends MagisterThing {
+class MessageFolder extends MagisterThing {
 	constructor(magister, raw) {
 		super(magister)
 
@@ -69,3 +69,5 @@ export default class MessageFolder extends MagisterThing {
 		})
 	}
 }
+
+export default MessageFolder
