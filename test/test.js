@@ -33,11 +33,23 @@ if (!options.school.url || !options.username || !options.password) {
 */
 
 describe('Magister', function() {
-	let m
+	let m, personPromise
 	this.timeout(7000)
 
 	before(function () {
 		return magister(options).then(function (obj) {
+			// don't fail the tests when stuff isn't allowed on users
+			obj._privileges.needs = function (thing, action) {
+				if (obj._privileges.can(thing, action)) {
+					return Promise.resolve()
+				} else {
+					return {
+						then: function () {},
+						catch: function () {},
+					}
+				}
+			}
+
 			m = obj
 		})
 	})
@@ -47,8 +59,10 @@ describe('Magister', function() {
 	})
 
 	it('should correctly fetch privileges', function () {
-		expect(m._privileges.can('aanmeldingen', 'read')).to.be.true
+		expect(m._privileges.can('Profiel', 'read')).to.be.true
 		expect(m._privileges.can('foo', 'bar')).to.be.false
+
+		return m._privileges.needs('profiel', 'read')
 	})
 
 	describe('school', function () {
@@ -58,6 +72,12 @@ describe('Magister', function() {
 				const found = res.some(school => school.name === 'Adelbert College')
 				expect(found).to.be.true
 				expect(res[0]).to.be.an.instanceof(magisterjs.School)
+			})
+		})
+
+		it('should get version info', function () {
+			return m.school.versionInfo().then(r => {
+				expect(r).to.be.an('object')
 			})
 		})
 	})
@@ -106,7 +126,7 @@ describe('Magister', function() {
 						return r[0].saveChanges()
 					}
 
-					return toggle
+					return toggle()
 					.then(toggle)
 					.then(() => {
 						expect(r[0].isDone).to.equal(initial)
@@ -124,6 +144,26 @@ describe('Magister', function() {
 			}).then(r => {
 				expect(r).to.be.an.instanceof(magisterjs.Appointment)
 				return r.remove()
+			})
+		})
+	})
+
+	describe('course', function () {
+		it('should correctly get courses', function () {
+			return m.courses()
+			.then(r => {
+				expect(r).to.be.an('aray')
+			})
+		})
+
+		it('should correctly get the current course', function () {
+			return Promise.all([
+				m.currentCourse(),
+				m.courses().then(r => r[0]),
+			]).then(([ curr, first ]) => {
+				if (curr !== undefined) {
+					expect(curr.id).to.equal(first.id)
+				}
 			})
 		})
 	})
@@ -170,7 +210,7 @@ describe('Magister', function() {
 		})
 
 		it('should get persons', function () {
-			return m.getPersons(m.profileInfo.firstName)
+			personPromise = m.getPersons(m.profileInfo.firstName)
 			.then(r => {
 				expect(r).to.be.an('array')
 				expect(r).to.not.be.empty
@@ -178,6 +218,8 @@ describe('Magister', function() {
 				expect(r[0]).to.be.an.instanceof(magisterjs.Person)
 				expect(r[0].type).to.equal('person')
 			})
+
+			return personPromise
 		})
 
 		it('should convert types correctly', function () {
@@ -191,11 +233,58 @@ describe('Magister', function() {
 		})
 	})
 
-	describe('version info', function () {
-		it('should get version info', function () {
-			return m.school.versionInfo().then(r => {
-				expect(r).to.be.an('object')
+	describe('messageFolder', function () {
+		it('should fetch messageFolders', function () {
+			return m.messageFolders().then(r => {
+				for (const folder in r) {
+					expect(folder).to.be.an.instanceof(magisterjs.MessageFolder)
+				}
+
+				const inbox = r.find(f => f.type === 'inbox')
+				expect(inbox).to.exist
 			})
+		})
+	})
+
+	describe('message', function () {
+		const body = Date.now().toString()
+		let messagePromise
+
+		it('should send messages', function () {
+			return personPromise
+			.then(p => m.composeAndSendMessage('magister.js mocha tests', body, [ p ]))
+			.then(r => {
+				expect(r).to.be.an.instanceof(magisterjs.Message)
+				expect(r.body).to.equal(body)
+			})
+		})
+
+		it('should retrieve messages', function () {
+			messagePromise = m.messageFolders()
+			.then(r => r.find(f => f.type === 'inbox'))
+			.then(f => f.messages({
+				limit: 1,
+				skip: 0,
+				readState: 'all',
+				fillPersons: false,
+				fill: true,
+			}))
+			.then(r => {
+				expect(r).to.be.a('array')
+				expect(r).to.not.be.empty
+
+				expect(r[0]).to.be.an.instanceof(magisterjs.Message)
+				expect(r[0].body).to.equal(body)
+
+				return r[0]
+			})
+
+			return messagePromise
+		})
+
+		it('should be able to remove messages', function () {
+			return messagePromise
+			.then(m => m.remove())
 		})
 	})
 })
