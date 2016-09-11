@@ -50,6 +50,7 @@
 			1,
 			"never"
 		],
+		"space-before-blocks": 1,
 
 		"no-console": 1,
 		"no-extra-semi": 1,
