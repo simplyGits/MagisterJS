@@ -23,6 +23,7 @@ export default class MagisterThing {
 	}
 
 	toJSON() {
+		// REVIEW: do we want to omit all keys starting with '_'?
 		return _.omit(this, [ '_magister' ])
 	}
 }

@@ -165,17 +165,19 @@ export class Magister {
 		if (!forceNew && options.sessionId) {
 			promise = Promise.resolve(options.sessionId)
 		} else {
-			promise = this.http.delete(deleteUrl).then(r => {
+			// delete the current session
+			promise = this.http.delete(deleteUrl)
+			.then(r => {
 				setSessionId(/[a-z\d-]+/.exec(r.headers.get('set-cookie'))[0])
 
+				// create a new session
 				return this.http.post(postUrl, {
 					Gebruikersnaam: options.username,
 					Wachtwoord: options.password,
 					IngelogdBlijven: options.keepLoggedIn,
 				})
-			}).then(r => {
-				return setSessionId(/[a-z\d-]+/.exec(r.headers.get('set-cookie'))[0])
 			})
+			.then(r => /[a-z\d-]+/.exec(r.headers.get('set-cookie'))[0])
 		}
 
 		return promise
@@ -187,8 +189,8 @@ export class Magister {
 				const id = res.Persoon.Id
 
 				this.profileInfo = new ProfileInfo(this, res.Persoon)
-
 				this._privileges = new Privileges(this, res.Groep[0].Privileges)
+
 				this._personUrl = `${baseUrl}/api/personen/${id}`
 				this._pupilUrl = `${baseUrl}/api/leerlingen/${id}`
 
@@ -201,6 +203,12 @@ export class Magister {
 /**
  * @method magister
  * @param {Object} options
+ * 	@param {School} options.school The school to login to.
+ * 	@param {String} [options.username] The username of the user to login to.
+ * 	@param {String} [options.password] The password of the user to login to.
+ * 	@param {String} [options.sessionId] The sessionId to use. (instead of the username and password)
+ * 	@param {Boolean} [options.keepLoggedIn=true] Whether or not to keep the user logged in.
+ * 	@param {Boolean} [options.login=true] Whether or not to call `Magister#login` before returning the object.
  * @return {Promise<Error|Magister>}
  */
 export default function magister (options) {
@@ -213,7 +221,7 @@ export default function magister (options) {
 		(options.school &&
 		(options.sessionId || (options.username && options.password)))
 	) {
-		return Promise.reject(new Error('school, username and password are required.'))
+		return Promise.reject(new Error('school, username&password or sessionId are required.'))
 	}
 
 	const http = new Http()
@@ -229,7 +237,7 @@ export default function magister (options) {
 /**
  * @method getSchools
  * @param {String} query
- * @return {Promise<Error|School>}
+ * @return {Promise<Error|School[]>}
  */
 export function getSchools (query) {
 	query = query.replace(/\d/g, '').trim()
@@ -251,9 +259,9 @@ export {
 	AbsenceInfo,
 	AddressInfo,
 	Appointment,
-	School,
-	ProfileInfo,
-	Privileges,
 	Person,
+	Privileges,
+	ProfileInfo,
 	ProfileSettings,
+	School,
 }

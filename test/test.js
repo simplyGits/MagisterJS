@@ -51,7 +51,7 @@ describe('Magister', function() {
 		expect(m._privileges.can('foo', 'bar')).to.be.false
 	})
 
-	describe('schools', function () {
+	describe('school', function () {
 		it('should find schools', function () {
 			return magisterjs.getSchools('adelbert')
 			.then(function (res) {
@@ -81,7 +81,7 @@ describe('Magister', function() {
 		})
 	})
 
-	describe('appointments', function () {
+	describe('appointment', function () {
 		it('should fetch appointments', function () {
 			return m.appointments(new Date()).then(r => {
 				expect(r).to.be.a('array')
@@ -128,7 +128,7 @@ describe('Magister', function() {
 		})
 	})
 
-	describe('grades', function () {
+	describe('grade', function () {
 		it('should correctly get grades', function () {
 			return m.currentCourse()
 			.then(r => {
@@ -154,7 +154,7 @@ describe('Magister', function() {
 		})
 	})
 
-	describe('persons', function () {
+	describe('person', function () {
 		it('should handle empty queries correctly', function () {
 			return Promise.all([
 				m.getPersons(''),
@@ -215,7 +215,7 @@ describe('util', function () {
 		})
 	})
 
-	describe('dates', function () {
+	describe('date', function () {
 		it('should be able to get the date of a Date object', function () {
 			const a = new Date(2016, 4, 20, 13, 37, 69)
 			const b = new Date(2016, 4, 20)

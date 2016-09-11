@@ -1,19 +1,6 @@
 import moment from 'moment'
 
 /**
- * @method addZero
- * @param {Number} n
- * @return {String}
- */
-function addZero (n) {
-	if (n < 10) {
-		return `0${n}`
-	} else {
-		return n.toString()
-	}
-}
-
-/**
  * Tries to parse `val` to a date, if it fails this function will return
  * `undefined` instead of an invalid date.
  *
