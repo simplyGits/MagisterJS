@@ -48,7 +48,7 @@ export class Magister {
 			fillPersons = false,
 			fetchAbsences = true,
 			ignoreAbsenceErrors = true,
-		} = _.find(arguments, _.isPlainObject)
+		} = _.find(arguments, _.isPlainObject) || {}
 
 		// extract dates
 		let [ from, to ] = _(arguments).filter(_.isDate).sortBy().value()
