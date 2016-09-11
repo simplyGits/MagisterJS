@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import MagisterThing from './magisterThing'
 
 /**
@@ -100,5 +101,12 @@ export default class Person extends MagisterThing {
 				'project': 8,
 			})[val]
 		}
+	}
+
+	toJSON() {
+		const obj = _.omit(this, [ '_magister' ])
+		obj.type = this.type()
+		delete obj._type
+		return obj
 	}
 }
