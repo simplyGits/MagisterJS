@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import MagisterThing from './magisterThing'
 import Message from './message'
 
@@ -33,6 +34,17 @@ class MessageFolder extends MagisterThing {
 		 * @readonly
 		 */
 		this.parentId = raw.ParentId
+
+		/**
+		 * @type String
+		 * @readonly
+		 */
+		this.type = ({
+			'postvak in': 'inbox',
+			'verzonden items': 'sent',
+			'verwijderde items': 'bin',
+			'mededelingen': 'alerts',
+		})[this.name.toLowerCase()] || 'unknown'
 	}
 
 	/**
@@ -71,6 +83,14 @@ class MessageFolder extends MagisterThing {
 				return messages
 			}
 		})
+	}
+
+	/**
+	 * @override
+	 * @return {Object}
+	 */
+	toJSON() {
+		return _.omit(super.toJSON(), 'type')
 	}
 }
 
