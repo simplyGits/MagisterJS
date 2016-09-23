@@ -35,12 +35,12 @@ class Magister {
 	}
 
 	/**
-	 * @param {Date} from
-	 * @param {Date} [to=from]
+	 * @param {Date} from Time is ignored.
+	 * @param {Date} [to=from] Time is ignored
 	 * @param {Object} [options={}]
-	 * 	@param {Boolean} [fillPersons=false]
-	 * 	@param {Boolean} [fetchAbsences=true]
-	 * 	@param {Boolean} [ignoreAbsenceErrors=true]
+	 * 	@param {Boolean} [options.fillPersons=false]
+	 * 	@param {Boolean} [options.fetchAbsences=true]
+	 * 	@param {Boolean} [options.ignoreAbsenceErrors=true]
 	 * @return {Promise<Appointment[]>}
 	 */
 	appointments() {
@@ -55,16 +55,11 @@ class Magister {
 		let [ from, to ] = _(arguments).filter(_.isDate).sortBy().value()
 		to = to || from
 
-		// REVIEW: do we want this?
-		from = util.date(from)
-		to = util.date(to)
-
 		const fromUrl = util.urlDateConvert(from)
 		const toUrl = util.urlDateConvert(to)
 
 		// fetch appointments
 		const appointmentsUrl = `${this._personUrl}/afspraken?van=${fromUrl}&tot=${toUrl}`
-
 		const appointmentsPromise = this._privileges.needs('afspraken', 'read')
 		.then(() => this.http.get(appointmentsUrl))
 		.then(res => res.json())
@@ -74,7 +69,6 @@ class Magister {
 		let absencesPromise = Promise.resolve([])
 		if (fetchAbsences) {
 			const absencesUrl = `${this._personUrl}/absenties?van=${fromUrl}&tot=${toUrl}`
-
 			absencesPromise = this._privileges.needs('Absenties', 'read')
 			.then(() => this.http.get(absencesUrl))
 			.then(res => res.json())
