@@ -109,7 +109,7 @@ class Person extends MagisterThing {
 			return Promise.resolve(this)
 		}
 
-		return this._magister.getPersons(this.fullName, type)
+		return this._magister.persons(this.fullName, type)
 		.then(persons => persons[0] || this)
 	}
 

@@ -198,10 +198,10 @@ describe('Magister', function() {
 	describe('person', function () {
 		it('should handle empty queries correctly', function () {
 			return Promise.all([
-				m.getPersons(''),
-				m.getPersons('    '),
-				m.getPersons(null),
-				m.getPersons(undefined),
+				m.persons(''),
+				m.persons('    '),
+				m.persons(null),
+				m.persons(undefined),
 			]).then(arrays => {
 				for (const arr of arrays) {
 					expect(arr).to.be.an('array')
@@ -211,7 +211,7 @@ describe('Magister', function() {
 		})
 
 		it('should get persons', function () {
-			personPromise = m.getPersons(m.profileInfo.firstName)
+			personPromise = m.persons(m.profileInfo.firstName)
 			.then(r => {
 				expect(r).to.be.an('array')
 				expect(r).to.not.be.empty

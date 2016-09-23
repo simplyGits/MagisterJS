@@ -118,15 +118,15 @@ class Magister {
 	 * @param {String} [type]
 	 * @return {Promise<Person[]>}
 	 */
-	getPersons(query, type) {
+	persons(query, type) {
 		query = query != null ? query.trim() : ''
 
 		if (query.length < 3) {
 			return Promise.resolve([])
 		} else if (type == null) {
 			return Promise.all([
-				this.getPersons(query, 'teacher'),
-				this.getPersons(query, 'pupil'),
+				this.persons(query, 'teacher'),
+				this.persons(query, 'pupil'),
 			]).then(([ teachers, pupils ]) => teachers.concat(pupils))
 		}
 
