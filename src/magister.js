@@ -1,6 +1,7 @@
 'use strict'
 
 import _ from 'lodash'
+import AuthError from './authError'
 import Http from './http'
 import fetch from 'node-fetch'
 import School from './school'
@@ -176,6 +177,14 @@ class Magister {
 				})
 			})
 			.then(r => /[a-z\d-]+/.exec(r.headers.get('set-cookie'))[0])
+			.catch(err => {
+				throw _.includes([
+					'Ongeldig account of verkeerde combinatie van gebruikersnaam en wachtwoord. Probeer het nog eens of neem contact op met de applicatiebeheerder van de school.',
+					'Je gebruikersnaam en/of wachtwoord is niet correct.',
+				], err.message) ?
+				new AuthError(err.message) :
+				err
+			})
 		}
 
 		return promise
@@ -260,6 +269,7 @@ export {
 	AbsenceInfo,
 	AddressInfo,
 	Appointment,
+	AuthError
 	Magister,
 	Person,
 	Privileges,
