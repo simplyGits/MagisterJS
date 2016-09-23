@@ -274,7 +274,7 @@ export {
 	AbsenceInfo,
 	AddressInfo,
 	Appointment,
-	AuthError
+	AuthError,
 	Magister,
 	Person,
 	Privileges,
