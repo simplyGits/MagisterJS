@@ -15,6 +15,13 @@ class Person extends MagisterThing {
 		super(magister)
 
 		/**
+		 * @type Boolean
+		 * @private
+		 * @default false
+		 */
+		this._filled = false
+
+		/**
 		 * @type String
 		 * @readonly
 		 */
@@ -91,6 +98,19 @@ class Person extends MagisterThing {
 				'project': 8,
 			})[val]
 		}
+	}
+
+	/**
+	 * @param {String} [type]
+	 * @return {Promise<User>}
+	 */
+	getFilled(type) {
+		if (this._filled) {
+			return Promise.resolve(this)
+		}
+
+		return this._magister.getPersons(this.fullName, type)
+		.then(persons => persons[0] || this)
 	}
 
 	toJSON() {

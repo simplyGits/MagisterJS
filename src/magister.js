@@ -90,8 +90,16 @@ class Magister {
 			.value()
 		})
 		.then(appointments => {
-			// TODO: fill persons
-			return appointments
+			if (!fillPersons) {
+				return appointments
+			}
+
+			const promises = appointments.map(a => {
+				Promise.all(a.teachers.map(t => t.getFilled('teacher')))
+				.then(teachers => a.teachers = teachers)
+				.then(() => a)
+			})
+			return Promise.await(promises)
 		})
 	}
 
@@ -108,7 +116,7 @@ class Magister {
 	/**
 	 * @param {String} query
 	 * @param {String} [type]
-	 * @return {Promise<Error|Person[]>}
+	 * @return {Promise<Person[]>}
 	 */
 	getPersons(query, type) {
 		query = query != null ? query.trim() : ''
@@ -134,7 +142,11 @@ class Magister {
 		return this._privileges.needs('contactpersonen', 'read')
 		.then(() => this.http.get(url))
 		.then(res => res.json())
-		.then(res => res.Items.map(p => new Person(this, p)))
+		.then(res => res.Items.map(p => {
+			p = new Person(this, p)
+			p._filled = true
+			return p
+		}))
 	}
 
 	/**

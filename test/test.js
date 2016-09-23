@@ -101,6 +101,7 @@ describe('Magister', function() {
 		})
 	})
 
+	// TODO: add tests for fillPersons option
 	describe('appointment', function () {
 		it('should fetch appointments', function () {
 			return m.appointments(new Date()).then(r => {
