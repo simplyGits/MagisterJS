@@ -277,6 +277,7 @@ export {
 	Appointment,
 	AuthError,
 	Magister,
+	MessageFolder,
 	Person,
 	Privileges,
 	ProfileInfo,

@@ -182,7 +182,7 @@ describe('Magister', function() {
 			.then(r => {
 				expect(r).to.be.a('array')
 
-				for (const g in r) {
+				for (const g of r) {
 					expect(g).to.be.an.instanceof(magisterjs.Grade)
 				}
 
@@ -237,8 +237,8 @@ describe('Magister', function() {
 	describe('messageFolder', function () {
 		it('should fetch messageFolders', function () {
 			return m.messageFolders().then(r => {
-				for (const folder in r) {
-					expect(folder).to.be.an.instanceof(magisterjs.MessageFolder)
+				for (const f of r) {
+					expect(f).to.be.an.instanceof(magisterjs.MessageFolder)
 				}
 
 				const inbox = r.find(f => f.type === 'inbox')
