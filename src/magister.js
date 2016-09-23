@@ -251,18 +251,17 @@ export default function magister (options) {
  * @return {Promise<Error|School[]>}
  */
 export function getSchools (query) {
-	query = query.replace(/\d/g, '').trim()
+	query = query.replace(/\d/g, '')
+	query = query.trim()
+	query = query.replace(/ +/g, '+')
 
 	if (query.length < 3) {
 		return Promise.resolve([])
 	}
 
-	const url = `https://mijn.magister.net/api/schools?filter=${query}`
-	return fetch(url)
+	return fetch(`https://mijn.magister.net/api/schools?filter=${query}`)
 	.then(res => res.json())
-	.then(function (schools) {
-		return schools.map(school => new School(school))
-	})
+	.then(schools => schools.map(school => new School(school)))
 }
 
 /**
