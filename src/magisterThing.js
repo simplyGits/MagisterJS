@@ -22,6 +22,9 @@ class MagisterThing {
 		this._magister = magister
 	}
 
+	/**
+	 * @return {Object}
+	 */
 	toJSON() {
 		// REVIEW: do we want to omit all keys starting with '_'?
 		return _.omit(this, [ '_magister' ])

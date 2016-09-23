@@ -113,6 +113,10 @@ class Person extends MagisterThing {
 		.then(persons => persons[0] || this)
 	}
 
+	/**
+	 * @override
+	 * @return {Object}
+	 */
 	toJSON() {
 		const obj = _.omit(this, [ '_magister' ])
 		obj.type = this.type()

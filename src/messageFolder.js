@@ -1,41 +1,45 @@
 import MagisterThing from './magisterThing'
 import Message from './message'
 
+/**
+ * @extends MagisterThing
+ * @private
+ */
 class MessageFolder extends MagisterThing {
+	/**
+	 * @param {Magister} magister
+	 * @param {Object} raw
+	 */
 	constructor(magister, raw) {
 		super(magister)
 
 		/**
-		 * @property id
 		 * @type String
-		 * @private
+		 * @readonly
 		 */
 		this.id = raw.Id.toString()
 		/**
-		 * @property name
 		 * @type String
-		 * @private
+		 * @readonly
 		 */
 		this.name = raw.Naam
 		/**
-		 * @property unreadMessagesCount
 		 * @type Number
-		 * @private
+		 * @readonly
 		 */
 		this.unreadMessagesCount = raw.OngelezenBerichten
 		/**
-		 * @property parentId
 		 * @type String
-		 * @private
+		 * @readonly
 		 */
 		this.parentId = raw.ParentId
 	}
 
 	/**
-	 * @method messages
 	 * @param {Object} [options={}]
 	 * 	@param {Number} [options.limit=10] The limit of the amount of Messages to fetch.
-	 * 	@param {Number} [options.skip=0] The amount of messages in front to skip.
+	 * 	@param {Number} [options.skip=0] The amount of messages in front of the
+	 * 	MessageFolder to skip.
 	 * 	@param {String} [options.readState='all'] One of: 'all', 'read', 'unread'.
 	 * 	@param {Boolean} [options.fill=true] Whether or not to call `fillMessage` on every message.
 	 * 	@param {Boolean} [options.fillPersons=false] Whether or not to download the users from the server. `options.fill` has to be true for this option to take effect.

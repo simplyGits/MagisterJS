@@ -4,6 +4,15 @@ import fetch from 'node-fetch'
 import * as util from './util'
 
 /**
+ * @typedef {Object} VersionInfo
+ * @property {String} core
+ * @property {String} api
+ * @property {String} db
+ * @property {String} product
+ * @property {Date} releasedOn
+ */
+
+/**
  * @private
  */
 class School {
@@ -18,9 +27,11 @@ class School {
 		this.url = raw.Url
 	}
 
+	/**
+	 * @return {Promise<VersionInfo>}
+	 */
 	versionInfo() {
-		const url = `${this.url}/api/versie`
-		return fetch(url)
+		return fetch(`${this.url}/api/versie`)
 		.then(res => res.json())
 		.then(obj => ({
 			core: obj.CoreVersie,
