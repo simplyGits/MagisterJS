@@ -28,7 +28,7 @@ class MessageFolder extends MagisterThing {
 		 * @type Number
 		 * @readonly
 		 */
-		this.unreadMessagesCount = raw.OngelezenBerichten
+		this.unreadCount = raw.OngelezenBerichten
 		/**
 		 * @type String
 		 * @readonly
