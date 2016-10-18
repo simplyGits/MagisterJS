@@ -297,7 +297,9 @@ describe('Magister', function() {
 				'    ',
 			];
 
-			var push = Helpers.asyncResultWaiter(cases.length, done);
+			var push = Helpers.asyncResultWaiter(cases.length, function () {
+				done();
+			});
 
 			cases.forEach(function (val) {
 				m.getPersons(val, function (e, r) {
