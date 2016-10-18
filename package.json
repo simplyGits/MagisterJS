@@ -20,7 +20,7 @@
 	],
 	"dependencies": {
 		"lodash": "3.10.1",
-		"request": "2.61.0"
+		"request": "2.74.0"
 	},
 	"devDependencies": {
 		"chai": "*",
