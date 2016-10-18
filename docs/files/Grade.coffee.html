@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.21.0</em>
+            <em>API Docs for: 1.22.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -143,13 +143,13 @@ class root.Grade
 		# @final
 		# @type Date|undefined
 		###
-		@testDate = root._getset &quot;_testdate&quot;
+		@testDate = root._getset &quot;_testDate&quot;
 		###*
-		# @property gradePeriod
+		# @property period
 		# @final
-		# @type Object
+		# @type GradePeriod
 		###
-		@gradePeriod = root._getset &quot;_gradePeriod&quot;
+		@period = root._getset &quot;_period&quot;
 		###*
 		# @property class
 		# @final
@@ -241,9 +241,12 @@ class root.Grade
 		obj._passed = raw.IsVoldoende
 		obj._dateFilledIn = root._helpers.parseDate raw.DatumIngevoerd
 
-		obj._gradePeriod =
-			id: raw.CijferPeriode.Id
-			name: raw.CijferPeriode.Naam ? &quot;&quot;
+		obj._period = (
+			period = new root.GradePeriod magisterObj
+			period._id = raw.CijferPeriode.Id
+			period._name = raw.CijferPeriode.Naam ? &quot;&quot;
+			period
+		)
 
 		obj._class =
 			id: raw.Vak.Id

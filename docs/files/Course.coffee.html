@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.21.0</em>
+            <em>API Docs for: 1.22.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -285,14 +285,17 @@ class root.Course
 	#
 	# @method grades
 	# @async
-	# @param [fillPersons=false] {Boolean} Whether or not to download the full user objects from the server.
-	# @param [fillGrade=true] {Boolean} Whether or not to download the full grade info should be downloaded from the server. If this is set to false some properties will be not be set or have incorrect values.
+	# @param {Object} [options={}]
+	# 	@param {Boolean} [options.fillPersons=false] Whether or not to download the full user objects from the server.
+	# 	@param {Boolean} [options.fillGrade=true] Whether or not to download the full grade info should be downloaded from the server. If this is set to false some properties will be not be set or have incorrect values.
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
 	# 	@param [callback.result] {Grade[]} An array containing the Grades.
 	###
 	grades: -&gt;
-		[fillPersons, fillGrade] = _.filter arguments, (a) -&gt; _.isBoolean a
+		options = _.find(arguments, (a) -&gt; _.isPlainObject a) ? {}
+		{ fillPersons, fillGrade } = options
+
 		callback = _.find(arguments, (a) -&gt; _.isFunction a)
 		throw new Error &quot;Callback can&#x27;t be null&quot; unless callback?
 

@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.21.0</em>
+            <em>API Docs for: 1.22.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -362,7 +362,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Course.coffee.html#l250"><code>Course.coffee:250</code></a>
+        <a href="../files/Course.coffee.html#l253"><code>Course.coffee:253</code></a>
         </p>
 
 
@@ -440,7 +440,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/Course.coffee.html#l235"><code>Course.coffee:235</code></a>
+        <a href="../files/Course.coffee.html#l238"><code>Course.coffee:238</code></a>
         </p>
 
 
@@ -582,10 +582,7 @@
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code class="optional">[fillPersons=false]</code>
-                </li>
-                <li class="arg">
-                        <code class="optional">[fillGrade=true]</code>
+                        <code class="optional">[options={}]</code>
                 </li>
                 <li class="arg">
                         <code>callback</code>
@@ -621,28 +618,39 @@
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name optional">[fillPersons=false]</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+                        <code class="param-name optional">[options={}]</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
 
 
                     <div class="param-description">
-                        <p>Whether or not to download the full user objects from the server.</p>
-
+                         
                     </div>
 
-                </li>
-                <li class="param">
-                        <code class="param-name optional">[fillGrade=true]</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                        <ul class="params-list">
+                            <li class="param">
+                                    <code class="param-name optional">[fillPersons=false]</code>
+                                    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
 
+                                <div class="param-description">
+                                    <p>Whether or not to download the full user objects from the server.</p>
 
-                    <div class="param-description">
-                        <p>Whether or not to download the full grade info should be downloaded from the server. If this is set to false some properties will be not be set or have incorrect values.</p>
+                                </div>
 
-                    </div>
+                            </li>
+                            <li class="param">
+                                    <code class="param-name optional">[fillGrade=true]</code>
+                                    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
 
+                                <div class="param-description">
+                                    <p>Whether or not to download the full grade info should be downloaded from the server. If this is set to false some properties will be not be set or have incorrect values.</p>
+
+                                </div>
+
+                            </li>
+                        </ul>
                 </li>
                 <li class="param">
                         <code class="param-name">callback</code>

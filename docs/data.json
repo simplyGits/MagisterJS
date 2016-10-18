@@ -2,7 +2,7 @@
     "project": {
         "name": "Magister.js Docs",
         "description": "A JavaScript implementation of the Magister 6 API.",
-        "version": "1.21.0",
+        "version": "1.22.0",
         "url": "http://simplyGits.github.io/MagisterJS",
         "logo": "http://i.imgur.com/Lrg80ax.png"
     },
@@ -422,7 +422,7 @@
             "extension_for": [],
             "module": "Magister",
             "file": "Grade.coffee",
-            "line": 169,
+            "line": 172,
             "description": "A Type of a Grade object.",
             "access": "private",
             "tagname": "",
@@ -445,7 +445,7 @@
             "extension_for": [],
             "module": "Magister",
             "file": "Grade.coffee",
-            "line": 295,
+            "line": 298,
             "description": "A Grade period.",
             "access": "private",
             "tagname": "",
@@ -1660,18 +1660,27 @@
             "async": 1,
             "params": [
                 {
-                    "name": "fillPersons",
-                    "description": "Whether or not to download the full user objects from the server.",
-                    "type": "Boolean",
+                    "name": "options",
+                    "description": "",
+                    "type": "Object",
                     "optional": true,
-                    "optdefault": "false"
-                },
-                {
-                    "name": "fillGrade",
-                    "description": "Whether or not to download the full grade info should be downloaded from the server. If this is set to false some properties will be not be set or have incorrect values.",
-                    "type": "Boolean",
-                    "optional": true,
-                    "optdefault": "true"
+                    "optdefault": "{}",
+                    "props": [
+                        {
+                            "name": "fillPersons",
+                            "description": "Whether or not to download the full user objects from the server.",
+                            "type": "Boolean",
+                            "optional": true,
+                            "optdefault": "false"
+                        },
+                        {
+                            "name": "fillGrade",
+                            "description": "Whether or not to download the full grade info should be downloaded from the server. If this is set to false some properties will be not be set or have incorrect values.",
+                            "type": "Boolean",
+                            "optional": true,
+                            "optdefault": "true"
+                        }
+                    ]
                 },
                 {
                     "name": "callback",
@@ -1697,7 +1706,7 @@
         },
         {
             "file": "Course.coffee",
-            "line": 235,
+            "line": 238,
             "description": "Gets the perosnal tutor of the current user for this Course.",
             "itemtype": "method",
             "name": "getPersonalTutor",
@@ -1726,7 +1735,7 @@
         },
         {
             "file": "Course.coffee",
-            "line": 250,
+            "line": 253,
             "description": "Gets the (group / class) tutors.",
             "itemtype": "method",
             "name": "getOtherTutors",
@@ -2159,9 +2168,9 @@
             "file": "Grade.coffee",
             "line": 43,
             "itemtype": "property",
-            "name": "gradePeriod",
+            "name": "period",
             "final": 1,
-            "type": "Object",
+            "type": "GradePeriod",
             "class": "Grade"
         },
         {
@@ -2276,7 +2285,7 @@
         },
         {
             "file": "Grade.coffee",
-            "line": 179,
+            "line": 182,
             "itemtype": "property",
             "name": "id",
             "final": 1,
@@ -2285,7 +2294,7 @@
         },
         {
             "file": "Grade.coffee",
-            "line": 185,
+            "line": 188,
             "itemtype": "property",
             "name": "name",
             "final": 1,
@@ -2294,7 +2303,7 @@
         },
         {
             "file": "Grade.coffee",
-            "line": 191,
+            "line": 194,
             "itemtype": "property",
             "name": "number",
             "final": 1,
@@ -2303,7 +2312,7 @@
         },
         {
             "file": "Grade.coffee",
-            "line": 197,
+            "line": 200,
             "itemtype": "property",
             "name": "header",
             "final": 1,
@@ -2312,7 +2321,7 @@
         },
         {
             "file": "Grade.coffee",
-            "line": 203,
+            "line": 206,
             "itemtype": "property",
             "name": "description",
             "final": 1,
@@ -2321,7 +2330,7 @@
         },
         {
             "file": "Grade.coffee",
-            "line": 209,
+            "line": 212,
             "itemtype": "property",
             "name": "type",
             "final": 1,
@@ -2330,7 +2339,7 @@
         },
         {
             "file": "Grade.coffee",
-            "line": 215,
+            "line": 218,
             "description": "type parsed as a string.",
             "itemtype": "property",
             "name": "typeString",
@@ -2340,7 +2349,7 @@
         },
         {
             "file": "Grade.coffee",
-            "line": 239,
+            "line": 242,
             "itemtype": "property",
             "name": "isAtLaterDate",
             "final": 1,
@@ -2349,7 +2358,7 @@
         },
         {
             "file": "Grade.coffee",
-            "line": 245,
+            "line": 248,
             "itemtype": "property",
             "name": "isTeacher",
             "final": 1,
@@ -2358,7 +2367,7 @@
         },
         {
             "file": "Grade.coffee",
-            "line": 251,
+            "line": 254,
             "itemtype": "property",
             "name": "hasNestedTypes",
             "final": 1,
@@ -2367,7 +2376,7 @@
         },
         {
             "file": "Grade.coffee",
-            "line": 257,
+            "line": 260,
             "itemtype": "property",
             "name": "isPTA",
             "final": 1,
@@ -2376,7 +2385,7 @@
         },
         {
             "file": "Grade.coffee",
-            "line": 263,
+            "line": 266,
             "description": "Have no idea what this is. If anybody has an idea, tell me please so we can make this doc at least a bit useful.",
             "itemtype": "property",
             "name": "level",
@@ -2385,7 +2394,7 @@
         },
         {
             "file": "Grade.coffee",
-            "line": 269,
+            "line": 272,
             "itemtype": "property",
             "name": "isEnd",
             "final": 1,
@@ -2394,7 +2403,7 @@
         },
         {
             "file": "Grade.coffee",
-            "line": 304,
+            "line": 307,
             "itemtype": "property",
             "name": "id",
             "final": 1,
@@ -2403,7 +2412,7 @@
         },
         {
             "file": "Grade.coffee",
-            "line": 310,
+            "line": 313,
             "itemtype": "property",
             "name": "begin",
             "final": 1,
@@ -2412,7 +2421,7 @@
         },
         {
             "file": "Grade.coffee",
-            "line": 316,
+            "line": 319,
             "itemtype": "property",
             "name": "end",
             "final": 1,
@@ -2421,7 +2430,7 @@
         },
         {
             "file": "Grade.coffee",
-            "line": 322,
+            "line": 325,
             "itemtype": "property",
             "name": "name",
             "final": 1,
@@ -2430,7 +2439,7 @@
         },
         {
             "file": "Grade.coffee",
-            "line": 328,
+            "line": 331,
             "itemtype": "property",
             "name": "description",
             "final": 1,
@@ -2545,7 +2554,7 @@
                         },
                         {
                             "name": "content",
-                            "description": "Some random string of characters you want to save.",
+                            "description": "Some arbitrary string you want to save.",
                             "type": "String",
                             "optional": true
                         },
@@ -2624,7 +2633,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 257,
+            "line": 259,
             "description": "Fetches the messageFolders for the current Magister object.",
             "itemtype": "method",
             "name": "_fetchMessageFolders",
@@ -2650,7 +2659,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 274,
+            "line": 276,
             "itemtype": "method",
             "name": "inbox",
             "return": {
@@ -2662,7 +2671,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 279,
+            "line": 281,
             "itemtype": "method",
             "name": "sentItems",
             "return": {
@@ -2674,7 +2683,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 284,
+            "line": 286,
             "itemtype": "method",
             "name": "bin",
             "return": {
@@ -2686,7 +2695,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 289,
+            "line": 291,
             "itemtype": "method",
             "name": "alerts",
             "return": {
@@ -2698,7 +2707,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 295,
+            "line": 297,
             "description": "Gets the courses of the current User.",
             "itemtype": "method",
             "name": "courses",
@@ -2729,7 +2738,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 317,
+            "line": 319,
             "description": "Gets the current grade of the current User.",
             "itemtype": "method",
             "name": "currentCourse",
@@ -2760,7 +2769,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 332,
+            "line": 334,
             "description": "Gets limited course info for the current Course for the current User.\n\nThis is quicker than `courses`, however it's not as consistent and\ndoesn't really fit in Magister.js's style, however if you know what\nyou're doing and you're willing to use this, go ahead.",
             "itemtype": "method",
             "name": "getLimitedCurrentCourseInfo",
@@ -2831,7 +2840,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 376,
+            "line": 378,
             "description": "Gets an Array of Persons that matches the given profile.",
             "itemtype": "method",
             "name": "getPersons",
@@ -2877,7 +2886,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 437,
+            "line": 438,
             "description": "Fills the given person(s) by downloading the person from Magister and replacing the local instance.",
             "itemtype": "method",
             "name": "fillPersons",
@@ -2919,7 +2928,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 477,
+            "line": 478,
             "description": "Shortcut for composing and sending a Message.",
             "itemtype": "method",
             "name": "composeAndSendMessage",
@@ -2966,7 +2975,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 501,
+            "line": 502,
             "description": "Gets the FileFolders of the current user.",
             "itemtype": "method",
             "name": "fileFolders",
@@ -2997,7 +3006,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 517,
+            "line": 518,
             "description": "Gets the StudyGuides of the current user.",
             "itemtype": "method",
             "name": "studyGuides",
@@ -3035,7 +3044,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 554,
+            "line": 555,
             "description": "Gets the Assignments for the current user.",
             "itemtype": "method",
             "name": "assignments",
@@ -3094,7 +3103,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 613,
+            "line": 614,
             "description": "Gets the Digital school utilities for the current user.",
             "itemtype": "method",
             "name": "digitalSchoolUtilities",
@@ -3125,7 +3134,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 640,
+            "line": 641,
             "description": "Returns the profile for the current logged in user.",
             "itemtype": "method",
             "name": "profileInfo",
@@ -3138,7 +3147,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 650,
+            "line": 651,
             "description": "Returns the children of the current user.",
             "itemtype": "method",
             "name": "children",
@@ -3168,7 +3177,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 690,
+            "line": 691,
             "description": "Checks if this Magister instance is done logging in.\n\nYou can also provide a callback, which will be called when this instance is done logging in.",
             "itemtype": "method",
             "name": "ready",
@@ -3210,7 +3219,7 @@
         },
         {
             "file": "Magister.coffee",
-            "line": 734,
+            "line": 735,
             "description": "(Re-)Login the current Magister instance.\n\nUsually not needed to call manually.",
             "itemtype": "method",
             "name": "_reLogin",
@@ -3558,7 +3567,7 @@
                         {
                             "name": "result",
                             "description": "The current message filled with the newely downloaded info.",
-                            "type": "Grade",
+                            "type": "Message",
                             "optional": true
                         }
                     ]

@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.21.0</em>
+            <em>API Docs for: 1.22.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -118,7 +118,7 @@ else
 # @final
 # @type String
 ###
-root.VERSION = &quot;1.21.0&quot;
+root.VERSION = &quot;1.22.0&quot;
 
 ###*
 # A JavaScript implementation of the Magister 6 API.
@@ -265,7 +265,7 @@ class root.Magister
 	# 	@param options.end {Date} The end of the appointment, this is ignored when &#x60;options.fullDay&#x60; is set to true.
 	# 	@param [options.fullDay=false] {Boolean} When this is true, &#x60;options.end&#x60; is ignored and only &#x60;options.start&#x60; is used to set the begin and the end for the appointment.
 	# 	@param [options.location] {String} The location (classroom for example) for the appointment.
-	# 	@param [options.content] {String} Some random string of characters you want to save.
+	# 	@param [options.content] {String} Some arbitrary string you want to save.
 	# 	@param [options.type=1] {Number} The type of the appointment: 1 for personal or 16 for planning
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
@@ -349,12 +349,14 @@ class root.Magister
 				else callback null, @messageFolders query
 			return undefined
 
-		unless _.isString query
-			result = @_messageFolders
-		else
-			query = query.trim()
-			result = _.filter @_messageFolders, (mF) -&gt;
-				root._helpers.contains mF.name(), query, yes
+		query = query?.trim()
+		result = (
+			if _.isString query
+				_.filter @_messageFolders, (mF) -&gt;
+					root._helpers.contains mF.name(), query, yes
+			else
+				@_messageFolders
+		)
 
 		result ? []
 
@@ -369,7 +371,7 @@ class root.Magister
 	_fetchMessageFolders: (callback) -&gt;
 		@http.get &quot;#{@_personUrl}/berichten/mappen&quot;, {}, (e, r) =&gt;
 			if e?
-				e.statusCode = result?.statusCode
+				e.statusCode = r?.statusCode
 				callback e
 			else
 				@_messageFolders = (root.MessageFolder._convertRaw(this, m) for m in JSON.parse(r.content).Items)
@@ -495,11 +497,14 @@ class root.Magister
 		[query, type] = _.filter arguments, (a) -&gt; _.isString a
 		callback = _.find arguments, (a) -&gt; _.isFunction a
 
-		unless query? and callback? and query.length &gt;= 3
+		query = (
+			if query? then query.trim()
+			else &#x27;&#x27;
+		)
+
+		if query.length &lt; 3
 			callback null, []
 			return false
-
-		query = query.trim()
 
 		unless type? # Try both Teachers and Pupils
 			# best varname award goes to...
@@ -513,16 +518,12 @@ class root.Magister
 						else callback null, r.concat teachers
 			return b1 or b2
 
-		try
-			queryType = switch type
-				when &#x27;teacher&#x27; then &#x27;Personeel&#x27;
-				when &#x27;pupil&#x27; then &#x27;Leerling&#x27;
-				when &#x27;project&#x27; then &#x27;Project&#x27;
+		queryType = switch type
+			when &#x27;teacher&#x27; then &#x27;Personeel&#x27;
+			when &#x27;pupil&#x27; then &#x27;Leerling&#x27;
+			when &#x27;project&#x27; then &#x27;Project&#x27;
 
-				else &#x27;Overig&#x27;
-		catch e # parse error, most likely
-			callback e, null
-			return false
+			else &#x27;Overig&#x27;
 		url = &quot;#{@_personUrl}/contactpersonen?contactPersoonType=#{queryType}&amp;q=#{query.replace /\ +/g, &quot;+&quot;}&quot;
 
 		if (val = root.Magister._cachedPersons[&quot;#{@_id}#{type}#{query}&quot;])?
