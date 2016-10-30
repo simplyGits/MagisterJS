@@ -53,7 +53,7 @@ class MessageFolder extends MagisterThing {
 	 * 	@param {Number} [options.skip=0] The amount of messages in front of the
 	 * 	MessageFolder to skip.
 	 * 	@param {String} [options.readState='all'] One of: 'all', 'read', 'unread'.
-	 * 	@param {Boolean} [options.fill=true] Whether or not to call `fillMessage` on every message.
+	 * 	@param {Boolean} [options.fill=true] Whether or not to call `fill` on every message.
 	 * 	@param {Boolean} [options.fillPersons=false] Whether or not to download the users from the server. `options.fill` has to be true for this option to take effect.
 	 * @return {Promise<Object>} { messages: Message[], count: Number }
 	 */
@@ -78,7 +78,7 @@ class MessageFolder extends MagisterThing {
 			let promise
 			const messages = res.Items.map(m => new Message(this._magister, m))
 			if (fill) {
-				const promises = messages.map(m => m.fillMessage(fillPersons))
+				const promises = messages.map(m => m.fill(fillPersons))
 				promise = Promise.all(promises)
 			} else {
 				promise = messages

@@ -114,7 +114,7 @@ describe('Magister', function() {
 			})
 		})
 
-		it('should be able to mark appointments as ready', function () {
+		it('should be able to mark appointments as done', function () {
 			return m.appointments(new Date()).then(r => {
 				expect(r).to.be.a('array')
 				if (r[0] != null) {
@@ -141,7 +141,7 @@ describe('Magister', function() {
 			return m.createAppointment({
 				start: now,
 				end: new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1),
-				name: 'magister.js test appointment',
+				description: 'magister.js test appointment',
 			}).then(r => {
 				expect(r).to.be.an.instanceof(magisterjs.Appointment)
 				return r.remove()
@@ -153,17 +153,9 @@ describe('Magister', function() {
 		it('should correctly get courses', function () {
 			return m.courses()
 			.then(r => {
-				expect(r).to.be.an('aray')
-			})
-		})
-
-		it('should correctly get the current course', function () {
-			return Promise.all([
-				m.currentCourse(),
-				m.courses().then(r => r[0]),
-			]).then(([ curr, first ]) => {
-				if (curr !== undefined) {
-					expect(curr.id).to.equal(first.id)
+				expect(r).to.be.an('array')
+				for (const c of r) {
+					expect(c).to.be.an.instanceof(magisterjs.Course)
 				}
 			})
 		})
@@ -171,9 +163,10 @@ describe('Magister', function() {
 
 	describe('grade', function () {
 		it('should correctly get grades', function () {
-			return m.currentCourse()
-			.then(r => {
-				return r.grades({
+			return m.courses()
+			.then(res => res.find(c => c.current))
+			.then(c => {
+				return c.grades({
 					fillPersons: false,
 					fillGrade: false,
 					onlyRecent: false,
@@ -212,15 +205,13 @@ describe('Magister', function() {
 
 		it('should get persons', function () {
 			personPromise = m.persons(m.profileInfo.firstName)
-			.then(r => {
+			return personPromise.then(r => {
 				expect(r).to.be.an('array')
 				expect(r).to.not.be.empty
 
 				expect(r[0]).to.be.an.instanceof(magisterjs.Person)
 				expect(r[0].type).to.equal('person')
 			})
-
-			return personPromise
 		})
 
 		it('should convert types correctly', function () {
@@ -253,7 +244,13 @@ describe('Magister', function() {
 
 		it('should send messages', function () {
 			return personPromise
-			.then(p => m.composeAndSendMessage('magister.js mocha tests', body, [ p ]))
+			.then(p => {
+				const message = new magisterjs.Message(m)
+				message.subject = 'magister.js mocha tests'
+				message.body = body
+				message.addRecipient(p)
+				return message.send()
+			})
 			.then(r => {
 				expect(r).to.be.an.instanceof(magisterjs.Message)
 				expect(r.body).to.equal(body)

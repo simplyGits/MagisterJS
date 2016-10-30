@@ -15,36 +15,136 @@ class Appointment extends MagisterThing {
 	constructor(magister, raw) {
 		super(magister)
 
+		/**
+		 * @type String
+		 * @readonly
+		 */
 		this.id = raw.Id.toString()
+		/**
+		 * @type Date
+		 * @readonly
+		 */
 		this.start = util.parseDate(raw.Start)
+		/**
+		 * @type Date
+		 * @readonly
+		 */
 		this.end = util.parseDate(raw.Einde)
+		/**
+		 * @type Number
+		 * @readonly
+		 */
 		this.startBySchoolhour = raw.LesuurVan
+		/**
+		 * @type Number
+		 * @readonly
+		 */
 		this.endBySchoolhour = raw.LesuurTotMet
+		/**
+		 * @type Boolean
+		 * @readonly
+		 */
 		this.isFullDay = raw.DuurtHeleDag
+		/**
+		 * @type String
+		 * @readonly
+		 */
 		this.description = raw.Omschrijving || ''
+		/**
+		 * @type String
+		 * @readonly
+		 */
 		this.location = raw.Lokatie || ''
+		/**
+		 * @type String
+		 * @readonly
+		 */
 		this.status = raw.Status
+		/**
+		 * @type String
+		 * @readonly
+		 */
 		this.type = raw.Type
+		/**
+		 * @type String
+		 * @readonly
+		 */
 		this.displayType = raw.WeergaveType
+		/**
+		 * @type String
+		 * @readonly
+		 */
 		this.content = raw.Inhoud
+		/**
+		 * @type String
+		 * @readonly
+		 */
 		this.infoType = raw.InfoType
+		/**
+		 * @type String
+		 * @readonly
+		 */
 		this.annotation = raw.Aantekening
+		/**
+		 * @type Boolean
+		 * @readonly
+		 */
 		this.isDone = raw.Afgerond
+		/**
+		 * @type String[]
+		 * @readonly
+		 */
 		this.classes = raw.Vakken != null ? _.map(raw.Vakken, 'Naam') : [] // REVIEW: moeten we de key 'Naam' wel plucken?
+		/**
+		 * @type String[]
+		 * @readonly
+		 */
 		this.teachers = raw.Docenten != null ? _.map(raw.Docenten, p => new Person(magister, p)) : []
+		/**
+		 * @type String[]
+		 * @readonly
+		 */
 		this.classRooms = raw.Lokalen != null ? _.map(raw.Lokalen, 'Naam') : [] // REVIEW: moeten we de key 'Naam' wel plucken?
+		/**
+		 * @type String[]
+		 * @readonly
+		 */
 		this.groups = raw.Groepen // ?
-		this.appointmentId = raw.OpdrachtId
+		/**
+		 * @type String
+		 * @readonly
+		 */
+		this.appointmentId = raw.OpdrachtId // REVIEW
+		/**
+		 * @type Boolean
+		 * @readonly
+		 */
 		this.hasAttachments = raw.HeeftBijlagen // REVIEW: do we want this to be a public property?
+		/**
+		 * @type Boolean
+		 * @readonly
+		 */
 		this.isCancelled = [ 4, 5 ].includes(raw.Status)
+		/**
+		 * @type Boolean
+		 * @readonly
+		 */
 		this.isChanged = [ 3, 9, 10 ].includes(raw.Status)
+		/**
+		 * @type AbsenceInfo
+		 * @readonly
+		 */
 		this.absenceInfo = undefined
 
-		this._url = `${magister._personUrl}/afspraken/${this._id}`
+		/**
+		 * @type String
+		 * @private
+		 * @readonly
+		 */
+		this._url = `${magister._personUrl}/afspraken/${this.id}`
 	}
 
 	/**
-	 * @method attachments
 	 * @return {Promise<Error|File[]}>
 	 */
 	attachments() {
@@ -67,7 +167,6 @@ class Appointment extends MagisterThing {
 	}
 
 	/**
-	 * @method remove
 	 * @return {Promise<Error|undefined>}
 	 */
 	remove() {
@@ -80,7 +179,6 @@ class Appointment extends MagisterThing {
 	}
 
 	/**
-	 * @method saveChanges
 	 * @return {Promise<undefined>}
 	 */
 	saveChanges() {
@@ -89,7 +187,6 @@ class Appointment extends MagisterThing {
 	}
 
 	/**
-	 * @method _toMagister
 	 * @private
 	 * @return {Object}
 	 */

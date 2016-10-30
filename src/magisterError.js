@@ -8,6 +8,14 @@ class MagisterError extends Error {
 	constructor(raw) {
 		super(raw.Message || raw.message)
 	}
+
+	/**
+	 * @override
+	 * @return {String}
+	 */
+	toString() {
+		return 'MagisterError: ' + this.message
+	}
 }
 
 export default MagisterError

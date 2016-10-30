@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import MagisterThing from './magisterThing'
 import Appointment from './appointment'
-import * as util from './util'
+import { parseDate } from './util'
 
 /**
  * @extends MagisterThing
@@ -22,13 +22,45 @@ class AbsenceInfo extends MagisterThing {
 		 */
 		this._type = raw.Verantwoordingtype
 
+		/**
+		 * @type String
+		 * @readonly
+		 */
 		this.id = raw.Id.toString()
-		this.begin = util.parseDate(raw.Start)
-		this.end = util.parseDate(raw.Eind)
+		/**
+		 * @type Date
+		 * @readonly
+		 */
+		this.begin = parseDate(raw.Start)
+		/**
+		 * @type Date
+		 * @readonly
+		 */
+		this.end = parseDate(raw.Eind)
+		/**
+		 * @type Number
+		 * @readonly
+		 */
 		this.schoolHour = raw.Lesuur
-		this.permitted = raw.Geoorloofd
+		/**
+		 * @type Boolean
+		 * @readonly
+		 */
+		this.isPermitted = raw.Geoorloofd
+		/**
+		 * @type String
+		 * @readonly
+		 */
 		this.description = _.toString(raw.Omschrijving).trim()
+		/**
+		 * @type String
+		 * @readonly
+		 */
 		this.code = _.toString(raw.Code)
+		/**
+		 * @type Appointment
+		 * @readonly
+		 */
 		this.appointment = new Appointment(magister, raw.Afspraak) // REVIEW: do we want (and need) this?
 	}
 

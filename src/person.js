@@ -118,9 +118,30 @@ class Person extends MagisterThing {
 	 * @return {Object}
 	 */
 	toJSON() {
-		const obj = _.omit(this, [ '_magister' ])
-		obj.type = this.type()
+		const obj = _.omit(this, [ '_magister', '_filled' ])
+		obj.type = this.type // REVIEW: is this needed?
 		delete obj._type
+		return obj
+	}
+
+	/**
+	 * @private
+	 * @return {Object}
+	 */
+	_toMagister() {
+		const obj = {}
+
+		obj.Id = this.id
+		obj.Type = this._type
+		obj.Voornaam = this.firstName
+		obj.Achternaam = this.lastName
+		obj.Tussenvoegsel = this.namePrefix
+		obj.Naam = this.fullName
+		obj.Omschrijving = this.description
+		obj.Groep = this.group
+		obj.Docentcode = this.teacherCode
+		obj.Emailadres = this.emailAddress
+
 		return obj
 	}
 }

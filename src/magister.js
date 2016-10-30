@@ -6,7 +6,9 @@ import fetch from 'node-fetch'
 import AbsenceInfo from './absenceInfo'
 import Appointment from './appointment'
 import AuthError from './authError'
+import Course from './course'
 import Http from './http'
+import Message from './message'
 import MessageFolder from './messageFolder'
 import Person from './person'
 import Privileges from './privileges'
@@ -105,7 +107,91 @@ class Magister {
 	}
 
 	/**
-	 * @return {Promise<Error|MessageFolder[]>}
+	 * @return {Promise<Course>}
+	 */
+	courses() {
+		return this._privileges.needs('aanmeldingen', 'read')
+		.then(() => this.http.get(`${this._personUrl}/aanmeldingen`))
+		.then(res => res.json())
+		.then(res => res.Items.map(c => new Course(this, c)))
+		.then(items => _.sortBy(items, 'start'))
+	}
+
+	/**
+	 * @param {Object} options
+	 * 	@param {String} options.description The description of the appointment.
+	 * 	@param {Date} options.start The start of the appointment, time is
+	 * 	ignored when `options.fullDay` is set to true.
+	 * 	@param {Date} options.end The end of the appointment, this is ignored
+	 * 	when `options.fullDay` is set to true.
+	 * 	@param {Boolean} [options.fullDay=false] When this is true,
+	 * 	`options.end` is ignored and only `options.start` is used to set the
+	 * 	begin and the end for the appointment.
+	 * 	@param {String} [options.location] The location (classroom for example)
+	 * 	for the appointment.
+	 * 	@param {String} [options.content] Some arbitrary string you want to
+	 * 	save.
+	 * 	@param {Number} [options.type=1] The type of the appointment: 1 for
+	 * 	personal or 16 for planning
+	 */
+	createAppointment(options) {
+		const required = [ 'description', 'start', 'end' ]
+		for (const key of required) {
+			if (options[key] == null) {
+				const err = new Error(`Not all required fields for \`options\` are given, required are: [ ${required.join(', ')} ]`)
+				return Promise.reject(err)
+			}
+		}
+
+		if (options.fullDay) {
+			options.start = util.date(options.start)
+			options.end = new Date(options.start.getTime()) + 1000*60*60*24
+		}
+
+		const payload = {
+			Omschrijving: options.description,
+			Start: options.start.toJSON(),
+			Einde: options.end.toJSON(),
+
+			Lokatie: options.location || '',
+			Inhoud: (function () {
+				const content = (options.content || '').trim()
+				return content.length > 0 ? _.escape(content) : null
+			})(),
+			Type: options.type || 1,
+			DuurtHeleDag: options.fullDay || false,
+
+			// Static non-configurable stuff.
+			InfoType: 0,
+			WeergaveType: 1,
+			Status: 2,
+			HeeftBijlagen: false,
+			Bijlagen: null,
+			LesuurVan: null,
+			LesuurTotMet: null,
+			Aantekening: null,
+			Afgerond: false,
+			Vakken: null,
+			Docenten: null,
+			Links: null,
+			Id: 0,
+			Lokalen: null,
+			Groepen: null,
+			OpdrachtId: 0,
+		}
+
+		return this._privileges.needs('afspraken', 'create')
+		.then(() => this.http.post(`${this._personUrl}/afspraken`, payload))
+		.then(res => res.json())
+		.then(res => {
+			const appointment = new Appointment(this, payload)
+			appointment._url = this.school.url + res.Url
+			return appointment
+		})
+	}
+
+	/**
+	 * @return {Promise<MessageFolder[]>}
 	 */
 	messageFolders() {
 		return this._privileges.needs('berichten', 'read')
@@ -215,6 +301,7 @@ class Magister {
 }
 
 /**
+ * Create a new Magister object using `options`.
  * @param {Object} options
  * 	@param {School} options.school The school to login to.
  * 	@param {String} [options.username] The username of the user to login to.
@@ -222,7 +309,7 @@ class Magister {
  * 	@param {String} [options.sessionId] The sessionId to use. (instead of the username and password)
  * 	@param {Boolean} [options.keepLoggedIn=true] Whether or not to keep the user logged in.
  * 	@param {Boolean} [options.login=true] Whether or not to call `Magister#login` before returning the object.
- * @return {Promise<Error|Magister>}
+ * @return {Promise<Magister>}
  */
 export default function magister (options) {
 	_.defaults(options, {
@@ -248,8 +335,9 @@ export default function magister (options) {
 }
 
 /**
+ * Get the schools matching `query`.
  * @param {String} query
- * @return {Promise<Error|School[]>}
+ * @return {Promise<School[]>}
  */
 export function getSchools (query) {
 	query = query.replace(/\d/g, '')
@@ -276,7 +364,9 @@ export {
 	AddressInfo,
 	Appointment,
 	AuthError,
+	Course,
 	Magister,
+	Message,
 	MessageFolder,
 	Person,
 	Privileges,

@@ -97,23 +97,22 @@ class Http {
 			// try to get an useful error out of the response
 			let err
 			try {
-				err = new MagisterError(JSON.parse(text))
+				const parsed = JSON.parse(text)
+
+				if ('SecondsLeft' in parsed) {
+					// Handle rate limit errors
+					this._setRatelimitTime(Number.parseInt(parsed.SecondsLeft, 10))
+					return this._enqueue(request)
+				} else {
+					// Other errors we could parse
+					err = new MagisterError(parsed)
+				}
+
 			} catch (e) {
+				// Some unparseable error
 				err = res
 			}
 
-			throw err
-		})
-		.catch(err => {
-			// Handle rate limit errors
-			if ('SecondsLeft' in err) {
-				const secondsLeft = Number.parseInt(err.SecondsLeft, 10)
-
-				this._setRatelimitTime(secondsLeft)
-				return this._enqueue(request)
-			}
-
-			// Error wasn't a ratelimit, pass it through
 			throw err
 		})
 	}
