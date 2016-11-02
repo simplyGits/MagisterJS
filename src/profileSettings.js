@@ -12,13 +12,26 @@ class ProfileSettings extends MagisterThing {
 	constructor(magister, raw) {
 		super(magister)
 
+		/**
+		 * @type Boolean
+		 * @readonly
+		 */
 		this.redirectMagisterMessages = raw.EloBerichtenDoorsturen
+		/**
+		 * @type String
+		 * @readonly
+		 */
 		this.emailAddress = raw.EmailAdres
+		/**
+		 * @type String
+		 * @readonly
+		 */
 		this.mobileNumber = raw.Mobiel
 	}
 
 	/**
-	 * @method saveChanges
+	 * Update the server to reflect the changes made on the properties of this
+	 * ProfileSettings instance.
 	 * @return {Promise<Error|undefined>}
 	 */
 	saveChanges() {

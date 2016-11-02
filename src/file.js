@@ -71,6 +71,11 @@ class File extends MagisterThing {
 		.then(() => undefined) // throw away the useless result from magister. (current object)
 	}
 
+	/**
+	 * Update the server to reflect the changes made on the properties of this
+	 * File instance.
+	 * @return {Promise<undefined>}
+	 */
 	saveChanges() {
 
 	}

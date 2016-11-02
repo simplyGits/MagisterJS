@@ -179,6 +179,8 @@ class Appointment extends MagisterThing {
 	}
 
 	/**
+	 * Update the server to reflect the changes made on the properties of this
+	 * Appointment instance.
 	 * @return {Promise<undefined>}
 	 */
 	saveChanges() {

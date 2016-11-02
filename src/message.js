@@ -212,6 +212,8 @@ class Message extends MagisterThing {
 	}
 
 	/**
+	 * Update the server to reflect the changes made on the properties of this
+	 * Message instance.
 	 * @return {Promise<undefined>}
 	 */
 	saveChanges() {
