@@ -1,8 +1,10 @@
 'use strict'
 
-import { expect } from 'chai'
+import chai, { expect } from 'chai'
 import magister, * as magisterjs from '../src/magister'
 import * as util from '../src/util'
+
+chai.use(require('chai-stream'))
 
 let options = { school: {} }
 try {
@@ -157,6 +159,32 @@ describe('Magister', function() {
 				for (const c of r) {
 					expect(c).to.be.an.instanceof(magisterjs.Course)
 				}
+			})
+		})
+	})
+
+	describe('file', function () {
+		it('should download files', function () {
+			return m.fileFolders()
+			.then(folders => {
+				expect(folders).to.be.an('array')
+				for (const f of folders) {
+					expect(f).to.be.an.instanceof(magisterjs.FileFolder)
+				}
+
+				return folders[0].files()
+			})
+			.then(files => {
+				expect(files).to.be.an('array')
+				for (const f of files) {
+					expect(f).to.be.an.instanceof(magisterjs.File)
+				}
+
+				return files[0].download()
+			})
+			.then(stream => {
+				expect(stream).to.be.a.ReadableStream
+				return expect(stream).to.end
 			})
 		})
 	})
