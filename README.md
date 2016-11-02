@@ -8,7 +8,8 @@
 ==========
 
 [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/simplyGits/MagisterJS?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![NPM](https://nodei.co/npm/magister.js.png?mini=true)](https://nodei.co/npm/magister.js/)
+[![npm version](https://badge.fury.io/js/magister.js.svg)](https://badge.fury.io/js/magister.js)
+<a href="https://snyk.io/test/github/simplyGits/MagisterJS"><img src="https://snyk.io/test/github/simplyGits/MagisterJS/badge.svg" alt="Known Vulnerabilities" data-canonical-src="https://snyk.io/test/github/simplyGits/MagisterJS" style="max-width:100%;"></a>
 
 A JavaScript implementation of the [Magister 6](http://magister6.nl/) API.
 
