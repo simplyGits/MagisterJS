@@ -240,25 +240,27 @@ describe('Magister', function() {
 
 	describe('message', function () {
 		const body = Date.now().toString()
-		let messagePromise
+		let messageSentPromise
+		let messageRetrievedPromise
 
 		it('should send messages', function () {
-			return personPromise
-			.then(p => {
+			messageSentPromise = personPromise.then(p => {
 				const message = new magisterjs.Message(m)
 				message.subject = 'magister.js mocha tests'
 				message.body = body
 				message.addRecipient(p)
 				return message.send()
 			})
-			.then(r => {
+
+			return messageSentPromise.then(r => {
 				expect(r).to.be.an.instanceof(magisterjs.Message)
 				expect(r.body).to.equal(body)
 			})
 		})
 
 		it('should retrieve messages', function () {
-			messagePromise = m.messageFolders()
+			messageRetrievedPromise = messageSentPromise
+			.then(() => m.messageFolders())
 			.then(r => r.find(f => f.type === 'inbox'))
 			.then(f => f.messages({
 				limit: 1,
@@ -268,21 +270,30 @@ describe('Magister', function() {
 				fill: true,
 			}))
 			.then(r => {
-				expect(r).to.be.a('array')
-				expect(r).to.not.be.empty
+				expect(r).to.be.an('object')
 
-				expect(r[0]).to.be.an.instanceof(magisterjs.Message)
-				expect(r[0].body).to.equal(body)
+				expect(r.count).to.be.a('number')
+				expect(r.messages).to.be.an('array')
 
-				return r[0]
+				expect(r.messages).to.not.be.empty
+				expect(r.messages[0]).to.be.an.instanceof(magisterjs.Message)
+				expect(r.messages[0].body).to.equal(body)
+
+				return r.messages[0]
 			})
 
-			return messagePromise
+			return messageRetrievedPromise
+		})
+
+		it('should be able to mark messages as read', function () {
+			return messageRetrievedPromise.then(m => {
+				m.isRead = true
+				return m.saveChanges()
+			})
 		})
 
 		it('should be able to remove messages', function () {
-			return messagePromise
-			.then(m => m.remove())
+			return messageRetrievedPromise.then(m => m.remove())
 		})
 	})
 })

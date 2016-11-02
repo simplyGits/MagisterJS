@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import MagisterThing from './magisterThing'
 import Person from './person'
+import File from './file'
 import { cleanHtmlContent, parseDate } from './util'
 
 /**
@@ -51,7 +52,7 @@ class Message extends MagisterThing {
 			this._canSend = false
 			this._type = raw.Soort
 			this.subject = raw.Onderwerp
-			this.body = cleanHtmlContent(raw.Inhoud)
+			this.body = cleanHtmlContent(raw.Inhoud) // REVIEW
 			this.recipients = raw.Ontvangers.map(p => new Person(magister, p))
 
 			/**
@@ -99,6 +100,22 @@ class Message extends MagisterThing {
 			 * @readonly
 			 */
 			this.isFlagged = raw.HeeftPrioriteit
+
+			// REVIEW: do we want this comment?
+			/**
+			 * `this.fill()` required
+			 * @type File[]
+			 * @readonly
+			 * @default undefined
+			 */
+			this.attachments = undefined
+
+			/**
+			 * @type String
+			 * @private
+			 * @readonly
+			 */
+			this._url = `${magister._personUrl}/berichten/${this.id}`
 		}
 	}
 
@@ -139,7 +156,37 @@ class Message extends MagisterThing {
 			return Promise.resolve(this)
 		}
 
-		return this._magister.http.get()
+		const url = `${this._magister._personUrl}/berichten/${this.id}?berichtSoort=${this._type}`
+		return this._magister.http.get(url)
+		.then(res => res.json())
+		.then(res => {
+			this.body = cleanHtmlContent(res.Inhoud) // REVIEW
+			this.attachments = (res.Bijlagen || []).map(a => new File(this._magister, undefined, a))
+
+			if (fillPersons) {
+				let promises = []
+
+				promises.push(
+					this.sender.getFilled()
+					.then(r => this.sender = r)
+					.catch(() => this.sender)
+				)
+
+				promises = promises.concat(
+					this.recipients.map(r => {
+						return r.getFilled()
+						.then(x => x)
+						.catch(() => r)
+					})
+				)
+
+				return Promise.all(promises)
+			}
+		})
+		.then(() => {
+			this._filled = true
+			return this
+		})
 	}
 
 	// REVIEW
@@ -156,19 +203,20 @@ class Message extends MagisterThing {
 		return this.saveChanges()
 	}
 
-	// REVIEW
-	markRead(val) {
-		this.isRead = val
-		return this.saveChanges()
-	}
-
 	/**
 	 * @return {Promise<Error|undefined>}
 	 */
 	remove() {
-		const url = `${this._magister._personUrl}/berichten/${this.id}`
 		return this._magister._privileges.needs('berichten', 'delete')
-		.then(() => this._magister.http.delete(url))
+		.then(() => this._magister.http.delete(this._url))
+	}
+
+	/**
+	 * @return {Promise<undefined>}
+	 */
+	saveChanges() {
+		return this._magister._privileges.needs('berichten', 'update')
+		.then(() => this._magister.http.put(this._url, this._toMagister()))
 	}
 
 	/**
