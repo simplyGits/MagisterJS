@@ -98,11 +98,11 @@ class Magister {
 			}
 
 			const promises = appointments.map(a => {
-				Promise.all(a.teachers.map(t => t.getFilled('teacher')))
+				return Promise.all(a.teachers.map(t => t.getFilled('teacher')))
 				.then(teachers => a.teachers = teachers)
 				.then(() => a)
 			})
-			return Promise.await(promises)
+			return Promise.all(promises)
 		})
 	}
 
