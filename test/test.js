@@ -193,13 +193,11 @@ describe('Magister', function() {
 		it('should correctly get grades', function () {
 			return m.courses()
 			.then(res => res.find(c => c.current))
-			.then(c => {
-				return c.grades({
-					fillPersons: false,
-					fillGrade: false,
-					onlyRecent: false,
-				})
-			})
+			.then(c => c.grades({
+				fillPersons: false,
+				fillGrade: false,
+				onlyRecent: false,
+			}))
 			.then(r => {
 				expect(r).to.be.a('array')
 

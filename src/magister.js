@@ -321,16 +321,14 @@ export default function magister (options) {
 		login: true,
 	})
 
-	if (!
-		(options.school &&
-		(options.sessionId || (options.username && options.password)))
-	) {
-		return Promise.reject(new Error('school, username&password or sessionId are required.'))
+	if (!(
+		options.school &&
+		(options.sessionId || (options.username && options.password))
+	)) {
+		return Promise.reject(new Error('school and username&password or sessionId are required.'))
 	}
 
-	const http = new Http()
-
-	const m = new Magister(options, options.school, http)
+	const m = new Magister(options, options.school, new Http())
 	if (options.login) {
 		return m.login().then(() => m)
 	} else {

@@ -249,22 +249,20 @@ class Message extends MagisterThing {
 	 * @return {Object}
 	 */
 	_toMagister() {
-		const obj = {}
-
-		obj.Id = this.id
-		obj.Inhoud = this.body
-		obj.MapId = this.folderId // number?
-		obj.Onderwerp = this.subject
-		obj.Ontvangers = this.recipients.map(p => p._toMagister())
-		obj.VerstuurdOp = this.sendDate || new Date()
-		obj.Begin = this.begin
-		obj.Einde = this.end
-		obj.IsGelezen = this.isRead
-		obj.Status = this.state
-		obj.HeeftPrioriteit = this.isFlagged
-		obj.Soort = this._type
-
-		return obj
+		return {
+			Id: this.id,
+			Inhoud: this.body,
+			MapId: this.folderId, // number?
+			Onderwerp: this.subject,
+			Ontvangers: this.recipients.map(p => p._toMagister()),
+			VerstuurdOp: this.sendDate || new Date(),
+			Begin: this.begin,
+			Einde: this.end,
+			IsGelezen: this.isRead,
+			Status: this.state,
+			HeeftPrioriteit: this.isFlagged,
+			Soort: this._type,
+		}
 	}
 }
 
