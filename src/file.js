@@ -95,13 +95,6 @@ class File extends MagisterThing {
 		 */
 		this.referenceId = util.toString(raw.Referentie)
 
-		/**
-		 * @type String
-		 * @readonly
-		 * @private
-		 */
-		this._downloadUrl = undefined
-
 		const fullUrl = url => {
 			url = url.Href
 			return /^https?/.test(url) ? url : magister.school.url + url
@@ -113,11 +106,13 @@ class File extends MagisterThing {
 		/**
 		 * @type String
 		 * @readonly
+		 * @private
 		 */
 		this._selfUrl = fullUrl(selfUrl)
 		/**
 		 * @type String
 		 * @readonly
+		 * @private
 		 */
 		this._downloadUrl = fullUrl(contentUrl || selfUrl)
 	}
