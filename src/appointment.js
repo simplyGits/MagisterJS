@@ -186,6 +186,7 @@ class Appointment extends MagisterThing {
 	saveChanges() {
 		return this._magister._privileges.needs('afspraken', 'update')
 		.then(() => this._magister.http.put(this._url, this._toMagister()))
+		.then(() => undefined)
 	}
 
 	/**

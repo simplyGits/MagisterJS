@@ -39,6 +39,7 @@ class ProfileSettings extends MagisterThing {
 
 		return this._magister._privileges.needs('profiel', 'update')
 		.then(() => this._magister.http.put(url, this._toMagister()))
+		.then(() => undefined)
 	}
 }
 
