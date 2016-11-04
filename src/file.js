@@ -1,3 +1,4 @@
+import url from 'url'
 import _ from 'lodash'
 import MagisterThing from './magisterThing'
 import Person from './person'
@@ -95,26 +96,22 @@ class File extends MagisterThing {
 		 */
 		this.referenceId = util.toString(raw.Referentie)
 
-		const fullUrl = url => {
-			url = url.Href
-			return /^https?/.test(url) ? url : magister.school.url + url
-		}
-
 		const selfUrl = _.find(raw.Links, { Rel: 'Self' })
 		const contentUrl = _.find(raw.Links, { Rel: 'Contents' })
+		const getUrl = link => url.resolve(magister.school.url, link.Href)
 
 		/**
 		 * @type String
 		 * @readonly
 		 * @private
 		 */
-		this._selfUrl = fullUrl(selfUrl)
+		this._selfUrl = getUrl(selfUrl)
 		/**
 		 * @type String
 		 * @readonly
 		 * @private
 		 */
-		this._downloadUrl = fullUrl(contentUrl || selfUrl)
+		this._downloadUrl = getUrl(contentUrl || selfUrl)
 	}
 
 	/**
