@@ -2,6 +2,7 @@
 
 import _ from 'lodash'
 import fetch from 'node-fetch'
+import url from 'url'
 
 import AbsenceInfo from './absenceInfo'
 import Appointment from './appointment'
@@ -32,6 +33,9 @@ class Magister {
 	 * @param {Http} http
 	 */
 	constructor(options, school, http) {
+		const info = url.parse(school.url)
+		school.url = `https://${info.host}`
+
 		this._options = options
 		this.school = _.extend(new School({}), school)
 		this.http = http
@@ -249,7 +253,7 @@ class Magister {
 		}
 
 		const options = this._options
-		const baseUrl = this.school.url.replace(/^https?/, 'https')
+		const baseUrl = this.school.url
 		const deleteUrl = `${baseUrl}/api/sessies/huidige`
 		const postUrl = `${baseUrl}/api/sessies`
 
