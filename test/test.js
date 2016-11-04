@@ -11,7 +11,7 @@ try {
 	options = require('./options.json')
 } catch (e) { // For Travis CI we use environment variables.
 	options.school.url = process.env.TEST_SCHOOLURL
-	options.userName = process.env.TEST_USERNAME
+	options.username = process.env.TEST_USERNAME
 	options.password = process.env.TEST_PASSWORD
 }
 if (!options.school.url || !options.username || !options.password) {
