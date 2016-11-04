@@ -41,6 +41,18 @@ class ProfileSettings extends MagisterThing {
 		.then(() => this._magister.http.put(url, this._toMagister()))
 		.then(() => undefined)
 	}
+
+	/**
+	 * @private
+	 * @return {Object}
+	 */
+	_toMagister() {
+		return {
+			EloBerichtenDoorsturen: this.redirectMagisterMessages,
+			EmailAdres: this.emailAddress,
+			Mobiel: this.mobileNumber,
+		}
+	}
 }
 
 export default ProfileSettings
