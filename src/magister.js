@@ -59,8 +59,9 @@ class Magister {
 		} = _.find(arguments, _.isPlainObject) || {}
 
 		// extract dates
-		let [ from, to ] = _(arguments).filter(_.isDate).sortBy().value()
-		to = to || from
+		const dates = _(arguments).filter(_.isDate).sortBy().value()
+		const from = dates[0]
+		const to = dates[1] || dates[0]
 
 		const fromUrl = util.urlDateConvert(from)
 		const toUrl = util.urlDateConvert(to)

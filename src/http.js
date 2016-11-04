@@ -1,5 +1,4 @@
 import fetch from 'node-fetch'
-import _ from 'lodash'
 import MagisterError from './magisterError'
 
 /**

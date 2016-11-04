@@ -46,8 +46,8 @@ describe('Magister', function() {
 					return Promise.resolve()
 				} else {
 					return {
-						then: function () {},
-						catch: function () {},
+						then: function () {}, // eslint-disable-line no-empty-function
+						catch: function () {}, // eslint-disable-line no-empty-function
 					}
 				}
 			}
