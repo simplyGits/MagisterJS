@@ -245,10 +245,11 @@ class Magister {
 
 	/**
 	 * Logins to Magister.
-	 * @param {Boolean} [forceNew=false]
+	 * @param {Boolean} [forceLogin=false] Force a login, even when a session id
+	 * is in the options object.
 	 * @return {Promise<String>} A promise that resolves when done logging in. With the current session ID as parameter.
 	 */
-	login(forceNew = false) {
+	login(forceLogin = false) {
 		const setSessionId = sessionId => {
 			const cookie = `SESSION_ID=${sessionId}; M6UserName=${this._options.username}`
 			this.http._cookie = cookie
@@ -261,7 +262,7 @@ class Magister {
 		const postUrl = `${baseUrl}/api/sessies`
 
 		let promise
-		if (!forceNew && options.sessionId) {
+		if (!forceLogin && options.sessionId) {
 			promise = Promise.resolve(options.sessionId)
 		} else {
 			// delete the current session
