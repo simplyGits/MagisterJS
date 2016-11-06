@@ -56,7 +56,7 @@ class Message extends MagisterThing {
 			this._canSend = false
 			this._type = raw.Soort
 			this.subject = raw.Onderwerp
-			this.body = cleanHtmlContent(raw.Inhoud) // REVIEW
+			this.body = undefined
 			this.recipients = raw.Ontvangers.map(p => new Person(magister, p))
 
 			/**
@@ -164,7 +164,7 @@ class Message extends MagisterThing {
 		return this._magister.http.get(url)
 		.then(res => res.json())
 		.then(res => {
-			this.body = cleanHtmlContent(res.Inhoud) // REVIEW
+			this.body = cleanHtmlContent(res.Inhoud)
 			this.attachments = (res.Bijlagen || []).map(a => new File(this._magister, undefined, a))
 
 			if (fillPersons) {
