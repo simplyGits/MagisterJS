@@ -34,6 +34,9 @@ class Magister {
 	 */
 	constructor(options, school, http) {
 		const info = url.parse(school.url)
+		if (!info.host) {
+			throw new Error('`school.url` is not a correct URL')
+		}
 		school.url = `https://${info.host}`
 
 		this._options = options
@@ -328,12 +331,14 @@ export default function magister (options) {
 		return Promise.reject(new Error('school and username&password or sessionId are required.'))
 	}
 
-	const m = new Magister(options, options.school, new Http())
-	if (options.login) {
-		return m.login().then(() => m)
-	} else {
-		return Promise.resolve(m)
-	}
+	return Promise.resolve().then(() => {
+		const m = new Magister(options, options.school, new Http())
+		if (options.login) {
+			return m.login().then(() => m)
+		} else {
+			return m
+		}
+	})
 }
 
 /**
