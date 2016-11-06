@@ -93,9 +93,7 @@ class Magister {
 				a.absenceInfo = absences.find(i => i.appointment.id === a.id)
 			}
 
-			return _(appointments)
-			.sortBy('start')
-			.value()
+			return appointments
 		})
 		.then(appointments => {
 			if (!fillPersons) {
@@ -109,6 +107,7 @@ class Magister {
 			})
 			return Promise.all(promises)
 		})
+		.then(appointments => _.sortBy(appointments, 'start'))
 	}
 
 	/**

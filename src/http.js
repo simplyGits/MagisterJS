@@ -40,7 +40,7 @@ class Http {
 		}
 
 		info.timeoutId = setInterval(() => {
-			for (const info of this._ratelimit.queue) {
+			for (const info of info.queue) {
 				fetch(info.request).then(info.resolve, info.reject)
 			}
 

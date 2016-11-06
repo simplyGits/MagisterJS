@@ -36,6 +36,10 @@ class Message extends MagisterThing {
 		 */
 		this.subject = ''
 		/**
+		 * If creating a message, this will be an empty string per default.
+		 * When retrieving a message from Magister, this will be `undefined` per
+		 * default, you should use `Message#fill` to get the body.
+		 *
 		 * @type String
 		 * @readonly
 		 * @default ''
@@ -101,9 +105,9 @@ class Message extends MagisterThing {
 			 */
 			this.isFlagged = raw.HeeftPrioriteit
 
-			// REVIEW: do we want this comment?
 			/**
-			 * `this.fill()` required
+			 * This will be `undefined` per default, a fill using `Message#fill`
+			 * is required to retrieve the attachments for this Message.
 			 * @type File[]
 			 * @readonly
 			 * @default undefined
