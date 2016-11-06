@@ -104,6 +104,11 @@ class Message extends MagisterThing {
 			 * @readonly
 			 */
 			this.isFlagged = raw.HeeftPrioriteit
+			/**
+			 * @type String
+			 * @readonly
+			 */
+			this.summary = cleanHtmlContent(raw.IngekortBericht)
 
 			/**
 			 * This will be `undefined` per default, a fill using `Message#fill`
