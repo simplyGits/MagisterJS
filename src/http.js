@@ -23,7 +23,7 @@ class Http {
 	_enqueue(request) {
 		return new Promise((resolve, reject) => {
 			this._ratelimit.queue.push({
-				...request,
+				request,
 				resolve,
 				reject,
 			})
