@@ -76,6 +76,8 @@ class root.Magister
 					@_reLogin options.sessionId if options.login
 		else
 			@magisterSchool = _.extend new root.MagisterSchool, @magisterSchool
+			unless @magisterSchool.url? and @magisterSchool.url.search(/https?:\/\//) is 0
+				throw new Error "Invalid url given: '#{@magisterSchool.url}'"
 			@_reLogin options.sessionId if options.login
 
 	###*
