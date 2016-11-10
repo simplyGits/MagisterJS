@@ -119,7 +119,7 @@ class Http {
 	/**
 	 * Gets the content at `url`
 	 * @param {String} url
-	 * @return {Promise<Response>} A promise that resolves to the content of `url`.
+	 * @return {Promise<Response>}
 	 */
 	get(url) {
 		return this._request({

@@ -279,10 +279,10 @@ class Magister {
 			})
 			.then(r => /[a-z\d-]+/.exec(r.headers.get('set-cookie'))[0])
 			.catch(err => {
-				throw _.includes([
+				throw [
 					'Ongeldig account of verkeerde combinatie van gebruikersnaam en wachtwoord. Probeer het nog eens of neem contact op met de applicatiebeheerder van de school.',
 					'Je gebruikersnaam en/of wachtwoord is niet correct.',
-				], err.message) ?
+				].includes(err.message) ?
 				new AuthError(err.message) :
 				err
 			})
@@ -324,21 +324,20 @@ export default function magister (options) {
 		keepLoggedIn: true,
 		login: true,
 	})
+	const rej = s => Promise.reject(new Error(s))
 
 	if (!(
 		options.school &&
 		(options.sessionId || (options.username && options.password))
 	)) {
-		return Promise.reject(new Error('school and username&password or sessionId are required.'))
+		return rej('school and username&password or sessionId are required.')
 	}
 
 	return Promise.resolve().then(() => {
 		const m = new Magister(options, options.school, new Http())
-		if (options.login) {
-			return m.login().then(() => m)
-		} else {
-			return m
-		}
+		return options.login ?
+			m.login().then(() => m) :
+			m
 	})
 }
 
