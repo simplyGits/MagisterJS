@@ -34,8 +34,8 @@ class Magister {
 	 */
 	constructor(options, school, http) {
 		const info = url.parse(school.url)
-		if (!info.host) {
-			throw new Error('`school.url` is not a correct URL')
+		if (!/^[a-z]+\.magister\.net$/.test(info.host)) {
+			throw new Error('`school.url` is not a correct magister url')
 		}
 		school.url = `https://${info.host}`
 
