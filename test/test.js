@@ -5,6 +5,7 @@ import magister, * as magisterjs from '../src/magister'
 import * as util from '../src/util'
 
 chai.use(require('chai-stream'))
+chai.use(require('chai-as-promised'))
 
 let options = { school: {} }
 try {
@@ -54,6 +55,24 @@ describe('Magister', function() {
 
 			m = obj
 		})
+	})
+
+	it('should check if given school url is correct', function () {
+		return expect(magister({
+			school: {
+				url: 'adelbert',
+			},
+			username: 'xxx',
+			password: 'xxx',
+		})).to.be.rejectedWith(/correct magister url/)
+	})
+
+	it('should throw an AuthError when an authentication error occurs', function () {
+		return expect(magister({
+			...options,
+			username: 'xxx',
+			password: 'xxx',
+		})).to.be.rejectedWith(magisterjs.AuthError)
 	})
 
 	it('should expose an correct Magister object', function () {
