@@ -333,6 +333,12 @@ export default function magister (options) {
 		return rej('school and username&password or sessionId are required.')
 	}
 
+	if (!_.isObject(options.school)) {
+		return rej('school is not an object')
+	} else if (!_.isString(options.school.url)) {
+		return rej('`school.url` is not a string')
+	}
+
 	return Promise.resolve().then(() => {
 		const m = new Magister(options, options.school, new Http())
 		return options.login ?
