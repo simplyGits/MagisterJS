@@ -111,9 +111,11 @@ class root.Grade
 	# 	@param [callback.result] {Grade} The current grade filled with the newely downloaded info.
 	###
 	fillGrade: (callback) ->
-		unless @_filled
+		if @_filled then callback null, this
+		else
 			@_magisterObj.http.get @_columnUrl, {}, (error, result) =>
-				if error? then callback? error, null
+				if error?
+					callback error, null
 				else
 					result = JSON.parse(result.content)
 					@_testDate = root._helpers.parseDate result.WerkinformatieDatumIngevoerd
@@ -126,8 +128,7 @@ class root.Grade
 					@_type._description = result.KolomOmschrijving ? ""
 
 					@_filled = yes
-					callback? null, this
-		else callback? null, this
+					callback null, this
 
 	@_convertRaw: (magisterObj, raw) ->
 		obj = new root.Grade magisterObj
