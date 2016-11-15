@@ -194,6 +194,7 @@ class root.Course
 
 		callback = _.find(arguments, (a) -> _.isFunction a)
 		throw new Error "Callback can't be null" unless callback?
+		callback = _.once callback
 
 		fillPersons ?= no
 		fillGrade ?= yes
