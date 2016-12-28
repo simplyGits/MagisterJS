@@ -101,8 +101,8 @@ class ProfileInfo extends MagisterThing {
 		 * @type String
 		 */
 		this.fullName = this.useBirthname ?
-			`${this.officialFirstNames} ${this.birthSurname}` :
-			`${this.firstName} ${this.lastName}`
+			`${this.officialFirstNames} ${this.birthNamePrefix} ${this.birthSurname}` :
+			`${this.firstName} ${this.namePrefix} ${this.lastName}`
 	}
 
 	/**
