@@ -74,12 +74,12 @@ class root.ProfileInfo
 		###
 		@lastName = root._getset "_lastName"
 		###*
-		# Equal to firstName() + " " + lastName()
+		# Equal to firstName() + ' ' + namePrefix() + ' ' + lastName()
 		# @property fullName
 		# @final
 		# @type String
 		###
-		@fullName = -> @firstName() + " " + @lastName()
+		@fullName = -> "#{@firstName()} #{@namePrefix()} #{@lastName()}"
 		###*
 		# @property birthDate
 		# @final
