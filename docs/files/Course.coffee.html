@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.22.0</em>
+            <em>API Docs for: 1.23.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -298,6 +298,7 @@ class root.Course
 
 		callback = _.find(arguments, (a) -&gt; _.isFunction a)
 		throw new Error &quot;Callback can&#x27;t be null&quot; unless callback?
+		callback = _.once callback
 
 		fillPersons ?= no
 		fillGrade ?= yes

@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.22.0</em>
+            <em>API Docs for: 1.23.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -118,7 +118,7 @@ else
 # @final
 # @type String
 ###
-root.VERSION = &quot;1.22.0&quot;
+root.VERSION = &quot;1.23.0&quot;
 
 ###*
 # A JavaScript implementation of the Magister 6 API.
@@ -180,6 +180,8 @@ class root.Magister
 					@_reLogin options.sessionId if options.login
 		else
 			@magisterSchool = _.extend new root.MagisterSchool, @magisterSchool
+			unless @magisterSchool.url? and @magisterSchool.url.search(/https?:\/\//) is 0
+				throw new Error &quot;Invalid url given: &#x27;#{@magisterSchool.url}&#x27;&quot;
 			@_reLogin options.sessionId if options.login
 
 	###*

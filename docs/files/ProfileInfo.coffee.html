@@ -17,7 +17,7 @@
                 <h1><img src="http://i.imgur.com/Lrg80ax.png" title="Magister.js Docs"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.22.0</em>
+            <em>API Docs for: 1.23.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -178,12 +178,12 @@ class root.ProfileInfo
 		###
 		@lastName = root._getset &quot;_lastName&quot;
 		###*
-		# Equal to firstName() + &quot; &quot; + lastName()
+		# Equal to firstName() + &#x27; &#x27; + namePrefix() + &#x27; &#x27; + lastName()
 		# @property fullName
 		# @final
 		# @type String
 		###
-		@fullName = -&gt; @firstName() + &quot; &quot; + @lastName()
+		@fullName = -&gt; &quot;#{@firstName()} #{@namePrefix()} #{@lastName()}&quot;
 		###*
 		# @property birthDate
 		# @final
