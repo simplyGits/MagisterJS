@@ -95,16 +95,19 @@ class ProfileInfo extends MagisterThing {
 	}
 
 	/**
-	 * Get the URL for the profile picture of the current user with the given
+	 * Opens a stream to the profile picture of the current user with the given
 	 * options.
 	 *
 	 * @param {Number} [width=640] The width of the picture.
 	 * @param {Number} [height=640] The height of the picture.
 	 * @param {Boolean} [crop=false] Whether or not to crop the image.
-	 * @return {String} The URL to the picture, including the given options.
+	 * @return {Promise<Stream>}
 	 */
-	getProfilePictureUrl(width = 640, height = 640, crop = false) {
-		return `${this._magister._personUrl}/foto?width=${width}&height=${height}&crop=${crop}`
+	getProfilePicture(width = 640, height = 640, crop = false) {
+		const url = `${this._magister._personUrl}/foto?width=${width}&height=${height}&crop=${crop}`
+
+		return this._magister.get(url)
+		.then(res => res.body)
 	}
 
 	/**

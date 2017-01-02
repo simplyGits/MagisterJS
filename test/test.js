@@ -106,7 +106,14 @@ describe('Magister', function() {
 	describe('profileInfo', function () {
 		it('should correctly fetch profileInfo', function () {
 			expect(m.profileInfo).to.be.an.instanceof(magisterjs.ProfileInfo)
-			expect(m.profileInfo.getProfilePictureUrl()).to.be.a('string')
+		})
+
+		it('should correctly fetch the profile picture', function () {
+			return m.profileInfo.getProfilePicture()
+			.then(stream => {
+				expect(stream).to.be.a.ReadableStream
+				return expect(stream).to.end
+			})
 		})
 
 		it('should fetch address info', function () {
