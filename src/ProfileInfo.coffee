@@ -80,7 +80,7 @@ class root.ProfileInfo
 		# @type String
 		###
 		@fullName = ->
-			if @namePrefix() == null
+			if @namePrefix() is null
 				"#{@firstName()} #{@lastName()}"
 			else
 				"#{@firstName()} #{@namePrefix()} #{@lastName()}"
