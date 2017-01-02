@@ -79,7 +79,11 @@ class root.ProfileInfo
 		# @final
 		# @type String
 		###
-		@fullName = -> "#{@firstName()} #{@namePrefix()} #{@lastName()}"
+		@fullName = ->
+			if @namePrefix() == null
+				"#{@firstName()} #{@lastName()}"
+			else
+				"#{@firstName()} #{@namePrefix()} #{@lastName()}"
 		###*
 		# @property birthDate
 		# @final
