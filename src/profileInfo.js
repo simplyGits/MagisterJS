@@ -17,88 +17,74 @@ class ProfileInfo extends MagisterThing {
 		super(magister)
 
 		/**
-		 * @property id
-		 * @final
+		 * @readonly
 		 * @type String
 		 */
 		this.id = raw.Id.toString()
 		/**
-		 * @property officialFirstNames
-		 * @final
+		 * @readonly
 		 * @type String
 		 */
 		this.officialFirstNames = raw.OfficieleVoornamen
 		/**
-		 * @property initials
-		 * @final
+		 * @readonly
 		 * @type String
 		 */
 		this.initials = raw.Voorletters
 		/**
-		 * @property namePrefix
-		 * @final
+		 * @readonly
 		 * @type String
 		 */
 		this.namePrefix = raw.Tussenvoegsel
 		/**
-		 * @property officialSurname
-		 * @final
+		 * @readonly
 		 * @type String
 		 */
 		this.officialSurname = raw.OfficieleAchternaam
 		/**
-		 * @property birthSurname
-		 * @final
+		 * @readonly
 		 * @type String
 		 */
 		this.birthSurname = raw.GeboorteAchternaam
 		/**
-		 * @property birthNamePrefix
-		 * @final
+		 * @readonly
 		 * @type String
 		 */
 		this.birthNamePrefix = raw.GeboortenaamTussenvoegsel
 		/**
-		 * @property useBirthname
-		 * @final
+		 * @readonly
 		 * @type Boolean
 		 */
 		this.useBirthname = raw.GebruikGeboortenaam
 		/**
-		 * @property firstName
-		 * @final
+		 * @readonly
 		 * @type String
 		 */
 		this.firstName = raw.Roepnaam
 		/**
-		 * @property lastName
-		 * @final
+		 * @readonly
 		 * @type String
 		 */
 		this.lastName = raw.Achternaam
 		/**
-		 * @property birthDate
-		 * @final
+		 * @readonly
 		 * @type Date
 		 */
 		this.birthDate = parseDate(raw.Geboortedatum)
 
 		/**
-		 * @property isChild
-		 * @final
+		 * @readonly
 		 * @type Boolean
 		 */
 		this.isChild = raw.ZichtbaarVoorOuder != null
 		/**
-		 * @property isVisibleForParent
-		 * @final
+		 * @readonly
 		 * @type Boolean|undefined
 		 */
 		this.isVisibleForParent = raw.ZichtbaarVoorOuder
 
 		/**
-		 * @property fullName
-		 * @final
+		 * @readonly
 		 * @type String
 		 */
 		this.fullName = _(
@@ -112,7 +98,6 @@ class ProfileInfo extends MagisterThing {
 	 * Get the URL for the profile picture of the current user with the given
 	 * options.
 	 *
-	 * @method getProfilePictureUrl
 	 * @param {Number} [width=640] The width of the picture.
 	 * @param {Number} [height=640] The height of the picture.
 	 * @param {Boolean} [crop=false] Whether or not to crop the image.
@@ -123,11 +108,11 @@ class ProfileInfo extends MagisterThing {
 	}
 
 	/**
-	 * @method address
 	 * @return {Promise<Error|AddressInfo>}
 	 */
 	address() {
 		const url = `${this._magister._personUrl}/adresprofiel`
+
 		return this._magister._privileges.needs('profiel', 'read')
 		.then(() => this._magister.http.get(url))
 		.then(res => res.json())
@@ -135,11 +120,11 @@ class ProfileInfo extends MagisterThing {
 	}
 
 	/**
-	 * @method settings
 	 * @return {Promise<Error|ProfileSettings>}
 	 */
 	settings() {
 		const url = `${this._magister._personUrl}/profiel`
+
 		return this._magister._privileges.needs('profiel', 'read')
 		.then(() => this._magister.http.get(url))
 		.then(res => res.json())

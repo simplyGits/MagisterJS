@@ -39,9 +39,28 @@ class Magister {
 		}
 		school.url = `https://${info.host}`
 
+
+		/**
+		 * @type Object
+		 * @readonly
+		 * @private
+		 */
 		this._options = options
+		/**
+		 * @type School
+		 * @readonly
+		 */
 		this.school = _.extend(new School({}), school)
+		/**
+		 * @type Http
+		 * @readonly
+		 */
 		this.http = http
+		/**
+		 * @type ProfileInfo
+		 * @readonly
+		 */
+		this.profileInfo = null
 	}
 
 	/**
@@ -296,6 +315,7 @@ class Magister {
 			.then(res => {
 				const id = res.Persoon.Id
 
+				// REVIEW: do we want to make profileInfo a function?
 				this.profileInfo = new ProfileInfo(this, res.Persoon)
 				this._privileges = new Privileges(this, res.Groep[0].Privileges)
 

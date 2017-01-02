@@ -119,7 +119,7 @@ class Appointment extends MagisterThing {
 		 * @type Boolean
 		 * @readonly
 		 */
-		this.hasAttachments = raw.HeeftBijlagen // REVIEW: do we want this to be a public property?
+		this.hasAttachments = raw.HeeftBijlagen
 		/**
 		 * @type Boolean
 		 * @readonly

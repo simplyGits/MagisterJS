@@ -126,7 +126,7 @@ describe('Magister', function() {
 	describe('appointment', function () {
 		it('should fetch appointments', function () {
 			return m.appointments(new Date()).then(r => {
-				expect(r).to.be.a('array')
+				expect(r).to.be.an('array')
 
 				for (const appointment of r) {
 					expect(appointment).to.be.an.instanceof(magisterjs.Appointment)
