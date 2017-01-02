@@ -159,7 +159,7 @@ class Appointment extends MagisterThing {
 			const person = this.teachers[0]
 
 			return attachments.map(raw => {
-				const f = new File(this.magister, undefined, raw)
+				const f = new File(this._magister, undefined, raw)
 				f.addedBy = person
 				return f
 			})
