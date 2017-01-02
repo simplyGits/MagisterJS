@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import MagisterThing from './magisterThing'
 import AddressInfo from './addressInfo'
 import ProfileSettings from './profileSettings'
@@ -100,9 +101,11 @@ class ProfileInfo extends MagisterThing {
 		 * @final
 		 * @type String
 		 */
-		this.fullName = this.useBirthname ?
-			`${this.officialFirstNames} ${this.birthNamePrefix} ${this.birthSurname}` :
-			`${this.firstName} ${this.namePrefix} ${this.lastName}`
+		this.fullName = _(
+			this.useBirthname ?
+				[ this.officialFirstNames, this.birthNamePrefix, this.birthSurname ] :
+				[ this.firstName, this.namePrefix, this.lastName ]
+		).compact().join(' ')
 	}
 
 	/**
