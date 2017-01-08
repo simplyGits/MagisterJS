@@ -347,6 +347,17 @@ describe('Magister', function() {
 		it('should be able to remove messages', function () {
 			return messageRetrievedPromise.then(m => m.remove())
 		})
+
+		it('should retrieve messages with fill=false', function () {
+			return m.messageFolders()
+			.then(r => r[0].messages({
+				limit: 1,
+				fill: false,
+			}))
+			.then(r => {
+				expect(r).to.be.an('object')
+			})
+		})
 	})
 })
 

@@ -81,7 +81,7 @@ class MessageFolder extends MagisterThing {
 				const promises = messages.map(m => m.fill(fillPersons))
 				promise = Promise.all(promises)
 			} else {
-				promise = messages
+				promise = Promise.resolve(messages)
 			}
 
 			return promise.then(messages => ({
