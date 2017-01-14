@@ -276,7 +276,7 @@ class root.File
 		obj._uri = raw.Uri
 		obj._size = raw.Grootte
 		obj._rights = raw.Privilege
-		obj._mime = raw.ContentType
+		obj._mime = raw.ContentType or 'application/octet-stream'
 
 		obj._changedDate = root._helpers.parseDate raw.GewijzigdOp
 		obj._creationDate = root._helpers.parseDate (raw.GemaaktOp ? raw.Datum)
