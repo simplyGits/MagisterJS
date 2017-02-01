@@ -87,10 +87,8 @@ class Person extends MagisterThing {
 	}
 
 	set type(val) {
-		if ([ 1, 2, 3, 6, 8 ].includes(val)) {
-			this._type = val
-		} else {
-			this.type = ({
+		if (!Number.isInteger(val)) {
+			val = ({
 				'group': 1,
 				'study': 2,
 				'person': 3,
@@ -98,6 +96,12 @@ class Person extends MagisterThing {
 				'project': 8,
 			})[val]
 		}
+
+		if (![ 1, 2, 3, 6, 8 ].includes(val)) {
+			throw new Error(`${val} is an invalid type value`)
+		}
+
+		this._type = val
 	}
 
 	/**

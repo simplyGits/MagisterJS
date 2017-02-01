@@ -275,6 +275,13 @@ describe('Magister', function() {
 			expect(person.type).to.equal('person')
 			expect(person._type).to.equal(3)
 		})
+
+		it('should fail to set incorrect types', function () {
+			const person = new magisterjs.Person(m, {})
+			expect(function () {
+				person.type = 'foo'
+			}).to.throw(Error)
+		})
 	})
 
 	describe('messageFolder', function () {
