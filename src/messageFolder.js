@@ -55,7 +55,7 @@ class MessageFolder extends MagisterThing {
 	 * 	@param {String} [options.readState='all'] One of: 'all', 'read', 'unread'.
 	 * 	@param {Boolean} [options.fill=true] Whether or not to call `fill` on every message.
 	 * 	@param {Boolean} [options.fillPersons=false] Whether or not to download the users from the server. `options.fill` has to be true for this option to take effect.
-	 * @return {Promise<Object>} { messages: Message[], count: Number }
+	 * @return {Promise<Object>} { messages: Message[], totalCount: Number }
 	 */
 	messages({ limit = 10, skip = 0, readState = 'all', fill = true, fillPersons = false }) {
 		if (![ 'all', 'read', 'unread' ].includes(readState)) {
@@ -86,7 +86,7 @@ class MessageFolder extends MagisterThing {
 
 			return promise.then(messages => ({
 				messages,
-				count: res.TotalCount,
+				totalCount: res.TotalCount,
 			}))
 		})
 	}

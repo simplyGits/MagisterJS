@@ -46,14 +46,17 @@
 			2,
 			"unix"
 		],
+
 		"semi": [
 			1,
 			"never"
 		],
+		"no-extra-semi": 1,
+		"no-unexpected-multiline": 2,
+
 		"space-before-blocks": 1,
 
 		"no-console": 1,
-		"no-extra-semi": 1,
 		"comma-dangle": [
 			1,
 			"always-multiline"
@@ -68,14 +71,13 @@
 		"no-irregular-whitespace": 2,
 		"no-unreachable": 1,
 		"valid-typeof": 2,
-		"no-unexpected-multiline": 1,
 		"no-unused-vars": 1,
 		"brace-style": [
 			2,
 			"1tbs",
 			{ "allowSingleLine": false }
 		],
-		"eol-last": 2,
+		"eol-last": 1,
 		"no-lonely-if": 1,
 		"object-curly-spacing": [
 			2,

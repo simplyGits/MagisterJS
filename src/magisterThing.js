@@ -7,11 +7,11 @@ import { Magister } from './magister'
 class MagisterThing {
 	/**
 	 * @param {Magister} magister
-	 * @throws Error when `magister` isn't an {@link Magister} instance.
+	 * @throws Error when `magister` isn't a {@link Magister} instance.
 	 */
 	constructor(magister) {
 		if (!(magister instanceof Magister)) {
-			throw new Error('`magister` must be an `Magister` instance')
+			throw new Error('`magister` must be a `Magister` instance')
 		}
 
 		/**

@@ -331,7 +331,7 @@ describe('Magister', function() {
 			.then(r => {
 				expect(r).to.be.an('object')
 
-				expect(r.count).to.be.a('number')
+				expect(r.totalCount).to.be.a('number')
 				expect(r.messages).to.be.an('array')
 
 				expect(r.messages).to.not.be.empty

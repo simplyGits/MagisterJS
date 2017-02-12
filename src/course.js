@@ -100,8 +100,7 @@ class Course extends MagisterThing {
 
 			const promises = res.map(raw => {
 				const grade = new Grade(this._magister, raw)
-				// REVIEW
-				grade.columnUrl = `${urlPrefix}/extracijferkolominfo/${_.get(raw, 'CijferKolom.Id')}`
+				grade._fillUrl = `${urlPrefix}/extracijferkolominfo/${_.get(raw, 'CijferKolom.Id')}`
 				return Promise.resolve(fillGrades ? grade.fill() : grade)
 			})
 

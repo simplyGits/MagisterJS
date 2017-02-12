@@ -175,12 +175,14 @@ class Message extends MagisterThing {
 			if (fillPersons) {
 				let promises = []
 
+				// fill sender
 				promises.push(
 					this.sender.getFilled()
 					.then(r => this.sender = r)
 					.catch(() => this.sender)
 				)
 
+				// fill recipients
 				promises = promises.concat(
 					this.recipients.map(r => {
 						return r.getFilled()

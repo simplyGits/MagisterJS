@@ -13,6 +13,9 @@ class Person extends MagisterThing {
 	 */
 	constructor(magister, raw, type) {
 		super(magister)
+		if (raw == null) {
+			return
+		}
 
 		/**
 		 * @type Boolean
@@ -122,8 +125,7 @@ class Person extends MagisterThing {
 	 * @return {Object}
 	 */
 	toJSON() {
-		const obj = _.omit(this, [ '_magister', '_filled' ])
-		obj.type = this.type // REVIEW: is this needed?
+		const obj = _.omit(super.toJSON(), '_filled')
 		delete obj._type
 		return obj
 	}

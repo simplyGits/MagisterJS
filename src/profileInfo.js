@@ -79,6 +79,7 @@ class ProfileInfo extends MagisterThing {
 		 */
 		this.isChild = raw.ZichtbaarVoorOuder != null
 		/**
+		 * `undefined` when `this.isChild` is `false`.
 		 * @readonly
 		 * @type Boolean|undefined
 		 */
