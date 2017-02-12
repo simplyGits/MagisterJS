@@ -1,6 +1,8 @@
 import fetch from 'node-fetch'
 import MagisterError from './magisterError'
 
+const DEFAULT_REQUEST_TIMEOUT = 1000 * 30 // 30 seconds
+
 /**
  * Class to communicate with the outside world. With those delicious cookies
  * inserted for you.
@@ -8,12 +10,17 @@ import MagisterError from './magisterError'
  * @private
  */
 class Http {
-	constructor() {
+	/**
+	 * @param {Number} [requestTimeout=DEFAULT_REQUEST_TIMEOUT] A time in ms
+	 * after the start of a request when it should be timed out.
+	 */
+	constructor(requestTimeout = DEFAULT_REQUEST_TIMEOUT) {
 		this._ratelimit = {
 			queue: [],
 			timeoutId: undefined,
 		}
 		this._cookie = ''
+		this._requestTimeout = requestTimeout
 	}
 
 	/**
@@ -56,6 +63,7 @@ class Http {
 	makeRequest(obj) {
 		const init = {
 			method: obj.method,
+			timeout: this._requestTimeout,
 			headers: {
 				...obj.headers,
 				cookie: this._cookie,
