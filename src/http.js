@@ -50,10 +50,10 @@ class Http {
 	}
 
 	/**
-	 * @private
 	 * @param {Object} obj
+	 * @return {Request}
 	 */
-	_request(obj) {
+	makeRequest(obj) {
 		const init = {
 			method: obj.method,
 			headers: {
@@ -67,7 +67,15 @@ class Http {
 			init.headers['Content-Type'] = 'application/json;charset=UTF-8'
 		}
 
-		const request = new fetch.Request(obj.url, init)
+		return new fetch.Request(obj.url, init)
+	}
+
+	/**
+	 * @private
+	 * @param {Object} obj
+	 */
+	_request(obj) {
+		const request = this.makeRequest(obj)
 
 		let promise
 		const info = this._ratelimit

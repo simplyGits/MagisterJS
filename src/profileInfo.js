@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import fetch from 'node-fetch'
 import MagisterThing from './magisterThing'
 import AddressInfo from './addressInfo'
 import ProfileSettings from './profileSettings'
@@ -94,6 +95,8 @@ class ProfileInfo extends MagisterThing {
 		).compact().join(' ')
 	}
 
+	// HACK: for some reason it was necessary to hack around the http class, and
+	// run a custom fetch instead of using `Http#_request`.
 	/**
 	 * Opens a stream to the profile picture of the current user with the given
 	 * options.
@@ -104,10 +107,11 @@ class ProfileInfo extends MagisterThing {
 	 * @return {Promise<Stream>}
 	 */
 	getProfilePicture(width = 640, height = 640, crop = false) {
-		const url = `${this._magister._personUrl}/foto?width=${width}&height=${height}&crop=${crop}`
-
-		return this._magister.get(url)
-		.then(res => res.body)
+		const request = this._magister.http.makeRequest({
+			method: 'get',
+			url: `${this._magister._personUrl}/foto?width=${width}&height=${height}&crop=${crop}`,
+		})
+		return fetch(request).then(res => res.body)
 	}
 
 	/**
