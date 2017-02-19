@@ -1,5 +1,6 @@
 import MagisterThing from './magisterThing'
 import File from './file'
+import { toString } from './util'
 
 /**
  * @extends MagisterThing
@@ -13,10 +14,10 @@ class FileFolder extends MagisterThing {
 	constructor(magister, raw) {
 		super(magister)
 
-		this.id = raw.Id
+		this.id = toString(raw.Id)
 		this.name = raw.Naam
 		this.rights = raw.Privilege
-		this.parentId = raw.ParentId
+		this.parentId = toString(raw.ParentId)
 	}
 
 	/**
