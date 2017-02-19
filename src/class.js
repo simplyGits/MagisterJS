@@ -23,7 +23,7 @@ class Class extends MagisterThing {
 		this.description = raw.omschrijving || raw.Omschrijving
 		this.number = raw.volgnr || raw.Volgnr
 		this.teacher = new Person(magister, { Docentcode: raw.docent })
-		this.classExemption = raw.VakDispensatie || raw.VakVrijstelling
+		this.hasClassExemption = raw.VakDispensatie || raw.VakVrijstelling
 	}
 }
 
