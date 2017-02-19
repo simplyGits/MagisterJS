@@ -84,13 +84,15 @@ class ProfileInfo extends MagisterThing {
 		 * @type Boolean|undefined
 		 */
 		this.isVisibleForParent = raw.ZichtbaarVoorOuder
+	}
 
-		/**
-		 * @readonly
-		 * @type String
-		 */
-		this.fullName = _(
-			this.useBirthname ?
+	/**
+	 * @param {Boolean} [useBirthname=this.useBirthname]
+	 * @return String
+	 */
+	getFullName(useBirthname = this.useBirthname) {
+		return _(
+			useBirthname ?
 				[ this.officialFirstNames, this.birthNamePrefix, this.birthSurname ] :
 				[ this.firstName, this.namePrefix, this.lastName ]
 		).compact().join(' ')
