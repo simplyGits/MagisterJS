@@ -35,7 +35,7 @@ class Person extends MagisterThing {
 		 * @private
 		 * @readonly
 		 */
-		this._type = type || raw.Type // REVIEW: do we want this to be a String?
+		this._type = type || raw.Type
 		/**
 		 * @type String
 		 * @readonly

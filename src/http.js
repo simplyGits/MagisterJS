@@ -15,11 +15,25 @@ class Http {
 	 * after the start of a request when it should be timed out.
 	 */
 	constructor(requestTimeout = DEFAULT_REQUEST_TIMEOUT) {
+		/**
+		 * @type Object
+		 * @private
+		 * @readonly
+		 */
 		this._ratelimit = {
 			queue: [],
 			timeoutId: undefined,
 		}
+		/**
+		 * @type String
+		 * @private
+		 */
 		this._cookie = ''
+		/**
+		 * @type Number
+		 * @private
+		 * @readonly
+		 */
 		this._requestTimeout = requestTimeout
 	}
 

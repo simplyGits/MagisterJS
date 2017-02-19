@@ -19,43 +19,104 @@ class Grade extends MagisterThing {
 	constructor(magister, raw) {
 		super(magister)
 
-		/*
+		/**
 		 * Should be set by `Course#grades`!
+		 * @type String
 		 * @private
 		 */
 		this._fillUrl = undefined
 
+		/**
+		 * @type String
+		 * @readonly
+		 */
 		this.id = toString(raw.CijferId)
+		/**
+		 * @type String
+		 * @readonly
+		 */
 		this.grade = raw.CijferStr
+		/**
+		 * @type Boolean
+		 * @readonly
+		 */
 		this.passed = raw.IsVoldoende
+		/**
+		 * @type Date
+		 * @readonly
+		 */
 		this.dateFilledIn = parseDate(raw.DatumIngevoerd)
 
+		/**
+		 * @type Class
+		 * @readonly
+		 */
 		this.class = new Class(magister, raw.Vak)
 
+		/**
+		 * @type Boolean
+		 * @readonly
+		 */
 		this.atLaterDate = raw.Inhalen
+		/**
+		 * @type Boolean
+		 * @readonly
+		 */
 		this.exemption = raw.Vrijstelling
+		/**
+		 * @type Boolean
+		 * @readonly
+		 */
 		this.counts = raw.TeltMee
 
+		/**
+		 * @type GradePeriod
+		 * @readonly
+		 * @default null
+		 */
 		this.period = raw.Periode == null ? null : new GradePeriod(magister, raw.Periode)
 
+		/**
+		 * @type GradeType
+		 * @readonly
+		 * @default null
+		 */
 		this.type = raw.CijferKolom == null ? null : new GradeType(magister, raw.CijferKolom)
 
+		/**
+		 * @type String
+		 * @readonly
+		 */
 		this.assignmentId = toString(raw.CijferKolomIdEloOpdracht)
 
+		/**
+		 * @type Person
+		 * @readonly
+		 */
 		this.teacher = new Person(magister, { Docentcode: raw.Docent }, 3)
 
+		/**
+		 * @type Boolean
+		 * @readonly
+		 */
 		this.classExemption = raw.VakDispensatie || raw.VakVrijstelling
 
 		/**
 		 * Value will be set by `Grade#fill`
+		 * @type String
+		 * @default ''
 		 */
 		this.description = ''
 		/**
 		 * Value will be set by `Grade#fill`
+		 * @type String
+		 * @default 0
 		 */
 		this.weight = 0
 		/**
 		 * Value will be set by `Grade#fill`
+		 * @type Date
+		 * @default undefined
 		 */
 		this.testDate = undefined
 	}

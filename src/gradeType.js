@@ -13,28 +13,72 @@ class GradeType extends MagisterThing {
 	constructor(magister, raw) {
 		super(magister)
 
-		// TODO: doccomments
-
+		/**
+		 * @type String
+		 * @readonly
+		 */
 		this.id = toString(raw.Id)
+		/**
+		 * @type String
+		 * @readonly
+		 */
 		this.name = raw.KolomNaam
+		/**
+		 * @type Number
+		 * @readonly
+		 */
 		this.number = raw.KolomNummer
+		/**
+		 * @type String
+		 * @readonly
+		 */
 		this.header = raw.KolomKop
-		this._type = raw.KolomSoort
+		/**
+		 * @type Boolean
+		 * @readonly
+		 */
 		this.isAtLaterDate = raw.IsHerkansingKolom
+		/**
+		 * @type Boolean
+		 * @readonly
+		 */
 		this.isTeacher = raw.IsDocentKolom
+		/**
+		 * @type Boolean
+		 * @readonly
+		 */
 		this.hasNestedTypes = raw.HeeftOndeliggendeKolommen
+		/**
+		 * @type Boolean
+		 * @readonly
+		 */
 		this.isPTA = raw.IsPTAKolom
 
 		/**
 		 * Value will be set by `Grade#fill`
+		 * @type Number
+		 * @default undefined
 		 */
 		this.level = undefined
 		/**
 		 * Value will be set by `Grade#fill`
+		 * @type String
+		 * @default ''
 		 */
 		this.description = ''
+
+		/**
+		 * @type Number
+		 * @private
+		 * @readonly
+		 */
+		this._type = raw.KolomSoort
 	}
 
+	/**
+	 * @type String
+	 * @readonly
+	 */
 	get type() {
 		switch (this._type) {
 		case 1:  return 'grade'

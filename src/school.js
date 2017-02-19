@@ -17,13 +17,26 @@ import VersionInfo from './versionInfo'
  */
 class School {
 	/**
+	 * @param {Object} raw
 	 * @param {String} id
 	 * @param {String} name
 	 * @param {String} url
 	 */
 	constructor(raw) {
+		/**
+		 * @type String
+		 * @readonly
+		 */
 		this.id = raw.Id
+		/**
+		 * @type String
+		 * @readonly
+		 */
 		this.name = raw.Name
+		/**
+		 * @type String
+		 * @readonly
+		 */
 		this.url = raw.Url
 	}
 

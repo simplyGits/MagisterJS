@@ -14,9 +14,25 @@ class FileFolder extends MagisterThing {
 	constructor(magister, raw) {
 		super(magister)
 
+		/**
+		 * @type String
+		 * @readonly
+		 */
 		this.id = toString(raw.Id)
+		/**
+		 * @type String
+		 * @readonly
+		 */
 		this.name = raw.Naam
+		/**
+		 * @type Number
+		 * @readonly
+		 */
 		this.rights = raw.Privilege
+		/**
+		 * @type String
+		 * @readonly
+		 */
 		this.parentId = toString(raw.ParentId)
 	}
 

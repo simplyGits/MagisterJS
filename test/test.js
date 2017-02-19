@@ -41,6 +41,9 @@ describe('Magister', function() {
 
 	before(function () {
 		return magister(options).then(function (obj) {
+			// TODO : this doesn't work actually, we need something better than
+			// this.
+
 			// don't fail the tests when stuff isn't allowed on users
 			obj._privileges.needs = function (thing, action) {
 				if (obj._privileges.can(thing, action)) {
