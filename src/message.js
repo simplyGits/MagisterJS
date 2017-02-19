@@ -2,7 +2,7 @@ import _ from 'lodash'
 import MagisterThing from './magisterThing'
 import Person from './person'
 import File from './file'
-import { cleanHtmlContent, parseDate } from './util'
+import { cleanHtmlContent, parseDate, toString } from './util'
 
 /**
  * @extends MagisterThing
@@ -63,12 +63,12 @@ class Message extends MagisterThing {
 			 * @type String
 			 * @readonly
 			 */
-			this.id = raw.Id.toString()
+			this.id = toString(raw.Id)
 			/**
 			 * @type String
 			 * @readonly
 			 */
-			this.folderId = raw.MapId.toString()
+			this.folderId = toString(raw.MapId)
 			/**
 			 * @type Person
 			 * @readonly

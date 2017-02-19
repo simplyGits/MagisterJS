@@ -3,7 +3,7 @@ import fetch from 'node-fetch'
 import MagisterThing from './magisterThing'
 import AddressInfo from './addressInfo'
 import ProfileSettings from './profileSettings'
-import { parseDate } from './util'
+import { parseDate, toString } from './util'
 
 /**
  * @extends MagisterThing
@@ -21,7 +21,7 @@ class ProfileInfo extends MagisterThing {
 		 * @readonly
 		 * @type String
 		 */
-		this.id = raw.Id.toString()
+		this.id = toString(raw.Id)
 		/**
 		 * @readonly
 		 * @type String

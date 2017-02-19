@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import MagisterThing from './magisterThing'
 import Appointment from './appointment'
-import { parseDate } from './util'
+import { toString, parseDate } from './util'
 
 /**
  * @extends MagisterThing
@@ -26,7 +26,7 @@ class AbsenceInfo extends MagisterThing {
 		 * @type String
 		 * @readonly
 		 */
-		this.id = raw.Id.toString()
+		this.id = toString(raw.Id)
 		/**
 		 * @type Date
 		 * @readonly

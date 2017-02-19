@@ -2,7 +2,7 @@ import _ from 'lodash'
 import MagisterThing from './magisterThing'
 import Person from './person'
 import File from './file'
-import * as util from './util'
+import { parseDate, toString } from './util'
 
 /**
  * @extends MagisterThing
@@ -19,17 +19,17 @@ class Appointment extends MagisterThing {
 		 * @type String
 		 * @readonly
 		 */
-		this.id = raw.Id.toString()
+		this.id = toString(raw.Id)
 		/**
 		 * @type Date
 		 * @readonly
 		 */
-		this.start = util.parseDate(raw.Start)
+		this.start = parseDate(raw.Start)
 		/**
 		 * @type Date
 		 * @readonly
 		 */
-		this.end = util.parseDate(raw.Einde)
+		this.end = parseDate(raw.Einde)
 		/**
 		 * @type Number
 		 * @readonly

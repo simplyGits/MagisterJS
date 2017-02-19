@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import MagisterThing from './magisterThing'
+import { toString } from './util'
 
 /**
  * @extends MagisterThing
@@ -28,7 +29,7 @@ class Person extends MagisterThing {
 		 * @type String
 		 * @readonly
 		 */
-		this.id = raw.Id
+		this.id = toString(raw.Id)
 		/**
 		 * @type Number
 		 * @private

@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import MagisterThing from './magisterThing'
 import Message from './message'
+import { toString } from './util'
 
 /**
  * @extends MagisterThing
@@ -18,7 +19,7 @@ class MessageFolder extends MagisterThing {
 		 * @type String
 		 * @readonly
 		 */
-		this.id = raw.Id.toString()
+		this.id = toString(raw.Id)
 		/**
 		 * @type String
 		 * @readonly

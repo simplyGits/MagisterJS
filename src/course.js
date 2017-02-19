@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import MagisterThing from './magisterThing'
 import Grade from './grade'
-import { parseDate } from './util'
+import { parseDate, toString } from './util'
 
 /**
  * @extends MagisterThing
@@ -19,7 +19,7 @@ class Course extends MagisterThing {
 		 * @type String
 		 * @readonly
 		 */
-		this.id = raw.Id.toString()
+		this.id = toString(raw.Id)
 
 		/**
 		 * @type Date

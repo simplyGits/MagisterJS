@@ -2,7 +2,7 @@ import url from 'url'
 import _ from 'lodash'
 import MagisterThing from './magisterThing'
 import Person from './person'
-import * as util from './util'
+import { parseDate, toString } from './util'
 
 /**
  * @extends MagisterThing
@@ -21,7 +21,7 @@ class File extends MagisterThing {
 		 * @type String
 		 * @readonly
 		 */
-		this.id = raw.Id.toString()
+		this.id = toString(raw.Id)
 		/**
 		 * @type Number
 		 * @readonly
@@ -58,12 +58,12 @@ class File extends MagisterThing {
 		 * @type Date
 		 * @readonly
 		 */
-		this.changedDate = util.parseDate(raw.GewijzigdOp)
+		this.changedDate = parseDate(raw.GewijzigdOp)
 		/**
 		 * @type Date
 		 * @readonly
 		 */
-		this.creationDate = util.parseDate(raw.GemaaktOp || raw.Datum)
+		this.creationDate = parseDate(raw.GemaaktOp || raw.Datum)
 
 		/**
 		 * @type Person
@@ -79,7 +79,7 @@ class File extends MagisterThing {
 		 * @type String
 		 * @readonly
 		 */
-		this.fileBlobId = util.toString(raw.FileBlobId)
+		this.fileBlobId = toString(raw.FileBlobId)
 		/**
 		 * @type FileFolder
 		 * @readonly
@@ -94,7 +94,7 @@ class File extends MagisterThing {
 		 * @type String
 		 * @readonly
 		 */
-		this.referenceId = util.toString(raw.Referentie)
+		this.referenceId = toString(raw.Referentie)
 
 		const selfUrl = _.find(raw.Links, { Rel: 'Self' })
 		const contentUrl = _.find(raw.Links, { Rel: 'Contents' })
