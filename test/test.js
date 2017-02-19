@@ -217,7 +217,7 @@ describe('Magister', function() {
 					expect(f).to.be.an.instanceof(magisterjs.FileFolder)
 				}
 
-				return folders[0].files()
+				return folders[0].files(false)
 			})
 			.then(files => {
 				expect(files).to.be.an('array')

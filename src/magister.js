@@ -9,6 +9,8 @@ import Appointment from './appointment'
 import AuthError from './authError'
 import Class from './class'
 import Course from './course'
+import File from './file'
+import FileFolder from './fileFolder'
 import Grade from './grade'
 import GradePeriod from './gradePeriod'
 import GradeType from './gradeType'
@@ -223,6 +225,16 @@ class Magister {
 	}
 
 	/**
+	 * @return {Promise<FileFolder[]>}
+	 */
+	fileFolders() {
+		return this._privileges.needs('bronnen', 'read')
+		.then(() => this.http.get( `${this._personUrl}/bronnen?soort=0`))
+		.then(res => res.json())
+		.then(res => res.Items.map(f => new FileFolder(this, f)))
+	}
+
+	/**
 	 * @return {Promise<MessageFolder[]>}
 	 */
 	messageFolders() {
@@ -414,6 +426,8 @@ export {
 	AuthError,
 	Class,
 	Course,
+	File,
+	FileFolder,
 	Grade,
 	GradePeriod,
 	GradeType,

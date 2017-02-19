@@ -69,11 +69,7 @@ class File extends MagisterThing {
 		 * @type Person
 		 * @readonly
 		 */
-		this.addedBy = (function () {
-			const p = new Person(magister, null, '', '')
-			p.fullName = raw.GeplaatstDoor
-			return p
-		})()
+		this.addedBy = new Person(magister, { Naam: raw.GeplaatstDoor })
 
 		/**
 		 * @type String
@@ -119,7 +115,8 @@ class File extends MagisterThing {
 	 * @return {Promise<Stream>}
 	 */
 	download() {
-		return this._magister.get(this._downloadUrl)
+		return this._magister._privileges.needs('bronnen', 'read')
+		.then(() => this._magister.http.get(this._downloadUrl))
 		.then(res => res.body)
 	}
 
