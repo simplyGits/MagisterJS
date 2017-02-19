@@ -36,13 +36,9 @@ class Grade extends MagisterThing {
 		this.exemption = raw.Vrijstelling
 		this.counts = raw.TeltMee
 
-		if (raw.Periode != null) {
-			this.period = new GradePeriod(magister, raw.Periode)
-		}
+		this.period = raw.Periode == null ? null : new GradePeriod(magister, raw.Periode)
 
-		if (raw.CijferKolom != null) {
-			this.type = new GradeType(magister, raw.CijferKolom)
-		}
+		this.type = raw.CijferKolom == null ? null : new GradeType(magister, raw.CijferKolom)
 
 		this.assignmentId = raw.CijferKolomIdEloOpdracht
 
