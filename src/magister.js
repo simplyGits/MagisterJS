@@ -19,6 +19,7 @@ import Person from './person'
 import Privileges from './privileges'
 import ProfileInfo from './profileInfo'
 import School from './school'
+import SchoolUtility from './schoolUtility'
 import VersionInfo from './versionInfo'
 import * as util from './util'
 
@@ -267,6 +268,15 @@ class Magister {
 		}))
 	}
 
+	schoolUtilities() {
+		const url = `${this._personUrl}/lesmateriaal`
+
+		return this._privileges.needs('digitaallesmateriaal', 'read')
+		.then(() => this.http.get(url))
+		.then(res => res.json())
+		.then(res => res.Items.map(u => new SchoolUtility(this, u)))
+	}
+
 	/**
 	 * Logins to Magister.
 	 * @param {Boolean} [forceLogin=false] Force a login, even when a session id
@@ -415,5 +425,6 @@ export {
 	ProfileInfo,
 	ProfileSettings,
 	School,
+	SchoolUtility,
 	VersionInfo,
 }

@@ -195,6 +195,19 @@ describe('Magister', function() {
 		})
 	})
 
+	describe('schoolUtility', function () {
+		it('should get schoolUtilities', function () {
+			return m.schoolUtilities()
+			.then(r => {
+				expect(r).to.be.an('array')
+				for (const u of r) {
+					expect(u).to.be.an.instanceof(magisterjs.SchoolUtility)
+					expect(u.class).to.be.an.instanceof(magisterjs.Class)
+				}
+			})
+		})
+	})
+
 	describe('file', function () {
 		it('should download files', function () {
 			return m.fileFolders()
