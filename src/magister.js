@@ -15,6 +15,7 @@ import Person from './person'
 import Privileges from './privileges'
 import ProfileInfo from './profileInfo'
 import School from './school'
+import VersionInfo from './versionInfo'
 import * as util from './util'
 
 import AddressInfo from './addressInfo'
@@ -406,4 +407,5 @@ export {
 	ProfileInfo,
 	ProfileSettings,
 	School,
+	VersionInfo,
 }

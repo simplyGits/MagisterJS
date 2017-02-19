@@ -1,7 +1,7 @@
 'use strict'
 
 import fetch from 'node-fetch'
-import * as util from './util'
+import VersionInfo from './versionInfo'
 
 /**
  * @typedef {Object} VersionInfo
@@ -33,13 +33,7 @@ class School {
 	versionInfo() {
 		return fetch(`${this.url}/api/versie`)
 		.then(res => res.json())
-		.then(obj => ({
-			core: obj.CoreVersie,
-			api: obj.ApiVersie,
-			db: obj.DatabaseVersie,
-			product: obj.ProductVersie,
-			releasedOn: util.parseDate(obj.ReleaseDatum),
-		}))
+		.then(obj => new VersionInfo(obj))
 	}
 }
 

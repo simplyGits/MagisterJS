@@ -98,7 +98,7 @@ describe('Magister', function() {
 
 		it('should get version info', function () {
 			return m.school.versionInfo().then(r => {
-				expect(r).to.be.an('object')
+				expect(r).to.be.an.instanceof(magisterjs.VersionInfo)
 			})
 		})
 	})
