@@ -5,6 +5,8 @@ import fetch from 'node-fetch'
 import url from 'url'
 
 import AbsenceInfo from './absenceInfo'
+import Activity from './activity'
+import ActivityElement from './activityElement'
 import Appointment from './appointment'
 import AuthError from './authError'
 import Class from './class'
@@ -69,6 +71,13 @@ class Magister {
 		 * @readonly
 		 */
 		this.profileInfo = null
+	}
+
+	activities() {
+		return this._privileges.needs('activiteiten', 'read')
+		.then(() => this.http.get(`${this._personUrl}/activiteiten`))
+		.then(res => res.json())
+		.then(res => res.Items.map(a => new Activity(this, a)))
 	}
 
 	/**
@@ -421,6 +430,8 @@ export function getSchools (query) {
 export const VERSION = __VERSION__
 export {
 	AbsenceInfo,
+	Activity,
+	ActivityElement,
 	AddressInfo,
 	Appointment,
 	AuthError,

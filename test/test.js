@@ -129,6 +129,27 @@ describe('Magister', function() {
 		})
 	})
 
+	describe('activity', function () {
+		// TODO: add test for `ActivityElement#signup`
+
+		it('should fetch activities and parts', function () {
+			return m.activities().then(r => {
+				expect(r).to.be.an('array')
+
+				for (const activity of r) {
+					expect(activity).to.be.an.instanceof(magisterjs.Activity)
+				}
+
+				return r[0] == null ? [] : r[0].elements()
+			}).then(r => {
+				expect(r).to.be.an('array')
+				for (const element of r) {
+					expect(element).to.be.an.instanceof(magisterjs.ActivityElement)
+				}
+			})
+		})
+	})
+
 	// TODO: add tests for fillPersons option
 	describe('appointment', function () {
 		it('should fetch appointments', function () {
