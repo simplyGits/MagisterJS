@@ -40,7 +40,7 @@ class Grade extends MagisterThing {
 
 		this.type = raw.CijferKolom == null ? null : new GradeType(magister, raw.CijferKolom)
 
-		this.assignmentId = raw.CijferKolomIdEloOpdracht
+		this.assignmentId = toString(raw.CijferKolomIdEloOpdracht)
 
 		this.teacher = new Person(magister, { Docentcode: raw.Docent }, 3)
 
