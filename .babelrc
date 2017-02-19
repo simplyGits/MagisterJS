@@ -1,10 +1,14 @@
 {
 	"presets": [
-		["modern-node", {
-			"version": "4.4"
+		["env", {
+			"targets": {
+				"node": 5
+			}
 		}]
 	],
 	"plugins": [
-		"transform-object-rest-spread"
+		"transform-object-rest-spread",
+		"transform-strict-mode",
+		"version-inline"
 	]
 }
