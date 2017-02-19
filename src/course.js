@@ -96,20 +96,22 @@ class Course extends MagisterThing {
 	}
 
 	/**
-	 * @param {Boolean} [fillGrades=true]
+	 * @param {Object} [options={}]
+	 * 	@param {Boolean} [options.fillGrades=true]
 	 * @return {Promise<Grade[]>}
 	 */
-	grades(fillGrades = true) {
+	grades({ fillGrades = true } = {}) {
 		const urlPrefix = `${this._magister._personUrl}/aanmeldingen/${this.id}/cijfers`
 		const url = `${urlPrefix}/cijferoverzichtvooraanmelding?actievePerioden=false&alleenBerekendeKolommen=false&alleenPTAKolommen=false`
 
 		return this._magister._privileges.needs('cijfers', 'read')
 		.then(() => this._magister.http.get(url))
 		.then(res => res.json())
-		.then(res => {
-			res = _.reject(res, raw => raw.CijferId === 0)
+		.then(res => res.Items)
+		.then(grades => {
+			grades = _.reject(grades, raw => raw.CijferId === 0)
 
-			const promises = res.map(raw => {
+			const promises = grades.map(raw => {
 				const grade = new Grade(this._magister, raw)
 				grade._fillUrl = `${urlPrefix}/extracijferkolominfo/${_.get(raw, 'CijferKolom.Id')}`
 				return Promise.resolve(fillGrades ? grade.fill() : grade)

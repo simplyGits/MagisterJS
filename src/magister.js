@@ -9,6 +9,9 @@ import Appointment from './appointment'
 import AuthError from './authError'
 import Class from './class'
 import Course from './course'
+import Grade from './grade'
+import GradePeriod from './gradePeriod'
+import GradeType from './gradeType'
 import Http from './http'
 import Message from './message'
 import MessageFolder from './messageFolder'
@@ -401,6 +404,9 @@ export {
 	AuthError,
 	Class,
 	Course,
+	Grade,
+	GradePeriod,
+	GradeType,
 	Magister,
 	Message,
 	MessageFolder,

@@ -226,9 +226,7 @@ describe('Magister', function() {
 			return m.courses()
 			.then(res => res.find(c => c.current))
 			.then(c => c.grades({
-				fillPersons: false,
-				fillGrade: false,
-				onlyRecent: false,
+				fillGrades: false,
 			}))
 			.then(r => {
 				expect(r).to.be.a('array')
@@ -239,7 +237,7 @@ describe('Magister', function() {
 
 				const grade = r[0]
 				if (grade != null) {
-					return grade.fillGrade()
+					return grade.fill()
 					.then(r => expect(r).to.be.an.instanceof(magisterjs.Grade))
 				}
 			})
