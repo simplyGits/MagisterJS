@@ -7,6 +7,7 @@ import url from 'url'
 import AbsenceInfo from './absenceInfo'
 import Appointment from './appointment'
 import AuthError from './authError'
+import Class from './class'
 import Course from './course'
 import Http from './http'
 import Message from './message'
@@ -398,6 +399,7 @@ export {
 	AddressInfo,
 	Appointment,
 	AuthError,
+	Class,
 	Course,
 	Magister,
 	Message,

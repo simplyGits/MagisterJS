@@ -178,12 +178,18 @@ describe('Magister', function() {
 	})
 
 	describe('course', function () {
-		it('should correctly get courses', function () {
+		it('should correctly get courses and classes', function () {
 			return m.courses()
 			.then(r => {
 				expect(r).to.be.an('array')
 				for (const c of r) {
 					expect(c).to.be.an.instanceof(magisterjs.Course)
+				}
+				return r.find(c => c.current).classes()
+			}).then(r => {
+				expect(r).to.be.an('array')
+				for (const c of r) {
+					expect(c).to.be.an.instanceof(magisterjs.Class)
 				}
 			})
 		})
