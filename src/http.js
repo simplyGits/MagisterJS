@@ -131,7 +131,7 @@ class Http {
 				if ('SecondsLeft' in parsed) {
 					// Handle rate limit errors
 					this._setRatelimitTime(Number.parseInt(parsed.SecondsLeft, 10))
-					return this._enqueue(request)
+					return this._request(obj)
 				} else {
 					// Other errors we could parse
 					err = new MagisterError(parsed)
