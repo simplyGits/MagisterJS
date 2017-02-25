@@ -1,3 +1,14 @@
+sudo: false
+language: node_js
+node_js:
+  - "node"
+install:
+  - npm install
+before_script:
+  - test/version.sh
+script:
+  - npm run test
+  - npm run lint
 notifications:
   webhooks:
     urls:
@@ -6,17 +17,3 @@ notifications:
     on_success: change
     on_failure: always
     on_start: never
-sudo: false
-language: node_js
-node_js:
-  - "5"
-  - "node"
-install:
-  - npm install -g mocha eslint
-  - npm install
-before_script:
-  - mocha --version
-  - test/version.sh
-script:
-  - npm test
-  - eslint ./
