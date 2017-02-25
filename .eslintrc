@@ -22,7 +22,7 @@
 			1,
 			"property"
 		],
-		"no-empty-function": 2,
+		"no-empty-function": 1,
 		"no-implied-eval": 2,
 		"no-lone-blocks": 1,
 		"no-new-func": 2,
@@ -32,18 +32,18 @@
 		"no-useless-call": 1,
 		"no-void": 1,
 		"radix": 2,
-		"yoda": 2,
+		"yoda": 1,
 
 		"indent": [
 			2,
 			"tab"
 		],
 		"quotes": [
-			2,
+			1,
 			"single"
 		],
 		"linebreak-style": [
-			2,
+			1,
 			"unix"
 		],
 
@@ -62,10 +62,10 @@
 			"always-multiline"
 		],
 		"no-undef": 1,
-		"no-dupe-args": 2,
-		"no-dupe-keys": 2,
-		"no-duplicate-case": 2,
-		"no-empty-character-class": 2,
+		"no-dupe-args": 1,
+		"no-dupe-keys": 1,
+		"no-duplicate-case": 1,
+		"no-empty-character-class": 1,
 		"no-empty": 1,
 		"no-invalid-regexp": 2,
 		"no-irregular-whitespace": 2,
@@ -73,14 +73,14 @@
 		"valid-typeof": 2,
 		"no-unused-vars": 1,
 		"brace-style": [
-			2,
+			1,
 			"1tbs",
 			{ "allowSingleLine": false }
 		],
 		"eol-last": 1,
 		"no-lonely-if": 1,
 		"object-curly-spacing": [
-			2,
+			1,
 			"always"
 		],
 
@@ -91,7 +91,7 @@
 		"prefer-const": 1,
 		"prefer-spread": 1,
 		"arrow-spacing": [
-			2,
+			1,
 			{ "before": true, "after": true }
 		],
 		"arrow-parens": [
