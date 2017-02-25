@@ -102,7 +102,6 @@ class Http {
 		let promise
 		const info = this._ratelimit
 
-		console.log('request:', request, 'cookie:', request.headers.get('cookie'))
 		if (info.timeoutId === undefined) {
 			promise = fetch(request)
 		} else {

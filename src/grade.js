@@ -1,5 +1,4 @@
 import assert from 'assert'
-import _ from 'lodash'
 import MagisterThing from './magisterThing'
 import { parseDate, toString } from './util'
 import GradeType from './gradeType'
