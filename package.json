@@ -30,7 +30,7 @@
     "lint": "eslint ."
   },
   "engines": {
-    "node": ">=4.4"
+    "node": ">=5"
   },
   "repository": {
     "type": "git",
