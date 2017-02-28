@@ -4,7 +4,7 @@ import _ from 'lodash'
 import MagisterThing from './magisterThing'
 import Person from './person'
 import File from './file'
-import { cleanHtmlContent, parseDate, toString } from './util'
+import { cleanHtmlContent, parseDate, toString, cloneClassInstance } from './util'
 
 /**
  * @extends MagisterThing
@@ -152,10 +152,66 @@ class Message extends MagisterThing {
 		}
 
 		if (!recipients.every(x => x instanceof Person)) {
-			throw new Error('recipients should be a person or an persons array')
+			throw new Error('`recipients` should be a Person or an Array of Persons')
 		}
 
 		this.recipients = this.recipients.concat(recipients)
+	}
+
+	createReplyMessage(content = '') {
+		const message = cloneClassInstance(this)
+
+		message.body = dedent`
+			${content}
+
+			---------------
+			${this.toString()}
+		`
+		message.subject = `RE: ${this.subject}`
+		message.recipients = [ this.sender ]
+
+		message._type = 1
+		message._canSend = true
+
+		return message
+	}
+
+	createReplyToAllMessage(content = '') {
+		const message = cloneClassInstance(this)
+
+		message.body = dedent`
+			${content}
+
+			---------------
+			${this.toString()}
+		`
+		message.subject = `RE: ${this.subject}`
+		message.recipients = _.chain(this.recipients)
+			.reject({ id: this._magister.profileInfo.id })
+			.push(this.sender)
+			.value()
+
+		message._type = 1
+		message._canSend = true
+
+		return message
+	}
+
+	createForwardMessage(content = '') {
+		const message = cloneClassInstance(this)
+
+		message.body = dedent`
+			${content}
+
+			---------------
+			${this.toString()}
+		`
+		message.subject = `FW: ${this.subject}`
+
+		message._type = 1
+		message._canSend = true
+
+		return message
 	}
 
 	/**

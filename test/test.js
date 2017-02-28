@@ -385,6 +385,14 @@ describe('Magister', function() {
 			return messageRetrievedPromise
 		})
 
+		it('should create reply messages', function () {
+			return messageRetrievedPromise.then(m => {
+				const msg = m.createReplyMessage()
+				expect(msg.subject).to.equal(`RE: ${m.subject}`)
+				expect(msg).to.be.an.instanceof(magisterjs.Message)
+			})
+		})
+
 		it('should be able to mark messages as read', function () {
 			return messageRetrievedPromise.then(m => {
 				m.isRead = true
@@ -410,6 +418,14 @@ describe('Magister', function() {
 })
 
 describe('util', function () {
+	it('should clone class instances', function () {
+		const a = new magisterjs.School({ Name: 'kaas' })
+		const b = util.cloneClassInstance(a)
+
+		expect(b).to.be.an.instanceof(magisterjs.School)
+		expect(b.name).to.equal(a.name)
+	})
+
 	describe('html stripping', function () {
 		it('should strip html tags', function () {
 			const a = '<p syle="font-size: 10px">kaas</p>'
