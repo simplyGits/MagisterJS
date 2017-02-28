@@ -163,6 +163,13 @@ describe('Magister', function() {
 					expect(appointment).to.be.an.instanceof(magisterjs.Appointment)
 					expect(appointment.teachers).to.be.a('array')
 				}
+
+				return r[0] == null ? [] : r[0].attachments()
+			}).then(r => {
+				expect(r).to.be.an('array')
+				for (const file of r) {
+					expect(file).to.be.an.instanceof(magisterjs.File)
+				}
 			})
 		})
 
