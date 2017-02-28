@@ -1,3 +1,5 @@
+/* global dedent */
+
 import _ from 'lodash'
 import MagisterThing from './magisterThing'
 import Person from './person'
@@ -253,6 +255,17 @@ class Message extends MagisterThing {
 			this._toMagister()
 		))
 		.then(() => this)
+	}
+
+	toString() {
+		return dedent`
+			<b>Van:</b> ${this.sender.description}
+			<b>Verzonden:</b> ${this.sendDate.toLocaleString()}
+			<b>Aan:</b> ${this.recipients.map(p => p.description).join(', ')}
+			<b>Onderwerp:</b> ${this.subject}
+
+			${this.body}
+		`
 	}
 
 	/**
