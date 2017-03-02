@@ -8,6 +8,8 @@ import AbsenceInfo from './absenceInfo'
 import Activity from './activity'
 import ActivityElement from './activityElement'
 import Appointment from './appointment'
+import Assignment from './assignment'
+import AssignmentVersion from './assignmentVersion'
 import AuthError from './authError'
 import Class from './class'
 import Course from './course'
@@ -147,6 +149,35 @@ class Magister {
 			return Promise.all(promises)
 		})
 		.then(appointments => _.sortBy(appointments, 'start'))
+	}
+
+	assignments({ count = 50, skip = 0, fillPersons = false } = {}) {
+		const url = `${this._personUrl}/opdrachten?top=${count}&skip=${skip}&status=alle`
+
+		return this._privileges.needs('eloopdracht', 'read')
+		.then(() => this.http.get(url))
+		.then(res => res.json())
+		.then(res => res.Items.map(i => i.Id))
+		.then(ids => {
+			const promises = ids.map(id => {
+				return this.http.get(`${this._personUrl}/opdrachten/${id}`)
+				.then(res => res.json())
+			})
+			return Promise.all(promises)
+		})
+		.then(items => {
+			const promises = items.map(item => {
+				const assignment = new Assignment(this, item)
+				if (!fillPersons) {
+					return assignment
+				}
+
+				return Promise.all(assignment.teachers.map(p => p.getFilled('teacher')))
+				.then(teachers => assignment.teachers = teachers)
+				.then(() => assignment)
+			})
+			return Promise.all(promises)
+		})
 	}
 
 	/**
@@ -434,6 +465,8 @@ export {
 	ActivityElement,
 	AddressInfo,
 	Appointment,
+	Assignment,
+	AssignmentVersion,
 	AuthError,
 	Class,
 	Course,

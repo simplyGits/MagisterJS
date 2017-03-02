@@ -208,6 +208,26 @@ describe('Magister', function() {
 		})
 	})
 
+	describe('assignment', function () {
+		it('should correctly get assignments and assignment parts', function () {
+			return m.assignments()
+			.then(r => {
+				expect(r).to.be.an('array')
+				for (const a of r) {
+					expect(a).to.be.an.instanceof(magisterjs.Assignment)
+				}
+
+				return r[0] == null ? [] : r[0].versions()
+			})
+			.then(r => {
+				expect(r).to.be.an('array')
+				for (const v of r) {
+					expect(v).to.be.an.instanceof(magisterjs.AssignmentVersion)
+				}
+			})
+		})
+	})
+
 	describe('course', function () {
 		it('should correctly get courses and classes', function () {
 			return m.courses()
