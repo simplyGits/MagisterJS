@@ -67,7 +67,7 @@ class MessageFolder extends MagisterThing {
 		}
 
 		let url = `${this._magister._personUrl}/berichten?mapId=${this.id}&top=${count}&skip=${skip}`
-		if (readState === 'read' || readState === 'unread') {
+		if ([ 'read', 'unread' ].includes(readState)) {
 			url += `&gelezen=${readState === 'read'}`
 		}
 
@@ -95,13 +95,10 @@ class MessageFolder extends MagisterThing {
 				}))
 				.value()
 
-				return Promise.all(promises).then(objects => {
-					const messages = _(objects).map('messages').flatten().value()
-					return {
-						messages,
-						totalCount,
-					}
-				})
+				return Promise.all(promises).then(objects => ({
+					messages: _(objects).map('messages').flatten().value(),
+					totalCount,
+				}))
 			})
 		}
 
@@ -112,14 +109,10 @@ class MessageFolder extends MagisterThing {
 		})))
 		.then(res => res.json())
 		.then(res => {
-			let promise
 			const messages = res.Items.map(m => new Message(this._magister, m))
-			if (fill) {
-				const promises = messages.map(m => m.fill(fillPersons))
-				promise = Promise.all(promises)
-			} else {
-				promise = Promise.resolve(messages)
-			}
+			const promise = fill ?
+				Promise.all(messages.map(m => m.fill(fillPersons))) :
+				Promise.resolve(messages)
 
 			return promise.then(messages => ({
 				messages,

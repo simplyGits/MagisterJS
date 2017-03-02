@@ -75,6 +75,9 @@ class Magister {
 		this.profileInfo = null
 	}
 
+	/**
+	 * @return {Promise<Activity[]>}
+	 */
 	activities() {
 		return this._privileges.needs('activiteiten', 'read')
 		.then(() => this.http.get(`${this._personUrl}/activiteiten`))
@@ -113,6 +116,18 @@ class Magister {
 		.then(() => this.http.get(appointmentsUrl))
 		.then(res => res.json())
 		.then(res => res.Items.map(a => new Appointment(this, a)))
+		.then(appointments => {
+			if (!fillPersons) {
+				return appointments
+			}
+
+			const promises = appointments.map(a => {
+				return Promise.all(a.teachers.map(t => t.getFilled('teacher')))
+				.then(teachers => a.teachers = teachers)
+				.then(() => a)
+			})
+			return Promise.all(promises)
+		})
 
 		// fetch absences
 		let absencesPromise = Promise.resolve([])
@@ -136,21 +151,16 @@ class Magister {
 
 			return appointments
 		})
-		.then(appointments => {
-			if (!fillPersons) {
-				return appointments
-			}
-
-			const promises = appointments.map(a => {
-				return Promise.all(a.teachers.map(t => t.getFilled('teacher')))
-				.then(teachers => a.teachers = teachers)
-				.then(() => a)
-			})
-			return Promise.all(promises)
-		})
 		.then(appointments => _.sortBy(appointments, 'start'))
 	}
 
+	/**
+	 * @param {Object} [options={}]
+	 * 	@param {Number} [options.count=50]
+	 * 	@param {Number} [options.skip=0]]
+	 * 	@param {Boolean} [options.fillPersons=false]
+	 * @return {Promise<Assignment[]>}
+	 */
 	assignments({ count = 50, skip = 0, fillPersons = false } = {}) {
 		const url = `${this._personUrl}/opdrachten?top=${count}&skip=${skip}&status=alle`
 
@@ -181,7 +191,7 @@ class Magister {
 	}
 
 	/**
-	 * @return {Promise<Magister>}
+	 * @return {Promise<Magister[]>}
 	 */
 	children() {
 		if (this.profileInfo.isChild) {

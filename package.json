@@ -30,7 +30,7 @@
     "prepublish": "npm run build",
     "test": "mocha --compilers js:babel-register",
     "lint": "eslint .",
-    "coverage": "istanbul cover node_modules/mocha/bin/_mocha -- --compilers js:babel-core/register"
+    "cover": "istanbul cover node_modules/mocha/bin/_mocha -- --compilers js:babel-core/register"
   },
   "engines": {
     "node": ">=5"
