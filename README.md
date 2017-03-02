@@ -3,6 +3,7 @@
 	<a href="https://travis-ci.org/simplyGits/MagisterJS">
 		<img src="https://api.travis-ci.org/simplyGits/MagisterJS.png?branch=master" alt="Travis CI Badge"/>
 	</a>
+	
 </p>
 
 ==========
@@ -10,6 +11,8 @@
 [![NPM](https://nodei.co/npm/magister.js.png?mini=true)](https://nodei.co/npm/magister.js/)
 
 [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/simplyGits/MagisterJS?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+<a href="https://snyk.io/test/github/simplyGits/MagisterJS"><img src="https://snyk.io/test/github/simplyGits/MagisterJS/badge.svg" alt="Known Vulnerabilities" data-canonical-src="https://snyk.io/test/github/simplyGits/MagisterJS" style="max-width:100%;"></a>
+
 
 <a href="https://snyk.io/test/github/simplyGits/MagisterJS"><img src="https://snyk.io/test/github/simplyGits/MagisterJS/badge.svg" alt="Known Vulnerabilities" data-canonical-src="https://snyk.io/test/github/simplyGits/MagisterJS" style="max-width:100%;"></a>
 
