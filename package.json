@@ -22,13 +22,15 @@
     "chai-as-promised": "^6.0.0",
     "chai-stream": "0.0.0",
     "eslint": "^3.16.1",
+    "istanbul": "^1.1.0-alpha.1",
     "mocha": "^3.2.0"
   },
   "scripts": {
     "build": "babel -s false -d lib/ src/",
     "prepublish": "npm run build",
     "test": "mocha --compilers js:babel-register",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "coverage": "istanbul cover node_modules/mocha/bin/_mocha -- --compilers js:babel-core/register"
   },
   "engines": {
     "node": ">=5"
