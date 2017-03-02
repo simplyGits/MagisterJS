@@ -94,10 +94,10 @@ class File extends MagisterThing {
 
 		const selfUrl = _.find(raw.Links, { Rel: 'Self' })
 		const contentUrl = _.find(raw.Links, { Rel: 'Contents' })
-		const getUrl = link => url.resolve(magister.school.url, link.Href)
+		const getUrl = link => !link ? null : url.resolve(magister.school.url, link.Href)
 
 		/**
-		 * @type String
+		 * @type String|null
 		 * @readonly
 		 * @private
 		 */
