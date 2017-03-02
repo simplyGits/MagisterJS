@@ -1,7 +1,10 @@
 import _ from 'lodash'
+import fetch from 'node-fetch'
 import MagisterThing from './magisterThing'
 import Message from './message'
 import { toString } from './util'
+
+const MAX_LIMIT = 250
 
 /**
  * @extends MagisterThing
@@ -50,7 +53,7 @@ class MessageFolder extends MagisterThing {
 
 	/**
 	 * @param {Object} [options={}]
-	 * 	@param {Number} [options.limit=10] The limit of the amount of Messages to fetch.
+	 * 	@param {Number} [options.count=10] The limit of the amount of Messages to fetch. If `null`, all messages will be downloaded form the server.
 	 * 	@param {Number} [options.skip=0] The amount of messages in front of the
 	 * 	MessageFolder to skip.
 	 * 	@param {String} [options.readState='all'] One of: 'all', 'read', 'unread'.
@@ -58,22 +61,55 @@ class MessageFolder extends MagisterThing {
 	 * 	@param {Boolean} [options.fillPersons=false] Whether or not to download the users from the server. `options.fill` has to be true for this option to take effect.
 	 * @return {Promise<Object>} { messages: Message[], totalCount: Number }
 	 */
-	messages({ limit = 10, skip = 0, readState = 'all', fill = true, fillPersons = false }) {
+	messages({ count = 10, skip = 0, readState = 'all', fill = true, fillPersons = false } = {}) {
 		if (![ 'all', 'read', 'unread' ].includes(readState)) {
 			return Promise.reject(new Error('Invalid option to readState'))
 		}
 
-		if (limit === 0) {
-			return Promise.resolve([])
-		}
-
-		let url = `${this._magister._personUrl}/berichten?mapId=${this.id}&top=${limit}&skip=${skip}`
+		let url = `${this._magister._personUrl}/berichten?mapId=${this.id}&top=${count}&skip=${skip}`
 		if (readState === 'read' || readState === 'unread') {
 			url += `&gelezen=${readState === 'read'}`
 		}
 
+		count = count === null ? Infinity : count
+		if (count === 0) {
+			return Promise.resolve([])
+		} else if (count > MAX_LIMIT) {
+			url += '&count=true'
+
+			return this._magister._privileges.needs('berichten', 'read')
+			.then(() => this._magister.http.get(url))
+			.then(res => res.json())
+			.then(res => res.TotalCount)
+			.then(totalCount => {
+				count = Math.min(count, totalCount)
+
+				const promises = _.chain(count / MAX_LIMIT)
+				.range()
+				.map(n => this.messages({
+					count: MAX_LIMIT,
+					skip: n * MAX_LIMIT,
+					readState,
+					fill,
+					fillPersons,
+				}))
+				.value()
+
+				return Promise.all(promises).then(objects => {
+					const messages = _(objects).map('messages').flatten().value()
+					return {
+						messages,
+						totalCount,
+					}
+				})
+			})
+		}
+
 		return this._magister._privileges.needs('berichten', 'read')
-		.then(() => this._magister.http.get(url))
+		.then(() => fetch(this._magister.http.makeRequest({
+			method: 'get',
+			url,
+		})))
 		.then(res => res.json())
 		.then(res => {
 			let promise
