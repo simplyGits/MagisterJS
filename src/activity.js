@@ -57,7 +57,7 @@ class Activity extends MagisterThing {
 		 * @private
 		 * @readonly
 		 */
-		this._url = `${this._magister._personUrl}/activiteiten/${this.id}`
+		this._url = `${magister._personUrl}/activiteiten/${this.id}`
 	}
 
 	/**
