@@ -54,7 +54,7 @@ if (!options.school.url || !options.username || !options.password) {
 
 describe('Magister', function() {
 	let m, personPromise
-	this.timeout(7000)
+	this.timeout(15000)
 
 	before(function () {
 		return magister(options)
