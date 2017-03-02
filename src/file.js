@@ -52,7 +52,7 @@ class File extends MagisterThing {
 		 * @type String
 		 * @readonly
 		 */
-		this.mime = raw.ContentType
+		this.mime = raw.ContentType || 'application/octet-stream'
 
 		/**
 		 * @type Date
