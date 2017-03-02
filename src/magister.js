@@ -181,6 +181,31 @@ class Magister {
 	}
 
 	/**
+	 * @return {Promise<Magister>}
+	 */
+	children() {
+		if (this.profileInfo.isChild) {
+			return Promise.reject(new Error('User is not a parent'))
+		}
+
+		return this.http.get(`${this._personUrl}/kinderen`)
+		.then(res => res.json())
+		.then(res => res.Items)
+		.then(items => items.map(raw => {
+			const m = Object.create(this)
+
+			m.school = this.school
+			m.http = this.http
+
+			m._personUrl = `${this.school.url}/api/personen/${raw.Id}`
+			m._pupilUrl = `${this.school.url}/api/leerlingen/${raw.Id}`
+			m.profileInfo = new ProfileInfo(this, raw)
+
+			return m
+		}))
+	}
+
+	/**
 	 * @return {Promise<Course>}
 	 */
 	courses() {

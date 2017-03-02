@@ -7,10 +7,23 @@ import * as util from '../src/util'
 chai.use(require('chai-stream'))
 chai.use(require('chai-as-promised'))
 
-let options = { school: {} }
+const options = {
+	isParent: false,
+	school: {},
+	username: undefined,
+	password: undefined,
+}
 try {
-	options = require('./options.json')
+	const parsed = require('./options.json')
+	const isParent = parsed.parent != null
+	const { school, username, password } = parsed[isParent ? 'parent' : 'child']
+
+	options.isParent = isParent
+	options.school = school
+	options.username = username
+	options.password = password
 } catch (e) { // For Travis CI we use environment variables.
+	options.isParent = process.env.TEST_ISPARENT
 	options.school.url = process.env.TEST_SCHOOLURL
 	options.username = process.env.TEST_USERNAME
 	options.password = process.env.TEST_PASSWORD
@@ -24,15 +37,19 @@ if (!options.school.url || !options.username || !options.password) {
 	content (fill in your information):
 
 		{
-			"school": {
-				"url": "https://<schoolname>.magister.net"
-			},
-			"username": "<username>",
-			"password": "<password>"
+			"child": {
+				"school": {
+					"url": "https://<schoolname>.magister.net"
+				},
+				"username": "<username>",
+				"password": "<password>"
+			}
 		}
 
-	Or use the environment variables TEST_SCHOOLURL, TEST_USERNAME,
-	TEST_PASSWORD.
+	"child" can also be replaced with "parent" if your account is a parent account.
+
+	Instead of this JSON file you can also use the environment variables
+	TEST_SCHOOLURL, TEST_USERNAME, TEST_PASSWORD, TEST_ISPARENT.
 */
 
 describe('Magister', function() {
@@ -40,7 +57,13 @@ describe('Magister', function() {
 	this.timeout(7000)
 
 	before(function () {
-		return magister(options).then(function (obj) {
+		return magister(options)
+		.then(obj => {
+			return options.isParent ?
+				obj.children().then(children => children[0]) :
+				obj
+		})
+		.then(obj => {
 			// TODO : this doesn't work actually, we need something better than
 			// this.
 
