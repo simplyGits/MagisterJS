@@ -108,40 +108,21 @@ class Http {
 			promise = this._enqueue(request)
 		}
 
-		let res
 		return promise
-		.then(r => {
-			// clone to object to pass through to the caller, since we can't
-			// reuse an Response object
-			res = r.clone()
-
-			return r.text()
-		})
-		.then(text => {
-			if (res.ok) {
+		.then(res => res.ok ? res : res.json())
+		.then(res => {
+			if (res instanceof fetch.Response) {
 				return res
 			}
 
-			// try to get an useful error out of the response
-			let err
-			try {
-				const parsed = JSON.parse(text)
-
-				if ('SecondsLeft' in parsed) {
-					// Handle rate limit errors
-					this._setRatelimitTime(Number.parseInt(parsed.SecondsLeft, 10))
-					return this._request(obj)
-				} else {
-					// Other errors we could parse
-					err = new MagisterError(parsed)
-				}
-
-			} catch (e) {
-				// Some unparseable error
-				err = res
+			if ('SecondsLeft' in res) {
+				// Handle rate limit errors
+				this._setRatelimitTime(Number.parseInt(res.SecondsLeft, 10))
+				return this._request(obj)
+			} else {
+				// Other errors we could parse
+				throw new MagisterError(res)
 			}
-
-			throw err
 		})
 	}
 

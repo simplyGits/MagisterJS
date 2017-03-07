@@ -1,5 +1,4 @@
 import _ from 'lodash'
-import fetch from 'node-fetch'
 import MagisterThing from './magisterThing'
 import Message from './message'
 import { toString } from './util'
@@ -103,10 +102,7 @@ class MessageFolder extends MagisterThing {
 		}
 
 		return this._magister._privileges.needs('berichten', 'read')
-		.then(() => fetch(this._magister.http.makeRequest({
-			method: 'get',
-			url,
-		})))
+		.then(() => this._magister.http.get(url))
 		.then(res => res.json())
 		.then(res => {
 			const messages = res.Items.map(m => new Message(this._magister, m))
