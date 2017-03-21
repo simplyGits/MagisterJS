@@ -43,5 +43,7 @@ class root.MagisterHttp
 
 	_cookie: ''
 	_cookieInserter: (original = {}) ->
-		original.headers = _.extend (original.headers ? {}), cookie: @_cookie
+		original.headers = _.extend (original.headers ? {}),
+			cookie: @_cookie
+			'X-API-Client-ID': '12D8'
 		original

@@ -52,4 +52,7 @@ class root.MagisterHttp
 		undefined
 
 	_cookie: ''
-	_cookieInserter: (original) -> _.extend (original ? {}), cookie: @_cookie
+	_cookieInserter: (original) ->
+		_.extend (original ? {}),
+			cookie: @_cookie
+			'X-API-Client-ID': '12D8'
