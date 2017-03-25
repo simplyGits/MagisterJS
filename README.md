@@ -2,16 +2,13 @@
 <p align="right">
 	<a href="https://travis-ci.org/simplyGits/MagisterJS">
 		<img src="https://api.travis-ci.org/simplyGits/MagisterJS.png?branch=master" alt="Travis CI Badge"/>
+	</a><br>
+	<a href="https://snyk.io/test/github/simplyGits/MagisterJS">
+		<img src="https://snyk.io/test/github/simplyGits/MagisterJS/badge.svg" alt="Known Vulnerabilities" data-canonical-src="https://snyk.io/test/github/simplyGits/MagisterJS" style="max-width:100%;">
 	</a>
 </p>
 
-==========
-
-[![NPM](https://nodei.co/npm/magister.js.png?mini=true)](https://nodei.co/npm/magister.js/)
-
-[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/simplyGits/MagisterJS?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
-<a href="https://snyk.io/test/github/simplyGits/MagisterJS"><img src="https://snyk.io/test/github/simplyGits/MagisterJS/badge.svg" alt="Known Vulnerabilities" data-canonical-src="https://snyk.io/test/github/simplyGits/MagisterJS" style="max-width:100%;"></a>
+<a target="blank" href="https://nodei.co/npm/magister.js/" alt="NPM"><img src="https://nodei.co/npm/magister.js.png?mini=true"></a>
 
 A JavaScript implementation of the [Magister 6](http://magister6.nl/) API.
 
@@ -19,6 +16,8 @@ To start:
 * Node.JS: `npm install magister.js`
 * Meteor: `meteor add simply:magisterjs`
 * Browserside with a serverside proxy to circumvent Magister's same-origin policy: See the `lib/browser` folder.
+
+<a target="blank" href="https://gitter.im/simplyGits/MagisterJS?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge" alt="Gitter"><img src="https://badges.gitter.im/Join Chat.svg"></a>
 
 [Admire our project page](http://www.simplyapps.nl/MagisterJS/)
 
@@ -54,5 +53,3 @@ License
 [LGPLv3](LICENSE)
 
 [![Analytics](https://ga-beacon.appspot.com/UA-52373748-2/Magister.js/)](#)
-
-[<img src="http://i.imgur.com/RQrAaF1.png" alt="Join the team" align="left" width="150"/>](https://simplyapps.typeform.com/to/cspOyK)
