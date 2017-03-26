@@ -220,7 +220,7 @@ class root.Magister
 			Groepen: null
 			OpdrachtId: 0
 
-		@http.post "#{@_personUrl}/afspraken", payload, {}, (e, r) => callback e, null
+		@http.post "#{@_personUrl}/afspraken", payload, {}, (e, r) -> callback e, null
 
 	###*
 	# Gets the MessageFolders that matches the given query. Or if no query is given, all MessageFolders
