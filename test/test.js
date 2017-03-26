@@ -184,14 +184,30 @@ describe('Magister', function() {
 
 		it('should be able to create appointments and delete them', function (done) {
 			var now = new Date();
+			var name = 'magister.js test appointment';
+
 			m.createAppointment({
 				start: now,
 				end: new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1),
-				name: 'magister.js test appointment',
-			}, function (e, r) {
+				name: name,
+			}, function (e) {
 				expect(e).to.not.exist;
-				expect(r).to.be.an.instanceof(Appointment);
-				r.remove(done);
+
+				m.appointments(new Date(), function (e, r) {
+					expect(e).to.not.exist;
+
+					var appointment = (function () {
+						for (var i = 0; i < r.length; i++) {
+							var a = r[i];
+							if (a.description() === name) {
+								return a;
+							}
+						}
+					})();
+
+					expect(appointment).to.exist;
+					appointment.remove(done);
+				});
 			});
 		});
 	});

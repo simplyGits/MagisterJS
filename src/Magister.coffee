@@ -167,7 +167,6 @@ class root.Magister
 	# 	@param [options.type=1] {Number} The type of the appointment: 1 for personal or 16 for planning
 	# @param callback {Function} A standard callback.
 	# 	@param [callback.error] {Object} The error, if it exists.
-	# 	@param [callback.result] {Appointment} The newly created appointment.
 	###
 	createAppointment: (options, callback) ->
 		@_forceReady()
@@ -221,12 +220,7 @@ class root.Magister
 			Groepen: null
 			OpdrachtId: 0
 
-		@http.post "#{@_personUrl}/afspraken", payload, {}, (e, r) =>
-			if e? then callback e, null
-			else
-				appointment = root.Appointment._convertRaw this, payload
-				appointment._url = @magisterSchool.url + JSON.parse(r.content).Url
-				callback null, appointment
+		@http.post "#{@_personUrl}/afspraken", payload, {}, (e, r) => callback e, null
 
 	###*
 	# Gets the MessageFolders that matches the given query. Or if no query is given, all MessageFolders
