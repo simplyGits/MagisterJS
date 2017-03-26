@@ -49,7 +49,7 @@ if (options.school.url == null || options.username == null || options.password =
 */
 
 describe('Magister', function() {
-	this.timeout(7000);
+	this.timeout(10000);
 
 	var m;
 	before(function (done) {
