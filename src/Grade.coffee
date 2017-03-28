@@ -142,6 +142,7 @@ class root.Grade
 			period = new root.GradePeriod magisterObj
 			period._id = raw.CijferPeriode.Id
 			period._name = raw.CijferPeriode.Naam ? ""
+			period._number = raw.CijferPeriode.VolgNummer ? 0
 			period
 		)
 
@@ -335,6 +336,12 @@ class root.GradePeriod
 		# @type String
 		###
 		@description = root._getset "_description"
+		###*
+		# @property number
+		# @final
+		# @type Number
+		###
+		@number = root._getset "_number"
 
 	@_convertRaw: (magisterObj, raw) ->
 		obj = new root.GradePeriod magisterObj
@@ -344,5 +351,6 @@ class root.GradePeriod
 		obj._end = root._helpers.parseDate raw.Einde
 		obj._name = raw.Naam ? ""
 		obj._description = raw.Omschrijving ? ""
+		obj._number = raw.VolgNummer ? 0
 
 		obj
