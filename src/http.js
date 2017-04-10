@@ -81,6 +81,7 @@ class Http {
 			headers: {
 				...obj.headers,
 				cookie: this._cookie,
+				'X-API-Client-ID': '12D8',
 			},
 		}
 
