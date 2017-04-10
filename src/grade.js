@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import assert from 'assert'
 import MagisterThing from './magisterThing'
 import { parseDate, toString } from './util'
@@ -134,11 +135,11 @@ class Grade extends MagisterThing {
 		.then(res => res.json())
 		.then(res => {
 			this.testDate = parseDate(res.WerkinformatieDatumIngevoerd)
-			this.description = res.WerkInformatieOmschrijving || ''
+			this.description = _.trim(res.WerkInformatieOmschrijving)
 			this.weight = Number.parseInt(res.Weging, 10) || 0
 
 			this.type.level = res.KolomNiveau
-			this.type.description = res.KolomOmschrijving || ''
+			this.type.description = _.trim(res.KolomOmschrijving)
 
 			this.filled = true
 			return this

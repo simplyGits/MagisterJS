@@ -242,6 +242,7 @@ class Magister {
 	 * 	save.
 	 * 	@param {Number} [options.type=1] The type of the appointment: 1 for
 	 * 	personal or 16 for planning
+	 * @return {Promise}
 	 */
 	createAppointment(options) {
 		const required = [ 'description', 'start', 'end' ]
@@ -262,9 +263,9 @@ class Magister {
 			Start: options.start.toJSON(),
 			Einde: options.end.toJSON(),
 
-			Lokatie: options.location || '',
+			Lokatie: _.trim(options.location),
 			Inhoud: (function () {
-				const content = (options.content || '').trim()
+				const content = _.trim(options.content)
 				return content.length > 0 ? _.escape(content) : null
 			})(),
 			Type: options.type || 1,
@@ -304,7 +305,7 @@ class Magister {
 	 */
 	fileFolders() {
 		return this._privileges.needs('bronnen', 'read')
-		.then(() => this.http.get( `${this._personUrl}/bronnen?soort=0`))
+		.then(() => this.http.get(`${this._personUrl}/bronnen?soort=0`))
 		.then(res => res.json())
 		.then(res => res.Items.map(f => new FileFolder(this, f)))
 	}

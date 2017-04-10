@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import MagisterThing from './magisterThing'
 import { parseDate, toString } from './util'
 
@@ -33,13 +34,13 @@ class GradePeriod extends MagisterThing {
 		 * @readonly
 		 * @default ''
 		 */
-		this.name = raw.Naam || ''
+		this.name = _.trim(raw.Naam)
 		/**
 		 * @type String
 		 * @readonly
 		 * @default ''
 		 */
-		this.description = raw.Omschrijving || ''
+		this.description = _.trim(raw.Omschrijving)
 	}
 }
 

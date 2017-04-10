@@ -49,12 +49,12 @@ class Appointment extends MagisterThing {
 		 * @type String
 		 * @readonly
 		 */
-		this.description = raw.Omschrijving || ''
+		this.description = _.trim(raw.Omschrijving)
 		/**
 		 * @type String
 		 * @readonly
 		 */
-		this.location = raw.Lokatie || ''
+		this.location = _.trim(raw.Lokatie)
 		/**
 		 * @type String
 		 * @readonly
