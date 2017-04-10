@@ -220,13 +220,18 @@ describe('Magister', function() {
 
 		it('should be able to create appointments and delete them', function () {
 			const now = new Date()
+			const description = 'magister.js test appointment'
+
 			return m.createAppointment({
 				start: now,
 				end: new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1),
-				description: 'magister.js test appointment',
-			}).then(r => {
-				expect(r).to.be.an.instanceof(magisterjs.Appointment)
-				return r.remove()
+				description,
+			}).then(() => {
+				return m.appointments(now).then(r => {
+					const appointment = r.find(a => a.description === description)
+					expect(appointment).to.exist
+					return appointment.remove()
+				})
 			})
 		})
 	})

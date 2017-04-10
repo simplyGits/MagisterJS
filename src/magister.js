@@ -292,12 +292,6 @@ class Magister {
 
 		return this._privileges.needs('afspraken', 'create')
 		.then(() => this.http.post(`${this._personUrl}/afspraken`, payload))
-		.then(res => res.json())
-		.then(res => {
-			const appointment = new Appointment(this, payload)
-			appointment._url = this.school.url + res.Url
-			return appointment
-		})
 	}
 
 	/**
