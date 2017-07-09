@@ -1,52 +1,52 @@
 {
-	"name": "magister.js",
-	"description": "A JavaScript implementation of the Magister 6 API",
-	"version": "1.24.1",
-	"author": "simplyApps",
-	"maintainers": [
-		"Lieuwe Rooijakkers <lieuwerooijakkers@gmail.com>"
-	],
-	"homepage": "http://simplyGits.github.io/MagisterJS",
-	"repository": {
-		"type": "git",
-		"url": "http://github.com/simplyGits/MagisterJS.git"
-	},
-	"main": "./lib/node/magister-node.js",
-	"licenses": [
-		{
-			"type": "LGPL-3.0",
-			"url": "http://github.com/simplyGits/MagisterJS/blob/master/LICENSE"
-		}
-	],
-	"dependencies": {
-		"lodash": "3.10.1",
-		"request": "2.78.0"
-	},
-	"devDependencies": {
-		"chai": "^3.5.0",
-		"grunt": "^1.0.1",
-		"grunt-contrib-coffee": "^1.0.0",
-		"grunt-contrib-compress": "^1.3.0",
-		"grunt-contrib-concat": "^1.0.1",
-		"grunt-contrib-uglify": "^2.0.0",
-		"grunt-stripcomments": "^0.6.0",
-		"mocha": "^3.1.2"
-	},
-	"scripts": {
-		"prepublish": "grunt",
-		"test": "mocha"
-	},
-	"engines": {
-		"node": ">=0.6.0"
-	},
-	"keywords": [
-		"magister",
-		"schoolmaster",
-		"school",
-		"simplyApps"
-	],
-	"bugs": {
-		"url": "https://github.com/simplyGits/MagisterJS/issues"
-	},
-	"license": "LGPL-3.0"
+  "name": "magister.js",
+  "description": "A JavaScript implementation of the Magister 6 API",
+  "version": "1.24.1",
+  "author": "simplyApps",
+  "maintainers": [
+    "Lieuwe Rooijakkers <lieuwerooijakkers@gmail.com>"
+  ],
+  "homepage": "http://simplyGits.github.io/MagisterJS",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/simplyGits/MagisterJS.git"
+  },
+  "main": "./lib/node/magister-node.js",
+  "licenses": [
+    {
+      "type": "LGPL-3.0",
+      "url": "http://github.com/simplyGits/MagisterJS/blob/master/LICENSE"
+    }
+  ],
+  "dependencies": {
+    "lodash": "3.10.1",
+    "request": "2.81.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "grunt": "^1.0.1",
+    "grunt-contrib-coffee": "^1.0.0",
+    "grunt-contrib-compress": "^1.3.0",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-uglify": "^2.0.0",
+    "grunt-stripcomments": "^0.6.0",
+    "mocha": "^3.1.2"
+  },
+  "scripts": {
+    "prepublish": "grunt",
+    "test": "mocha"
+  },
+  "engines": {
+    "node": ">=0.6.0"
+  },
+  "keywords": [
+    "magister",
+    "schoolmaster",
+    "school",
+    "simplyApps"
+  ],
+  "bugs": {
+    "url": "https://github.com/simplyGits/MagisterJS/issues"
+  },
+  "license": "LGPL-3.0"
 }
