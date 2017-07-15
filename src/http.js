@@ -61,8 +61,8 @@ class Http {
 		}
 
 		info.timeoutId = setInterval(() => {
-			for (const info of info.queue) {
-				fetch(info.request).then(info.resolve, info.reject)
+			for (const item of info.queue) {
+				fetch(item.request).then(item.resolve, item.reject)
 			}
 
 			info.queue = []
