@@ -1,6 +1,6 @@
 Package.describe({
 	name: "simply:magisterjs",
-	version: "1.24.1",
+	version: "1.24.2",
 	summary: "A JavaScript implementation of the Magister 6 API",
 	git: "https://github.com/simplyGits/MagisterJS",
 	documentation: "README.md"
