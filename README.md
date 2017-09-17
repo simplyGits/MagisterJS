@@ -1,4 +1,4 @@
-[<img src="http://i.imgur.com/Lrg80ax.png" alt="Magister.js" align="left" width="200"/>](http://www.simplyapps.nl/MagisterJS/)
+[<img src="http://i.imgur.com/Lrg80ax.png" alt="Magister.js" align="left" width="200"/>](http://simplyGits.github.io/MagisterJS/)
 <p align="right">
 	<a href="https://travis-ci.org/simplyGits/MagisterJS">
 		<img src="https://api.travis-ci.org/simplyGits/MagisterJS.png?branch=master" alt="Travis CI Badge"/>
@@ -40,13 +40,13 @@ getSchools('<schoolname>') // get schools matching '<schoolname>'
 
 Useful links
 ===
-* [Project page](http://www.simplyapps.nl/MagisterJS/)
-* [Documentation](http://www.simplyapps.nl/MagisterJS/docs/index.html)
+* [Project page](http://simplyGits.github.io/MagisterJS/)
+* [Documentation](http://simplyGits.github.io/MagisterJS/docs/index.html)
 
 Before creating issues
 ===
 1. Update all your packages with `npm update`
-2. Be sure you haven't made a typo and your code is correct (check the [docs](http://www.simplyapps.nl/MagisterJS/docs/index.html))
+2. Be sure you haven't made a typo and your code is correct (check the [docs](http://simplyGits.github.io/MagisterJS/docs/index.html))
 3. Don't create issues which occur in a modified version
 
 Contributing
