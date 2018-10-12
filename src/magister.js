@@ -143,8 +143,8 @@ class Magister {
 			}
 		}
 
-		return Promise.all([ appointmentsPromise, absencesPromise ])
-		.then(([ appointments, absences ]) => {
+		return Promise.all([appointmentsPromise, absencesPromise])
+		.then(([appointments, absences]) => {
 			for (const a of appointments) {
 				a.absenceInfo = absences.find(i => i.appointment.id === a.id)
 			}
@@ -161,7 +161,11 @@ class Magister {
 	 * 	@param {Boolean} [options.fillPersons=false]
 	 * @return {Promise<Assignment[]>}
 	 */
-	assignments({ count = 50, skip = 0, fillPersons = false } = {}) {
+	assignments({
+		count = 50,
+		skip = 0,
+		fillPersons = false,
+	} = {}) {
 		const url = `${this._personUrl}/opdrachten?top=${count}&skip=${skip}&status=alle`
 
 		return this._privileges.needs('eloopdracht', 'read')
@@ -245,7 +249,7 @@ class Magister {
 	 * @return {Promise}
 	 */
 	createAppointment(options) {
-		const required = [ 'description', 'start', 'end' ]
+		const required = ['description', 'start', 'end']
 		for (const key of required) {
 			if (options[key] == null) {
 				const err = new Error(`Not all required fields for \`options\` are given, required are: [ ${required.join(', ')} ]`)
@@ -255,7 +259,7 @@ class Magister {
 
 		if (options.fullDay) {
 			options.start = util.date(options.start)
-			options.end = new Date(options.start.getTime()) + 1000*60*60*24
+			options.end = new Date(options.start.getTime()) + 1000 * 60 * 60 * 24
 		}
 
 		const payload = {
@@ -328,7 +332,7 @@ class Magister {
 			return Promise.all([
 				this.persons(query, 'teacher'),
 				this.persons(query, 'pupil'),
-			]).then(([ teachers, pupils ]) => teachers.concat(pupils))
+			]).then(([teachers, pupils]) => teachers.concat(pupils))
 		}
 
 		type = ({
@@ -365,63 +369,109 @@ class Magister {
 	 * is in the options object.
 	 * @return {Promise<String>} A promise that resolves when done logging in. With the current session ID as parameter.
 	 */
-	login(forceLogin = false) {
-		const setSessionId = sessionId => {
-			const cookie = `SESSION_ID=${sessionId}; M6UserName=${this._options.username}`
-			this.http._cookie = cookie
-			return sessionId
+	async login(forceLogin = false) {
+		const self = this
+
+		function setToken(token) {
+			self.http._token = token
+			return token
 		}
 
 		const options = this._options
-		const baseUrl = this.school.url
-		const deleteUrl = `${baseUrl}/api/sessies/huidige`
-		const postUrl = `${baseUrl}/api/sessies`
+		const schoolUrl = this.school.url
+		const filteredName = schoolUrl.split('https://').join('')
+		const authorizeUrl = `https://accounts.magister.net/connect/authorize?client_id=M6-${filteredName}&redirect_uri=https%3A%2F%2F${filteredName}%2Foidc%2Fredirect_callback.html&response_type=id_token%20token&scope=openid%20profile%20magister.ecs.legacy%20magister.mdv.broker.read%20magister.dnn.roles.read&state=29302702b955469f84d342fcb4cece33&nonce=8cfe9935b3a14fc593f328663d14f191&acr_values=tenant%3A${filteredName}`
 
-		let promise
-		if (!forceLogin && options.sessionId) {
-			promise = Promise.resolve(options.sessionId)
+		if (!forceLogin && options.token) {
+			return setToken(options.token)
 		} else {
-			// delete the current session
-			promise = this.http.delete(deleteUrl)
-			.then(r => {
-				setSessionId(/[a-z\d-]+/.exec(r.headers.get('set-cookie'))[0])
+			//Extract returnUrl
+			const location = await this.http.get(authorizeUrl, {
+				redirect: 'manual',
+			})
+			.then(res => res.headers.get('Location'))
 
-				// create a new session
-				return this.http.post(postUrl, {
-					Gebruikersnaam: options.username,
-					Wachtwoord: options.password,
-					IngelogdBlijven: options.keepLoggedIn,
+			const returnUrl = decodeURIComponent(
+				location.split('returnUrl=')[1]
+			)
+
+			//Extract session and XSRF related stuff
+			const xsrfResponse = await this.http.get(location, {
+				redirect: 'manual',
+			})
+
+			const sessionId =
+				xsrfResponse.headers.get('Location')
+				.split('?')[1]
+				.split('&')[0]
+				.split('=')[1]
+			const authUrl = 'https://accounts.magister.net/challenge'
+			const xsrf =
+				xsrfResponse.headers.get('set-cookie')
+				.split('XSRF-TOKEN=')[1]
+				.split(';')[0]
+			const authCookies = xsrfResponse.headers.get('set-cookie').toString()
+			let authRes
+
+			try {
+				//Test username
+				authRes = await this.http.post(`${authUrl}/username`, {
+					sessionId: sessionId,
+					returnUrl: returnUrl,
+					username: options.username,
+				}, {
+					headers: {
+						Cookie: authCookies,
+						'X-XSRF-TOKEN': xsrf,
+					},
 				})
-			})
-			.then(r => /[a-z\d-]+/.exec(r.headers.get('set-cookie'))[0])
-			.catch(err => {
-				throw [
-					'Ongeldig account of verkeerde combinatie van gebruikersnaam en wachtwoord. Probeer het nog eens of neem contact op met de applicatiebeheerder van de school.',
-					'Je gebruikersnaam en/of wachtwoord is niet correct.',
-				].includes(err.message) ?
-				new AuthError(err.message) :
-				err
-			})
-		}
 
-		return promise
-		.then(setSessionId)
-		.then(sessionId => {
-			return this.http.get(`${baseUrl}/api/account`)
-			.then(res => res.json())
-			.then(res => {
-				const id = res.Persoon.Id
+				if (authRes.error) {
+					throw authRes.error
+				}
+				//Test password
+				authRes = await this.http.post(`${authUrl}/password`, {
+					sessionId: sessionId,
+					returnUrl: returnUrl,
+					password: options.password,
+				}, {
+					headers: {
+						Cookie: authCookies,
+						'X-XSRF-TOKEN': xsrf,
+					},
+				})
+				if (authRes.error) {
+					throw authRes.error
+				}
+			} catch (err) {
+				throw new AuthError(err)
+			}
+			//Extract bearer token
+			const token = await this.http.get(`https://accounts.magister.net${returnUrl}`, {
+				redirect: 'manual',
+				headers: {
+					Cookie: authRes.headers.get('set-cookie'),
+					'X-XSRF-TOKEN': xsrf,
+				},
+			})
+			.then(res => res.headers.get('Location')
+			.split('&access_token=')[1]
+			.split('&')[0])
+			.then(setToken)
+			.then(async token => {
+				const accountData = await this.http.get(`${schoolUrl}/api/account`).then(res => res.json())
+				const id = accountData.Persoon.Id
 
 				// REVIEW: do we want to make profileInfo a function?
-				this.profileInfo = new ProfileInfo(this, res.Persoon)
-				this._privileges = new Privileges(this, res.Groep[0].Privileges)
+				this.profileInfo = new ProfileInfo(this, accountData.Persoon)
+				this._privileges = new Privileges(this, accountData.Groep[0].Privileges)
 
-				this._personUrl = `${baseUrl}/api/personen/${id}`
-				this._pupilUrl = `${baseUrl}/api/leerlingen/${id}`
+				this._personUrl = `${schoolUrl}/api/personen/${id}`
+				this._pupilUrl = `${schoolUrl}/api/leerlingen/${id}`
 
-				return sessionId
+				return token
 			})
-		})
+		}
 	}
 }
 
@@ -431,12 +481,12 @@ class Magister {
  * 	@param {School} options.school The school to login to.
  * 	@param {String} [options.username] The username of the user to login to.
  * 	@param {String} [options.password] The password of the user to login to.
- * 	@param {String} [options.sessionId] The sessionId to use. (instead of the username and password)
+ * 	@param {String} [options.token] The Bearer token to use. (instead of the username and password)
  * 	@param {Boolean} [options.keepLoggedIn=true] Whether or not to keep the user logged in.
  * 	@param {Boolean} [options.login=true] Whether or not to call `Magister#login` before returning the object.
  * @return {Promise<Magister>}
  */
-export default function magister (options) {
+export default function magister(options) {
 	_.defaults(options, {
 		keepLoggedIn: true,
 		login: true,
@@ -445,9 +495,9 @@ export default function magister (options) {
 
 	if (!(
 		options.school &&
-		(options.sessionId || (options.username && options.password))
+		(options.token || (options.username && options.password))
 	)) {
-		return rej('school and username&password or sessionId are required.')
+		return rej('school and username&password or token are required.')
 	}
 
 	if (!_.isObject(options.school)) {
@@ -458,6 +508,7 @@ export default function magister (options) {
 
 	return Promise.resolve().then(() => {
 		const m = new Magister(options, options.school, new Http())
+
 		return options.login ?
 			m.login().then(() => m) :
 			m
@@ -469,7 +520,7 @@ export default function magister (options) {
  * @param {String} query
  * @return {Promise<School[]>}
  */
-export function getSchools (query) {
+export function getSchools(query) {
 	query = query.replace(/\d/g, '')
 	query = query.trim()
 	query = query.replace(/ +/g, '+')

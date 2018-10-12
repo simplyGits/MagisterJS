@@ -30,6 +30,11 @@ class Http {
 		 */
 		this._cookie = ''
 		/**
+		 * @type String
+		 * @private
+		 */
+		this._token = ''
+		/**
 		 * @type Number
 		 * @private
 		 * @readonly
@@ -67,7 +72,7 @@ class Http {
 
 			info.queue = []
 			info.timeoutId = undefined
-		}, timeLeft*1000 + 10)
+		}, timeLeft * 1000 + 10)
 	}
 
 	/**
@@ -81,8 +86,10 @@ class Http {
 			headers: {
 				...obj.headers,
 				cookie: this._cookie,
+				Authorization: 'Bearer ' + this._token,
 				'X-API-Client-ID': '12D8',
 			},
+			redirect: obj.redirect,
 		}
 
 		if (obj.data != null) {
@@ -110,9 +117,9 @@ class Http {
 		}
 
 		return promise
-		.then(res => res.ok ? res : res.json())
+		.then(res => (res.ok || res.status === 302) ? res : res.json())
 		.then(res => {
-			if (res instanceof fetch.Response) {
+			if (res instanceof fetch.Response || res instanceof Object) {
 				return res
 			}
 
@@ -130,10 +137,12 @@ class Http {
 	/**
 	 * Gets the content at `url`
 	 * @param {String} url
+	 * @param {Object} [opt]
 	 * @return {Promise<Response>}
 	 */
-	get(url) {
+	get(url, opt) {
 		return this._request({
+			...opt,
 			method: 'get',
 			url: url,
 		})
