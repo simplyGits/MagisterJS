@@ -186,7 +186,8 @@ class Message extends MagisterThing {
 			${this.toString()}
 		`
 		message.subject = `RE: ${this.subject}`
-		message.recipients = _.chain(this.recipients)
+		message.recipients =
+			_.chain(this.recipients)
 			.reject({ id: this._magister.profileInfo.id })
 			.push(this.sender)
 			.value()

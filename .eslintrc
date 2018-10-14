@@ -1,6 +1,6 @@
 {
 	"parserOptions": {
-		"ecmaVersion": 6,
+		"ecmaVersion": 8,
 		"sourceType": "module",
 		"ecmaFeatures": {
 			"experimentalObjectRestSpread": true
@@ -36,7 +36,8 @@
 
 		"indent": [
 			2,
-			"tab"
+			"tab",
+			{ "MemberExpression": 0 }
 		],
 		"quotes": [
 			1,
@@ -58,7 +59,7 @@
 
 		"no-console": 1,
 		"comma-dangle": [
-			1,
+			2,
 			"always-multiline"
 		],
 		"no-undef": 1,

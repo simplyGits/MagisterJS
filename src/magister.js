@@ -399,8 +399,8 @@ class Magister {
 					'Ongeldig account of verkeerde combinatie van gebruikersnaam en wachtwoord. Probeer het nog eens of neem contact op met de applicatiebeheerder van de school.',
 					'Je gebruikersnaam en/of wachtwoord is niet correct.',
 				].includes(err.message) ?
-				new AuthError(err.message) :
-				err
+					new AuthError(err.message) :
+					err
 			})
 		}
 
