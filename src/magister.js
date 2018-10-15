@@ -143,8 +143,8 @@ class Magister {
 			}
 		}
 
-		return Promise.all([appointmentsPromise, absencesPromise])
-		.then(([appointments, absences]) => {
+		return Promise.all([ appointmentsPromise, absencesPromise ])
+		.then(([ appointments, absences ]) => {
 			for (const a of appointments) {
 				a.absenceInfo = absences.find(i => i.appointment.id === a.id)
 			}
@@ -249,7 +249,7 @@ class Magister {
 	 * @return {Promise}
 	 */
 	createAppointment(options) {
-		const required = ['description', 'start', 'end']
+		const required = [ 'description', 'start', 'end' ]
 		for (const key of required) {
 			if (options[key] == null) {
 				const err = new Error(`Not all required fields for \`options\` are given, required are: [ ${required.join(', ')} ]`)
@@ -332,7 +332,7 @@ class Magister {
 			return Promise.all([
 				this.persons(query, 'teacher'),
 				this.persons(query, 'pupil'),
-			]).then(([teachers, pupils]) => teachers.concat(pupils))
+			]).then(([ teachers, pupils ]) => teachers.concat(pupils))
 		}
 
 		type = ({

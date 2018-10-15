@@ -56,8 +56,31 @@
 		"no-unexpected-multiline": 2,
 
 		"space-before-blocks": 1,
+		"keyword-spacing": [
+			2,
+			{ "before": true, "after": true }
+		],
+		"array-bracket-spacing": [
+			2,
+			"always"
+		],
+		"object-curly-spacing": [
+			2,
+			"always"
+		],
+		"arrow-spacing": [
+			2,
+			{ "before": true, "after": true }
+		],
+		"comma-spacing": [
+			2
+		],
 
 		"no-console": 1,
+		"comma-style": [
+			2,
+			"last"
+		],
 		"comma-dangle": [
 			2,
 			"always-multiline"
@@ -80,10 +103,6 @@
 		],
 		"eol-last": 1,
 		"no-lonely-if": 1,
-		"object-curly-spacing": [
-			1,
-			"always"
-		],
 
 		"handle-callback-err": 1,
 		"no-path-concat": 2,
@@ -91,10 +110,6 @@
 		"no-var": 2,
 		"prefer-const": 1,
 		"prefer-spread": 1,
-		"arrow-spacing": [
-			1,
-			{ "before": true, "after": true }
-		],
 		"arrow-parens": [
 			1,
 			"as-needed"

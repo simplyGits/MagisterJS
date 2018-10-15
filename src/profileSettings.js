@@ -59,14 +59,14 @@ class ProfileSettings extends MagisterThing {
 			'wachtwoord': original, 
 		}).then(res => res.json())
 
-		if(profile.isVerified) {
+		if (profile.isVerified) {
 			const selfUrl = profile.links.account.href
 			const status = await this._magister.http.put(`${schoolUrl}/${selfUrl}/wachtwoord`, { 
 				'wachtwoord': changed, 
-				'wachtwoordControle': original ,
+				'wachtwoordControle': original,
 			}).then(res => res.status)
 
-			if(status !== 204) {
+			if (status !== 204) {
 				throw new Error(`Changing password failed with status code ${status}!`)
 			}
 		} else {
