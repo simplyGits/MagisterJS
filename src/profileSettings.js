@@ -47,7 +47,7 @@ class ProfileSettings extends MagisterThing {
 	 * seperate function because requires verification.
 	 * 
 	 * @param {String} changed
-	 * 	@param {String} [original] - Not required, defaults to password set on auth
+	 * @param {String} [original] - Not required, defaults to password set on auth
 	 * @return {Promise}
 	 */
 	async changePassword(changed, original) {
