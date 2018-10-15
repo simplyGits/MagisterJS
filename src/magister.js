@@ -365,7 +365,7 @@ class Magister {
 
 	/**
 	 * Logins to Magister.
-	 * @param {Boolean} [forceLogin=false] Force a login, even when a session id
+	 * @param {Boolean} [forceLogin=false] Force a login, even when a token
 	 * is in the options object.
 	 * @return {Promise<String>} A promise that resolves when done logging in. With the current session ID as parameter.
 	 */
