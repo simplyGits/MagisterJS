@@ -53,7 +53,7 @@ if (!options.school.url || !options.username || !options.password) {
 */
 
 describe('Magister', function() {
-	let m, personPromise
+	let m, personPromise, profileSettings
 	this.timeout(15000)
 
 	before(function () {
@@ -150,8 +150,17 @@ describe('Magister', function() {
 
 		it('should fetch profile settings', function () {
 			return m.profileInfo.settings().then(r => {
+				profileSettings = r
 				expect(r).to.be.an.instanceof(magisterjs.ProfileSettings)
 			})
+		})
+	})
+
+	describe('profileSettings', function() {
+		it('should be able to change password', function() {
+			expect(profileSettings).to.be.instanceof(magisterjs.ProfileSettings)
+
+			return profileSettings.changePassword(m._options.password)
 		})
 	})
 
