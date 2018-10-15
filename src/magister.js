@@ -458,19 +458,17 @@ class Magister {
 			.split('&access_token=')[1]
 			.split('&')[0])
 			.then(setToken)
-			.then(async token => {
-				const accountData = await this.http.get(`${schoolUrl}/api/account`).then(res => res.json())
-				const id = accountData.Persoon.Id
+			const accountData = await this.http.get(`${schoolUrl}/api/account`).then(res => res.json())
+			const id = accountData.Persoon.Id
 
-				// REVIEW: do we want to make profileInfo a function?
-				this.profileInfo = new ProfileInfo(this, accountData.Persoon)
-				this._privileges = new Privileges(this, accountData.Groep[0].Privileges)
+			// REVIEW: do we want to make profileInfo a function?
+			this.profileInfo = new ProfileInfo(this, accountData.Persoon)
+			this._privileges = new Privileges(this, accountData.Groep[0].Privileges)
 
-				this._personUrl = `${schoolUrl}/api/personen/${id}`
-				this._pupilUrl = `${schoolUrl}/api/leerlingen/${id}`
+			this._personUrl = `${schoolUrl}/api/personen/${id}`
+			this._pupilUrl = `${schoolUrl}/api/leerlingen/${id}`
 
-				return token
-			})
+			return token
 		}
 	}
 }
