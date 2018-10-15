@@ -372,7 +372,7 @@ class Magister {
 	async login(forceLogin = false) {
 		const self = this
 
-		function setToken(token) {
+		function setToken (token) {
 			self.http._token = token
 			return token
 		}
@@ -384,70 +384,72 @@ class Magister {
 
 		if (!forceLogin && options.token) {
 			return setToken(options.token)
-		} else {
-			//Extract returnUrl
-			const location = await this.http.get(authorizeUrl, {
-				redirect: 'manual',
+		}
+
+		// extract returnUrl
+		const location = await this.http.get(authorizeUrl, {
+			redirect: 'manual',
+		}).then(res => res.headers.get('Location'))
+
+		const returnUrl = decodeURIComponent(
+			location.split('returnUrl=')[1]
+		)
+
+		// extract session and XSRF related stuff
+		const xsrfResponse = await this.http.get(location, {
+			redirect: 'manual',
+		})
+
+		const sessionId =
+			xsrfResponse.headers.get('Location')
+			.split('?')[1]
+			.split('&')[0]
+			.split('=')[1]
+		const authUrl = 'https://accounts.magister.net/challenge'
+		const xsrf =
+			xsrfResponse.headers.get('set-cookie')
+			.split('XSRF-TOKEN=')[1]
+			.split(';')[0]
+		const authCookies = xsrfResponse.headers.get('set-cookie').toString()
+		let authRes
+
+		try {
+			// test username
+			authRes = await this.http.post(`${authUrl}/username`, {
+				sessionId: sessionId,
+				returnUrl: returnUrl,
+				username: options.username,
+			}, {
+				headers: {
+					Cookie: authCookies,
+					'X-XSRF-TOKEN': xsrf,
+				},
 			})
-			.then(res => res.headers.get('Location'))
-
-			const returnUrl = decodeURIComponent(
-				location.split('returnUrl=')[1]
-			)
-
-			//Extract session and XSRF related stuff
-			const xsrfResponse = await this.http.get(location, {
-				redirect: 'manual',
-			})
-
-			const sessionId =
-				xsrfResponse.headers.get('Location')
-				.split('?')[1]
-				.split('&')[0]
-				.split('=')[1]
-			const authUrl = 'https://accounts.magister.net/challenge'
-			const xsrf =
-				xsrfResponse.headers.get('set-cookie')
-				.split('XSRF-TOKEN=')[1]
-				.split(';')[0]
-			const authCookies = xsrfResponse.headers.get('set-cookie').toString()
-			let authRes
-
-			try {
-				//Test username
-				authRes = await this.http.post(`${authUrl}/username`, {
-					sessionId: sessionId,
-					returnUrl: returnUrl,
-					username: options.username,
-				}, {
-					headers: {
-						Cookie: authCookies,
-						'X-XSRF-TOKEN': xsrf,
-					},
-				})
-
-				if (authRes.error) {
-					throw authRes.error
-				}
-				//Test password
-				authRes = await this.http.post(`${authUrl}/password`, {
-					sessionId: sessionId,
-					returnUrl: returnUrl,
-					password: options.password,
-				}, {
-					headers: {
-						Cookie: authCookies,
-						'X-XSRF-TOKEN': xsrf,
-					},
-				})
-				if (authRes.error) {
-					throw authRes.error
-				}
-			} catch (err) {
-				throw new AuthError(err)
+			if (authRes.error) {
+				throw authRes.error
 			}
-			//Extract bearer token
-			const token = await this.http.get(`https://accounts.magister.net${returnUrl}`, {
+
+			// test password
+			authRes = await this.http.post(`${authUrl}/password`, {
+				sessionId: sessionId,
+				returnUrl: returnUrl,
+				password: options.password,
+			}, {
+				headers: {
+					Cookie: authCookies,
+					'X-XSRF-TOKEN': xsrf,
+				},
+			})
+			if (authRes.error) {
+				throw authRes.error
+			}
+		} catch (err) {
+			throw new AuthError(err)
+		}
+
+		// extract bearer token
+		const token =
+			await this.http.get(`https://accounts.magister.net${returnUrl}`, {
 				redirect: 'manual',
 				headers: {
 					Cookie: authRes.headers.get('set-cookie'),
@@ -458,18 +460,19 @@ class Magister {
 			.split('&access_token=')[1]
 			.split('&')[0])
 			.then(setToken)
-			const accountData = await this.http.get(`${schoolUrl}/api/account`).then(res => res.json())
-			const id = accountData.Persoon.Id
+		const accountData = await
+			this.http.get(`${schoolUrl}/api/account`)
+			.then(res => res.json())
+		const id = accountData.Persoon.Id
 
-			// REVIEW: do we want to make profileInfo a function?
-			this.profileInfo = new ProfileInfo(this, accountData.Persoon)
-			this._privileges = new Privileges(this, accountData.Groep[0].Privileges)
+		// REVIEW: do we want to make profileInfo a function?
+		this.profileInfo = new ProfileInfo(this, accountData.Persoon)
+		this._privileges = new Privileges(this, accountData.Groep[0].Privileges)
 
-			this._personUrl = `${schoolUrl}/api/personen/${id}`
-			this._pupilUrl = `${schoolUrl}/api/leerlingen/${id}`
+		this._personUrl = `${schoolUrl}/api/personen/${id}`
+		this._pupilUrl = `${schoolUrl}/api/leerlingen/${id}`
 
-			return token
-		}
+		return token
 	}
 }
 

@@ -27,10 +27,8 @@ class Privileges {
 		action = action.toLowerCase()
 
 		return this._items.some(x => {
-			return (
-				x.Naam.toLowerCase() === thing &&
-				x.AccessType.some(a => a.toLowerCase() === action)
-			)
+			x.Naam.toLowerCase() === thing &&
+			x.AccessType.some(a => a.toLowerCase() === action)
 		})
 	}
 

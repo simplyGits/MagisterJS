@@ -4,8 +4,7 @@ import MagisterError from './magisterError'
 const DEFAULT_REQUEST_TIMEOUT = 1000 * 30 // 30 seconds
 
 /**
- * Class to communicate with the outside world. With those delicious cookies
- * inserted for you.
+ * Class to communicate with the outside world.
  * Wraps around fetch.
  * @private
  */
@@ -24,11 +23,6 @@ class Http {
 			queue: [],
 			timeoutId: undefined,
 		}
-		/**
-		 * @type String
-		 * @private
-		 */
-		this._cookie = ''
 		/**
 		 * @type String
 		 * @private
@@ -72,7 +66,7 @@ class Http {
 
 			info.queue = []
 			info.timeoutId = undefined
-		}, timeLeft * 1000 + 10)
+		}, timeLeft*1000 + 10)
 	}
 
 	/**
@@ -85,7 +79,6 @@ class Http {
 			timeout: this._requestTimeout,
 			headers: {
 				...obj.headers,
-				cookie: this._cookie,
 				Authorization: 'Bearer ' + this._token,
 				'X-API-Client-ID': '12D8',
 			},
