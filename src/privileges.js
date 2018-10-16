@@ -26,9 +26,16 @@ class Privileges {
 		thing = thing.toLowerCase()
 		action = action.toLowerCase()
 
-		return this._items.some(x => {
-			x.Naam.toLowerCase() === thing &&
-			x.AccessType.some(a => a.toLowerCase() === action)
+		const item = this._items.find(item => {
+			return item.Naam.toLowerCase() === thing
+		})
+
+		if (!item) { 
+			return false 
+		}
+		
+		return item.AccessType.some(item => {
+			return item.toLowerCase() === action
 		})
 	}
 
