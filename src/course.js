@@ -89,7 +89,7 @@ class Course extends MagisterThing {
 	 * @return {Promise<Class[]>}
 	 */
 	classes() {
-		const url = `${this._magister._personUrl}/aanmeldingen/${this.id}/cijfers`
+		const url = `${this._magister._personUrl}/aanmeldingen/${this.id}/vakken`
 		return this._magister.http.get(url)
 		.then(res => res.json())
 		.then(res => res.Items.map(c => new Class(this._magister, c)))
