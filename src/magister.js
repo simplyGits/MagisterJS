@@ -160,7 +160,7 @@ class Magister {
 	/**
 	 * @param {Object} [options={}]
 	 * 	@param {Number} [options.count=50]
-	 * 	@param {Number} [options.skip=0]]
+	 * 	@param {Number} [options.skip=0]
 	 * 	@param {Boolean} [options.fillPersons=false]
 	 * @return {Promise<Assignment[]>}
 	 */
@@ -383,7 +383,15 @@ class Magister {
 		const options = this._options
 		const schoolUrl = this.school.url
 		const filteredName = schoolUrl.split('https://').join('')
-		const authorizeUrl = `https://accounts.magister.net/connect/authorize?client_id=M6-${filteredName}&redirect_uri=https%3A%2F%2F${filteredName}%2Foidc%2Fredirect_callback.html&response_type=id_token%20token&scope=openid%20profile%20magister.ecs.legacy%20magister.mdv.broker.read%20magister.dnn.roles.read&state=29302702b955469f84d342fcb4cece33&nonce=8cfe9935b3a14fc593f328663d14f191&acr_values=tenant%3A${filteredName}`
+
+		let authorizeUrl = 'https://accounts.magister.net/connect/authorize'
+		authorizeUrl += `?client_id=M6-${filteredName}`
+		authorizeUrl += `&redirect_uri=https%3A%2F%2F${filteredName}%2Foidc%2Fredirect_callback.html`
+		authorizeUrl += '&response_type=id_token%20token'
+		authorizeUrl += '&scope=openid%20profile%20magister.ecs.legacy%20magister.mdv.broker.read%20magister.dnn.roles.read'
+		authorizeUrl += '&state=29302702b955469f84d342fcb4cece33'
+		authorizeUrl += '&nonce=8cfe9935b3a14fc593f328663d14f191'
+		authorizeUrl += `&acr_values=tenant%3A${filteredName}`
 
 		if (!forceLogin && options.token) {
 			return setToken(options.token)
