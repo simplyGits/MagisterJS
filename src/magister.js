@@ -1,36 +1,39 @@
 'use strict'
 
+// external
 import _ from 'lodash'
 import fetch from 'node-fetch'
 import url from 'url'
 
+// internal: used in this file
 import AbsenceInfo from './absenceInfo'
 import Activity from './activity'
-import ActivityElement from './activityElement'
 import Appointment from './appointment'
 import Assignment from './assignment'
-import AssignmentVersion from './assignmentVersion'
 import AuthError from './authError'
 import Class from './class'
 import Course from './course'
-import File from './file'
 import FileFolder from './fileFolder'
-import Grade from './grade'
-import GradePeriod from './gradePeriod'
-import GradeType from './gradeType'
 import Http from './http'
-import Message from './message'
 import MessageFolder from './messageFolder'
 import Person from './person'
 import Privileges from './privileges'
 import ProfileInfo from './profileInfo'
 import School from './school'
 import SchoolUtility from './schoolUtility'
-import VersionInfo from './versionInfo'
 import * as util from './util'
 
+// internal: only being exported
+import ActivityElement from './activityElement'
 import AddressInfo from './addressInfo'
+import AssignmentVersion from './assignmentVersion'
+import File from './file'
+import Grade from './grade'
+import GradePeriod from './gradePeriod'
+import GradeType from './gradeType'
+import Message from './message'
 import ProfileSettings from './profileSettings'
+import VersionInfo from './versionInfo'
 
 // TODO: add nice warnings when trying to do stuff while not logged in yet
 
