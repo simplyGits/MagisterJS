@@ -5,11 +5,11 @@
 	</a>
 </p>
 
-==========
+---
 
-[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/simplyGits/MagisterJS?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Gitter](https://badges.gitter.im/simplyGits/MagisterJS.svg)](https://gitter.im/simplyGits/MagisterJS?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![npm version](https://badge.fury.io/js/magister.js.svg)](https://badge.fury.io/js/magister.js)
-<a href="https://snyk.io/test/github/simplyGits/MagisterJS"><img src="https://snyk.io/test/github/simplyGits/MagisterJS/badge.svg" alt="Known Vulnerabilities" data-canonical-src="https://snyk.io/test/github/simplyGits/MagisterJS" style="max-width:100%;"></a>
+[![Known Vulnerabilities](https://snyk.io/test/github/simplyGits/MagisterJS/badge.svg?targetFile=package.json)](https://snyk.io/test/github/simplyGits/MagisterJS?targetFile=package.json)
 
 A JavaScript implementation of the [Magister 6](http://magister6.nl/) API.
 
