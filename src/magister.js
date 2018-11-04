@@ -216,7 +216,7 @@ class Magister {
 
 			m._personUrl = `${this.school.url}/api/personen/${raw.Id}`
 			m._pupilUrl = `${this.school.url}/api/leerlingen/${raw.Id}`
-			m.profileInfo = new ProfileInfo(this, raw)
+			m.profileInfo = new ProfileInfo(m, raw)
 
 			return m
 		}))
