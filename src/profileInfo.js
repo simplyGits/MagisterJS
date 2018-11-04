@@ -107,7 +107,8 @@ class ProfileInfo extends MagisterThing {
 	 * @return {Promise<Stream>}
 	 */
 	getProfilePicture(width = 640, height = 640, crop = false) {
-		const url = `${this._magister._personUrl}/foto?width=${width}&height=${height}&crop=${crop}`
+		const personUrl = `${this._magister.school.url}/api/personen/${this.id}`
+		const url = `${personUrl}/foto?width=${width}&height=${height}&crop=${crop}`
 		return this._magister.http.get(url).then(res => res.body)
 	}
 
