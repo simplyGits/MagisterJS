@@ -1,11 +1,13 @@
 {
+	"ecmaVersion": 6,
 	"libs": [
-		"browser",
+		"ecma5",
+		"ecma6",
 		"underscore"
 	],
-	"dontLoad": [ ".meteor", "node_modules", "lib" ],
+	"dontLoad": [ "node_modules", "lib" ],
 	"plugins": {
-		"meteor": {},
-		"node": {}
+		"node": {},
+		"es_modules": {}
 	}
 }

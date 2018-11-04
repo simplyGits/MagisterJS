@@ -1,3 +1,6 @@
 node_modules
+lib
 tags
+coverage
+yarn.lock
 .*.swp

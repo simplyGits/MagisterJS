@@ -1,490 +1,525 @@
-/* global describe, it, before */
+'use strict'
 
-'use strict';
+import chai, { expect } from 'chai'
+import magister, * as magisterjs from '../src/magister'
+import * as util from '../src/util'
 
-var expect = require('chai').expect;
+chai.use(require('chai-stream'))
+chai.use(require('chai-as-promised'))
 
-var magisterjs = require('../');
-var Magister = magisterjs.Magister;
-var Message = magisterjs.Message;
-var ProfileInfo = magisterjs.ProfileInfo;
-var Appointment = magisterjs.Appointment;
-var MagisterSchool = magisterjs.MagisterSchool;
-var File = magisterjs.File;
-var Grade = magisterjs.Grade;
-var GradePeriod = magisterjs.GradePeriod;
-var Person = magisterjs.Person;
-var DigitalSchoolUtility = magisterjs.DigitalSchoolUtility;
-var Class = magisterjs.Class;
-var AddressInfo = magisterjs.AddressInfo;
-var ProfileSettings = magisterjs.ProfileSettings;
-var Helpers = magisterjs._helpers;
-
-var options = null;
-
-try {
-	options = require('./options.json');
-} catch (e) { // For Travis CI we use environment variables.
-	options = { school: {} };
-
-	options.school.url = process.env.TEST_SCHOOLURL;
-	options.username = process.env.TEST_USERNAME;
-	options.password = process.env.TEST_PASSWORD;
+const options = {
+	isParent: false,
+	school: {},
+	username: undefined,
+	password: undefined,
 }
-if (options.school.url == null || options.username == null || options.password == null) {
-	throw new Error('No login information found.');
+try {
+	const parsed = require('./options.json')
+	const isParent = parsed.parent != null
+	const { school, username, password } = parsed[isParent ? 'parent' : 'child']
+
+	options.isParent = isParent
+	options.school = school
+	options.username = username
+	options.password = password
+} catch (e) { // For Travis CI we use environment variables.
+	options.isParent = process.env.TEST_ISPARENT
+	options.school.url = process.env.TEST_SCHOOLURL
+	options.username = process.env.TEST_USERNAME
+	options.password = process.env.TEST_PASSWORD
+}
+if (!options.school.url || !options.username || !options.password) {
+	throw new Error('No login information found.')
 }
 
 /*
-	To use this test:
-		Create a file in this folder called testOptions.json with as content (fill in your information):
+	To use this test, create a file in this folder called options.json with as
+	content (fill in your information):
 
 		{
-			'school': {
-				'url': 'https://<schoolname>.magister.net'
-			},
-			'username': '<username>',
-			'password': '<password>'
+			"child": {
+				"school": {
+					"url": "https://<schoolname>.magister.net"
+				},
+				"username": "<username>",
+				"password": "<password>"
+			}
 		}
+
+	"child" can also be replaced with "parent" if your account is a parent account.
+
+	Instead of this JSON file you can also use the environment variables
+	TEST_SCHOOLURL, TEST_USERNAME, TEST_PASSWORD, TEST_ISPARENT.
 */
 
 describe('Magister', function() {
-	this.timeout(10000);
+	let m, personPromise, profileSettings
+	this.timeout(15000)
 
-	var m;
-	before(function (done) {
-		new Magister({
-			school: options.school,
-			username: options.username,
-			password: options.password,
-		}).ready(function (e) {
-			m = this;
-			done(e);
-		});
-	});
+	before(function () {
+		return magister(options)
+		.then(obj => {
+			return options.isParent ?
+				obj.children().then(children => children[0]) :
+				obj
+		})
+		.then(obj => {
+			// TODO : this doesn't work actually, we need something better than
+			// this.
 
-	it('should be a correct Magister object', function () {
-		expect(m).to.be.an.instanceof(Magister);
-		expect(m).to.have.a.property('ready').be.a('function');
+			// don't fail the tests when stuff isn't allowed on users
+			obj._privileges.needs = function (thing, action) {
+				if (obj._privileges.can(thing, action)) {
+					return Promise.resolve()
+				} else {
+					return {
+						then: function () {}, // eslint-disable-line no-empty-function
+						catch: function () {}, // eslint-disable-line no-empty-function
+					}
+				}
+			}
 
-		expect(m).to.have.a.property('magisterSchool').be.an.instanceof(MagisterSchool);
-		expect(m).to.have.a.property('magisterSchool').to.have.a.property('url');
-	});
+			m = obj
+		})
+	})
+
+	it('should check if given school url is correct', function () {
+		return expect(magister({
+			school: {
+				url: 'adelbert',
+			},
+			username: 'xxx',
+			password: 'xxx',
+		})).to.be.rejectedWith(/correct magister url/)
+	})
+
+	it('should throw an AuthError when an authentication error occurs', function () {
+		return expect(magister({
+			...options,
+			username: 'xxx',
+			password: 'xxx',
+		})).to.be.rejectedWith(magisterjs.AuthError)
+	})
+
+	it('should expose an correct Magister object', function () {
+		expect(m).to.be.an.instanceof(magisterjs.Magister)
+	})
+
+	it('should correctly fetch privileges', function () {
+		expect(m._privileges.can('Profiel', 'read')).to.be.true
+		expect(m._privileges.can('foo', 'bar')).to.be.false
+
+		return m._privileges.needs('profiel', 'read')
+	})
+
+	describe('school', function () {
+		it('should find schools', function () {
+			return magisterjs.getSchools('adelbert')
+			.then(function (res) {
+				const found = res.some(school => school.name === 'Adelbert College')
+				expect(found).to.be.true
+				expect(res[0]).to.be.an.instanceof(magisterjs.School)
+			})
+		})
+
+		it('should get version info', function () {
+			return m.school.versionInfo().then(r => {
+				expect(r).to.be.an.instanceof(magisterjs.VersionInfo)
+			})
+		})
+	})
 
 	describe('profileInfo', function () {
-		it('should contain profileInfo', function () {
-			expect(m.profileInfo()).to.be.a('object');
-			expect(m.profileInfo()).to.be.an.instanceof(ProfileInfo);
-			expect(m.profileInfo().profilePicture()).to.be.a('string');
-		});
+		it('should correctly fetch profileInfo', function () {
+			expect(m.profileInfo).to.be.an.instanceof(magisterjs.ProfileInfo)
+		})
 
-		it('should fetch address info', function (done) {
-			m.profileInfo().address(function (e, r) {
-				expect(e).to.not.exist;
-				expect(r).to.be.an.instanceof(AddressInfo);
-				done();
-			});
-		});
+		it('should correctly fetch the profile picture', function () {
+			return m.profileInfo.getProfilePicture()
+			.then(stream => {
+				expect(stream).to.be.a.ReadableStream
+				return expect(stream).to.end
+			})
+		})
 
-		it('should fetch profile settings', function (done) {
-			m.profileInfo().settings(function (e, r) {
-				expect(e).to.not.exist;
-				expect(r).to.be.an.instanceof(ProfileSettings);
-				done();
-			});
-		});
-	});
+		it('should fetch address info', function () {
+			return m.profileInfo.address().then(r => {
+				expect(r).to.be.an.instanceof(magisterjs.AddressInfo)
+			})
+		})
 
-	describe('messages', function () {
-		it('should search messageFolders correctly', function () {
-			expect(
-				m.messageFolders('postvak in')[0].id() ===
-				m.messageFolders('mededelingen')[0].id()
-			).to.be.false;
-		});
+		it('should fetch profile settings', function () {
+			return m.profileInfo.settings().then(r => {
+				profileSettings = r
+				expect(r).to.be.an.instanceof(magisterjs.ProfileSettings)
+			})
+		})
+	})
 
-		it('should send messages and retreive them', function (done) {
-			this.timeout(10000);
-			var body = '' + ~~(Math.random() * 100);
-			m.composeAndSendMessage('Magister.js mocha test.', body, [m.profileInfo().firstName()], function (e, r) {
-				expect(e).to.not.exist;
-				expect(r).to.be.an.instanceof(Message);
+	describe('profileSettings', function() {
+		it('should be able to change password', function() {
+			expect(profileSettings).to.be.instanceof(magisterjs.ProfileSettings)
 
-				m.inbox().messages({
-					limit: 1,
-					skip: 0,
-					readState: 'all',
-					fillPersons: false,
-					fill: true,
-				}, function (e, r) {
-					expect(e).to.not.exist;
-					expect(r).to.be.a('array');
-					expect(r).to.not.be.empty;
+			return profileSettings.changePassword(m._options.password)
+		})
+	})
 
-					expect(r[0]).to.be.an.instanceof(Message);
-					expect(r[0].body()).to.equal(body);
+	describe('activity', function () {
+		// TODO: add test for `ActivityElement#signup`
 
-					r[0].remove(done);
-				});
-			});
-		});
-	});
+		it('should fetch activities and parts', function () {
+			return m.activities().then(r => {
+				expect(r).to.be.an('array')
 
-	describe('courses', function () {
-		it('should correctly get the limited current course', function (done) {
-			m.getLimitedCurrentCourseInfo(function (e, r) {
-				expect(r).to.be.a('object');
-				done(e);
-			});
-		});
-
-		it('should correctly get courses', function (done) {
-			m.courses(function (e, r) {
-				expect(e).to.not.exist;
-				expect(r).to.be.a('array');
-				var course = r[0];
-
-				m.currentCourse(function (e, r) {
-					expect(r.id()).to.equal(course.id());
-					done(e);
-				});
-			});
-		});
-	});
-
-	describe('appointments', function () {
-		it('should give appointments', function (done) {
-			m.appointments(new Date(), false, function(e, r) {
-				expect(e).to.not.exist;
-				expect(r).to.be.a('array');
-
-				r.forEach(function (appointment) {
-					expect(appointment).to.be.an.instanceof(Appointment);
-					expect(appointment.teachers()).to.be.a('array');
-				});
-
-				done();
-			});
-		});
-
-		it('should be able to mark appointments as ready', function (done) {
-			m.appointments(new Date(), false, function(e, r) {
-				expect(e).to.not.exist;
-				expect(r).to.be.a('array');
-				if (r[0] != null) {
-					expect(r[0]).to.be.an.instanceof(Appointment);
-					expect(r[0]).to.have.a.property('isDone').be.a('function');
-
-					r[0].isDone(true);
-					r[0].isDone(false);
+				for (const activity of r) {
+					expect(activity).to.be.an.instanceof(magisterjs.Activity)
 				}
-				done();
-			});
-		});
 
-		it('should be able to create appointments and delete them', function (done) {
-			var now = new Date();
-			var name = 'magister.js test appointment';
+				return r[0] == null ? [] : r[0].elements()
+			}).then(r => {
+				expect(r).to.be.an('array')
+				for (const element of r) {
+					expect(element).to.be.an.instanceof(magisterjs.ActivityElement)
+				}
+			})
+		})
+	})
 
-			m.createAppointment({
+	// TODO: add tests for fillPersons option
+	describe('appointment', function () {
+		it('should fetch appointments', function () {
+			return m.appointments(new Date()).then(r => {
+				expect(r).to.be.an('array')
+
+				for (const appointment of r) {
+					expect(appointment).to.be.an.instanceof(magisterjs.Appointment)
+					expect(appointment.teachers).to.be.a('array')
+				}
+
+				return r[0] == null ? [] : r[0].attachments()
+			}).then(r => {
+				expect(r).to.be.an('array')
+				for (const file of r) {
+					expect(file).to.be.an.instanceof(magisterjs.File)
+				}
+			})
+		})
+
+		it('should be able to mark appointments as done', function () {
+			return m.appointments(new Date()).then(r => {
+				expect(r).to.be.a('array')
+				if (r[0] != null) {
+					expect(r[0]).to.be.an.instanceof(magisterjs.Appointment)
+					expect(r[0]).to.have.a.property('isDone').be.a('boolean')
+
+					const initial = r[0].isDone
+					const toggle = function () {
+						r[0].isDone = !r[0].isDone
+						return r[0].saveChanges()
+					}
+
+					return toggle()
+					.then(toggle)
+					.then(() => {
+						expect(r[0].isDone).to.equal(initial)
+					})
+				}
+			})
+		})
+
+		it('should be able to create appointments and delete them', function () {
+			const now = new Date()
+			const description = 'magister.js test appointment'
+
+			return m.createAppointment({
 				start: now,
 				end: new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1),
-				name: name,
-			}, function (e) {
-				expect(e).to.not.exist;
+				description,
+			}).then(() => {
+				return m.appointments(now).then(r => {
+					const appointment = r.find(a => a.description === description)
+					expect(appointment).to.exist
+					return appointment.remove()
+				})
+			})
+		})
+	})
 
-				m.appointments(new Date(), function (e, r) {
-					expect(e).to.not.exist;
-
-					var appointment = (function () {
-						for (var i = 0; i < r.length; i++) {
-							var a = r[i];
-							if (a.description() === name) {
-								return a;
-							}
-						}
-					})();
-
-					expect(appointment).to.exist;
-					appointment.remove(done);
-				});
-			});
-		});
-	});
-
-	describe('files', function () {
-		it('should download files', function (done) {
-			m.fileFolders(function (error, result) {
-				expect(error).to.not.exist;
-				result[0].files(function (error, result) {
-					expect(error).to.not.exist;
-					result[0].download(false, function(e, r) {
-						expect(e).to.not.exist;
-						expect(r).to.be.a('string');
-						done();
-					});
-				});
-			});
-		});
-
-		it('should download attachments', function (done) {
-			m.inbox().messages(function(e, r) {
-				expect(r[0].attachments()).to.be.a('array');
-				var foundAttachment = false;
-
-				for (var i = 0; i < r.length; i++) {
-					var msg = r[i];
-
-					if (msg.attachments().length > 0) {
-						foundAttachment = true;
-						var attachment = msg.attachments()[0];
-
-						expect(attachment).to.be.an.instanceof(File);
-						expect(attachment.download(false, function(e, r) {
-							expect(r).to.be.a('string');
-							done(e);
-						}));
-						break;
-					}
+	describe('assignment', function () {
+		it('should correctly get assignments and assignment parts', function () {
+			return m.assignments()
+			.then(r => {
+				expect(r).to.be.an('array')
+				for (const a of r) {
+					expect(a).to.be.an.instanceof(magisterjs.Assignment)
 				}
-				if (!foundAttachment) done();
-			});
-		});
-	});
 
-	describe('grades', function () {
-		it('should correctly get grades', function (done) {
-			m.currentCourse(function (e, r) {
-				if (e != null) { // case covered by 'should correctly get courses'.
-					done();
-				} else {
-					r.grades({
-						fillPersons: false,
-						fillGrade: false,
-						onlyRecent: false,
-					}, function (e, r) {
-						expect(e).to.not.exist;
-						expect(r).to.be.a('array');
-
-						r.forEach(function (g) {
-							expect(g).to.be.an.instanceof(Grade);
-						});
-
-						var grade = r[0];
-						if (grade) {
-							grade.fillGrade(function (e, r) {
-								expect(r).to.be.an.instanceof(Grade);
-								done(e);
-							});
-						} else {
-							done();
-						}
-					});
+				return r[0] == null ? [] : r[0].versions()
+			})
+			.then(r => {
+				expect(r).to.be.an('array')
+				for (const v of r) {
+					expect(v).to.be.an.instanceof(magisterjs.AssignmentVersion)
 				}
-			});
-		});
+			})
+		})
+	})
 
-		it('should correctly get gradePeriods', function (done) {
-			m.currentCourse(function (e, r) {
-				if (e != null) { // case covered by 'should correctly get courses'.
-					done();
-				} else {
-					r.gradePeriods(function (e, r) {
-						expect(e).to.not.exist;
-						expect(r).to.be.a('array');
-
-						r.forEach(function (p) {
-							expect(p).to.be.an.instanceof(GradePeriod);
-						});
-
-						done();
-					});
+	describe('course', function () {
+		it('should correctly get courses and classes', function () {
+			return m.courses()
+			.then(r => {
+				expect(r).to.be.an('array')
+				for (const c of r) {
+					expect(c).to.be.an.instanceof(magisterjs.Course)
 				}
-			});
-		});
-	});
+				return r.find(c => c.current).classes()
+			}).then(r => {
+				expect(r).to.be.an('array')
+				for (const c of r) {
+					expect(c).to.be.an.instanceof(magisterjs.Class)
+				}
+			})
+		})
+	})
 
-	describe('persons', function () {
-		it('should handle empty queries correctly', function (done) {
-			var cases = [
-				null,
-				undefined,
-				'',
-				'    ',
-			];
+	describe('schoolUtility', function () {
+		it('should get schoolUtilities', function () {
+			return m.schoolUtilities()
+			.then(r => {
+				expect(r).to.be.an('array')
+				for (const u of r) {
+					expect(u).to.be.an.instanceof(magisterjs.SchoolUtility)
+					expect(u.class).to.be.an.instanceof(magisterjs.Class)
+				}
+			})
+		})
+	})
 
-			var push = Helpers.asyncResultWaiter(cases.length, function () {
-				done();
-			});
+	describe('file', function () {
+		it('should download files', function () {
+			return m.fileFolders()
+			.then(folders => {
+				expect(folders).to.be.an('array')
+				for (const f of folders) {
+					expect(f).to.be.an.instanceof(magisterjs.FileFolder)
+				}
 
-			cases.forEach(function (val) {
-				m.getPersons(val, function (e, r) {
-					if (e) {
-						done(e);
-						return;
-					}
-					expect(r).to.be.an('array').to.have.length(0);
-					push();
-				});
-			});
-		});
+				return folders[0].files(false)
+			})
+			.then(files => {
+				expect(files).to.be.an('array')
+				for (const f of files) {
+					expect(f).to.be.an.instanceof(magisterjs.File)
+				}
 
-		it('should get persons', function (done) {
-			m.getPersons(m.profileInfo().firstName(), function (e, r) {
-				expect(r).to.be.an('array').to.have.length.above(0);
+				return files[0].download()
+			})
+			.then(stream => {
+				expect(stream).to.be.a.ReadableStream
+				return expect(stream).to.end
+			})
+		})
+	})
 
-				expect(r[0]).to.be.an.instanceof(Person);
-				expect(r[0].type()).to.equal('person'); // test if it correctly get a persons type
+	describe('grade', function () {
+		it('should correctly get grades', function () {
+			return m.courses()
+			.then(res => res.find(c => c.current))
+			.then(c => c.grades({
+				fillGrades: false,
+			}))
+			.then(r => {
+				expect(r).to.be.a('array')
 
-				done(e);
-			});
-		});
+				for (const g of r) {
+					expect(g).to.be.an.instanceof(magisterjs.Grade)
+				}
 
-		it('should cache persons', function () {
-			var cached = m.getPersons(m.profileInfo().firstName(), function () {});
-			expect(cached).to.equal(true);
-		});
+				const grade = r[0]
+				if (grade != null) {
+					return grade.fill()
+					.then(r => expect(r).to.be.an.instanceof(magisterjs.Grade))
+				}
+			})
+		})
+	})
+
+	describe('person', function () {
+		it('should handle empty queries correctly', function () {
+			return Promise.all([
+				m.persons(''),
+				m.persons('    '),
+				m.persons(null),
+				m.persons(undefined),
+			]).then(arrays => {
+				for (const arr of arrays) {
+					expect(arr).to.be.an('array')
+					expect(arr).to.have.length(0)
+				}
+			})
+		})
+
+		it('should get persons', function () {
+			personPromise = m.persons(m.profileInfo.firstName)
+			return personPromise.then(r => {
+				expect(r).to.be.an('array')
+				expect(r).to.not.be.empty
+
+				expect(r[0]).to.be.an.instanceof(magisterjs.Person)
+				expect(r[0].type).to.equal('person')
+			})
+		})
 
 		it('should convert types correctly', function () {
-			var person = new Person(null, 'John', 'Johnson');
+			const person = new magisterjs.Person(m, {})
 
-			expect(person.type()).to.equal('unknown');
+			expect(person.type).to.equal('unknown')
 
-			person.type('person');
-			expect(person.type()).to.equal('person');
-			expect(person._type).to.equal(3);
-		});
-	});
+			person.type = 'person'
+			expect(person.type).to.equal('person')
+			expect(person._type).to.equal(3)
+		})
 
-	describe('digitalSchoolUtilities', function () {
-		it('should get digitalSchoolUtilities', function (done) {
-			m.digitalSchoolUtilities(function (e, r) {
-				expect(e).to.not.exist;
-				expect(r).to.be.an('array');
+		it('should fail to set incorrect types', function () {
+			const person = new magisterjs.Person(m, {})
+			expect(function () {
+				person.type = 'foo'
+			}).to.throw(Error)
+		})
+	})
 
-				r.forEach(function (u) {
-					expect(u).to.be.an.instanceof(DigitalSchoolUtility);
+	describe('messageFolder', function () {
+		it('should fetch messageFolders', function () {
+			return m.messageFolders().then(r => {
+				for (const f of r) {
+					expect(f).to.be.an.instanceof(magisterjs.MessageFolder)
+				}
 
-					expect(u.url()).to.be.an('string');
-					expect(u.url()).to.not.be.empty;
+				const inbox = r.find(f => f.type === 'inbox')
+				expect(inbox).to.exist
+			})
+		})
+	})
 
-					expect(u.class()).to.be.an.instanceof(Class);
-				});
+	describe('message', function () {
+		const body = Date.now().toString()
+		let messageSentPromise
+		let messageRetrievedPromise
 
-				done();
-			});
-		});
-	});
+		it('should send messages', function () {
+			messageSentPromise = personPromise.then(p => {
+				const message = new magisterjs.Message(m)
+				message.subject = 'magister.js mocha tests'
+				message.body = body
+				message.addRecipient(p)
+				return message.send()
+			})
 
-	describe('version info', function () {
-		it('should get version infos', function (done) {
-			m.magisterSchool.versionInfo(function (e, r) {
-				expect(e).not.to.exist;
-				expect(r).to.be.an('object');
-				done();
-			});
-		});
-	});
-});
+			return messageSentPromise.then(r => {
+				expect(r).to.be.an.instanceof(magisterjs.Message)
+				expect(r.body).to.equal(body)
+			})
+		})
 
-describe('Helpers', function () {
+		it('should retrieve messages', function () {
+			messageRetrievedPromise = messageSentPromise
+			.then(() => m.messageFolders())
+			.then(r => r.find(f => f.type === 'inbox'))
+			.then(f => f.messages({
+				limit: 1,
+				skip: 0,
+				readState: 'all',
+				fillPersons: false,
+				fill: true,
+			}))
+			.then(r => {
+				expect(r).to.be.an('object')
+
+				expect(r.totalCount).to.be.a('number')
+				expect(r.messages).to.be.an('array')
+
+				expect(r.messages).to.not.be.empty
+				expect(r.messages[0]).to.be.an.instanceof(magisterjs.Message)
+				expect(r.messages[0].body).to.equal(body)
+
+				return r.messages[0]
+			})
+
+			return messageRetrievedPromise
+		})
+
+		it('should create reply messages', function () {
+			return messageRetrievedPromise.then(m => {
+				const msg = m.createReplyMessage()
+				expect(msg.subject).to.equal(`RE: ${m.subject}`)
+				expect(msg).to.be.an.instanceof(magisterjs.Message)
+			})
+		})
+
+		it('should be able to mark messages as read', function () {
+			return messageRetrievedPromise.then(m => {
+				m.isRead = true
+				return m.saveChanges()
+			})
+		})
+
+		it('should be able to remove messages', function () {
+			return messageRetrievedPromise.then(m => m.remove())
+		})
+
+		it('should retrieve messages with fill=false', function () {
+			return m.messageFolders()
+			.then(r => r[0].messages({
+				limit: 1,
+				fill: false,
+			}))
+			.then(r => {
+				expect(r).to.be.an('object')
+			})
+		})
+	})
+})
+
+describe('util', function () {
+	it('should clone class instances', function () {
+		const a = new magisterjs.School({ Name: 'kaas' })
+		const b = util.cloneClassInstance(a)
+
+		expect(b).to.be.an.instanceof(magisterjs.School)
+		expect(b.name).to.equal(a.name)
+	})
+
 	describe('html stripping', function () {
 		it('should strip html tags', function () {
-			var a = '<p syle="font-size: 10px">kaas</p>';
-			var b = 'kaas';
-			expect(Helpers.cleanHtmlContent(a)).to.equal(b);
-		});
+			const a = '<p syle="font-size: 10px">kaas</p>'
+			const b = 'kaas'
+			expect(util.cleanHtmlContent(a)).to.equal(b)
+		})
 
 		it('should convert nonbreaking spaces to normal spaces', function () {
-			var a = 'kaas&nbsp;swag';
-			var b = 'kaas swag';
-			expect(Helpers.cleanHtmlContent(a)).to.equal(b);
-		});
-	});
+			const a = 'kaas&nbsp;swag'
+			const b = 'kaas swag'
+			expect(util.cleanHtmlContent(a)).to.equal(b)
+		})
+	})
 
-	describe('dates', function () {
+	describe('date', function () {
 		it('should be able to get the date of a Date object', function () {
-			var a = new Date(2016, 4, 20, 13, 37, 69);
-			var b = new Date(2016, 4, 20);
-			expect(Helpers.date(a).getTime()).to.equal(b.getTime());
-		});
+			const a = new Date(2016, 4, 20, 13, 37, 69)
+			const b = new Date(2016, 4, 20)
+			expect(util.date(a).getTime()).to.equal(b.getTime())
+		})
 
 		it('should correctly convert a date to Magister\'s url format', function () {
-			var a = new Date(2016, 3, 22);
-			var b = '2016-04-22';
-			expect(Helpers.urlDateConvert(a)).to.equal(b);
-		});
+			const a = new Date(2016, 3, 22)
+			const b = '2016-04-22'
+			expect(util.urlDateConvert(a)).to.equal(b)
+		})
 
 		it('should parse dates correctly', function () {
-			expect(Helpers.parseDate('2016-01-01')).to.be.a('Date');
-			expect(Helpers.parseDate('jkdsjfds')).to.be.undefined;
-		});
-	});
-
-	describe('contains', function () {
-		it('should correctly check if a string contains a substring', function () {
-			var str = 'kaas is lekker';
-			expect(Helpers.contains(str, 'kaas')).to.be.true;
-			expect(Helpers.contains(str, 'is')).to.be.true;
-			expect(Helpers.contains(str, 'swag')).to.be.false;
-		});
-
-		it('should correctly handle case', function () {
-			var str = 'kaas Is lekker';
-			expect(Helpers.contains(str, 'is')).to.be.false;
-			expect(Helpers.contains(str, 'Is')).to.be.true;
-			expect(Helpers.contains(str, 'is', true)).to.be.true;
-		});
-	});
-
-	describe('defer', function () {
-		it('should defer the execution correctly', function (done) {
-			var b = false;
-			Helpers.defer(function () {
-				expect(b).to.be.true;
-				done();
-			});
-			b = true; // this should be executed before the callback above
-		});
-	});
-
-	describe('asyncResultWaiter', function () {
-		it('should wait for all callbacks to be done', function (done) {
-			var push = Helpers.asyncResultWaiter(5, function (r) {
-				expect(r).to.be.an('array');
-				expect(r).to.have.length(5);
-
-				expect(r[0]).to.equals(0);
-				expect(r[4]).to.equals(4);
-
-				done();
-			});
-
-			for (var i = 0; i < 5; i++) {
-				push(i);
-			}
-		});
-
-		it('should group the results together if some consits of an array', function (done) {
-			var push = Helpers.asyncResultWaiter(5, function (r) {
-				expect(r).to.be.an('array');
-				expect(r).to.have.length(5);
-
-				expect(r[0]).to.equals(0);
-				expect(r[4]).to.equals(4);
-
-				done();
-			});
-
-			for (var i = 0; i < 5; i++) {
-				push([ i ]);
-			}
-		});
-
-		it('should handle invocations with length set to 0', function (done) {
-			Helpers.asyncResultWaiter(0, function () {
-				done();
-			});
-		});
+			expect(util.parseDate('2016-01-01')).to.be.a('Date')
+			expect(util.parseDate('jkdsjfds')).to.be.undefined
+		})
 	})
-});
+})
