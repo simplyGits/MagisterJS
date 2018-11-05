@@ -36,7 +36,7 @@ class Privileges {
 	 * @method needs
 	 * @param {String} thing
 	 * @param {String} action
-	 * @return {Promise<[Error]>}
+	 * @return {Promise}
 	 */
 	needs(thing, action) {
 		if (this.can(thing, action)) {

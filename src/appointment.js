@@ -145,7 +145,7 @@ class Appointment extends MagisterThing {
 	}
 
 	/**
-	 * @return {Promise<Error|File[]}>
+	 * @return {Promise<File[]>}
 	 */
 	attachments() {
 		if (!this.hasAttachments) {
@@ -167,7 +167,7 @@ class Appointment extends MagisterThing {
 	}
 
 	/**
-	 * @return {Promise<Error|undefined>}
+	 * @return {Promise}
 	 */
 	remove() {
 		if (this.type !== 1 && this.type !== 16) {
@@ -181,7 +181,7 @@ class Appointment extends MagisterThing {
 	/**
 	 * Update the server to reflect the changes made on the properties of this
 	 * Appointment instance.
-	 * @return {Promise<undefined>}
+	 * @return {Promise}
 	 */
 	saveChanges() {
 		return this._magister._privileges.needs('afspraken', 'update')

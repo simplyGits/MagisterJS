@@ -23,13 +23,16 @@
     "chai-stream": "0.0.0",
     "eslint": "^3.16.1",
     "istanbul": "^1.1.0-alpha.1",
-    "mocha": "^5.2.0"
+    "mocha": "^5.2.0",
+    "docdash": "^1.0.0",
+    "jsdoc": "^3.5.5"
   },
   "scripts": {
     "build": "babel -s false -d lib/ src/",
     "prepublish": "npm run build",
     "test": "mocha --compilers js:babel-register",
     "lint": "eslint .",
+    "docs": "jsdoc --configure .jsdoc.json --verbose",
     "cover": "istanbul cover node_modules/mocha/bin/_mocha -- --compilers js:babel-core/register"
   },
   "engines": {

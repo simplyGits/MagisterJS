@@ -41,8 +41,7 @@ getSchools('<schoolname>') // get schools matching '<schoolname>'
 
 Useful links
 ===
-* [Project page](http://simplyGits.github.io/MagisterJS/)
-* [Documentation](http://simplyGits.github.io/MagisterJS/docs/index.html)
+* [Documentation](http://simplyGits.github.io/MagisterJS/)
 
 Before creating issues
 ===
