@@ -382,7 +382,7 @@ class Magister {
 
 		const options = this._options
 		const schoolUrl = this.school.url
-		const filteredName = schoolUrl.split('https://').join('')
+		const filteredName = schoolUrl.replace('https://', '')
 
 		let authorizeUrl = 'https://accounts.magister.net/connect/authorize'
 		authorizeUrl += `?client_id=M6-${filteredName}`
@@ -471,9 +471,8 @@ class Magister {
 			.split('&access_token=')[1]
 			.split('&')[0])
 			.then(setToken)
-		const accountData = await
-			this.http.get(`${schoolUrl}/api/account`)
-			.then(res => res.json())
+		const accountData =
+			await this.http.get(`${schoolUrl}/api/account`).then(res => res.json())
 		const id = accountData.Persoon.Id
 
 		// REVIEW: do we want to make profileInfo a function?

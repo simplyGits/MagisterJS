@@ -14,17 +14,14 @@ class ProfileSettings extends MagisterThing {
 
 		/**
 		 * @type Boolean
-		 * @readonly
 		 */
 		this.redirectMagisterMessages = raw.EloBerichtenDoorsturen
 		/**
 		 * @type String
-		 * @readonly
 		 */
 		this.emailAddress = raw.EmailAdres
 		/**
 		 * @type String
-		 * @readonly
 		 */
 		this.mobileNumber = raw.Mobiel
 	}
@@ -34,18 +31,17 @@ class ProfileSettings extends MagisterThing {
 	 * ProfileSettings instance.
 	 * @return {Promise<Error|undefined>}
 	 */
-	saveChanges() {
-		const url = `${this._magister._personUrl}/profiel`
+	async saveChanges() {
+		await this._magister._privileges.needs('profiel', 'update')
 
-		return this._magister._privileges.needs('profiel', 'update')
-		.then(() => this._magister.http.put(url, this._toMagister()))
-		.then(() => undefined)
+		const url = `${this._magister._personUrl}/profiel`
+		await this._magister.http.put(url, this._toMagister())
 	}
 
 	/**
-	 * Change the user password, 
+	 * Change the user password,
 	 * seperate function because requires verification.
-	 * 
+	 *
 	 * @param {String} changed
 	 * @param {String} [original] - Not required, defaults to password set on auth
 	 * @return {Promise}
@@ -55,14 +51,14 @@ class ProfileSettings extends MagisterThing {
 		const schoolUrl = this._magister.school.url
 
 		await this._magister._privileges.needs('wachtwoordwijzigen', 'update')
-		const profile = await this._magister.http.post(`${schoolUrl}/api/sessies/huidige/valideer`, { 
-			'wachtwoord': original, 
+		const profile = await this._magister.http.post(`${schoolUrl}/api/sessies/huidige/valideer`, {
+			'wachtwoord': original,
 		}).then(res => res.json())
 
 		if (profile.isVerified) {
 			const selfUrl = profile.links.account.href
-			const status = await this._magister.http.put(`${schoolUrl}/${selfUrl}/wachtwoord`, { 
-				'wachtwoord': changed, 
+			const status = await this._magister.http.put(`${schoolUrl}/${selfUrl}/wachtwoord`, {
+				'wachtwoord': changed,
 				'wachtwoordControle': original,
 			}).then(res => res.status)
 

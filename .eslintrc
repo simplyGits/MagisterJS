@@ -47,6 +47,9 @@
 			1,
 			"unix"
 		],
+		"no-trailing-spaces": [
+			1
+		],
 
 		"semi": [
 			1,
