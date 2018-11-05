@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>Home - Documentation</title>
+    <title>gradeType.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -31,76 +31,123 @@
 
 <div id="main">
     
+    <h1 class="page-title">gradeType.js</h1>
+    
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import MagisterThing from './magisterThing'
+import { toString } from './util'
 
+/**
+ * @extends MagisterThing
+ * @private
+ */
+class GradeType extends MagisterThing {
+	/**
+	 * @param {Magister} magister
+	 * @param {Object} raw
+	 */
+	constructor(magister, raw) {
+		super(magister)
 
+		/**
+		 * @type String
+		 * @readonly
+		 */
+		this.id = toString(raw.Id)
+		/**
+		 * @type String
+		 * @readonly
+		 */
+		this.name = raw.KolomNaam
+		/**
+		 * @type Number
+		 * @readonly
+		 */
+		this.number = raw.KolomNummer
+		/**
+		 * @type String
+		 * @readonly
+		 */
+		this.header = raw.KolomKop
+		/**
+		 * @type Boolean
+		 * @readonly
+		 */
+		this.isAtLaterDate = raw.IsHerkansingKolom
+		/**
+		 * @type Boolean
+		 * @readonly
+		 */
+		this.isTeacher = raw.IsDocentKolom
+		/**
+		 * @type Boolean
+		 * @readonly
+		 */
+		this.hasNestedTypes = raw.HeeftOndeliggendeKolommen
+		/**
+		 * @type Boolean
+		 * @readonly
+		 */
+		this.isPTA = raw.IsPTAKolom
 
+		/**
+		 * Value will be set by `Grade#fill`
+		 * @type Number
+		 * @default undefined
+		 */
+		this.level = undefined
+		/**
+		 * Value will be set by `Grade#fill`
+		 * @type String
+		 * @default ''
+		 */
+		this.description = ''
 
+		/**
+		 * @type Number
+		 * @private
+		 * @readonly
+		 */
+		this._type = raw.KolomSoort
+	}
 
+	/**
+	 * @type String
+	 * @readonly
+	 */
+	get type() {
+		switch (this._type) {
+		case 1:  return 'grade'
+		case 2:  return 'average'
+		case 3:  return 'maximum'
+		case 4:  return 'formula'
+		case 5:  return 'minimum'
+		case 6:  return 'sum'
+		case 7:  return 'count'
+		case 8:  return 'cevo'
+		case 9:  return 'text'
+		case 10: return 'cevocpe'
+		case 11: return 'cevocie'
+		case 12: return 'weight'
+		case 13: return 'end'
+		case 14: return 'deficit'
 
+		default: return 'unknown'
+		}
+	}
+}
 
-
-
-    
-
-
-    <section class="readme">
-        <article><p><a href="http://simplyGits.github.io/MagisterJS/"><img src="http://i.imgur.com/Lrg80ax.png" alt="Magister.js" align="left" width="200"/></a></p>
-<p align="right">
-    <a href="https://travis-ci.org/simplyGits/MagisterJS">
-        <img src="https://api.travis-ci.org/simplyGits/MagisterJS.png?branch=master" alt="Travis CI Badge"/>
-    </a>
-</p>
-
-<hr>
-<p><a href="https://gitter.im/simplyGits/MagisterJS?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge"><img src="https://badges.gitter.im/simplyGits/MagisterJS.svg" alt="Gitter"></a>
-<a href="https://badge.fury.io/js/magister.js"><img src="https://badge.fury.io/js/magister.js.svg" alt="npm version"></a>
-<a href="https://snyk.io/test/github/simplyGits/MagisterJS?targetFile=package.json"><img src="https://snyk.io/test/github/simplyGits/MagisterJS/badge.svg?targetFile=package.json" alt="Known Vulnerabilities"></a>
-<a href="https://www.codefactor.io/repository/github/simplygits/magisterjs"><img src="https://www.codefactor.io/repository/github/simplygits/magisterjs/badge" alt="CodeFactor"></a></p>
-<p>A JavaScript implementation of the <a href="http://magister6.nl/">Magister 6</a> API.</p>
-<h1>Quickstart</h1><p><code>npm install magister.js</code></p>
-<pre class="prettyprint source lang-javascript"><code>const { default: magister, getSchools } = require('magister.js');
-// or with es6 modules:
-// import magister, { getSchools } from 'magister.js'
-
-// replace every '&lt;thing>' with your credentials:
-
-getSchools('&lt;schoolname>') // get schools matching '&lt;schoolname>'
-    .then((schools) => schools[0]) // get the first school
-    .then((school) => magister({ // login
-        school,
-        username: '&lt;username>',
-        password: '&lt;password>',
-    }))
-    .then((m) => { // done logging in, say hi
-        console.log(`Hey ${m.profileInfo.firstName}!`);
-    }, (err) => { // something went wrong
-        console.error('something went wrong:', err);
-    });</code></pre><h1>Useful links</h1><ul>
-<li><a href="http://simplyGits.github.io/MagisterJS/">Project page</a></li>
-<li><a href="http://simplyGits.github.io/MagisterJS/docs/index.html">Documentation</a></li>
-</ul>
-<h1>Before creating issues</h1><ol>
-<li>Update all your packages with <code>npm update</code></li>
-<li>Be sure you haven't made a typo and your code is correct (check the <a href="http://simplyGits.github.io/MagisterJS/docs/index.html">docs</a>)</li>
-<li>Don't create issues which occur in a modified version</li>
-</ol>
-<h1>Contributing</h1><ul>
-<li>Document your code using <a href="http://usejsdoc.org/">jsdoc</a></li>
-<li>Respect and follow the current programming style</li>
-<li>Test your changes with <code>npm test</code></li>
-<li>Check your code style with <code>eslint</code></li>
-<li>Only commit the <code>src/</code> and <code>test/</code> directory</li>
-</ul>
-<h1>License</h1><p><a href="LICENSE">LGPLv3</a></p></article>
+export default GradeType
+</code></pre>
+        </article>
     </section>
-
-
 
 
 

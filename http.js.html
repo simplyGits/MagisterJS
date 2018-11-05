@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>Home - Documentation</title>
+    <title>http.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -31,76 +31,208 @@
 
 <div id="main">
     
+    <h1 class="page-title">http.js</h1>
+    
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import fetch from 'node-fetch'
+import MagisterError from './magisterError'
 
+const DEFAULT_REQUEST_TIMEOUT = 1000 * 30 // 30 seconds
 
+/**
+ * Class to communicate with the outside world.
+ * Wraps around fetch.
+ * @private
+ */
+class Http {
+	/**
+	 * @param {Number} [requestTimeout=DEFAULT_REQUEST_TIMEOUT] A time in ms
+	 * after the start of a request when it should be timed out.
+	 */
+	constructor(requestTimeout = DEFAULT_REQUEST_TIMEOUT) {
+		/**
+		 * @type Object
+		 * @private
+		 * @readonly
+		 */
+		this._ratelimit = {
+			queue: [],
+			timeoutId: undefined,
+		}
+		/**
+		 * @type String
+		 * @private
+		 */
+		this._token = ''
+		/**
+		 * @type Number
+		 * @private
+		 * @readonly
+		 */
+		this._requestTimeout = requestTimeout
+	}
 
+	/**
+	 * @private
+	 * @param {Object} request
+	 */
+	_enqueue(request) {
+		return new Promise((resolve, reject) => {
+			this._ratelimit.queue.push({
+				request,
+				resolve,
+				reject,
+			})
+		})
+	}
+	/**
+	 * @private
+	 * @param {Number} timeLeft time left for the ratelimit in seconds.
+	 */
+	_setRatelimitTime(timeLeft) {
+		const info = this._ratelimit
+		if (info.timeoutId !== undefined) {
+			return
+		}
 
+		info.timeoutId = setInterval(() => {
+			for (const item of info.queue) {
+				fetch(item.request).then(item.resolve, item.reject)
+			}
 
+			info.queue = []
+			info.timeoutId = undefined
+		}, timeLeft*1000 + 10)
+	}
 
+	/**
+	 * @param {Object} obj
+	 * @return {Request}
+	 */
+	makeRequest(obj) {
+		const init = {
+			method: obj.method,
+			timeout: this._requestTimeout,
+			headers: {
+				...obj.headers,
+				Authorization: 'Bearer ' + this._token,
+				'X-API-Client-ID': '12D8',
+			},
+			redirect: obj.redirect,
+		}
 
+		if (obj.data != null) {
+			init.body = JSON.stringify(obj.data)
+			init.headers['Content-Type'] = 'application/json;charset=UTF-8'
+		}
 
+		return new fetch.Request(obj.url, init)
+	}
 
-    
+	/**
+	 * @private
+	 * @param {Object} obj
+	 */
+	_request(obj) {
+		const request = this.makeRequest(obj)
 
+		let promise
+		const info = this._ratelimit
 
-    <section class="readme">
-        <article><p><a href="http://simplyGits.github.io/MagisterJS/"><img src="http://i.imgur.com/Lrg80ax.png" alt="Magister.js" align="left" width="200"/></a></p>
-<p align="right">
-    <a href="https://travis-ci.org/simplyGits/MagisterJS">
-        <img src="https://api.travis-ci.org/simplyGits/MagisterJS.png?branch=master" alt="Travis CI Badge"/>
-    </a>
-</p>
+		if (info.timeoutId === undefined) {
+			promise = fetch(request)
+		} else {
+			promise = this._enqueue(request)
+		}
 
-<hr>
-<p><a href="https://gitter.im/simplyGits/MagisterJS?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge"><img src="https://badges.gitter.im/simplyGits/MagisterJS.svg" alt="Gitter"></a>
-<a href="https://badge.fury.io/js/magister.js"><img src="https://badge.fury.io/js/magister.js.svg" alt="npm version"></a>
-<a href="https://snyk.io/test/github/simplyGits/MagisterJS?targetFile=package.json"><img src="https://snyk.io/test/github/simplyGits/MagisterJS/badge.svg?targetFile=package.json" alt="Known Vulnerabilities"></a>
-<a href="https://www.codefactor.io/repository/github/simplygits/magisterjs"><img src="https://www.codefactor.io/repository/github/simplygits/magisterjs/badge" alt="CodeFactor"></a></p>
-<p>A JavaScript implementation of the <a href="http://magister6.nl/">Magister 6</a> API.</p>
-<h1>Quickstart</h1><p><code>npm install magister.js</code></p>
-<pre class="prettyprint source lang-javascript"><code>const { default: magister, getSchools } = require('magister.js');
-// or with es6 modules:
-// import magister, { getSchools } from 'magister.js'
+		return promise
+		.then(res => (res.ok || res.status === 302) ? res : res.json())
+		.then(res => {
+			if (res instanceof fetch.Response || res instanceof Object) {
+				return res
+			}
 
-// replace every '&lt;thing>' with your credentials:
+			if ('SecondsLeft' in res) {
+				// Handle rate limit errors
+				this._setRatelimitTime(Number.parseInt(res.SecondsLeft, 10))
+				return this._request(obj)
+			} else {
+				// Other errors we could parse
+				throw new MagisterError(res)
+			}
+		})
+	}
 
-getSchools('&lt;schoolname>') // get schools matching '&lt;schoolname>'
-    .then((schools) => schools[0]) // get the first school
-    .then((school) => magister({ // login
-        school,
-        username: '&lt;username>',
-        password: '&lt;password>',
-    }))
-    .then((m) => { // done logging in, say hi
-        console.log(`Hey ${m.profileInfo.firstName}!`);
-    }, (err) => { // something went wrong
-        console.error('something went wrong:', err);
-    });</code></pre><h1>Useful links</h1><ul>
-<li><a href="http://simplyGits.github.io/MagisterJS/">Project page</a></li>
-<li><a href="http://simplyGits.github.io/MagisterJS/docs/index.html">Documentation</a></li>
-</ul>
-<h1>Before creating issues</h1><ol>
-<li>Update all your packages with <code>npm update</code></li>
-<li>Be sure you haven't made a typo and your code is correct (check the <a href="http://simplyGits.github.io/MagisterJS/docs/index.html">docs</a>)</li>
-<li>Don't create issues which occur in a modified version</li>
-</ol>
-<h1>Contributing</h1><ul>
-<li>Document your code using <a href="http://usejsdoc.org/">jsdoc</a></li>
-<li>Respect and follow the current programming style</li>
-<li>Test your changes with <code>npm test</code></li>
-<li>Check your code style with <code>eslint</code></li>
-<li>Only commit the <code>src/</code> and <code>test/</code> directory</li>
-</ul>
-<h1>License</h1><p><a href="LICENSE">LGPLv3</a></p></article>
+	/**
+	 * Gets the content at `url`
+	 * @param {String} url
+	 * @param {Object} [opt]
+	 * @return {Promise&lt;Response>}
+	 */
+	get(url, opt) {
+		return this._request({
+			...opt,
+			method: 'get',
+			url: url,
+		})
+	}
+
+	/**
+	 * Posts the given `data` to `url`
+	 * @param {String} url
+	 * @param {Object} [data]
+	 * @param {Object} [opt]
+	 * @return {Promise&lt;Response>}
+	 */
+	post(url, data, opt) {
+		return this._request({
+			...opt,
+			method: 'post',
+			url: url,
+			data: data,
+		})
+	}
+
+	/**
+	 * Puts the given `data` to `url`
+	 * @param {String} url
+	 * @param {Object} [data]
+	 * @param {Object} [opt]
+	 * @return {Promise&lt;Response>}
+	 */
+	put(url, data, opt) {
+		return this._request({
+			...opt,
+			method: 'put',
+			url: url,
+			data: data,
+		})
+	}
+
+	/**
+	 * Deletes the content at `url`
+	 * @param {String} url
+	 * @return {Promise&lt;Response>}
+	 */
+	delete(url) {
+		return this._request({
+			method: 'delete',
+			url: url,
+		})
+	}
+}
+
+export default Http
+</code></pre>
+        </article>
     </section>
-
-
 
 
 

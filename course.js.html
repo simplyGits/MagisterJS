@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>Home - Documentation</title>
+    <title>course.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -31,76 +31,145 @@
 
 <div id="main">
     
+    <h1 class="page-title">course.js</h1>
+    
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import _ from 'lodash'
+import MagisterThing from './magisterThing'
+import Class from './class'
+import Grade from './grade'
+import { parseDate, toString } from './util'
 
+/**
+ * @extends MagisterThing
+ * @private
+ */
+class Course extends MagisterThing {
+	/**
+	 * @param {Magister} magister
+	 * @param {Object} raw
+	 */
+	constructor(magister, raw) {
+		super(magister)
 
+		/**
+		 * @type String
+		 * @readonly
+		 */
+		this.id = toString(raw.Id)
 
+		/**
+		 * @type Date
+		 * @readonly
+		 */
+		this.start = parseDate(raw.Start)
+		/**
+		 * @type Date
+		 * @readonly
+		 */
+		this.end = parseDate(raw.Einde)
 
+		/**
+		 * The school year of this course, e.g: '1617'
+		 * @type String
+		 * @readonly
+		 */
+		this.schoolPeriod = raw.Lesperiode
 
+		/**
+		 * Basic type information of this course, e.g: { description: "VWO 6", id: 420 }
+		 * @type Object
+		 * @readonly
+		 */
+		this.type = {
+			id: raw.Studie.Id,
+			description: raw.Studie.Omschrijving,
+		}
 
+		/**
+		 * The group of this course, e.g: { description: "Klas 6v3", id: 420, locationId: 0 }
+		 * @type Object
+		 * @readonly
+		 */
+		this.group = {
+			id: raw.Groep.Id,
+			description: (function () {
+				const group = raw.Groep.Omschrijving
+				if (group != null) {
+					return group.split(' ').find(w => /\d/.test(w)) || group
+				}
+			})(),
+			locationId: raw.Groep.LocatieId,
+		}
 
+		/**
+		 * @type String[]
+		 * @readonly
+		 */
+		this.curricula = [ raw.Profiel ]
+		if (raw.Profiel2 != null) {
+			this.curricula.push(raw.Profiel2)
+		}
+	}
 
+	/**
+	 * @type Boolean
+	 * @readonly
+	 */
+	get current() {
+		const now = new Date()
+		return this.start &lt;= now &amp;&amp; now &lt;= this.end
+	}
 
-    
+	/**
+	 * @return {Promise&lt;Class[]>}
+	 */
+	classes() {
+		const url = `${this._magister._personUrl}/aanmeldingen/${this.id}/vakken`
+		return this._magister.http.get(url)
+		.then(res => res.json())
+		.then(res => res.Items.map(c => new Class(this._magister, c)))
+	}
 
+	/**
+	 * @param {Object} [options={}]
+	 * 	@param {Boolean} [options.fillGrades=true]
+	 * @return {Promise&lt;Grade[]>}
+	 */
+	grades({ fillGrades = true } = {}) {
+		const urlPrefix = `${this._magister._personUrl}/aanmeldingen/${this.id}/cijfers`
+		const url = `${urlPrefix}/cijferoverzichtvooraanmelding?actievePerioden=false&amp;alleenBerekendeKolommen=false&amp;alleenPTAKolommen=false`
 
-    <section class="readme">
-        <article><p><a href="http://simplyGits.github.io/MagisterJS/"><img src="http://i.imgur.com/Lrg80ax.png" alt="Magister.js" align="left" width="200"/></a></p>
-<p align="right">
-    <a href="https://travis-ci.org/simplyGits/MagisterJS">
-        <img src="https://api.travis-ci.org/simplyGits/MagisterJS.png?branch=master" alt="Travis CI Badge"/>
-    </a>
-</p>
+		return this._magister._privileges.needs('cijfers', 'read')
+		.then(() => this._magister.http.get(url))
+		.then(res => res.json())
+		.then(res => res.Items)
+		.then(grades => {
+			grades = _.reject(grades, raw => raw.CijferId === 0)
 
-<hr>
-<p><a href="https://gitter.im/simplyGits/MagisterJS?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge"><img src="https://badges.gitter.im/simplyGits/MagisterJS.svg" alt="Gitter"></a>
-<a href="https://badge.fury.io/js/magister.js"><img src="https://badge.fury.io/js/magister.js.svg" alt="npm version"></a>
-<a href="https://snyk.io/test/github/simplyGits/MagisterJS?targetFile=package.json"><img src="https://snyk.io/test/github/simplyGits/MagisterJS/badge.svg?targetFile=package.json" alt="Known Vulnerabilities"></a>
-<a href="https://www.codefactor.io/repository/github/simplygits/magisterjs"><img src="https://www.codefactor.io/repository/github/simplygits/magisterjs/badge" alt="CodeFactor"></a></p>
-<p>A JavaScript implementation of the <a href="http://magister6.nl/">Magister 6</a> API.</p>
-<h1>Quickstart</h1><p><code>npm install magister.js</code></p>
-<pre class="prettyprint source lang-javascript"><code>const { default: magister, getSchools } = require('magister.js');
-// or with es6 modules:
-// import magister, { getSchools } from 'magister.js'
+			const promises = grades.map(raw => {
+				const grade = new Grade(this._magister, raw)
+				grade._fillUrl = `${urlPrefix}/extracijferkolominfo/${_.get(raw, 'CijferKolom.Id')}`
+				return Promise.resolve(fillGrades ? grade.fill() : grade)
+			})
 
-// replace every '&lt;thing>' with your credentials:
+			return Promise.all(promises)
+		})
+		.then(r => _.sortBy(r, 'dateFilledIn'))
+	}
+}
 
-getSchools('&lt;schoolname>') // get schools matching '&lt;schoolname>'
-    .then((schools) => schools[0]) // get the first school
-    .then((school) => magister({ // login
-        school,
-        username: '&lt;username>',
-        password: '&lt;password>',
-    }))
-    .then((m) => { // done logging in, say hi
-        console.log(`Hey ${m.profileInfo.firstName}!`);
-    }, (err) => { // something went wrong
-        console.error('something went wrong:', err);
-    });</code></pre><h1>Useful links</h1><ul>
-<li><a href="http://simplyGits.github.io/MagisterJS/">Project page</a></li>
-<li><a href="http://simplyGits.github.io/MagisterJS/docs/index.html">Documentation</a></li>
-</ul>
-<h1>Before creating issues</h1><ol>
-<li>Update all your packages with <code>npm update</code></li>
-<li>Be sure you haven't made a typo and your code is correct (check the <a href="http://simplyGits.github.io/MagisterJS/docs/index.html">docs</a>)</li>
-<li>Don't create issues which occur in a modified version</li>
-</ol>
-<h1>Contributing</h1><ul>
-<li>Document your code using <a href="http://usejsdoc.org/">jsdoc</a></li>
-<li>Respect and follow the current programming style</li>
-<li>Test your changes with <code>npm test</code></li>
-<li>Check your code style with <code>eslint</code></li>
-<li>Only commit the <code>src/</code> and <code>test/</code> directory</li>
-</ul>
-<h1>License</h1><p><a href="LICENSE">LGPLv3</a></p></article>
+export default Course
+</code></pre>
+        </article>
     </section>
-
-
 
 
 

@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>Home - Documentation</title>
+    <title>message.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -31,76 +31,369 @@
 
 <div id="main">
     
+    <h1 class="page-title">message.js</h1>
+    
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* global dedent */
 
+import _ from 'lodash'
+import MagisterThing from './magisterThing'
+import Person from './person'
+import File from './file'
+import { cleanHtmlContent, parseDate, toString, cloneClassInstance } from './util'
 
+/**
+ * @extends MagisterThing
+ */
+class Message extends MagisterThing {
+	/**
+	 * @param {Magister} magister
+	 * @param {Object} [raw]
+	 */
+	constructor(magister, raw) {
+		super(magister)
 
+		/**
+		 * @type Boolean
+		 * @private
+		 * @readonly
+		 * @default true
+		 */
+		this._canSend = true
+		/**
+		 * @type Number
+		 * @private
+		 * @readonly
+		 * @default 1
+		 */
+		this._type = 1
+		/**
+		 * @type String
+		 * @readonly
+		 * @default ''
+		 */
+		this.subject = ''
+		/**
+		 * If creating a message, this will be an empty string per default.
+		 * When retrieving a message from Magister, this will be `undefined` per
+		 * default, you should use `Message#fill` to get the body.
+		 *
+		 * @type String
+		 * @readonly
+		 * @default ''
+		 */
+		this.body = ''
+		/**
+		 * @type Person[]
+		 * @readonly
+		 * @default []
+		 */
+		this.recipients = []
 
+		if (raw != null) {
+			this._canSend = false
+			this._type = raw.Soort
+			this.subject = raw.Onderwerp
+			this.body = undefined
+			this.recipients = raw.Ontvangers.map(p => new Person(magister, p))
 
+			/**
+			 * @type String
+			 * @readonly
+			 */
+			this.id = toString(raw.Id)
+			/**
+			 * @type String
+			 * @readonly
+			 */
+			this.folderId = toString(raw.MapId)
+			/**
+			 * @type Person
+			 * @readonly
+			 */
+			this.sender = new Person(magister, raw.Afzender)
+			/**
+			 * @type Date
+			 * @readonly
+			 */
+			this.sendDate = parseDate(raw.VerstuurdOp)
+			/**
+			 * @type Date
+			 * @readonly
+			 */
+			this.begin = parseDate(raw.Begin)
+			/**
+			 * @type Date
+			 * @readonly
+			 */
+			this.end = parseDate(raw.Einde)
+			/**
+			 * @type Boolean
+			 * @readonly
+			 */
+			this.isRead = raw.IsGelezen
+			/**
+			 * @type Number
+			 * @readonly
+			 */
+			this.state = raw.Status
+			/**
+			 * @type Boolean
+			 * @readonly
+			 */
+			this.isFlagged = raw.HeeftPrioriteit
+			/**
+			 * @type String
+			 * @readonly
+			 */
+			this.summary = cleanHtmlContent(raw.IngekortBericht)
 
+			/**
+			 * This will be `undefined` per default, a fill using `Message#fill`
+			 * is required to retrieve the attachments for this Message.
+			 * @type File[]
+			 * @readonly
+			 * @default undefined
+			 */
+			this.attachments = undefined
 
+			/**
+			 * @type String
+			 * @private
+			 * @readonly
+			 */
+			this._url = `${magister._personUrl}/berichten/${this.id}`
+		}
+	}
 
+	/**
+	 * @type String
+	 * @readonly
+	 * @default 'message'
+	 */
+	get type() {
+		switch (this._type) {
+		case 1:  return 'message'
+		case 2:  return 'alert'
+		default: return 'unknown'
+		}
+	}
 
-    
+	/**
+	 * @param {Person|Person[]} recipients
+	 */
+	addRecipient(recipients) {
+		if (!Array.isArray(recipients)) {
+			recipients = [ recipients ]
+		}
 
+		if (!recipients.every(x => x instanceof Person)) {
+			throw new Error('`recipients` should be a Person or an Array of Persons')
+		}
 
-    <section class="readme">
-        <article><p><a href="http://simplyGits.github.io/MagisterJS/"><img src="http://i.imgur.com/Lrg80ax.png" alt="Magister.js" align="left" width="200"/></a></p>
-<p align="right">
-    <a href="https://travis-ci.org/simplyGits/MagisterJS">
-        <img src="https://api.travis-ci.org/simplyGits/MagisterJS.png?branch=master" alt="Travis CI Badge"/>
-    </a>
-</p>
+		this.recipients = this.recipients.concat(recipients)
+	}
 
-<hr>
-<p><a href="https://gitter.im/simplyGits/MagisterJS?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge"><img src="https://badges.gitter.im/simplyGits/MagisterJS.svg" alt="Gitter"></a>
-<a href="https://badge.fury.io/js/magister.js"><img src="https://badge.fury.io/js/magister.js.svg" alt="npm version"></a>
-<a href="https://snyk.io/test/github/simplyGits/MagisterJS?targetFile=package.json"><img src="https://snyk.io/test/github/simplyGits/MagisterJS/badge.svg?targetFile=package.json" alt="Known Vulnerabilities"></a>
-<a href="https://www.codefactor.io/repository/github/simplygits/magisterjs"><img src="https://www.codefactor.io/repository/github/simplygits/magisterjs/badge" alt="CodeFactor"></a></p>
-<p>A JavaScript implementation of the <a href="http://magister6.nl/">Magister 6</a> API.</p>
-<h1>Quickstart</h1><p><code>npm install magister.js</code></p>
-<pre class="prettyprint source lang-javascript"><code>const { default: magister, getSchools } = require('magister.js');
-// or with es6 modules:
-// import magister, { getSchools } from 'magister.js'
+	createReplyMessage(content = '') {
+		const message = cloneClassInstance(this)
 
-// replace every '&lt;thing>' with your credentials:
+		message.body = dedent`
+			${content}
 
-getSchools('&lt;schoolname>') // get schools matching '&lt;schoolname>'
-    .then((schools) => schools[0]) // get the first school
-    .then((school) => magister({ // login
-        school,
-        username: '&lt;username>',
-        password: '&lt;password>',
-    }))
-    .then((m) => { // done logging in, say hi
-        console.log(`Hey ${m.profileInfo.firstName}!`);
-    }, (err) => { // something went wrong
-        console.error('something went wrong:', err);
-    });</code></pre><h1>Useful links</h1><ul>
-<li><a href="http://simplyGits.github.io/MagisterJS/">Project page</a></li>
-<li><a href="http://simplyGits.github.io/MagisterJS/docs/index.html">Documentation</a></li>
-</ul>
-<h1>Before creating issues</h1><ol>
-<li>Update all your packages with <code>npm update</code></li>
-<li>Be sure you haven't made a typo and your code is correct (check the <a href="http://simplyGits.github.io/MagisterJS/docs/index.html">docs</a>)</li>
-<li>Don't create issues which occur in a modified version</li>
-</ol>
-<h1>Contributing</h1><ul>
-<li>Document your code using <a href="http://usejsdoc.org/">jsdoc</a></li>
-<li>Respect and follow the current programming style</li>
-<li>Test your changes with <code>npm test</code></li>
-<li>Check your code style with <code>eslint</code></li>
-<li>Only commit the <code>src/</code> and <code>test/</code> directory</li>
-</ul>
-<h1>License</h1><p><a href="LICENSE">LGPLv3</a></p></article>
+			---------------
+			${this.toString()}
+		`
+		message.subject = `RE: ${this.subject}`
+		message.recipients = [ this.sender ]
+
+		message._type = 1
+		message._canSend = true
+
+		return message
+	}
+
+	createReplyToAllMessage(content = '') {
+		const message = cloneClassInstance(this)
+
+		message.body = dedent`
+			${content}
+
+			---------------
+			${this.toString()}
+		`
+		message.subject = `RE: ${this.subject}`
+		message.recipients =
+			_.chain(this.recipients)
+			.reject({ id: this._magister.profileInfo.id })
+			.push(this.sender)
+			.value()
+
+		message._type = 1
+		message._canSend = true
+
+		return message
+	}
+
+	createForwardMessage(content = '') {
+		const message = cloneClassInstance(this)
+
+		message.body = dedent`
+			${content}
+
+			---------------
+			${this.toString()}
+		`
+		message.subject = `FW: ${this.subject}`
+
+		message._type = 1
+		message._canSend = true
+
+		return message
+	}
+
+	/**
+	 * @param {Boolean} [fillPersons=false]
+	 * @return {Promise&lt;Message>}
+	 */
+	fill(fillPersons = false) {
+		if (this._filled &amp;&amp; (this._filledPersons || !fillPersons)) {
+			return Promise.resolve(this)
+		}
+
+		const url = `${this._magister._personUrl}/berichten/${this.id}?berichtSoort=${this._type}`
+		return this._magister.http.get(url)
+		.then(res => res.json())
+		.then(res => {
+			this.body = cleanHtmlContent(res.Inhoud)
+			this.attachments = (res.Bijlagen || []).map(a => new File(this._magister, undefined, a))
+
+			if (fillPersons) {
+				let promises = []
+
+				// fill sender
+				promises.push(
+					this.sender.getFilled()
+					.then(r => this.sender = r)
+					.catch(() => this.sender)
+				)
+
+				// fill recipients
+				promises = promises.concat(
+					this.recipients.map(r => {
+						return r.getFilled()
+						.then(x => x)
+						.catch(() => r)
+					})
+				)
+
+				return Promise.all(promises)
+			}
+		})
+		.then(() => {
+			this._filled = true
+			return this
+		})
+	}
+
+	// REVIEW
+	move(destination) {
+		if (_.isObject(destination)) {
+			destination = destination.id
+		}
+
+		if (this.folderId === destination) {
+			return Promise.resolve(undefined)
+		}
+
+		this.folderId = destination
+		return this.saveChanges()
+	}
+
+	/**
+	 * @return {Promise&lt;Error|undefined>}
+	 */
+	remove() {
+		return this._magister._privileges.needs('berichten', 'delete')
+		.then(() => this._magister.http.delete(this._url))
+	}
+
+	/**
+	 * Update the server to reflect the changes made on the properties of this
+	 * Message instance.
+	 * @return {Promise&lt;undefined>}
+	 */
+	saveChanges() {
+		return this._magister._privileges.needs('berichten', 'update')
+		.then(() => this._magister.http.put(this._url, this._toMagister()))
+		.then(() => undefined)
+	}
+
+	/**
+	 * @return {Promise&lt;Message>}
+	 */
+	send() {
+		const reject = message => Promise.reject(new Error(message))
+
+		if (!this._canSend) {
+			return reject('message is marked as unsendable')
+		} else if (this.recipients.length === 0) {
+			return reject('message doesn\'t have recipients')
+		} else if (this.subject.length === 0) {
+			return reject('subject is empty')
+		}
+
+		return this._magister._privileges.needs('berichten', 'create')
+		.then(() => this._magister.http.post(
+			`${this._magister._personUrl}/berichten`,
+			this._toMagister()
+		))
+		.then(() => this)
+	}
+
+	toString() {
+		return dedent`
+			&lt;b>Van:&lt;/b> ${this.sender.description}
+			&lt;b>Verzonden:&lt;/b> ${this.sendDate.toLocaleString()}
+			&lt;b>Aan:&lt;/b> ${this.recipients.map(p => p.description).join(', ')}
+			&lt;b>Onderwerp:&lt;/b> ${this.subject}
+
+			${this.body}
+		`
+	}
+
+	/**
+	 * @private
+	 * @return {Object}
+	 */
+	_toMagister() {
+		return {
+			Id: this.id,
+			Inhoud: this.body,
+			MapId: this.folderId, // number?
+			Onderwerp: this.subject,
+			Ontvangers: this.recipients.map(p => p._toMagister()),
+			VerstuurdOp: this.sendDate || new Date(),
+			Begin: this.begin,
+			Einde: this.end,
+			IsGelezen: this.isRead,
+			Status: this.state,
+			HeeftPrioriteit: this.isFlagged,
+			Soort: this._type,
+		}
+	}
+}
+
+export default Message
+</code></pre>
+        </article>
     </section>
-
-
 
 
 
