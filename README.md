@@ -10,6 +10,7 @@
 [![Gitter](https://badges.gitter.im/simplyGits/MagisterJS.svg)](https://gitter.im/simplyGits/MagisterJS?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![npm version](https://badge.fury.io/js/magister.js.svg)](https://badge.fury.io/js/magister.js)
 [![Known Vulnerabilities](https://snyk.io/test/github/simplyGits/MagisterJS/badge.svg?targetFile=package.json)](https://snyk.io/test/github/simplyGits/MagisterJS?targetFile=package.json)
+[![CodeFactor](https://www.codefactor.io/repository/github/simplygits/magisterjs/badge)](https://www.codefactor.io/repository/github/simplygits/magisterjs)
 
 A JavaScript implementation of the [Magister 6](http://magister6.nl/) API.
 
