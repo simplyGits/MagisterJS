@@ -223,7 +223,7 @@ class Magister {
 	}
 
 	/**
-	 * @return {Promise<Course>}
+	 * @return {Promise<Course[]>}
 	 */
 	courses() {
 		return this._privileges.needs('aanmeldingen', 'read')
