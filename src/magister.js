@@ -394,7 +394,7 @@ class Magister {
 		authorizeUrl += `&acr_values=tenant%3A${filteredName}`
 
 		if (!forceLogin && options.token) {
-			return setToken(options.token)
+			return setToken(options.token).then(retrieveAccount)
 		}
 
 		// extract returnUrl
@@ -459,30 +459,31 @@ class Magister {
 		}
 
 		// extract bearer token
-		const token =
-			await this.http.get(`https://accounts.magister.net${returnUrl}`, {
-				redirect: 'manual',
-				headers: {
-					Cookie: authRes.headers.get('set-cookie'),
-					'X-XSRF-TOKEN': xsrf,
-				},
-			})
-			.then(res => res.headers.get('Location')
-			.split('&access_token=')[1]
-			.split('&')[0])
-			.then(setToken)
-		const accountData =
-			await this.http.get(`${schoolUrl}/api/account`).then(res => res.json())
-		const id = accountData.Persoon.Id
+		return await this.http.get(`https://accounts.magister.net${returnUrl}`, {
+			redirect: 'manual',
+			headers: {
+				Cookie: authRes.headers.get('set-cookie'),
+				'X-XSRF-TOKEN': xsrf,
+			},
+		})
+		.then(res => res.headers.get('Location')
+		.split('&access_token=')[1]
+		.split('&')[0])
+		.then(setToken)
+		.then(retrieveAccount)
 
-		// REVIEW: do we want to make profileInfo a function?
-		this.profileInfo = new ProfileInfo(this, accountData.Persoon)
-		this._privileges = new Privileges(this, accountData.Groep[0].Privileges)
+		async function retrieveAccount() {
+			const accountData =
+				await self.http.get(`${schoolUrl}/api/account`).then(res => res.json())
+			const id = accountData.Persoon.Id
 
-		this._personUrl = `${schoolUrl}/api/personen/${id}`
-		this._pupilUrl = `${schoolUrl}/api/leerlingen/${id}`
+			// REVIEW: do we want to make profileInfo a function?
+			self.profileInfo = new ProfileInfo(self, accountData.Persoon)
+			self._privileges = new Privileges(self, accountData.Groep[0].Privileges)
 
-		return token
+			self._personUrl = `${schoolUrl}/api/personen/${id}`
+			self._pupilUrl = `${schoolUrl}/api/leerlingen/${id}`
+		}
 	}
 }
 
