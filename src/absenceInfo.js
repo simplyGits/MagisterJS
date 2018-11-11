@@ -4,7 +4,7 @@ import Appointment from './appointment'
 import { toString, parseDate } from './util'
 
 /**
- * @extends MagisterThing
+ * @extends {MagisterThing}
  */
 class AbsenceInfo extends MagisterThing {
 	/**

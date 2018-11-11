@@ -8,7 +8,7 @@ import Class from './class'
 import Person from './person'
 
 /**
- * @extends MagisterThing
+ * @extends {MagisterThing}
  */
 class Grade extends MagisterThing {
 	/**
@@ -20,7 +20,7 @@ class Grade extends MagisterThing {
 		super(magister)
 
 		/**
-		 * Should be set by `Course#grades`!
+		 * Should be set by {@link Course.grades}!
 		 * @type {String}
 		 * @private
 		 */
@@ -102,19 +102,19 @@ class Grade extends MagisterThing {
 		this.classExemption = raw.VakDispensatie || raw.VakVrijstelling
 
 		/**
-		 * Value will be set by `Grade#fill`
+		 * Value will be set by {@link fill}
 		 * @type {String}
 		 * @default ''
 		 */
 		this.description = ''
 		/**
-		 * Value will be set by `Grade#fill`
+		 * Value will be set by {@link fill}
 		 * @type {String}
 		 * @default 0
 		 */
 		this.weight = 0
 		/**
-		 * Value will be set by `Grade#fill`
+		 * Value will be set by {@link fill}
 		 * @type {Date}
 		 * @default undefined
 		 */

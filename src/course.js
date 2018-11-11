@@ -5,7 +5,7 @@ import Grade from './grade'
 import { parseDate, toString } from './util'
 
 /**
- * @extends MagisterThing
+ * @extends {MagisterThing}
  */
 class Course extends MagisterThing {
 	/**

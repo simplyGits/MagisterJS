@@ -3,7 +3,7 @@ import File from './file'
 import { cleanHtmlContent, parseDate, toString } from './util'
 
 /**
- * @extends MagisterThing
+ * @extends {MagisterThing}
  */
 class ActivityElement extends MagisterThing {
 	/**

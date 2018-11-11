@@ -3,7 +3,7 @@ import File from './file'
 import { parseDate, toString } from './util'
 
 /**
- * @extends MagisterThing
+ * @extends {MagisterThing}
  */
 class AssignmentVersion extends MagisterThing {
 	/**

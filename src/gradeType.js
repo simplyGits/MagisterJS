@@ -2,7 +2,7 @@ import MagisterThing from './magisterThing'
 import { toString } from './util'
 
 /**
- * @extends MagisterThing
+ * @extends {MagisterThing}
  */
 class GradeType extends MagisterThing {
 	/**
@@ -55,13 +55,13 @@ class GradeType extends MagisterThing {
 		this.isPTA = raw.IsPTAKolom
 
 		/**
-		 * Value will be set by `Grade#fill`
+		 * Value will be set by {@link Grade.fill}
 		 * @type {Number}
 		 * @default undefined
 		 */
 		this.level = undefined
 		/**
-		 * Value will be set by `Grade#fill`
+		 * Value will be set by {@link Grade.fill}
 		 * @type {String}
 		 * @default ''
 		 */

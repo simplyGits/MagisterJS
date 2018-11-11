@@ -3,7 +3,7 @@ import File from './file'
 import { toString } from './util'
 
 /**
- * @extends MagisterThing
+ * @extends {MagisterThing}
  */
 class FileFolder extends MagisterThing {
 	/**

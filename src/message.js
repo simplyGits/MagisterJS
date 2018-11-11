@@ -7,7 +7,7 @@ import File from './file'
 import { cleanHtmlContent, parseDate, toString, cloneClassInstance } from './util'
 
 /**
- * @extends MagisterThing
+ * @extends {MagisterThing}
  */
 class Message extends MagisterThing {
 	/**
@@ -41,7 +41,7 @@ class Message extends MagisterThing {
 		/**
 		 * If creating a message, this will be an empty string per default.
 		 * When retrieving a message from Magister, this will be `undefined` per
-		 * default, you should use `Message#fill` to get the body.
+		 * default, you should use {@link fill} to get the body.
 		 *
 		 * @type {String}
 		 * @readonly
@@ -114,7 +114,7 @@ class Message extends MagisterThing {
 			this.summary = cleanHtmlContent(raw.IngekortBericht)
 
 			/**
-			 * This will be `undefined` per default, a fill using `Message#fill`
+			 * This will be `undefined` per default, a fill using {@link fill}
 			 * is required to retrieve the attachments for this Message.
 			 * @type {File[]}
 			 * @readonly

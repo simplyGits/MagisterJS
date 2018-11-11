@@ -3,7 +3,7 @@ import Person from './person'
 import { parseDate, toString } from './util'
 
 /**
- * @extends MagisterThing
+ * @extends {MagisterThing}
  */
 class Class extends MagisterThing {
 	/**

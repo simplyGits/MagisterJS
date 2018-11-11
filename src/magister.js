@@ -495,7 +495,7 @@ class Magister {
  * 	@param {String} [options.password] The password of the user to login to.
  * 	@param {String} [options.token] The Bearer token to use. (instead of the username and password)
  * 	@param {Boolean} [options.keepLoggedIn=true] Whether or not to keep the user logged in.
- * 	@param {Boolean} [options.login=true] Whether or not to call `Magister#login` before returning the object.
+ * 	@param {Boolean} [options.login=true] Whether or not to call {@link login} before returning the object.
  * @return {Promise<Magister>}
  */
 export default function magister(options) {

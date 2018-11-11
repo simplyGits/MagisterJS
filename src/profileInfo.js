@@ -5,7 +5,7 @@ import ProfileSettings from './profileSettings'
 import { parseDate, toString } from './util'
 
 /**
- * @extends MagisterThing
+ * @extends {MagisterThing}
  */
 class ProfileInfo extends MagisterThing {
 	/**

@@ -3,7 +3,7 @@ import MagisterThing from './magisterThing'
 import { toString } from './util'
 
 /**
- * @extends MagisterThing
+ * @extends {MagisterThing}
  */
 class Person extends MagisterThing {
 	/**
