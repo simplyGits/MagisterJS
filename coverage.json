@@ -1,0 +1,171 @@
+{
+  "coverage": "95.6%",
+  "expectCount": 364,
+  "actualCount": 348,
+  "files": {
+    "src/absenceInfo.js": {
+      "expectCount": 12,
+      "actualCount": 12,
+      "undocumentLines": []
+    },
+    "src/activity.js": {
+      "expectCount": 11,
+      "actualCount": 11,
+      "undocumentLines": []
+    },
+    "src/activityElement.js": {
+      "expectCount": 18,
+      "actualCount": 18,
+      "undocumentLines": []
+    },
+    "src/addressInfo.js": {
+      "expectCount": 7,
+      "actualCount": 7,
+      "undocumentLines": []
+    },
+    "src/appointment.js": {
+      "expectCount": 31,
+      "actualCount": 31,
+      "undocumentLines": []
+    },
+    "src/assignment.js": {
+      "expectCount": 17,
+      "actualCount": 17,
+      "undocumentLines": []
+    },
+    "src/assignmentVersion.js": {
+      "expectCount": 14,
+      "actualCount": 14,
+      "undocumentLines": []
+    },
+    "src/authError.js": {
+      "expectCount": 3,
+      "actualCount": 3,
+      "undocumentLines": []
+    },
+    "src/class.js": {
+      "expectCount": 10,
+      "actualCount": 10,
+      "undocumentLines": []
+    },
+    "src/course.js": {
+      "expectCount": 12,
+      "actualCount": 10,
+      "undocumentLines": [
+        58,
+        73
+      ]
+    },
+    "src/file.js": {
+      "expectCount": 22,
+      "actualCount": 22,
+      "undocumentLines": []
+    },
+    "src/fileFolder.js": {
+      "expectCount": 7,
+      "actualCount": 7,
+      "undocumentLines": []
+    },
+    "src/grade.js": {
+      "expectCount": 21,
+      "actualCount": 20,
+      "undocumentLines": [
+        144
+      ]
+    },
+    "src/gradePeriod.js": {
+      "expectCount": 7,
+      "actualCount": 7,
+      "undocumentLines": []
+    },
+    "src/gradeType.js": {
+      "expectCount": 14,
+      "actualCount": 14,
+      "undocumentLines": []
+    },
+    "src/http.js": {
+      "expectCount": 14,
+      "actualCount": 12,
+      "undocumentLines": [
+        4,
+        30
+      ]
+    },
+    "src/magister.js": {
+      "expectCount": 20,
+      "actualCount": 20,
+      "undocumentLines": []
+    },
+    "src/magisterError.js": {
+      "expectCount": 3,
+      "actualCount": 3,
+      "undocumentLines": []
+    },
+    "src/magisterThing.js": {
+      "expectCount": 4,
+      "actualCount": 4,
+      "undocumentLines": []
+    },
+    "src/message.js": {
+      "expectCount": 32,
+      "actualCount": 26,
+      "undocumentLines": [
+        162,
+        180,
+        202,
+        258,
+        264,
+        318
+      ]
+    },
+    "src/messageFolder.js": {
+      "expectCount": 10,
+      "actualCount": 9,
+      "undocumentLines": [
+        6
+      ]
+    },
+    "src/person.js": {
+      "expectCount": 18,
+      "actualCount": 16,
+      "undocumentLines": [
+        81,
+        93
+      ]
+    },
+    "src/privileges.js": {
+      "expectCount": 5,
+      "actualCount": 5,
+      "undocumentLines": []
+    },
+    "src/profileInfo.js": {
+      "expectCount": 19,
+      "actualCount": 19,
+      "undocumentLines": []
+    },
+    "src/profileSettings.js": {
+      "expectCount": 8,
+      "actualCount": 8,
+      "undocumentLines": []
+    },
+    "src/school.js": {
+      "expectCount": 6,
+      "actualCount": 5,
+      "undocumentLines": [
+        6
+      ]
+    },
+    "src/schoolUtility.js": {
+      "expectCount": 12,
+      "actualCount": 12,
+      "undocumentLines": []
+    },
+    "src/versionInfo.js": {
+      "expectCount": 7,
+      "actualCount": 6,
+      "undocumentLines": [
+        3
+      ]
+    }
+  }
+}

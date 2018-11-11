@@ -1,0 +1,54 @@
+[
+  {
+    "name": "Magister#appointments",
+    "filePath": "src/magister.js",
+    "lines": [
+      {
+        "lineNumber": 90,
+        "line": "\t/**"
+      },
+      {
+        "lineNumber": 91,
+        "line": "\t * @param {Date} from Time is ignored."
+      },
+      {
+        "lineNumber": 92,
+        "line": "\t * @param {Date} [to=from] Time is ignored"
+      },
+      {
+        "lineNumber": 93,
+        "line": "\t * @param {Object} [options={}]"
+      },
+      {
+        "lineNumber": 94,
+        "line": "\t * \t@param {Boolean} [options.fillPersons=false]"
+      },
+      {
+        "lineNumber": 95,
+        "line": "\t * \t@param {Boolean} [options.fetchAbsences=true]"
+      },
+      {
+        "lineNumber": 96,
+        "line": "\t * \t@param {Boolean} [options.ignoreAbsenceErrors=true]"
+      },
+      {
+        "lineNumber": 97,
+        "line": "\t * @return {Promise<Appointment[]>}"
+      },
+      {
+        "lineNumber": 98,
+        "line": "\t */"
+      },
+      {
+        "lineNumber": 99,
+        "line": "\tappointments() {"
+      }
+    ],
+    "codeParams": [],
+    "docParams": [
+      "from",
+      "to",
+      "options"
+    ]
+  }
+]

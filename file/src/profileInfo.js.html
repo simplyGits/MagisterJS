@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">src/profileInfo.js | magister.js</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="A JavaScript implementation of the Magister 6 API"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="magister.js"><meta property="twitter:description" content="A JavaScript implementation of the Magister 6 API"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/simplyGits/MagisterJS"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/absenceInfo.js~AbsenceInfo.html">AbsenceInfo</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/activity.js~Activity.html">Activity</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/activityElement.js~ActivityElement.html">ActivityElement</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/addressInfo.js~AddressInfo.html">AddressInfo</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/appointment.js~Appointment.html">Appointment</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/assignment.js~Assignment.html">Assignment</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/assignmentVersion.js~AssignmentVersion.html">AssignmentVersion</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/authError.js~AuthError.html">AuthError</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/class.js~Class.html">Class</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/course.js~Course.html">Course</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/file.js~File.html">File</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/fileFolder.js~FileFolder.html">FileFolder</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/grade.js~Grade.html">Grade</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/gradePeriod.js~GradePeriod.html">GradePeriod</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/gradeType.js~GradeType.html">GradeType</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/magister.js~Magister.html">Magister</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/magisterError.js~MagisterError.html">MagisterError</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/message.js~Message.html">Message</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/messageFolder.js~MessageFolder.html">MessageFolder</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/person.js~Person.html">Person</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/profileInfo.js~ProfileInfo.html">ProfileInfo</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/profileSettings.js~ProfileSettings.html">ProfileSettings</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/school.js~School.html">School</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/schoolUtility.js~SchoolUtility.html">SchoolUtility</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/versionInfo.js~VersionInfo.html">VersionInfo</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getSchools">getSchools</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-magister">magister</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-VERSION">VERSION</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/profileInfo.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import _ from &apos;lodash&apos;
+import MagisterThing from &apos;./magisterThing&apos;
+import AddressInfo from &apos;./addressInfo&apos;
+import ProfileSettings from &apos;./profileSettings&apos;
+import { parseDate, toString } from &apos;./util&apos;
+
+/**
+ * @extends MagisterThing
+ */
+class ProfileInfo extends MagisterThing {
+	/**
+	 * @private
+	 * @param {Magister} magister
+	 * @param {Object} raw
+	 */
+	constructor(magister, raw) {
+		super(magister)
+
+		/**
+		 * @readonly
+		 * @type {String}
+		 */
+		this.id = toString(raw.Id)
+		/**
+		 * @readonly
+		 * @type {String}
+		 */
+		this.officialFirstNames = raw.OfficieleVoornamen
+		/**
+		 * @readonly
+		 * @type {String}
+		 */
+		this.initials = raw.Voorletters
+		/**
+		 * @readonly
+		 * @type {String}
+		 */
+		this.namePrefix = raw.Tussenvoegsel
+		/**
+		 * @readonly
+		 * @type {String}
+		 */
+		this.officialSurname = raw.OfficieleAchternaam
+		/**
+		 * @readonly
+		 * @type {String}
+		 */
+		this.birthSurname = raw.GeboorteAchternaam
+		/**
+		 * @readonly
+		 * @type {String}
+		 */
+		this.birthNamePrefix = raw.GeboortenaamTussenvoegsel
+		/**
+		 * @readonly
+		 * @type {Boolean}
+		 */
+		this.useBirthname = raw.GebruikGeboortenaam
+		/**
+		 * @readonly
+		 * @type {String}
+		 */
+		this.firstName = raw.Roepnaam
+		/**
+		 * @readonly
+		 * @type {String}
+		 */
+		this.lastName = raw.Achternaam
+		/**
+		 * @readonly
+		 * @type {Date}
+		 */
+		this.birthDate = parseDate(raw.Geboortedatum)
+
+		/**
+		 * @readonly
+		 * @type {Boolean}
+		 */
+		this.isChild = raw.ZichtbaarVoorOuder != null
+		/**
+		 * `undefined` when `this.isChild` is `false`.
+		 * @readonly
+		 * @type {Boolean|undefined}
+		 */
+		this.isVisibleForParent = raw.ZichtbaarVoorOuder
+	}
+
+	/**
+	 * @param {Boolean} [useBirthname=this.useBirthname]
+	 * @return String
+	 */
+	getFullName(useBirthname = this.useBirthname) {
+		return _(
+			useBirthname ?
+				[ this.officialFirstNames, this.birthNamePrefix, this.birthSurname ] :
+				[ this.firstName, this.namePrefix, this.lastName ]
+		).compact().join(&apos; &apos;)
+	}
+
+	/**
+	 * Opens a stream to the profile picture of the current user with the given
+	 * options.
+	 *
+	 * @param {Number} [width=640] The width of the picture.
+	 * @param {Number} [height=640] The height of the picture.
+	 * @param {Boolean} [crop=false] Whether or not to crop the image.
+	 * @return {Promise&lt;Stream&gt;}
+	 */
+	getProfilePicture(width = 640, height = 640, crop = false) {
+		const url = `${this._magister._personUrl}/foto?width=${width}&amp;height=${height}&amp;crop=${crop}`
+		return this._magister.http.get(url).then(res =&gt; res.body)
+	}
+
+	/**
+	 * @return {Promise&lt;Error|AddressInfo&gt;}
+	 */
+	address() {
+		const url = `${this._magister._personUrl}/adresprofiel`
+
+		return this._magister._privileges.needs(&apos;profiel&apos;, &apos;read&apos;)
+		.then(() =&gt; this._magister.http.get(url))
+		.then(res =&gt; res.json())
+		.then(raw =&gt; new AddressInfo(this._magister, raw))
+	}
+
+	/**
+	 * @return {Promise&lt;Error|ProfileSettings&gt;}
+	 */
+	settings() {
+		const url = `${this._magister._personUrl}/profiel`
+
+		return this._magister._privileges.needs(&apos;profiel&apos;, &apos;read&apos;)
+		.then(() =&gt; this._magister.http.get(url))
+		.then(res =&gt; res.json())
+		.then(raw =&gt; new ProfileSettings(this._magister, raw))
+	}
+}
+
+export default ProfileInfo
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

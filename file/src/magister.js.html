@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">src/magister.js | magister.js</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="A JavaScript implementation of the Magister 6 API"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="magister.js"><meta property="twitter:description" content="A JavaScript implementation of the Magister 6 API"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/simplyGits/MagisterJS"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/absenceInfo.js~AbsenceInfo.html">AbsenceInfo</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/activity.js~Activity.html">Activity</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/activityElement.js~ActivityElement.html">ActivityElement</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/addressInfo.js~AddressInfo.html">AddressInfo</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/appointment.js~Appointment.html">Appointment</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/assignment.js~Assignment.html">Assignment</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/assignmentVersion.js~AssignmentVersion.html">AssignmentVersion</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/authError.js~AuthError.html">AuthError</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/class.js~Class.html">Class</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/course.js~Course.html">Course</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/file.js~File.html">File</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/fileFolder.js~FileFolder.html">FileFolder</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/grade.js~Grade.html">Grade</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/gradePeriod.js~GradePeriod.html">GradePeriod</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/gradeType.js~GradeType.html">GradeType</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/magister.js~Magister.html">Magister</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/magisterError.js~MagisterError.html">MagisterError</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/message.js~Message.html">Message</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/messageFolder.js~MessageFolder.html">MessageFolder</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/person.js~Person.html">Person</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/profileInfo.js~ProfileInfo.html">ProfileInfo</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/profileSettings.js~ProfileSettings.html">ProfileSettings</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/school.js~School.html">School</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/schoolUtility.js~SchoolUtility.html">SchoolUtility</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/versionInfo.js~VersionInfo.html">VersionInfo</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getSchools">getSchools</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-magister">magister</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-VERSION">VERSION</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/magister.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">&apos;use strict&apos;
+
+// external
+import _ from &apos;lodash&apos;
+import fetch from &apos;node-fetch&apos;
+import url from &apos;url&apos;
+
+// internal: used in this file
+import AbsenceInfo from &apos;./absenceInfo&apos;
+import Activity from &apos;./activity&apos;
+import Appointment from &apos;./appointment&apos;
+import Assignment from &apos;./assignment&apos;
+import AuthError from &apos;./authError&apos;
+import Class from &apos;./class&apos;
+import Course from &apos;./course&apos;
+import FileFolder from &apos;./fileFolder&apos;
+import Http from &apos;./http&apos;
+import MessageFolder from &apos;./messageFolder&apos;
+import Person from &apos;./person&apos;
+import Privileges from &apos;./privileges&apos;
+import ProfileInfo from &apos;./profileInfo&apos;
+import School from &apos;./school&apos;
+import SchoolUtility from &apos;./schoolUtility&apos;
+import * as util from &apos;./util&apos;
+
+// internal: only being exported
+import ActivityElement from &apos;./activityElement&apos;
+import AddressInfo from &apos;./addressInfo&apos;
+import AssignmentVersion from &apos;./assignmentVersion&apos;
+import File from &apos;./file&apos;
+import Grade from &apos;./grade&apos;
+import GradePeriod from &apos;./gradePeriod&apos;
+import GradeType from &apos;./gradeType&apos;
+import Message from &apos;./message&apos;
+import ProfileSettings from &apos;./profileSettings&apos;
+import VersionInfo from &apos;./versionInfo&apos;
+
+// TODO: add nice warnings when trying to do stuff while not logged in yet
+
+/**
+ * Class to communicate with Magister.
+ */
+class Magister {
+	/**
+	 * @private
+	 * @param {Object} options
+	 * @param {School} school
+	 * @param {Http} http
+	 */
+	constructor(options, school, http) {
+		const info = url.parse(school.url)
+		if (!/^[a-z0-9]+\.magister\.net$/.test(info.host)) {
+			throw new Error(&apos;`school.url` is not a correct magister url&apos;)
+		}
+		school.url = `https://${info.host}`
+
+
+		/**
+		 * @type {Object}
+		 * @readonly
+		 * @private
+		 */
+		this._options = options
+		/**
+		 * @type {School}
+		 * @readonly
+		 */
+		this.school = _.extend(new School({}), school)
+		/**
+		 * @type {Http}
+		 * @readonly
+		 */
+		this.http = http
+		/**
+		 * @type {ProfileInfo}
+		 * @readonly
+		 */
+		this.profileInfo = null
+	}
+
+	/**
+	 * @return {Promise&lt;Activity[]&gt;}
+	 */
+	activities() {
+		return this._privileges.needs(&apos;activiteiten&apos;, &apos;read&apos;)
+		.then(() =&gt; this.http.get(`${this._personUrl}/activiteiten`))
+		.then(res =&gt; res.json())
+		.then(res =&gt; res.Items.map(a =&gt; new Activity(this, a)))
+	}
+
+	/**
+	 * @param {Date} from Time is ignored.
+	 * @param {Date} [to=from] Time is ignored
+	 * @param {Object} [options={}]
+	 * 	@param {Boolean} [options.fillPersons=false]
+	 * 	@param {Boolean} [options.fetchAbsences=true]
+	 * 	@param {Boolean} [options.ignoreAbsenceErrors=true]
+	 * @return {Promise&lt;Appointment[]&gt;}
+	 */
+	appointments() {
+		// extract options
+		const {
+			fillPersons = false,
+			fetchAbsences = true,
+			ignoreAbsenceErrors = true,
+		} = _.find(arguments, _.isPlainObject) || {}
+
+		// extract dates
+		const dates = _(arguments).filter(_.isDate).sortBy().value()
+		const from = dates[0]
+		const to = dates[1] || dates[0]
+
+		const fromUrl = util.urlDateConvert(from)
+		const toUrl = util.urlDateConvert(to)
+
+		// fetch appointments
+		const appointmentsUrl = `${this._personUrl}/afspraken?van=${fromUrl}&amp;tot=${toUrl}`
+		const appointmentsPromise = this._privileges.needs(&apos;afspraken&apos;, &apos;read&apos;)
+		.then(() =&gt; this.http.get(appointmentsUrl))
+		.then(res =&gt; res.json())
+		.then(res =&gt; res.Items.map(a =&gt; new Appointment(this, a)))
+		.then(appointments =&gt; {
+			if (!fillPersons) {
+				return appointments
+			}
+
+			const promises = appointments.map(a =&gt; {
+				return Promise.all(a.teachers.map(t =&gt; t.getFilled(&apos;teacher&apos;)))
+				.then(teachers =&gt; a.teachers = teachers)
+				.then(() =&gt; a)
+			})
+			return Promise.all(promises)
+		})
+
+		// fetch absences
+		let absencesPromise = Promise.resolve([])
+		if (fetchAbsences) {
+			const absencesUrl = `${this._personUrl}/absenties?van=${fromUrl}&amp;tot=${toUrl}`
+			absencesPromise = this._privileges.needs(&apos;Absenties&apos;, &apos;read&apos;)
+			.then(() =&gt; this.http.get(absencesUrl))
+			.then(res =&gt; res.json())
+			.then(res =&gt; res.Items.map(a =&gt; new AbsenceInfo(this, a)))
+
+			if (ignoreAbsenceErrors) {
+				absencesPromise = absencesPromise.catch(() =&gt; [])
+			}
+		}
+
+		return Promise.all([ appointmentsPromise, absencesPromise ])
+		.then(([ appointments, absences ]) =&gt; {
+			for (const a of appointments) {
+				a.absenceInfo = absences.find(i =&gt; i.appointment.id === a.id)
+			}
+
+			return appointments
+		})
+		.then(appointments =&gt; _.sortBy(appointments, &apos;start&apos;))
+	}
+
+	/**
+	 * @param {Object} [options={}]
+	 * 	@param {Number} [options.count=50]
+	 * 	@param {Number} [options.skip=0]
+	 * 	@param {Boolean} [options.fillPersons=false]
+	 * @return {Promise&lt;Assignment[]&gt;}
+	 */
+	assignments({
+		count = 50,
+		skip = 0,
+		fillPersons = false,
+	} = {}) {
+		const url = `${this._personUrl}/opdrachten?top=${count}&amp;skip=${skip}&amp;status=alle`
+
+		return this._privileges.needs(&apos;eloopdracht&apos;, &apos;read&apos;)
+		.then(() =&gt; this.http.get(url))
+		.then(res =&gt; res.json())
+		.then(res =&gt; res.Items.map(i =&gt; i.Id))
+		.then(ids =&gt; {
+			const promises = ids.map(id =&gt; {
+				return this.http.get(`${this._personUrl}/opdrachten/${id}`)
+				.then(res =&gt; res.json())
+			})
+			return Promise.all(promises)
+		})
+		.then(items =&gt; {
+			const promises = items.map(item =&gt; {
+				const assignment = new Assignment(this, item)
+				if (!fillPersons) {
+					return assignment
+				}
+
+				return Promise.all(assignment.teachers.map(p =&gt; p.getFilled(&apos;teacher&apos;)))
+				.then(teachers =&gt; assignment.teachers = teachers)
+				.then(() =&gt; assignment)
+			})
+			return Promise.all(promises)
+		})
+	}
+
+	/**
+	 * @return {Promise&lt;Magister[]&gt;}
+	 */
+	children() {
+		if (this.profileInfo.isChild) {
+			return Promise.reject(new Error(&apos;User is not a parent&apos;))
+		}
+
+		return this.http.get(`${this._personUrl}/kinderen`)
+		.then(res =&gt; res.json())
+		.then(res =&gt; res.Items)
+		.then(items =&gt; items.map(raw =&gt; {
+			const m = Object.create(this)
+
+			m.school = this.school
+			m.http = this.http
+
+			m._personUrl = `${this.school.url}/api/personen/${raw.Id}`
+			m._pupilUrl = `${this.school.url}/api/leerlingen/${raw.Id}`
+			m.profileInfo = new ProfileInfo(m, raw)
+
+			return m
+		}))
+	}
+
+	/**
+	 * @return {Promise&lt;Course[]&gt;}
+	 */
+	courses() {
+		return this._privileges.needs(&apos;aanmeldingen&apos;, &apos;read&apos;)
+		.then(() =&gt; this.http.get(`${this._personUrl}/aanmeldingen`))
+		.then(res =&gt; res.json())
+		.then(res =&gt; res.Items.map(c =&gt; new Course(this, c)))
+		.then(items =&gt; _.sortBy(items, &apos;start&apos;))
+	}
+
+	/**
+	 * @param {Object} options
+	 * 	@param {String} options.description The description of the appointment.
+	 * 	@param {Date} options.start The start of the appointment, time is
+	 * 	ignored when `options.fullDay` is set to true.
+	 * 	@param {Date} options.end The end of the appointment, this is ignored
+	 * 	when `options.fullDay` is set to true.
+	 * 	@param {Boolean} [options.fullDay=false] When this is true,
+	 * 	`options.end` is ignored and only `options.start` is used to set the
+	 * 	begin and the end for the appointment.
+	 * 	@param {String} [options.location] The location (classroom for example)
+	 * 	for the appointment.
+	 * 	@param {String} [options.content] Some arbitrary string you want to
+	 * 	save.
+	 * 	@param {Number} [options.type=1] The type of the appointment: 1 for
+	 * 	personal or 16 for planning
+	 * @return {Promise}
+	 */
+	createAppointment(options) {
+		const required = [ &apos;description&apos;, &apos;start&apos;, &apos;end&apos; ]
+		for (const key of required) {
+			if (options[key] == null) {
+				const err = new Error(`Not all required fields for \`options\` are given, required are: [ ${required.join(&apos;, &apos;)} ]`)
+				return Promise.reject(err)
+			}
+		}
+
+		if (options.fullDay) {
+			options.start = util.date(options.start)
+			options.end = new Date(options.start.getTime()) + 1000 * 60 * 60 * 24
+		}
+
+		const payload = {
+			Omschrijving: options.description,
+			Start: options.start.toJSON(),
+			Einde: options.end.toJSON(),
+
+			Lokatie: _.trim(options.location),
+			Inhoud: (function () {
+				const content = _.trim(options.content)
+				return content.length &gt; 0 ? _.escape(content) : null
+			})(),
+			Type: options.type || 1,
+			DuurtHeleDag: options.fullDay || false,
+
+			// Static non-configurable stuff.
+			InfoType: 0,
+			WeergaveType: 1,
+			Status: 2,
+			HeeftBijlagen: false,
+			Bijlagen: null,
+			LesuurVan: null,
+			LesuurTotMet: null,
+			Aantekening: null,
+			Afgerond: false,
+			Vakken: null,
+			Docenten: null,
+			Links: null,
+			Id: 0,
+			Lokalen: null,
+			Groepen: null,
+			OpdrachtId: 0,
+		}
+
+		return this._privileges.needs(&apos;afspraken&apos;, &apos;create&apos;)
+		.then(() =&gt; this.http.post(`${this._personUrl}/afspraken`, payload))
+	}
+
+	/**
+	 * @return {Promise&lt;FileFolder[]&gt;}
+	 */
+	fileFolders() {
+		return this._privileges.needs(&apos;bronnen&apos;, &apos;read&apos;)
+		.then(() =&gt; this.http.get(`${this._personUrl}/bronnen?soort=0`))
+		.then(res =&gt; res.json())
+		.then(res =&gt; res.Items.map(f =&gt; new FileFolder(this, f)))
+	}
+
+	/**
+	 * @return {Promise&lt;MessageFolder[]&gt;}
+	 */
+	messageFolders() {
+		return this._privileges.needs(&apos;berichten&apos;, &apos;read&apos;)
+		.then(() =&gt; this.http.get(`${this._personUrl}/berichten/mappen`))
+		.then(res =&gt; res.json())
+		.then(res =&gt; res.Items.map(m =&gt; new MessageFolder(this, m)))
+	}
+
+	/**
+	 * @param {String} query
+	 * @param {String} [type]
+	 * @return {Promise&lt;Person[]&gt;}
+	 */
+	persons(query, type) {
+		query = query != null ? query.trim() : &apos;&apos;
+
+		if (query.length &lt; 3) {
+			return Promise.resolve([])
+		} else if (type == null) {
+			return Promise.all([
+				this.persons(query, &apos;teacher&apos;),
+				this.persons(query, &apos;pupil&apos;),
+			]).then(([ teachers, pupils ]) =&gt; teachers.concat(pupils))
+		}
+
+		type = ({
+			&apos;teacher&apos;: &apos;Personeel&apos;,
+			&apos;pupil&apos;: &apos;Leerling&apos;,
+			&apos;project&apos;: &apos;Project&apos;,
+		})[type] || &apos;Overig&apos;
+		query = query.replace(/ +/g, &apos;+&apos;)
+
+		const url = `${this._personUrl}/contactpersonen?contactPersoonType=${type}&amp;q=${query}`
+
+		return this._privileges.needs(&apos;contactpersonen&apos;, &apos;read&apos;)
+		.then(() =&gt; this.http.get(url))
+		.then(res =&gt; res.json())
+		.then(res =&gt; res.Items.map(p =&gt; {
+			p = new Person(this, p)
+			p._filled = true
+			return p
+		}))
+	}
+
+	/**
+	 * @return {Promise&lt;SchoolUtility[]&gt;}
+	 */
+	schoolUtilities() {
+		const url = `${this._personUrl}/lesmateriaal`
+
+		return this._privileges.needs(&apos;digitaallesmateriaal&apos;, &apos;read&apos;)
+		.then(() =&gt; this.http.get(url))
+		.then(res =&gt; res.json())
+		.then(res =&gt; res.Items.map(u =&gt; new SchoolUtility(this, u)))
+	}
+
+	/**
+	 * Logins to Magister.
+	 * @param {Boolean} [forceLogin=false] Force a login, even when a token
+	 * is in the options object.
+	 * @return {Promise&lt;String&gt;} A promise that resolves when done logging in. With the current session ID as parameter.
+	 */
+	async login(forceLogin = false) {
+		const self = this
+
+		const options = this._options
+		const schoolUrl = this.school.url
+		const filteredName = schoolUrl.replace(&apos;https://&apos;, &apos;&apos;)
+
+		let authorizeUrl = &apos;https://accounts.magister.net/connect/authorize&apos;
+		authorizeUrl += `?client_id=M6-${filteredName}`
+		authorizeUrl += `&amp;redirect_uri=https%3A%2F%2F${filteredName}%2Foidc%2Fredirect_callback.html`
+		authorizeUrl += &apos;&amp;response_type=id_token%20token&apos;
+		authorizeUrl += &apos;&amp;scope=openid%20profile%20magister.ecs.legacy%20magister.mdv.broker.read%20magister.dnn.roles.read&apos;
+		authorizeUrl += &apos;&amp;state=29302702b955469f84d342fcb4cece33&apos;
+		authorizeUrl += &apos;&amp;nonce=8cfe9935b3a14fc593f328663d14f191&apos;
+		authorizeUrl += `&amp;acr_values=tenant%3A${filteredName}`
+
+		const setToken = token =&gt; {
+			self.http._token = token
+			return token
+		}
+
+		const retrieveAccount = async () =&gt; {
+			const accountData =
+				await self.http.get(`${schoolUrl}/api/account`).then(res =&gt; res.json())
+			const id = accountData.Persoon.Id
+
+			// REVIEW: do we want to make profileInfo a function?
+			self.profileInfo = new ProfileInfo(self, accountData.Persoon)
+			self._privileges = new Privileges(self, accountData.Groep[0].Privileges)
+
+			self._personUrl = `${schoolUrl}/api/personen/${id}`
+			self._pupilUrl = `${schoolUrl}/api/leerlingen/${id}`
+		}
+
+		if (!forceLogin &amp;&amp; options.token) {
+			setToken(options.token)
+			return await retrieveAccount()
+		}
+
+		// extract returnUrl
+		const location = await this.http.get(authorizeUrl, {
+			redirect: &apos;manual&apos;,
+		}).then(res =&gt; res.headers.get(&apos;Location&apos;))
+
+		const returnUrl = decodeURIComponent(
+			location.split(&apos;returnUrl=&apos;)[1]
+		)
+
+		// extract session and XSRF related stuff
+		const xsrfResponse = await this.http.get(location, {
+			redirect: &apos;manual&apos;,
+		})
+
+		const sessionId =
+			xsrfResponse.headers.get(&apos;Location&apos;)
+			.split(&apos;?&apos;)[1]
+			.split(&apos;&amp;&apos;)[0]
+			.split(&apos;=&apos;)[1]
+		const authUrl = &apos;https://accounts.magister.net/challenge&apos;
+		const xsrf =
+			xsrfResponse.headers.get(&apos;set-cookie&apos;)
+			.split(&apos;XSRF-TOKEN=&apos;)[1]
+			.split(&apos;;&apos;)[0]
+		const authCookies = xsrfResponse.headers.get(&apos;set-cookie&apos;).toString()
+
+		let authRes
+		// test username
+		authRes = await this.http.post(`${authUrl}/username`, {
+			sessionId: sessionId,
+			returnUrl: returnUrl,
+			username: options.username,
+		}, {
+			headers: {
+				Cookie: authCookies,
+				&apos;X-XSRF-TOKEN&apos;: xsrf,
+			},
+		})
+		if (authRes.error) {
+			throw new AuthError(authRes.error)
+		}
+
+		// test password
+		authRes = await this.http.post(`${authUrl}/password`, {
+			sessionId: sessionId,
+			returnUrl: returnUrl,
+			password: options.password,
+		}, {
+			headers: {
+				Cookie: authCookies,
+				&apos;X-XSRF-TOKEN&apos;: xsrf,
+			},
+		})
+		if (authRes.error) {
+			throw new AuthError(authRes.error)
+		}
+
+		// extract bearer token
+		const res = await this.http.get(`https://accounts.magister.net${returnUrl}`, {
+			redirect: &apos;manual&apos;,
+			headers: {
+				Cookie: authRes.headers.get(&apos;set-cookie&apos;),
+				&apos;X-XSRF-TOKEN&apos;: xsrf,
+			},
+		})
+		const tokenRegex = /&amp;access_token=([^&amp;]*)/
+		const loc = res.headers.get(&apos;Location&apos;)
+
+		setToken(tokenRegex.exec(loc)[1])
+		return await retrieveAccount()
+	}
+}
+
+/**
+ * Create a new Magister object using `options`.
+ * @param {Object} options
+ * 	@param {School} options.school The school to login to.
+ * 	@param {String} [options.username] The username of the user to login to.
+ * 	@param {String} [options.password] The password of the user to login to.
+ * 	@param {String} [options.token] The Bearer token to use. (instead of the username and password)
+ * 	@param {Boolean} [options.keepLoggedIn=true] Whether or not to keep the user logged in.
+ * 	@param {Boolean} [options.login=true] Whether or not to call `Magister#login` before returning the object.
+ * @return {Promise&lt;Magister&gt;}
+ */
+export default function magister(options) {
+	_.defaults(options, {
+		keepLoggedIn: true,
+		login: true,
+	})
+	const rej = s =&gt; Promise.reject(new Error(s))
+
+	if (!(
+		options.school &amp;&amp;
+		(options.token || (options.username &amp;&amp; options.password))
+	)) {
+		return rej(&apos;school and username&amp;password or token are required.&apos;)
+	}
+
+	if (!_.isObject(options.school)) {
+		return rej(&apos;school is not an object&apos;)
+	} else if (!_.isString(options.school.url)) {
+		return rej(&apos;`school.url` is not a string&apos;)
+	}
+
+	return Promise.resolve().then(() =&gt; {
+		const m = new Magister(options, options.school, new Http())
+
+		return options.login ?
+			m.login().then(() =&gt; m) :
+			m
+	})
+}
+
+/**
+ * Get the schools matching `query`.
+ * @param {String} query
+ * @return {Promise&lt;School[]&gt;}
+ */
+export function getSchools(query) {
+	query = query.replace(/\d/g, &apos;&apos;)
+	query = query.trim()
+	query = query.replace(/ +/g, &apos;+&apos;)
+
+	if (query.length &lt; 3) {
+		return Promise.resolve([])
+	}
+
+	return fetch(`https://mijn.magister.net/api/schools?filter=${query}`)
+	.then(res =&gt; res.json())
+	.then(schools =&gt; schools.map(school =&gt; new School(school)))
+}
+
+/**
+ * The version of the library.
+ * @type {String}
+ * @readonly
+ */
+export const VERSION = __VERSION__
+export {
+	AbsenceInfo,
+	Activity,
+	ActivityElement,
+	AddressInfo,
+	Appointment,
+	Assignment,
+	AssignmentVersion,
+	AuthError,
+	Class,
+	Course,
+	File,
+	FileFolder,
+	Grade,
+	GradePeriod,
+	GradeType,
+	Magister,
+	Message,
+	MessageFolder,
+	Person,
+	Privileges,
+	ProfileInfo,
+	ProfileSettings,
+	School,
+	SchoolUtility,
+	VersionInfo,
+}
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

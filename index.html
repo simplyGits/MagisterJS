@@ -1,123 +1,129 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    
-    <meta charset="utf-8">
-    <title>Home - Documentation</title>
-    
-    
-    <script src="scripts/prettify/prettify.js"></script>
-    <script src="scripts/prettify/lang-css.js"></script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
-    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl">
+  <title data-ice="title">Home | magister.js</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="A JavaScript implementation of the Magister 6 API"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="magister.js"><meta property="twitter:description" content="A JavaScript implementation of the Magister 6 API"></head>
+<body class="layout-container" data-ice="rootContainer">
 
-<input type="checkbox" id="nav-trigger" class="nav-trigger" />
-<label for="nav-trigger" class="navicon-button x">
-  <div class="navicon"></div>
-</label>
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/simplyGits/MagisterJS"><img width="20px" src="./image/github.png"></a></header>
 
-<label for="nav-trigger" class="overlay"></label>
-
-<nav>
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
     
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AbsenceInfo.html">AbsenceInfo</a><ul class='methods'><li data-type='method'><a href="AbsenceInfo.html#toJSON">toJSON</a></li></ul></li><li><a href="Activity.html">Activity</a><ul class='methods'><li data-type='method'><a href="Activity.html#elements">elements</a></li><li data-type='method'><a href="Activity.html#toJSON">toJSON</a></li></ul></li><li><a href="ActivityElement.html">ActivityElement</a><ul class='methods'><li data-type='method'><a href="ActivityElement.html#_toMagister">_toMagister</a></li><li data-type='method'><a href="ActivityElement.html#signup">signup</a></li><li data-type='method'><a href="ActivityElement.html#toJSON">toJSON</a></li></ul></li><li><a href="AddressInfo.html">AddressInfo</a><ul class='methods'><li data-type='method'><a href="AddressInfo.html#toJSON">toJSON</a></li></ul></li><li><a href="Appointment.html">Appointment</a><ul class='methods'><li data-type='method'><a href="Appointment.html#_toMagister">_toMagister</a></li><li data-type='method'><a href="Appointment.html#attachments">attachments</a></li><li data-type='method'><a href="Appointment.html#remove">remove</a></li><li data-type='method'><a href="Appointment.html#saveChanges">saveChanges</a></li><li data-type='method'><a href="Appointment.html#toJSON">toJSON</a></li></ul></li><li><a href="Assignment.html">Assignment</a><ul class='methods'><li data-type='method'><a href="Assignment.html#toJSON">toJSON</a></li><li data-type='method'><a href="Assignment.html#versions">versions</a></li></ul></li><li><a href="AssignmentVersion.html">AssignmentVersion</a><ul class='methods'><li data-type='method'><a href="AssignmentVersion.html#toJSON">toJSON</a></li></ul></li><li><a href="AuthError.html">AuthError</a><ul class='methods'><li data-type='method'><a href="AuthError.html#toString">toString</a></li></ul></li><li><a href="Class.html">Class</a><ul class='methods'><li data-type='method'><a href="Class.html#toJSON">toJSON</a></li></ul></li><li><a href="Course.html">Course</a><ul class='methods'><li data-type='method'><a href="Course.html#classes">classes</a></li><li data-type='method'><a href="Course.html#grades">grades</a></li><li data-type='method'><a href="Course.html#toJSON">toJSON</a></li></ul></li><li><a href="File.html">File</a><ul class='methods'><li data-type='method'><a href="File.html#_toMagister">_toMagister</a></li><li data-type='method'><a href="File.html#download">download</a></li><li data-type='method'><a href="File.html#remove">remove</a></li><li data-type='method'><a href="File.html#saveChanges">saveChanges</a></li><li data-type='method'><a href="File.html#toJSON">toJSON</a></li></ul></li><li><a href="FileFolder.html">FileFolder</a><ul class='methods'><li data-type='method'><a href="FileFolder.html#files">files</a></li><li data-type='method'><a href="FileFolder.html#toJSON">toJSON</a></li></ul></li><li><a href="Grade.html">Grade</a><ul class='methods'><li data-type='method'><a href="Grade.html#fill">fill</a></li><li data-type='method'><a href="Grade.html#toJSON">toJSON</a></li></ul></li><li><a href="GradePeriod.html">GradePeriod</a><ul class='methods'><li data-type='method'><a href="GradePeriod.html#toJSON">toJSON</a></li></ul></li><li><a href="GradeType.html">GradeType</a><ul class='methods'><li data-type='method'><a href="GradeType.html#toJSON">toJSON</a></li></ul></li><li><a href="Http.html">Http</a><ul class='methods'><li data-type='method'><a href="Http.html#_enqueue">_enqueue</a></li><li data-type='method'><a href="Http.html#_request">_request</a></li><li data-type='method'><a href="Http.html#_setRatelimitTime">_setRatelimitTime</a></li><li data-type='method'><a href="Http.html#delete">delete</a></li><li data-type='method'><a href="Http.html#get">get</a></li><li data-type='method'><a href="Http.html#makeRequest">makeRequest</a></li><li data-type='method'><a href="Http.html#post">post</a></li><li data-type='method'><a href="Http.html#put">put</a></li></ul></li><li><a href="Magister.html">Magister</a><ul class='methods'><li data-type='method'><a href="Magister.html#activities">activities</a></li><li data-type='method'><a href="Magister.html#appointments">appointments</a></li><li data-type='method'><a href="Magister.html#assignments">assignments</a></li><li data-type='method'><a href="Magister.html#children">children</a></li><li data-type='method'><a href="Magister.html#courses">courses</a></li><li data-type='method'><a href="Magister.html#createAppointment">createAppointment</a></li><li data-type='method'><a href="Magister.html#fileFolders">fileFolders</a></li><li data-type='method'><a href="Magister.html#login">login</a></li><li data-type='method'><a href="Magister.html#messageFolders">messageFolders</a></li><li data-type='method'><a href="Magister.html#persons">persons</a></li></ul></li><li><a href="MagisterError.html">MagisterError</a><ul class='methods'><li data-type='method'><a href="MagisterError.html#toString">toString</a></li></ul></li><li><a href="MagisterThing.html">MagisterThing</a><ul class='methods'><li data-type='method'><a href="MagisterThing.html#toJSON">toJSON</a></li></ul></li><li><a href="Message.html">Message</a><ul class='methods'><li data-type='method'><a href="Message.html#_toMagister">_toMagister</a></li><li data-type='method'><a href="Message.html#addRecipient">addRecipient</a></li><li data-type='method'><a href="Message.html#fill">fill</a></li><li data-type='method'><a href="Message.html#remove">remove</a></li><li data-type='method'><a href="Message.html#saveChanges">saveChanges</a></li><li data-type='method'><a href="Message.html#send">send</a></li><li data-type='method'><a href="Message.html#toJSON">toJSON</a></li></ul></li><li><a href="MessageFolder.html">MessageFolder</a><ul class='methods'><li data-type='method'><a href="MessageFolder.html#messages">messages</a></li><li data-type='method'><a href="MessageFolder.html#toJSON">toJSON</a></li></ul></li><li><a href="Person.html">Person</a><ul class='methods'><li data-type='method'><a href="Person.html#_toMagister">_toMagister</a></li><li data-type='method'><a href="Person.html#getFilled">getFilled</a></li><li data-type='method'><a href="Person.html#toJSON">toJSON</a></li></ul></li><li><a href="Privileges.html">Privileges</a></li><li><a href="ProfileInfo.html">ProfileInfo</a><ul class='methods'><li data-type='method'><a href="ProfileInfo.html#address">address</a></li><li data-type='method'><a href="ProfileInfo.html#getFullName">getFullName</a></li><li data-type='method'><a href="ProfileInfo.html#getProfilePicture">getProfilePicture</a></li><li data-type='method'><a href="ProfileInfo.html#settings">settings</a></li><li data-type='method'><a href="ProfileInfo.html#toJSON">toJSON</a></li></ul></li><li><a href="ProfileSettings.html">ProfileSettings</a><ul class='methods'><li data-type='method'><a href="ProfileSettings.html#_toMagister">_toMagister</a></li><li data-type='method'><a href="ProfileSettings.html#changePassword">changePassword</a></li><li data-type='method'><a href="ProfileSettings.html#saveChanges">saveChanges</a></li><li data-type='method'><a href="ProfileSettings.html#toJSON">toJSON</a></li></ul></li><li><a href="School.html">School</a><ul class='methods'><li data-type='method'><a href="School.html#versionInfo">versionInfo</a></li></ul></li><li><a href="SchoolUtility.html">SchoolUtility</a><ul class='methods'><li data-type='method'><a href="SchoolUtility.html#toJSON">toJSON</a></li></ul></li><li><a href="global.html#VersionInfo">VersionInfo</a></li></ul><h3>Global</h3><ul><li><a href="global.html#can">can</a></li><li><a href="global.html#getSchools">getSchools</a></li><li><a href="global.html#needs">needs</a></li><li><a href="global.html#VERSION">VERSION</a></li></ul>
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/absenceInfo.js~AbsenceInfo.html">AbsenceInfo</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/activity.js~Activity.html">Activity</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/activityElement.js~ActivityElement.html">ActivityElement</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/addressInfo.js~AddressInfo.html">AddressInfo</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/appointment.js~Appointment.html">Appointment</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/assignment.js~Assignment.html">Assignment</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/assignmentVersion.js~AssignmentVersion.html">AssignmentVersion</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/authError.js~AuthError.html">AuthError</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/class.js~Class.html">Class</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/course.js~Course.html">Course</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/file.js~File.html">File</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/fileFolder.js~FileFolder.html">FileFolder</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/grade.js~Grade.html">Grade</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/gradePeriod.js~GradePeriod.html">GradePeriod</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/gradeType.js~GradeType.html">GradeType</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/magister.js~Magister.html">Magister</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/magisterError.js~MagisterError.html">MagisterError</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/message.js~Message.html">Message</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/messageFolder.js~MessageFolder.html">MessageFolder</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/person.js~Person.html">Person</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/profileInfo.js~ProfileInfo.html">ProfileInfo</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/profileSettings.js~ProfileSettings.html">ProfileSettings</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/school.js~School.html">School</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/schoolUtility.js~SchoolUtility.html">SchoolUtility</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/versionInfo.js~VersionInfo.html">VersionInfo</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getSchools">getSchools</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-magister">magister</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-VERSION">VERSION</a></span></span></li>
+</ul>
+</div>
 </nav>
 
-<div id="main">
-    
-
-    
-
-
-
-    
-
-
-
-
-
-
-
-
-
-    
-
-
-    <section class="readme">
-        <article><p><a href="http://simplyGits.github.io/MagisterJS/"><img src="http://i.imgur.com/Lrg80ax.png" alt="Magister.js" align="left" width="200"/></a></p>
-<p align="right">
+<div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><p><a href="http://simplyGits.github.io/MagisterJS/"><img src="http://i.imgur.com/Lrg80ax.png" width="200"></a></p>
+<p></p><p>
     <a href="https://travis-ci.org/simplyGits/MagisterJS">
-        <img src="https://api.travis-ci.org/simplyGits/MagisterJS.png?branch=master" alt="Travis CI Badge"/>
+        <img src="https://api.travis-ci.org/simplyGits/MagisterJS.png?branch=master">
     </a>
 </p>
 
+<p></p>
 <hr>
 <p><a href="https://gitter.im/simplyGits/MagisterJS?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge"><img src="https://badges.gitter.im/simplyGits/MagisterJS.svg" alt="Gitter"></a>
 <a href="https://badge.fury.io/js/magister.js"><img src="https://badge.fury.io/js/magister.js.svg" alt="npm version"></a>
 <a href="https://snyk.io/test/github/simplyGits/MagisterJS?targetFile=package.json"><img src="https://snyk.io/test/github/simplyGits/MagisterJS/badge.svg?targetFile=package.json" alt="Known Vulnerabilities"></a>
 <a href="https://www.codefactor.io/repository/github/simplygits/magisterjs"><img src="https://www.codefactor.io/repository/github/simplygits/magisterjs/badge" alt="CodeFactor"></a></p>
 <p>A JavaScript implementation of the <a href="http://magister6.nl/">Magister 6</a> API.</p>
-<h1>Quickstart</h1><p><code>npm install magister.js</code></p>
-<pre class="prettyprint source lang-javascript"><code>const { default: magister, getSchools } = require('magister.js');
+<h1 id="quickstart">Quickstart</h1><p><code>npm install magister.js</code></p>
+<pre><code class="lang-javascript"><code class="source-code prettyprint">const { default: magister, getSchools } = require(&apos;magister.js&apos;);
 // or with es6 modules:
-// import magister, { getSchools } from 'magister.js'
+// import magister, { getSchools } from &apos;magister.js&apos;
 
-// replace every '&lt;thing>' with your credentials:
+// replace every &apos;&lt;thing&gt;&apos; with your credentials:
 
-getSchools('&lt;schoolname>') // get schools matching '&lt;schoolname>'
-    .then((schools) => schools[0]) // get the first school
-    .then((school) => magister({ // login
+getSchools(&apos;&lt;schoolname&gt;&apos;) // get schools matching &apos;&lt;schoolname&gt;&apos;
+    .then((schools) =&gt; schools[0]) // get the first school
+    .then((school) =&gt; magister({ // login
         school,
-        username: '&lt;username>',
-        password: '&lt;password>',
+        username: &apos;&lt;username&gt;&apos;,
+        password: &apos;&lt;password&gt;&apos;,
     }))
-    .then((m) => { // done logging in, say hi
+    .then((m) =&gt; { // done logging in, say hi
         console.log(`Hey ${m.profileInfo.firstName}!`);
-    }, (err) => { // something went wrong
-        console.error('something went wrong:', err);
-    });</code></pre><h1>Useful links</h1><ul>
-<li><a href="http://simplyGits.github.io/MagisterJS/">Project page</a></li>
-<li><a href="http://simplyGits.github.io/MagisterJS/docs/index.html">Documentation</a></li>
+    }, (err) =&gt; { // something went wrong
+        console.error(&apos;something went wrong:&apos;, err);
+    });</code>
+</code></pre>
+<h1 id="useful-links">Useful links</h1><ul>
+<li><a href="http://simplyGits.github.io/MagisterJS/">Documentation</a></li>
 </ul>
-<h1>Before creating issues</h1><ol>
+<h1 id="before-creating-issues">Before creating issues</h1><ol>
 <li>Update all your packages with <code>npm update</code></li>
-<li>Be sure you haven't made a typo and your code is correct (check the <a href="http://simplyGits.github.io/MagisterJS/docs/index.html">docs</a>)</li>
-<li>Don't create issues which occur in a modified version</li>
+<li>Be sure you haven&apos;t made a typo and your code is correct (check the <a href="http://simplyGits.github.io/MagisterJS/docs/index.html">docs</a>)</li>
+<li>Don&apos;t create issues which occur in a modified version</li>
 </ol>
-<h1>Contributing</h1><ul>
+<h1 id="contributing">Contributing</h1><ul>
 <li>Document your code using <a href="http://usejsdoc.org/">jsdoc</a></li>
 <li>Respect and follow the current programming style</li>
 <li>Test your changes with <code>npm test</code></li>
 <li>Check your code style with <code>eslint</code></li>
 <li>Only commit the <code>src/</code> and <code>test/</code> directory</li>
 </ul>
-<h1>License</h1><p><a href="LICENSE">LGPLv3</a></p></article>
-    </section>
-
-
-
-
-
-
-    
-    
+<h1 id="license">License</h1><p><a href="LICENSE">LGPLv3</a></p>
+</div>
 </div>
 
-<br class="clear">
-
-<footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Nov 05 2018 13:20:53 GMT+0100 (Central European Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
 </footer>
 
-<script>prettyPrint();</script>
-<script src="scripts/linenumber.js"></script>
-
-
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
 </body>
 </html>

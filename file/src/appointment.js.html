@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">src/appointment.js | magister.js</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="A JavaScript implementation of the Magister 6 API"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="magister.js"><meta property="twitter:description" content="A JavaScript implementation of the Magister 6 API"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/simplyGits/MagisterJS"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/absenceInfo.js~AbsenceInfo.html">AbsenceInfo</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/activity.js~Activity.html">Activity</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/activityElement.js~ActivityElement.html">ActivityElement</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/addressInfo.js~AddressInfo.html">AddressInfo</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/appointment.js~Appointment.html">Appointment</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/assignment.js~Assignment.html">Assignment</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/assignmentVersion.js~AssignmentVersion.html">AssignmentVersion</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/authError.js~AuthError.html">AuthError</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/class.js~Class.html">Class</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/course.js~Course.html">Course</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/file.js~File.html">File</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/fileFolder.js~FileFolder.html">FileFolder</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/grade.js~Grade.html">Grade</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/gradePeriod.js~GradePeriod.html">GradePeriod</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/gradeType.js~GradeType.html">GradeType</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/magister.js~Magister.html">Magister</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/magisterError.js~MagisterError.html">MagisterError</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/message.js~Message.html">Message</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/messageFolder.js~MessageFolder.html">MessageFolder</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/person.js~Person.html">Person</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/profileInfo.js~ProfileInfo.html">ProfileInfo</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/profileSettings.js~ProfileSettings.html">ProfileSettings</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/school.js~School.html">School</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/schoolUtility.js~SchoolUtility.html">SchoolUtility</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/versionInfo.js~VersionInfo.html">VersionInfo</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getSchools">getSchools</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-magister">magister</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-VERSION">VERSION</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/appointment.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import _ from &apos;lodash&apos;
+import MagisterThing from &apos;./magisterThing&apos;
+import Person from &apos;./person&apos;
+import File from &apos;./file&apos;
+import { parseDate, toString } from &apos;./util&apos;
+
+/**
+ * @extends MagisterThing
+ */
+class Appointment extends MagisterThing {
+	/**
+	 * @private
+	 * @param {Magister} magister
+	 * @param {Object} raw
+	 */
+	constructor(magister, raw) {
+		super(magister)
+
+		/**
+		 * @type {String}
+		 * @readonly
+		 */
+		this.id = toString(raw.Id)
+		/**
+		 * @type {Date}
+		 * @readonly
+		 */
+		this.start = parseDate(raw.Start)
+		/**
+		 * @type {Date}
+		 * @readonly
+		 */
+		this.end = parseDate(raw.Einde)
+		/**
+		 * @type {Number}
+		 * @readonly
+		 */
+		this.startBySchoolhour = raw.LesuurVan
+		/**
+		 * @type {Number}
+		 * @readonly
+		 */
+		this.endBySchoolhour = raw.LesuurTotMet
+		/**
+		 * @type {Boolean}
+		 * @readonly
+		 */
+		this.isFullDay = raw.DuurtHeleDag
+		/**
+		 * @type {String}
+		 * @readonly
+		 */
+		this.description = _.trim(raw.Omschrijving)
+		/**
+		 * @type {String}
+		 * @readonly
+		 */
+		this.location = _.trim(raw.Lokatie)
+		/**
+		 * @type {String}
+		 * @readonly
+		 */
+		this.status = raw.Status
+		/**
+		 * @type {String}
+		 * @readonly
+		 */
+		this.type = raw.Type
+		/**
+		 * @type {String}
+		 * @readonly
+		 */
+		this.displayType = raw.WeergaveType
+		/**
+		 * @type {String}
+		 * @readonly
+		 */
+		this.content = raw.Inhoud
+		/**
+		 * @type {String}
+		 * @readonly
+		 */
+		this.infoType = raw.InfoType
+		/**
+		 * @type {String}
+		 * @readonly
+		 */
+		this.annotation = raw.Aantekening
+		/**
+		 * @type {Boolean}
+		 * @readonly
+		 */
+		this.isDone = raw.Afgerond
+		/**
+		 * @type {String[]}
+		 * @readonly
+		 */
+		this.classes = raw.Vakken != null ? _.map(raw.Vakken, &apos;Naam&apos;) : [] // REVIEW: moeten we de key &apos;Naam&apos; wel plucken?
+		/**
+		 * @type {String[]}
+		 * @readonly
+		 */
+		this.teachers = raw.Docenten != null ? _.map(raw.Docenten, p =&gt; new Person(magister, p)) : []
+		/**
+		 * @type {String[]}
+		 * @readonly
+		 */
+		this.classRooms = raw.Lokalen != null ? _.map(raw.Lokalen, &apos;Naam&apos;) : [] // REVIEW: moeten we de key &apos;Naam&apos; wel plucken?
+		/**
+		 * @type {String[]}
+		 * @readonly
+		 */
+		this.groups = raw.Groepen // ?
+		/**
+		 * @type {String}
+		 * @readonly
+		 */
+		this.appointmentId = raw.OpdrachtId // REVIEW
+		/**
+		 * @type {Boolean}
+		 * @readonly
+		 */
+		this.hasAttachments = raw.HeeftBijlagen
+		/**
+		 * @type {Boolean}
+		 * @readonly
+		 */
+		this.isCancelled = [ 4, 5 ].includes(raw.Status)
+		/**
+		 * @type {Boolean}
+		 * @readonly
+		 */
+		this.isChanged = [ 3, 9, 10 ].includes(raw.Status)
+		/**
+		 * @type {AbsenceInfo}
+		 * @readonly
+		 */
+		this.absenceInfo = undefined
+
+		/**
+		 * @type {String}
+		 * @private
+		 * @readonly
+		 */
+		this._url = `${magister._personUrl}/afspraken/${this.id}`
+	}
+
+	/**
+	 * @return {Promise&lt;File[]&gt;}
+	 */
+	attachments() {
+		if (!this.hasAttachments) {
+			return Promise.resolve([])
+		}
+
+		return this._magister.http.get(this._url)
+		.then(res =&gt; res.json())
+		.then(res =&gt; {
+			const attachments = res.Bijlagen
+			const person = this.teachers[0]
+
+			return attachments.map(raw =&gt; {
+				const f = new File(this._magister, undefined, raw)
+				f.addedBy = person
+				return f
+			})
+		})
+	}
+
+	/**
+	 * @return {Promise}
+	 */
+	remove() {
+		if (this.type !== 1 &amp;&amp; this.type !== 16) {
+			return Promise.reject(new Error(&apos;Appointment not created by user&apos;))
+		}
+
+		return this._magister._privileges.needs(&apos;afspraken&apos;, &apos;delete&apos;)
+		.then(() =&gt; this._magister.http.delete(this._url))
+	}
+
+	/**
+	 * Update the server to reflect the changes made on the properties of this
+	 * Appointment instance.
+	 * @return {Promise}
+	 */
+	saveChanges() {
+		return this._magister._privileges.needs(&apos;afspraken&apos;, &apos;update&apos;)
+		.then(() =&gt; this._magister.http.put(this._url, this._toMagister()))
+		.then(() =&gt; undefined)
+	}
+
+	/**
+	 * @private
+	 * @return {Object}
+	 */
+	_toMagister() {
+		return {
+			Id: this.id,
+			Start: this.start.toISOString(),
+			Einde: this.end.toISOString(),
+			LesuurVan: this.startBySchoolhour,
+			LesuurTotMet: this.endBySchoolhour,
+			DuurtHeleDag: this.isFullDay,
+			Omschrijving: this.description,
+			Lokatie: this.location,
+			Status: this.status,
+			Type: this.type,
+			WeergaveType: this.displayType,
+			Inhoud: this.content,
+			InfoType: this.infoType,
+			Aantekening: this.annotation,
+			Afgerond: this.isDone,
+			Vakken: this.classes,
+			Docenten: this.teachers,
+			Lokalen: this.classRooms,
+			Groepen: this.groups,
+			OpdrachtId: this.appointmentId,
+			HeeftBijlagen: this.hasAttachments,
+		}
+	}
+}
+
+export default Appointment
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>
