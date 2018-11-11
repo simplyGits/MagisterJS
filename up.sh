@@ -6,8 +6,7 @@ read -p "New version (old was $OLDVERSION): " NEWVERSION
 rm -rf lib/
 git stash save 'up.sh auto-stash'
 sed -i "s/$OLDVERSION/$NEWVERSION/g" package.json
-npm test && \
-	git commit -S -a -m "up to $NEWVERSION" && \
+git commit -S -a -m "up to $NEWVERSION" && \
 	git tag -s "$NEWVERSION" -m "$NEWVERSION" && \
 	git push && \
 	git push --tags && \
@@ -15,3 +14,6 @@ npm test && \
 rm -rf lib/
 git stash pop
 git reset .
+
+# update docs
+./up-docs.sh
