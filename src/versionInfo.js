@@ -1,35 +1,33 @@
 import { parseDate } from './util'
 
-/**
- * @private
- */
 class VersionInfo {
 	/**
+	 * @private
 	 * @param {Object} raw
 	 */
 	constructor(raw) {
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.core = raw.CoreVersie
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.api = raw.ApiVersie
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.db = raw.DatabaseVersie
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.product = raw.ProductVersie
 		/**
-		 * @type Date
+		 * @type {Date}
 		 * @readonly
 		 */
 		this.releasedOn = parseDate(raw.ReleaseDatum)

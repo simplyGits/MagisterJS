@@ -4,10 +4,10 @@ import { parseDate, toString } from './util'
 
 /**
  * @extends MagisterThing
- * @private
  */
 class Class extends MagisterThing {
 	/**
+	 * @private
 	 * @param {Magister} magister
 	 * @param {Object} raw
 	 */
@@ -15,42 +15,42 @@ class Class extends MagisterThing {
 		super(magister)
 
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.id = toString(raw.id || raw.Id)
 		/**
-		 * @type Date
+		 * @type {Date}
 		 * @readonly
 		 */
 		this.beginDate = parseDate(raw.begindatum)
 		/**
-		 * @type Date
+		 * @type {Date}
 		 * @readonly
 		 */
 		this.endDate = parseDate(raw.einddatum)
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.abbreviation = raw.afkorting || raw.Afkorting
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.description = raw.omschrijving || raw.Omschrijving
 		/**
-		 * @type Number
+		 * @type {Number}
 		 * @readonly
 		 */
 		this.number = raw.volgnr || raw.Volgnr
 		/**
-		 * @type Person
+		 * @type {Person}
 		 * @readonly
 		 */
 		this.teacher = new Person(magister, { Docentcode: raw.docent })
 		/**
-		 * @type Boolean
+		 * @type {Boolean}
 		 * @readonly
 		 */
 		this.hasClassExemption = raw.VakDispensatie || raw.VakVrijstelling

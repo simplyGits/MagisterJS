@@ -39,10 +39,10 @@ import VersionInfo from './versionInfo'
 
 /**
  * Class to communicate with Magister.
- * @private
  */
 class Magister {
 	/**
+	 * @private
 	 * @param {Object} options
 	 * @param {School} school
 	 * @param {Http} http
@@ -56,23 +56,23 @@ class Magister {
 
 
 		/**
-		 * @type Object
+		 * @type {Object}
 		 * @readonly
 		 * @private
 		 */
 		this._options = options
 		/**
-		 * @type School
+		 * @type {School}
 		 * @readonly
 		 */
 		this.school = _.extend(new School({}), school)
 		/**
-		 * @type Http
+		 * @type {Http}
 		 * @readonly
 		 */
 		this.http = http
 		/**
-		 * @type ProfileInfo
+		 * @type {ProfileInfo}
 		 * @readonly
 		 */
 		this.profileInfo = null
@@ -357,6 +357,9 @@ class Magister {
 		}))
 	}
 
+	/**
+	 * @return {Promise<SchoolUtility[]>}
+	 */
 	schoolUtilities() {
 		const url = `${this._personUrl}/lesmateriaal`
 
@@ -545,7 +548,7 @@ export function getSchools(query) {
 
 /**
  * The version of the library.
- * @type String
+ * @type {String}
  * @readonly
  */
 export const VERSION = __VERSION__

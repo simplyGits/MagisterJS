@@ -4,10 +4,10 @@ import { parseDate, toString } from './util'
 
 /**
  * @extends MagisterThing
- * @private
  */
 class GradePeriod extends MagisterThing {
 	/**
+	 * @private
 	 * @param {Magister} magister
 	 * @param {Object} raw
 	 */
@@ -15,28 +15,28 @@ class GradePeriod extends MagisterThing {
 		super(magister)
 
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.id = toString(raw.Id)
 		/**
-		 * @type Date
+		 * @type {Date}
 		 * @readonly
 		 */
 		this.begin = parseDate(raw.Start)
 		/**
-		 * @type Date
+		 * @type {Date}
 		 * @readonly
 		 */
 		this.end = parseDate(raw.Einde)
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 * @default ''
 		 */
 		this.name = _.trim(raw.Naam)
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 * @default ''
 		 */

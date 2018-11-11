@@ -3,20 +3,9 @@
 import fetch from 'node-fetch'
 import VersionInfo from './versionInfo'
 
-/**
- * @typedef {Object} VersionInfo
- * @property {String} core
- * @property {String} api
- * @property {String} db
- * @property {String} product
- * @property {Date} releasedOn
- */
-
-/**
- * @private
- */
 class School {
 	/**
+	 * @private
 	 * @param {Object} raw
 	 * @param {String} id
 	 * @param {String} name
@@ -24,17 +13,17 @@ class School {
 	 */
 	constructor(raw) {
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.id = raw.Id
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.name = raw.Name
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.url = raw.Url

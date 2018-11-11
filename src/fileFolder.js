@@ -4,10 +4,10 @@ import { toString } from './util'
 
 /**
  * @extends MagisterThing
- * @private
  */
 class FileFolder extends MagisterThing {
 	/**
+	 * @private
 	 * @param {Magister} magister
 	 * @param {Object} raw
 	 */
@@ -15,22 +15,22 @@ class FileFolder extends MagisterThing {
 		super(magister)
 
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.id = toString(raw.Id)
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.name = raw.Naam
 		/**
-		 * @type Number
+		 * @type {Number}
 		 * @readonly
 		 */
 		this.rights = raw.Privilege
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.parentId = toString(raw.ParentId)

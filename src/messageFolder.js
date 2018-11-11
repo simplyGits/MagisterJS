@@ -7,10 +7,10 @@ const MAX_LIMIT = 250
 
 /**
  * @extends MagisterThing
- * @private
  */
 class MessageFolder extends MagisterThing {
 	/**
+	 * @private
 	 * @param {Magister} magister
 	 * @param {Object} raw
 	 */
@@ -18,28 +18,28 @@ class MessageFolder extends MagisterThing {
 		super(magister)
 
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.id = toString(raw.Id)
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.name = raw.Naam
 		/**
-		 * @type Number
+		 * @type {Number}
 		 * @readonly
 		 */
 		this.unreadCount = raw.OngelezenBerichten
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.parentId = raw.ParentId
 
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.type = ({

@@ -3,10 +3,10 @@ import { toString } from './util'
 
 /**
  * @extends MagisterThing
- * @private
  */
 class GradeType extends MagisterThing {
 	/**
+	 * @private
 	 * @param {Magister} magister
 	 * @param {Object} raw
 	 */
@@ -14,61 +14,61 @@ class GradeType extends MagisterThing {
 		super(magister)
 
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.id = toString(raw.Id)
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.name = raw.KolomNaam
 		/**
-		 * @type Number
+		 * @type {Number}
 		 * @readonly
 		 */
 		this.number = raw.KolomNummer
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.header = raw.KolomKop
 		/**
-		 * @type Boolean
+		 * @type {Boolean}
 		 * @readonly
 		 */
 		this.isAtLaterDate = raw.IsHerkansingKolom
 		/**
-		 * @type Boolean
+		 * @type {Boolean}
 		 * @readonly
 		 */
 		this.isTeacher = raw.IsDocentKolom
 		/**
-		 * @type Boolean
+		 * @type {Boolean}
 		 * @readonly
 		 */
 		this.hasNestedTypes = raw.HeeftOndeliggendeKolommen
 		/**
-		 * @type Boolean
+		 * @type {Boolean}
 		 * @readonly
 		 */
 		this.isPTA = raw.IsPTAKolom
 
 		/**
 		 * Value will be set by `Grade#fill`
-		 * @type Number
+		 * @type {Number}
 		 * @default undefined
 		 */
 		this.level = undefined
 		/**
 		 * Value will be set by `Grade#fill`
-		 * @type String
+		 * @type {String}
 		 * @default ''
 		 */
 		this.description = ''
 
 		/**
-		 * @type Number
+		 * @type {Number}
 		 * @private
 		 * @readonly
 		 */
@@ -76,7 +76,7 @@ class GradeType extends MagisterThing {
 	}
 
 	/**
-	 * @type String
+	 * @type {String}
 	 * @readonly
 	 */
 	get type() {

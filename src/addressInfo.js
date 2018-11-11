@@ -2,10 +2,10 @@ import MagisterThing from './magisterThing'
 
 /**
  * @extends MagisterThing
- * @private
  */
 class AddressInfo extends MagisterThing {
 	/**
+	 * @private
 	 * @param {Magister} magister
 	 * @param {Object} raw
 	 */
@@ -13,28 +13,28 @@ class AddressInfo extends MagisterThing {
 		super(magister)
 
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.postalCode = raw.Postcode
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.street = raw.Straatnaam
 		/**
-		 * @type Number
+		 * @type {Number}
 		 * @readonly
 		 */
 		this.houseNumber = raw.Huisnummer
 		/**
 		 * String behind the `houseNumber` (eg 'A')
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.suffix = raw.Toevoeging
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.city = raw.Woonplaats

@@ -11,28 +11,29 @@ import { cleanHtmlContent, parseDate, toString, cloneClassInstance } from './uti
  */
 class Message extends MagisterThing {
 	/**
-	 * @param {Magister} magister
-	 * @param {Object} [raw]
+	 * @param {Magister} magister The Magister object you want to send this
+	 * message from.
+	 * @param {Object} [raw] Not needed, only used internally.
 	 */
 	constructor(magister, raw) {
 		super(magister)
 
 		/**
-		 * @type Boolean
+		 * @type {Boolean}
 		 * @private
 		 * @readonly
 		 * @default true
 		 */
 		this._canSend = true
 		/**
-		 * @type Number
+		 * @type {Number}
 		 * @private
 		 * @readonly
 		 * @default 1
 		 */
 		this._type = 1
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 * @default ''
 		 */
@@ -42,13 +43,13 @@ class Message extends MagisterThing {
 		 * When retrieving a message from Magister, this will be `undefined` per
 		 * default, you should use `Message#fill` to get the body.
 		 *
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 * @default ''
 		 */
 		this.body = ''
 		/**
-		 * @type Person[]
+		 * @type {Person[]}
 		 * @readonly
 		 * @default []
 		 */
@@ -62,52 +63,52 @@ class Message extends MagisterThing {
 			this.recipients = raw.Ontvangers.map(p => new Person(magister, p))
 
 			/**
-			 * @type String
+			 * @type {String}
 			 * @readonly
 			 */
 			this.id = toString(raw.Id)
 			/**
-			 * @type String
+			 * @type {String}
 			 * @readonly
 			 */
 			this.folderId = toString(raw.MapId)
 			/**
-			 * @type Person
+			 * @type {Person}
 			 * @readonly
 			 */
 			this.sender = new Person(magister, raw.Afzender)
 			/**
-			 * @type Date
+			 * @type {Date}
 			 * @readonly
 			 */
 			this.sendDate = parseDate(raw.VerstuurdOp)
 			/**
-			 * @type Date
+			 * @type {Date}
 			 * @readonly
 			 */
 			this.begin = parseDate(raw.Begin)
 			/**
-			 * @type Date
+			 * @type {Date}
 			 * @readonly
 			 */
 			this.end = parseDate(raw.Einde)
 			/**
-			 * @type Boolean
+			 * @type {Boolean}
 			 * @readonly
 			 */
 			this.isRead = raw.IsGelezen
 			/**
-			 * @type Number
+			 * @type {Number}
 			 * @readonly
 			 */
 			this.state = raw.Status
 			/**
-			 * @type Boolean
+			 * @type {Boolean}
 			 * @readonly
 			 */
 			this.isFlagged = raw.HeeftPrioriteit
 			/**
-			 * @type String
+			 * @type {String}
 			 * @readonly
 			 */
 			this.summary = cleanHtmlContent(raw.IngekortBericht)
@@ -115,14 +116,14 @@ class Message extends MagisterThing {
 			/**
 			 * This will be `undefined` per default, a fill using `Message#fill`
 			 * is required to retrieve the attachments for this Message.
-			 * @type File[]
+			 * @type {File[]}
 			 * @readonly
 			 * @default undefined
 			 */
 			this.attachments = undefined
 
 			/**
-			 * @type String
+			 * @type {String}
 			 * @private
 			 * @readonly
 			 */
@@ -131,7 +132,7 @@ class Message extends MagisterThing {
 	}
 
 	/**
-	 * @type String
+	 * @type {String}
 	 * @readonly
 	 * @default 'message'
 	 */

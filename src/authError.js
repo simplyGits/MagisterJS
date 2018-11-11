@@ -3,6 +3,7 @@
  */
 class AuthError extends Error {
 	/**
+	 * @private
 	 * @param {String} error
 	 */
 	constructor(message) {

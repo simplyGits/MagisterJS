@@ -3,6 +3,7 @@
  */
 class MagisterError extends Error {
 	/**
+	 * @private
 	 * @param {Object} raw
 	 */
 	constructor(raw) {

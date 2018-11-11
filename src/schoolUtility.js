@@ -4,10 +4,10 @@ import { parseDate } from './util'
 
 /**
  * @extends MagisterThing
- * @private
  */
 class SchoolUtility extends MagisterThing {
 	/**
+	 * @private
 	 * @param {Magister} magister
 	 * @param {Object} raw
 	 */
@@ -15,47 +15,47 @@ class SchoolUtility extends MagisterThing {
 		super(magister)
 
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.id = toString(raw.Id)
 		/**
-		 * @type Number
+		 * @type {Number}
 		 * @readonly
 		 */
 		this.type = raw.MateriaalType // REVIEW: do we want a string getter for this?
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.name = raw.Titel
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.publisher = raw.Uitgeverij
 		/**
-		 * @type Number
+		 * @type {Number}
 		 * @readonly
 		 */
 		this.state = raw.Status
 		/**
-		 * @type Date
+		 * @type {Date}
 		 * @readonly
 		 */
 		this.begin = parseDate(raw.Start)
 		/**
-		 * @type Date
+		 * @type {Date}
 		 * @readonly
 		 */
 		this.end = parseDate(raw.Eind)
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.EAN = raw.EAN
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.url = (function () {
@@ -63,7 +63,7 @@ class SchoolUtility extends MagisterThing {
 			return link == null ? undefined : link.Href
 		})()
 		/**
-		 * @type Class
+		 * @type {Class}
 		 * @readonly
 		 */
 		this.class = new Class(magister, raw.Vak)

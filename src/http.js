@@ -15,7 +15,7 @@ class Http {
 	 */
 	constructor(requestTimeout = DEFAULT_REQUEST_TIMEOUT) {
 		/**
-		 * @type Object
+		 * @type {Object}
 		 * @private
 		 * @readonly
 		 */
@@ -24,12 +24,12 @@ class Http {
 			timeoutId: undefined,
 		}
 		/**
-		 * @type String
+		 * @type {String}
 		 * @private
 		 */
 		this._token = ''
 		/**
-		 * @type Number
+		 * @type {Number}
 		 * @private
 		 * @readonly
 		 */

@@ -6,10 +6,10 @@ import { parseDate, toString } from './util'
 
 /**
  * @extends MagisterThing
- * @private
  */
 class ProfileInfo extends MagisterThing {
 	/**
+	 * @private
 	 * @param {Magister} magister
 	 * @param {Object} raw
 	 */
@@ -18,69 +18,69 @@ class ProfileInfo extends MagisterThing {
 
 		/**
 		 * @readonly
-		 * @type String
+		 * @type {String}
 		 */
 		this.id = toString(raw.Id)
 		/**
 		 * @readonly
-		 * @type String
+		 * @type {String}
 		 */
 		this.officialFirstNames = raw.OfficieleVoornamen
 		/**
 		 * @readonly
-		 * @type String
+		 * @type {String}
 		 */
 		this.initials = raw.Voorletters
 		/**
 		 * @readonly
-		 * @type String
+		 * @type {String}
 		 */
 		this.namePrefix = raw.Tussenvoegsel
 		/**
 		 * @readonly
-		 * @type String
+		 * @type {String}
 		 */
 		this.officialSurname = raw.OfficieleAchternaam
 		/**
 		 * @readonly
-		 * @type String
+		 * @type {String}
 		 */
 		this.birthSurname = raw.GeboorteAchternaam
 		/**
 		 * @readonly
-		 * @type String
+		 * @type {String}
 		 */
 		this.birthNamePrefix = raw.GeboortenaamTussenvoegsel
 		/**
 		 * @readonly
-		 * @type Boolean
+		 * @type {Boolean}
 		 */
 		this.useBirthname = raw.GebruikGeboortenaam
 		/**
 		 * @readonly
-		 * @type String
+		 * @type {String}
 		 */
 		this.firstName = raw.Roepnaam
 		/**
 		 * @readonly
-		 * @type String
+		 * @type {String}
 		 */
 		this.lastName = raw.Achternaam
 		/**
 		 * @readonly
-		 * @type Date
+		 * @type {Date}
 		 */
 		this.birthDate = parseDate(raw.Geboortedatum)
 
 		/**
 		 * @readonly
-		 * @type Boolean
+		 * @type {Boolean}
 		 */
 		this.isChild = raw.ZichtbaarVoorOuder != null
 		/**
 		 * `undefined` when `this.isChild` is `false`.
 		 * @readonly
-		 * @type Boolean|undefined
+		 * @type {Boolean|undefined}
 		 */
 		this.isVisibleForParent = raw.ZichtbaarVoorOuder
 	}

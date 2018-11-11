@@ -6,10 +6,10 @@ import { parseDate, toString } from './util'
 
 /**
  * @extends MagisterThing
- * @private
  */
 class Course extends MagisterThing {
 	/**
+	 * @private
 	 * @param {Magister} magister
 	 * @param {Object} raw
 	 */
@@ -17,32 +17,32 @@ class Course extends MagisterThing {
 		super(magister)
 
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.id = toString(raw.Id)
 
 		/**
-		 * @type Date
+		 * @type {Date}
 		 * @readonly
 		 */
 		this.start = parseDate(raw.Start)
 		/**
-		 * @type Date
+		 * @type {Date}
 		 * @readonly
 		 */
 		this.end = parseDate(raw.Einde)
 
 		/**
 		 * The school year of this course, e.g: '1617'
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.schoolPeriod = raw.Lesperiode
 
 		/**
 		 * Basic type information of this course, e.g: { description: "VWO 6", id: 420 }
-		 * @type Object
+		 * @type {Object}
 		 * @readonly
 		 */
 		this.type = {
@@ -52,7 +52,7 @@ class Course extends MagisterThing {
 
 		/**
 		 * The group of this course, e.g: { description: "Klas 6v3", id: 420, locationId: 0 }
-		 * @type Object
+		 * @type {Object}
 		 * @readonly
 		 */
 		this.group = {
@@ -67,7 +67,7 @@ class Course extends MagisterThing {
 		}
 
 		/**
-		 * @type String[]
+		 * @type {String[]}
 		 * @readonly
 		 */
 		this.curricula = [ raw.Profiel ]
@@ -77,7 +77,7 @@ class Course extends MagisterThing {
 	}
 
 	/**
-	 * @type Boolean
+	 * @type {Boolean}
 	 * @readonly
 	 */
 	get current() {

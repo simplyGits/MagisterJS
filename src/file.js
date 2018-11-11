@@ -6,10 +6,10 @@ import { parseDate, toString } from './util'
 
 /**
  * @extends MagisterThing
- * @private
  */
 class File extends MagisterThing {
 	/**
+	 * @private
 	 * @param {Magister} magister
 	 * @param {FileFolder} fileFolder
 	 * @param {Object} raw
@@ -18,76 +18,76 @@ class File extends MagisterThing {
 		super(magister)
 
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.id = toString(raw.Id)
 		/**
-		 * @type Number
+		 * @type {Number}
 		 * @readonly
 		 */
 		this.type = raw.BronSoort // REVIEW: string?
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.name = raw.Naam
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.uri = raw.Uri
 		/**
-		 * @type Number
+		 * @type {Number}
 		 * @readonly
 		 */
 		this.size = raw.Grootte
 		// REVIEW
 		/**
-		 * @type Number
+		 * @type {Number}
 		 * @readonly
 		 */
 		this.rights = raw.Privilege
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.mime = raw.ContentType || 'application/octet-stream'
 
 		/**
-		 * @type Date
+		 * @type {Date}
 		 * @readonly
 		 */
 		this.changedDate = parseDate(raw.GewijzigdOp)
 		/**
-		 * @type Date
+		 * @type {Date}
 		 * @readonly
 		 */
 		this.creationDate = parseDate(raw.GemaaktOp || raw.Datum)
 
 		/**
-		 * @type Person
+		 * @type {Person}
 		 * @readonly
 		 */
 		this.addedBy = new Person(magister, { Naam: raw.GeplaatstDoor })
 
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.fileBlobId = toString(raw.FileBlobId)
 		/**
-		 * @type FileFolder
+		 * @type {FileFolder}
 		 * @readonly
 		 */
 		this.fileFolder = fileFolder
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.uniqueId = raw.UniqueId
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.referenceId = toString(raw.Referentie)
@@ -97,13 +97,13 @@ class File extends MagisterThing {
 		const getUrl = link => !link ? null : url.resolve(magister.school.url, link.Href)
 
 		/**
-		 * @type String|null
+		 * @type {String|null}
 		 * @readonly
 		 * @private
 		 */
 		this._selfUrl = getUrl(selfUrl)
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 * @private
 		 */

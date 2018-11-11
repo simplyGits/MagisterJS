@@ -15,7 +15,7 @@ class MagisterThing {
 		}
 
 		/**
-		 * @type Magister
+		 * @type {Magister}
 		 * @private
 		 * @readonly
 		 */

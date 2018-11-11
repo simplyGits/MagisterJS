@@ -4,10 +4,10 @@ import { toString } from './util'
 
 /**
  * @extends MagisterThing
- * @private
  */
 class Person extends MagisterThing {
 	/**
+	 * @private
 	 * @param {Magister} magister
 	 * @param {Object} raw
 	 * @param {Number} type
@@ -19,60 +19,60 @@ class Person extends MagisterThing {
 		}
 
 		/**
-		 * @type Boolean
+		 * @type {Boolean}
 		 * @private
 		 * @default false
 		 */
 		this._filled = false
 
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.id = toString(raw.Id)
 		/**
-		 * @type Number
+		 * @type {Number}
 		 * @private
 		 * @readonly
 		 */
 		this._type = type || raw.Type
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.firstName = raw.Voornaam
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.lastName = raw.Achternaam
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.namePrefix = raw.Tussenvoegsel
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.fullName = raw.Naam
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.description = raw.Omschrijving || raw.Naam || raw.naam
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.group = raw.Groep
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.teacherCode = raw.Docentcode
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.emailAddress = raw.Emailadres

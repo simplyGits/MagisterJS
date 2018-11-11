@@ -5,10 +5,10 @@ import { toString, parseDate } from './util'
 
 /**
  * @extends MagisterThing
- * @private
  */
 class AbsenceInfo extends MagisterThing {
 	/**
+	 * @private
 	 * @param {Magister} magister
 	 * @param {Object} raw
 	 */
@@ -16,56 +16,56 @@ class AbsenceInfo extends MagisterThing {
 		super(magister)
 
 		/**
-		 * @type Number
+		 * @type {Number}
 		 * @private
 		 * @readonly
 		 */
 		this._type = raw.Verantwoordingtype
 
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.id = toString(raw.Id)
 		/**
-		 * @type Date
+		 * @type {Date}
 		 * @readonly
 		 */
 		this.begin = parseDate(raw.Start)
 		/**
-		 * @type Date
+		 * @type {Date}
 		 * @readonly
 		 */
 		this.end = parseDate(raw.Eind)
 		/**
-		 * @type Number
+		 * @type {Number}
 		 * @readonly
 		 */
 		this.schoolHour = raw.Lesuur
 		/**
-		 * @type Boolean
+		 * @type {Boolean}
 		 * @readonly
 		 */
 		this.isPermitted = raw.Geoorloofd
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.description = _.toString(raw.Omschrijving).trim()
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.code = _.toString(raw.Code)
 		/**
-		 * @type Appointment
+		 * @type {Appointment}
 		 * @readonly
 		 */
 		this.appointment = new Appointment(magister, raw.Afspraak) // REVIEW: do we want (and need) this?
 	}
 
 	/**
-	 * @type String
+	 * @type {String}
 	 * @readonly
 	 */
 	get type() {

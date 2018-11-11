@@ -9,6 +9,7 @@ import { parseDate, toString } from './util'
  */
 class Appointment extends MagisterThing {
 	/**
+	 * @private
 	 * @param {Magister} magister
 	 * @param {Object} raw
 	 */
@@ -16,128 +17,128 @@ class Appointment extends MagisterThing {
 		super(magister)
 
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.id = toString(raw.Id)
 		/**
-		 * @type Date
+		 * @type {Date}
 		 * @readonly
 		 */
 		this.start = parseDate(raw.Start)
 		/**
-		 * @type Date
+		 * @type {Date}
 		 * @readonly
 		 */
 		this.end = parseDate(raw.Einde)
 		/**
-		 * @type Number
+		 * @type {Number}
 		 * @readonly
 		 */
 		this.startBySchoolhour = raw.LesuurVan
 		/**
-		 * @type Number
+		 * @type {Number}
 		 * @readonly
 		 */
 		this.endBySchoolhour = raw.LesuurTotMet
 		/**
-		 * @type Boolean
+		 * @type {Boolean}
 		 * @readonly
 		 */
 		this.isFullDay = raw.DuurtHeleDag
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.description = _.trim(raw.Omschrijving)
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.location = _.trim(raw.Lokatie)
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.status = raw.Status
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.type = raw.Type
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.displayType = raw.WeergaveType
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.content = raw.Inhoud
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.infoType = raw.InfoType
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.annotation = raw.Aantekening
 		/**
-		 * @type Boolean
+		 * @type {Boolean}
 		 * @readonly
 		 */
 		this.isDone = raw.Afgerond
 		/**
-		 * @type String[]
+		 * @type {String[]}
 		 * @readonly
 		 */
 		this.classes = raw.Vakken != null ? _.map(raw.Vakken, 'Naam') : [] // REVIEW: moeten we de key 'Naam' wel plucken?
 		/**
-		 * @type String[]
+		 * @type {String[]}
 		 * @readonly
 		 */
 		this.teachers = raw.Docenten != null ? _.map(raw.Docenten, p => new Person(magister, p)) : []
 		/**
-		 * @type String[]
+		 * @type {String[]}
 		 * @readonly
 		 */
 		this.classRooms = raw.Lokalen != null ? _.map(raw.Lokalen, 'Naam') : [] // REVIEW: moeten we de key 'Naam' wel plucken?
 		/**
-		 * @type String[]
+		 * @type {String[]}
 		 * @readonly
 		 */
 		this.groups = raw.Groepen // ?
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.appointmentId = raw.OpdrachtId // REVIEW
 		/**
-		 * @type Boolean
+		 * @type {Boolean}
 		 * @readonly
 		 */
 		this.hasAttachments = raw.HeeftBijlagen
 		/**
-		 * @type Boolean
+		 * @type {Boolean}
 		 * @readonly
 		 */
 		this.isCancelled = [ 4, 5 ].includes(raw.Status)
 		/**
-		 * @type Boolean
+		 * @type {Boolean}
 		 * @readonly
 		 */
 		this.isChanged = [ 3, 9, 10 ].includes(raw.Status)
 		/**
-		 * @type AbsenceInfo
+		 * @type {AbsenceInfo}
 		 * @readonly
 		 */
 		this.absenceInfo = undefined
 
 		/**
-		 * @type String
+		 * @type {String}
 		 * @private
 		 * @readonly
 		 */

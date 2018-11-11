@@ -4,10 +4,10 @@ import { cleanHtmlContent, parseDate, toString } from './util'
 
 /**
  * @extends MagisterThing
- * @private
  */
 class ActivityElement extends MagisterThing {
 	/**
+	 * @private
 	 * @param {Magister} magister
 	 * @param {Object} raw
 	 */
@@ -15,66 +15,66 @@ class ActivityElement extends MagisterThing {
 		super(magister)
 
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.id = toString(raw.Id)
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.title = raw.Titel
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.description = cleanHtmlContent(raw.Details)
 
 		/**
-		 * @type Date
+		 * @type {Date}
 		 * @readonly
 		 */
 		this.signinStart = parseDate(raw.StartInschrijfdatum)
 		/**
-		 * @type Date
+		 * @type {Date}
 		 * @readonly
 		 */
 		this.signinEnd = parseDate(raw.EindeInschrijfdatum)
 
 		/**
-		 * @type Number
+		 * @type {Number}
 		 * @readonly
 		 */
 		this.minParticipants = raw.MinAantalDeelnemers
 		/**
-		 * @type Number
+		 * @type {Number}
 		 * @readonly
 		 */
 		this.maxParticipants = raw.MaxAantalDeelnemers
 		/**
-		 * @type Number
+		 * @type {Number}
 		 * @readonly
 		 */
 		this.placesLeft = raw.AantalPlaatsenBeschikbaar
 
 		/**
-		 * @type Boolean
+		 * @type {Boolean}
 		 * @readonly
 		 */
 		this.signedup = raw.IsIngeschreven
 		/**
-		 * @type Boolean
+		 * @type {Boolean}
 		 * @readonly
 		 */
 		this.ableToSignup = raw.IsOpInTeSchrijven
 		/**
-		 * @type Boolean
+		 * @type {Boolean}
 		 * @readonly
 		 */
 		this.mandatorilySignedup = raw.IsVerplichtIngeschreven
 
 		/**
-		 * @type File[]
+		 * @type {File[]}
 		 * @readonly
 		 */
 		this.attachments = (raw.Bijlagen || []).map(a => new File(this._magister, undefined, a))
@@ -82,12 +82,12 @@ class ActivityElement extends MagisterThing {
 		// REVIEW: do we want a reference to the parent activity?
 		// this._activity = activity
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.activityId = toString(activity.id)
 		/**
-		 * @type String
+		 * @type {String}
 		 * @private
 		 * @readonly
 		 */

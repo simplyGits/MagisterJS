@@ -4,10 +4,10 @@ import { cleanHtmlContent, parseDate, toString } from './util'
 
 /**
  * @extends MagisterThing
- * @private
  */
 class Activity extends MagisterThing {
 	/**
+	 * @private
 	 * @param {Magister} magister
 	 * @param {Object} raw
 	 */
@@ -15,45 +15,45 @@ class Activity extends MagisterThing {
 		super(magister)
 
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.id = toString(raw.Id)
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.title = raw.Titel
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.description = cleanHtmlContent(raw.Details)
 
 		/**
-		 * @type Date
+		 * @type {Date}
 		 * @readonly
 		 */
 		this.signinStart = parseDate(raw.StartInschrijfdatum)
 		/**
-		 * @type Date
+		 * @type {Date}
 		 * @readonly
 		 */
 		this.signinEnd = parseDate(raw.EindeInschrijfdatum)
 
 		/**
-		 * @type Date
+		 * @type {Date}
 		 * @readonly
 		 */
 		this.visibleFrom = parseDate(raw.ZichtbaarVanaf)
 		/**
-		 * @type Date
+		 * @type {Date}
 		 * @readonly
 		 */
 		this.visibleTo = parseDate(raw.ZichtbaarTotEnMet)
 
 		/**
-		 * @type String
+		 * @type {String}
 		 * @private
 		 * @readonly
 		 */

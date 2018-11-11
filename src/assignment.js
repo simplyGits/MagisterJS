@@ -6,10 +6,10 @@ import { parseDate, toString } from './util'
 
 /**
  * @extends MagisterThing
- * @private
  */
 class Assignment extends MagisterThing {
 	/**
+	 * @private
 	 * @param {Magister} magister
 	 * @param {Object} raw
 	 */
@@ -17,72 +17,72 @@ class Assignment extends MagisterThing {
 		super(magister)
 
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.id = toString(raw.Id)
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.name = raw.Titel
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.description = raw.Omschrijving
 		/**
-		 * @type Object
+		 * @type {Object}
 		 * @readonly
 		 */
 		this.class = raw.Vak // TODO
 		/**
-		 * @type Date
+		 * @type {Date}
 		 * @readonly
 		 */
 		this.deadline = parseDate(raw.InleverenVoor)
 		/**
-		 * @type Date
+		 * @type {Date}
 		 * @readonly
 		 */
 		this.handedInOn = parseDate(raw.IngeleverdOp)
 		/**
-		 * @type File[]
+		 * @type {File[]}
 		 * @readonly
 		 */
 		this.files = raw.Bijlagen.map(f => new File(magister, undefined, f))
 		/**
-		 * @type Person[]
+		 * @type {Person[]}
 		 * @readonly
 		 */
 		this.teachers = raw.Docenten != null ? raw.Docenten.map(p => new Person(magister, p)) : []
 		/**
-		 * @type String[]
+		 * @type {String[]}
 		 * @readonly
 		 */
 		this.versionIds = raw.VersieNavigatieItems.map(v => toString(v.Id))
 		/**
-		 * @type String
+		 * @type {String}
 		 * @readonly
 		 */
 		this.grade = raw.Beoordeling
 		/**
-		 * @type Date
+		 * @type {Date}
 		 * @readonly
 		 */
 		this.markedOn = parseDate(raw.BeoordeeldOp)
 		/**
-		 * @type Boolean
+		 * @type {Boolean}
 		 * @readonly
 		 */
 		this.handInAgain = raw.OpnieuwInleveren
 		/**
-		 * @type Boolean
+		 * @type {Boolean}
 		 * @readonly
 		 */
 		this.finished = raw.Afgesloten
 		/**
-		 * @type Boolean
+		 * @type {Boolean}
 		 * @readonly
 		 */
 		this.canHandIn = raw.MagInleveren

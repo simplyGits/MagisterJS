@@ -2,10 +2,10 @@ import MagisterThing from './magisterThing'
 
 /**
  * @extends MagisterThing
- * @private
  */
 class ProfileSettings extends MagisterThing {
 	/**
+	 * @private
 	 * @param {Magister} magister
 	 * @param {Object} raw
 	 */
@@ -13,15 +13,15 @@ class ProfileSettings extends MagisterThing {
 		super(magister)
 
 		/**
-		 * @type Boolean
+		 * @type {Boolean}
 		 */
 		this.redirectMagisterMessages = raw.EloBerichtenDoorsturen
 		/**
-		 * @type String
+		 * @type {String}
 		 */
 		this.emailAddress = raw.EmailAdres
 		/**
-		 * @type String
+		 * @type {String}
 		 */
 		this.mobileNumber = raw.Mobiel
 	}
