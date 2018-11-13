@@ -392,6 +392,7 @@ class Magister {
 		authorizeUrl += `&acr_values=tenant%3A${filteredName}`
 
 		const setToken = token => {
+			self.token = token
 			self.http._token = token
 			return token
 		}
