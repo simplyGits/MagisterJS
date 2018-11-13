@@ -110,7 +110,6 @@ class Http {
 		}
 
 		return promise
-		.then(res => (res.ok || res.status === 302) ? res : res.json())
 		.then(res => {
 			if (res instanceof fetch.Response || res instanceof Object) {
 				return res
