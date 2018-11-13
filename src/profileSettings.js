@@ -50,6 +50,14 @@ class ProfileSettings extends MagisterThing {
 		original = original || this._magister._options.password
 		const schoolUrl = this._magister.school.url
 
+		if (!original) {
+			throw new Error('No original password provided!')
+		}
+
+		if (!changed) {
+			throw new Error('No changed password provided!')
+		}
+
 		await this._magister._privileges.needs('wachtwoordwijzigen', 'update')
 		const profile = await this._magister.http.post(`${schoolUrl}/api/sessies/huidige/valideer`, {
 			'wachtwoord': original,

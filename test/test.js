@@ -167,7 +167,7 @@ describe('Magister', function() {
 		it('should be able to change password', function() {
 			expect(profileSettings).to.be.instanceof(magisterjs.ProfileSettings)
 
-			return profileSettings.changePassword(m._options.password)
+			return profileSettings.changePassword(options.password, options.password)
 		})
 	})
 
