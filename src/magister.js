@@ -76,6 +76,11 @@ class Magister {
 		 * @readonly
 		 */
 		this.profileInfo = null
+		/**
+		 * @type {String}
+		 * @readonly
+		 */
+		this.token = null
 	}
 
 	/**
