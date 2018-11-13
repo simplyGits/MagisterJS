@@ -463,8 +463,8 @@ class Magister {
 				'X-XSRF-TOKEN': xsrf,
 			},
 		})
-		if (authRes.error) {
-			throw new AuthError(authRes.error)
+		if (authRes.error || authRes.status !== 200) {
+			throw new AuthError(authRes.error || 'Invalid username!')
 		}
 
 		// test password
@@ -478,8 +478,8 @@ class Magister {
 				'X-XSRF-TOKEN': xsrf,
 			},
 		})
-		if (authRes.error) {
-			throw new AuthError(authRes.error)
+		if (authRes.error || authRes.status !== 200) {
+			throw new AuthError(authRes.error || 'Invalid password!')
 		}
 
 		// extract bearer token
