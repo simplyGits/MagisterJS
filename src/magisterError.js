@@ -5,14 +5,13 @@ class MagisterError extends Error {
 	 */
 	constructor(raw) {
 		super(raw.Message || raw.message)
-	}
 
-	/**
-	 * @override
-	 * @return {String}
-	 */
-	toString() {
-		return 'MagisterError: ' + this.message
+		/**
+		 * @type {String}
+		 * @readonly
+		 * @override
+		 */
+		this.name = 'MagisterError'
 	}
 }
 

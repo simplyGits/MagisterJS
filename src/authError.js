@@ -5,14 +5,13 @@ class AuthError extends Error {
 	 */
 	constructor(message) {
 		super(message)
-	}
 
-	/**
-	 * @override
-	 * @return {String}
-	 */
-	toString() {
-		return 'AuthError: ' + this.message
+		/**
+		 * @type {String}
+		 * @readonly
+		 * @override
+		 */
+		this.name = 'AuthError'
 	}
 }
 
