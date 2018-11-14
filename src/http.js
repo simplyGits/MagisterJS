@@ -99,8 +99,8 @@ class Http {
 	async _request(obj) {
 		const request = this.makeRequest(obj)
 		const info = this._ratelimit
-		let res
 
+		let res
 		if (info.timeoutId === undefined) {
 			res = await fetch(request)
 		} else {
@@ -112,10 +112,10 @@ class Http {
 		}
 
 		try {
-			const body = res.body()
-			if (body.includes('SecondsLeft')) {
+			const body = await res.body()
+			const parsed = JSON.parse(body)
+			if ('SecondsLeft' in parsed) {
 				// Handle rate limit errors
-				const parsed = JSON.parse(body)
 				this._setRatelimitTime(Number.parseInt(parsed.SecondsLeft, 10))
 				return this._request(obj)
 			}
