@@ -77,11 +77,14 @@ class Magister {
 		 * @readonly
 		 */
 		this.profileInfo = null
-		/**
-		 * @type {String}
-		 * @readonly
-		 */
-		this.token = null
+	}
+
+	/**
+ 	 * @type {String}
+ 	 * @readonly
+ 	 */
+	get token() {
+		return this.http._token
 	}
 
 	/**
@@ -402,7 +405,6 @@ class Magister {
 		authorizeUrl += `&acr_values=tenant%3A${filteredName}`
 
 		const setToken = token => {
-			self.token = token
 			self.http._token = token
 			return token
 		}
