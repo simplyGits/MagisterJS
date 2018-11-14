@@ -111,17 +111,20 @@ class Http {
 
 		return promise
 		.then(res => {
-			if (res instanceof fetch.Response || res instanceof Object) {
+			if (res.ok || res.status === 302) {
 				return res
 			}
 
-			if ('SecondsLeft' in res) {
-				// Handle rate limit errors
-				this._setRatelimitTime(Number.parseInt(res.SecondsLeft, 10))
-				return this._request(obj)
-			} else {
-				// Other errors we could parse
-				throw new MagisterError(res)
+			try {
+				const body = res.body()
+				if ('SecondsLeft' in body) {
+					// Handle rate limit errors
+					const parsed = JSON.parse(body)
+					this._setRatelimitTime(Number.parseInt(parsed.SecondsLeft, 10))
+					return this._request(obj)
+				}
+			} catch (_) {
+				return res
 			}
 		})
 	}
