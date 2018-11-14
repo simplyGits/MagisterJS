@@ -1,5 +1,4 @@
 import fetch from 'node-fetch'
-import MagisterError from './magisterError'
 
 const DEFAULT_REQUEST_TIMEOUT = 1000 * 30 // 30 seconds
 
