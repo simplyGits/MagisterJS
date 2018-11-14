@@ -1,6 +1,3 @@
-/**
- * @extends {Error}
- */
 class MagisterError extends Error {
 	/**
 	 * @private

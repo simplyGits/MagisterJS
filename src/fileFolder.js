@@ -2,9 +2,6 @@ import MagisterThing from './magisterThing'
 import File from './file'
 import { toString } from './util'
 
-/**
- * @extends {MagisterThing}
- */
 class FileFolder extends MagisterThing {
 	/**
 	 * @private

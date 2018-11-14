@@ -4,9 +4,6 @@ import MagisterThing from './magisterThing'
 import Person from './person'
 import { parseDate, toString } from './util'
 
-/**
- * @extends {MagisterThing}
- */
 class File extends MagisterThing {
 	/**
 	 * @private

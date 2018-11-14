@@ -4,9 +4,6 @@ import Class from './class'
 import Grade from './grade'
 import { parseDate, toString } from './util'
 
-/**
- * @extends {MagisterThing}
- */
 class Course extends MagisterThing {
 	/**
 	 * @private
@@ -42,38 +39,35 @@ class Course extends MagisterThing {
 
 		/**
 		 * Basic type information of this course, e.g: { description: "VWO 6", id: 420 }
-		 * @type {Object}
+		 * @type {{ description: String, id: Number }}
 		 * @readonly
 		 */
-		this.type = {
+		this.type = ({
 			id: raw.Studie.Id,
 			description: raw.Studie.Omschrijving,
-		}
+		})
 
 		/**
 		 * The group of this course, e.g: { description: "Klas 6v3", id: 420, locationId: 0 }
-		 * @type {Object}
+		 * @type {{ description: String, id: Number, LocatieId: Number }}
 		 * @readonly
 		 */
-		this.group = {
+		this.group = ({
 			id: raw.Groep.Id,
-			description: (function () {
+			get description() {
 				const group = raw.Groep.Omschrijving
 				if (group != null) {
 					return group.split(' ').find(w => /\d/.test(w)) || group
 				}
-			})(),
+			},
 			locationId: raw.Groep.LocatieId,
-		}
+		})
 
 		/**
 		 * @type {String[]}
 		 * @readonly
 		 */
-		this.curricula = [ raw.Profiel ]
-		if (raw.Profiel2 != null) {
-			this.curricula.push(raw.Profiel2)
-		}
+		this.curricula = _.compact([ raw.Profiel, raw.Profiel2 ])
 	}
 
 	/**

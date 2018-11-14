@@ -7,9 +7,6 @@ import GradePeriod from './gradePeriod'
 import Class from './class'
 import Person from './person'
 
-/**
- * @extends {MagisterThing}
- */
 class Grade extends MagisterThing {
 	/**
 	 * @private

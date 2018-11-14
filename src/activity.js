@@ -2,9 +2,6 @@ import MagisterThing from './magisterThing'
 import ActivityElement from './activityElement'
 import { cleanHtmlContent, parseDate, toString } from './util'
 
-/**
- * @extends {MagisterThing}
- */
 class Activity extends MagisterThing {
 	/**
 	 * @private

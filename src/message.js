@@ -6,9 +6,6 @@ import Person from './person'
 import File from './file'
 import { cleanHtmlContent, parseDate, toString, cloneClassInstance } from './util'
 
-/**
- * @extends {MagisterThing}
- */
 class Message extends MagisterThing {
 	/**
 	 * @param {Magister} magister The Magister object you want to send this

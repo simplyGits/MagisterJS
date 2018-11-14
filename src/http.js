@@ -14,7 +14,7 @@ class Http {
 	 */
 	constructor(requestTimeout = DEFAULT_REQUEST_TIMEOUT) {
 		/**
-		 * @type {Object}
+		 * @type {{ queue: Object, timeoutId: ?Number }}
 		 * @private
 		 * @readonly
 		 */

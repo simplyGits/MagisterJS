@@ -11,7 +11,7 @@ class Privileges {
 		 * @property _items
 		 * @private
 		 * @final
-		 * @type {Object[]}
+		 * @type {{ Naam: String, AccessType: String[] }[]}
 		 */
 		this._items = raw
 	}

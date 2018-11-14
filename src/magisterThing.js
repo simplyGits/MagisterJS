@@ -1,13 +1,11 @@
 import _ from 'lodash'
 import { Magister } from './magister'
 
-/**
- * @private
- */
 class MagisterThing {
 	/**
+	 * @private
 	 * @param {Magister} magister
-	 * @throws Error when `magister` isn't a {@link Magister} instance.
+	 * @throws {Error} when `magister` isn't a {@link Magister} instance.
 	 */
 	constructor(magister) {
 		if (!(magister instanceof Magister)) {

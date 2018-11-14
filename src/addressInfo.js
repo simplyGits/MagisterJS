@@ -1,8 +1,5 @@
 import MagisterThing from './magisterThing'
 
-/**
- * @extends {MagisterThing}
- */
 class AddressInfo extends MagisterThing {
 	/**
 	 * @private

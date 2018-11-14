@@ -2,9 +2,6 @@ import _ from 'lodash'
 import MagisterThing from './magisterThing'
 import { parseDate, toString } from './util'
 
-/**
- * @extends {MagisterThing}
- */
 class GradePeriod extends MagisterThing {
 	/**
 	 * @private

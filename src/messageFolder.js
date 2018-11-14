@@ -5,9 +5,6 @@ import { toString } from './util'
 
 const MAX_LIMIT = 250
 
-/**
- * @extends {MagisterThing}
- */
 class MessageFolder extends MagisterThing {
 	/**
 	 * @private

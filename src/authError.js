@@ -1,6 +1,3 @@
-/**
- * @extends {Error}
- */
 class AuthError extends Error {
 	/**
 	 * @private

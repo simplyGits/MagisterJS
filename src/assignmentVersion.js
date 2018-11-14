@@ -2,9 +2,6 @@ import MagisterThing from './magisterThing'
 import File from './file'
 import { parseDate, toString } from './util'
 
-/**
- * @extends {MagisterThing}
- */
 class AssignmentVersion extends MagisterThing {
 	/**
 	 * @private

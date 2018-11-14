@@ -4,9 +4,6 @@ import AddressInfo from './addressInfo'
 import ProfileSettings from './profileSettings'
 import { parseDate, toString } from './util'
 
-/**
- * @extends {MagisterThing}
- */
 class ProfileInfo extends MagisterThing {
 	/**
 	 * @private
@@ -87,7 +84,7 @@ class ProfileInfo extends MagisterThing {
 
 	/**
 	 * @param {Boolean} [useBirthname=this.useBirthname]
-	 * @return String
+	 * @return {String}
 	 */
 	getFullName(useBirthname = this.useBirthname) {
 		return _(

@@ -1,9 +1,6 @@
 import MagisterThing from './magisterThing'
 import { toString } from './util'
 
-/**
- * @extends {MagisterThing}
- */
 class GradeType extends MagisterThing {
 	/**
 	 * @private

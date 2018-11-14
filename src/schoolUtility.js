@@ -2,9 +2,6 @@ import MagisterThing from './magisterThing'
 import Class from './class'
 import { parseDate } from './util'
 
-/**
- * @extends {MagisterThing}
- */
 class SchoolUtility extends MagisterThing {
 	/**
 	 * @private
