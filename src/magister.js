@@ -464,7 +464,7 @@ class Magister {
 			},
 		})
 		if (authRes.error || authRes.status !== 200) {
-			throw new AuthError(authRes.error || 'Invalid username!')
+			throw new AuthError(authRes.error || 'Invalid username')
 		}
 
 		// test password
@@ -479,7 +479,7 @@ class Magister {
 			},
 		})
 		if (authRes.error || authRes.status !== 200) {
-			throw new AuthError(authRes.error || 'Invalid password!')
+			throw new AuthError(authRes.error || 'Invalid password')
 		}
 
 		// extract bearer token
