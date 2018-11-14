@@ -1,5 +1,4 @@
 import fetch from 'node-fetch'
-import MagisterError from './magisterError'
 
 const DEFAULT_REQUEST_TIMEOUT = 1000 * 30 // 30 seconds
 
@@ -97,34 +96,32 @@ class Http {
 	 * @private
 	 * @param {Object} obj
 	 */
-	_request(obj) {
+	async _request(obj) {
 		const request = this.makeRequest(obj)
-
-		let promise
 		const info = this._ratelimit
+		let res
 
 		if (info.timeoutId === undefined) {
-			promise = fetch(request)
+			res = await fetch(request)
 		} else {
-			promise = this._enqueue(request)
+			res = await this._enqueue(request)
 		}
 
-		return promise
-		.then(res => (res.ok || res.status === 302) ? res : res.json())
-		.then(res => {
-			if (res instanceof fetch.Response || res instanceof Object) {
-				return res
-			}
+		if (res.ok || res.status === 302) {
+			return res
+		}
 
-			if ('SecondsLeft' in res) {
+		try {
+			const body = res.body()
+			if (body.includes('SecondsLeft')) {
 				// Handle rate limit errors
-				this._setRatelimitTime(Number.parseInt(res.SecondsLeft, 10))
+				const parsed = JSON.parse(body)
+				this._setRatelimitTime(Number.parseInt(parsed.SecondsLeft, 10))
 				return this._request(obj)
-			} else {
-				// Other errors we could parse
-				throw new MagisterError(res)
 			}
-		})
+		} catch (_) {
+			return res
+		}
 	}
 
 	/**

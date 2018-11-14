@@ -92,7 +92,7 @@ class Course extends MagisterThing {
 		const url = `${this._magister._personUrl}/aanmeldingen/${this.id}/vakken`
 		return this._magister.http.get(url)
 		.then(res => res.json())
-		.then(res => res.Items.map(c => new Class(this._magister, c)))
+		.then(res => res.map(c => new Class(this._magister, c)))
 	}
 
 	/**

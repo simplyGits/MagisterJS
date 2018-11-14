@@ -101,6 +101,13 @@ describe('Magister', function() {
 		})).to.be.rejectedWith(magisterjs.AuthError)
 	})
 
+	it('should be able to reuthenticate with a token', function () {
+		return magister({
+			school: options.school,
+			token: m.token,
+		}).then(mag => m = mag)
+	})
+
 	it('should expose an correct Magister object', function () {
 		expect(m).to.be.an.instanceof(magisterjs.Magister)
 	})
@@ -160,7 +167,7 @@ describe('Magister', function() {
 		it('should be able to change password', function() {
 			expect(profileSettings).to.be.instanceof(magisterjs.ProfileSettings)
 
-			return profileSettings.changePassword(m._options.password)
+			return profileSettings.changePassword(options.password, options.password)
 		})
 	})
 
