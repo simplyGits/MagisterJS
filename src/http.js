@@ -96,36 +96,32 @@ class Http {
 	 * @private
 	 * @param {Object} obj
 	 */
-	_request(obj) {
+	async _request(obj) {
 		const request = this.makeRequest(obj)
-
-		let promise
 		const info = this._ratelimit
+		let res
 
 		if (info.timeoutId === undefined) {
-			promise = fetch(request)
+			res = await fetch(request)
 		} else {
-			promise = this._enqueue(request)
+			res = await this._enqueue(request)
 		}
 
-		return promise
-		.then(res => {
-			if (res.ok || res.status === 302) {
-				return res
-			}
+		if (res.ok || res.status === 302) {
+			return res
+		}
 
-			try {
-				const body = res.body()
-				if ('SecondsLeft' in body) {
-					// Handle rate limit errors
-					const parsed = JSON.parse(body)
-					this._setRatelimitTime(Number.parseInt(parsed.SecondsLeft, 10))
-					return this._request(obj)
-				}
-			} catch (_) {
-				return res
+		try {
+			const body = res.body()
+			if (body.includes('SecondsLeft')) {
+				// Handle rate limit errors
+				const parsed = JSON.parse(body)
+				this._setRatelimitTime(Number.parseInt(parsed.SecondsLeft, 10))
+				return this._request(obj)
 			}
-		})
+		} catch (_) {
+			return res
+		}
 	}
 
 	/**
