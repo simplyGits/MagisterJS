@@ -1,15 +1,17 @@
 {
 	"presets": [
-		["env", {
-			"targets": {
-				"node": 6
+		[
+			"@babel/preset-env",
+			{
+				"targets": {
+					"node": 6
+				}
 			}
-		}]
+		]
 	],
 	"plugins": [
-		"transform-object-rest-spread",
-		"transform-strict-mode",
-		"version-inline",
-		"dedent"
+		"@babel/plugin-proposal-object-rest-spread",
+		"@babel/plugin-transform-strict-mode",
+		"version-inline"
 	]
 }

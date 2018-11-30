@@ -1,6 +1,5 @@
-/* global dedent */
-
 import _ from 'lodash'
+import dedent from 'dedent'
 import MagisterThing from './magisterThing'
 import Person from './person'
 import File from './file'

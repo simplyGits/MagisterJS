@@ -7,17 +7,19 @@
     "test": "test"
   },
   "dependencies": {
+    "dedent": "^0.7.0",
     "lodash": "^4.17.4",
     "moment": "^2.17.1",
     "node-fetch": "^2.3.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.11.4",
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
+    "@babel/plugin-transform-strict-mode": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
     "babel-plugin-dedent": "^2.0.0",
-    "babel-plugin-transform-object-rest-spread": "^6.20.2",
-    "babel-plugin-transform-strict-mode": "^6.22.0",
     "babel-plugin-version-inline": "^1.0.0",
-    "babel-preset-env": "^1.1.8",
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
     "chai-stream": "0.0.0",
@@ -30,11 +32,11 @@
   },
   "scripts": {
     "build": "babel -s false -d lib/ src/",
-    "prepublish": "npm run build",
-    "test": "mocha --compilers js:babel-register",
+    "prepare": "npm run build",
+    "test": "mocha --compilers js:@babel/register",
     "lint": "eslint .",
     "docs": "esdoc",
-    "cover": "istanbul cover node_modules/mocha/bin/_mocha -- --compilers js:babel-core/register"
+    "cover": "istanbul cover node_modules/mocha/bin/_mocha -- --compilers js:@babel/register"
   },
   "engines": {
     "node": ">=6"
