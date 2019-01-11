@@ -387,6 +387,7 @@ class Magister {
 	async login(forceLogin = false) {
 		const self = this
 
+		const authCode = "a87ab8057fa92a4775"
 		const options = this._options
 		const schoolUrl = this.school.url
 		const filteredName = schoolUrl.replace('https://', '')
@@ -456,6 +457,7 @@ class Magister {
 		let authRes
 		// test username
 		authRes = await this.http.post(`${authUrl}/username`, {
+			authCode: authCode,
 			sessionId: sessionId,
 			returnUrl: returnUrl,
 			username: options.username,
@@ -471,6 +473,7 @@ class Magister {
 
 		// test password
 		authRes = await this.http.post(`${authUrl}/password`, {
+			authCode: authCode,
 			sessionId: sessionId,
 			returnUrl: returnUrl,
 			password: options.password,
