@@ -56,9 +56,9 @@ class Course extends MagisterThing {
 			id: raw.Groep.Id,
 			get description() {
 				const group = raw.Groep.Omschrijving
-				if (group != null) {
-					return group.split(' ').find(w => /\d/.test(w)) || group
-				}
+				return group != null
+					? group.split(' ').find(w => /\d/.test(w)) || group
+					: null
 			},
 			locationId: raw.Groep.LocatieId,
 		})
