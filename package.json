@@ -40,7 +40,7 @@
     "cover": "istanbul cover node_modules/mocha/bin/_mocha -- --compilers js:@babel/register"
   },
   "engines": {
-    "node": ">=6"
+    "node": ">=8"
   },
   "repository": {
     "type": "git",
