@@ -46,7 +46,7 @@ Useful links
 Before creating issues
 ===
 1. Update all your packages with `npm update`
-2. Be sure you haven't made a typo and your code is correct (check the [docs](http://simplyGits.github.io/MagisterJS/docs/index.html))
+2. Be sure you haven't made a typo and your code is correct (check the [docs](http://simplyGits.github.io/MagisterJS/))
 3. Don't create issues which occur in a modified version
 
 Contributing
