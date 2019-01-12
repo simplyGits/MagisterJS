@@ -9,6 +9,7 @@ before_script:
 script:
   - npm run test
   - npm run lint
+after_success: npm run coverage
 notifications:
   webhooks:
     urls:

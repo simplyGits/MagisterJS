@@ -22,6 +22,7 @@
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "chai-stream": "^0.0.0",
+    "coveralls": "^3.0.2",
     "esdoc": "^1.1.0",
     "esdoc-ecmascript-proposal-plugin": "^1.0.0",
     "esdoc-standard-plugin": "^1.0.0",
@@ -33,6 +34,7 @@
     "build": "babel -s false -d lib/ src/",
     "prepare": "npm run build",
     "test": "nyc mocha --require @babel/register",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
     "lint": "eslint .",
     "docs": "esdoc"
   },
