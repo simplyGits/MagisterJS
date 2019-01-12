@@ -9,15 +9,15 @@
   "dependencies": {
     "dedent": "^0.7.0",
     "lodash": "^4.17.4",
-    "moment": "^2.17.1",
+    "moment": "^2.23.0",
     "node-fetch": "^2.3.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.0.0",
-    "@babel/core": "^7.0.0",
-    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
-    "@babel/plugin-transform-strict-mode": "^7.0.0",
-    "@babel/preset-env": "^7.0.0",
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.2.2",
+    "@babel/plugin-proposal-object-rest-spread": "^7.2.0",
+    "@babel/plugin-transform-strict-mode": "^7.2.0",
+    "@babel/preset-env": "^7.2.3",
     "@babel/register": "^7.0.0",
     "babel-plugin-dedent": "^2.0.0",
     "babel-plugin-version-inline": "^1.0.0",
