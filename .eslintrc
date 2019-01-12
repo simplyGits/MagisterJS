@@ -40,7 +40,7 @@
 			{ "MemberExpression": 0 }
 		],
 		"quotes": [
-			1,
+			2,
 			"single"
 		],
 		"linebreak-style": [
