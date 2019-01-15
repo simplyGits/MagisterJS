@@ -387,7 +387,7 @@ class Magister {
 	async login(forceLogin = false) {
 		const self = this
 
-		const authCode = 'a87ab8057fa92a4775'
+		const authCode = 'c39f6a'
 		const options = this._options
 		const schoolUrl = this.school.url
 		const filteredName = schoolUrl.replace('https://', '')
