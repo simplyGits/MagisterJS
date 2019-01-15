@@ -5,7 +5,7 @@ import _ from 'lodash'
 import fetch from 'node-fetch'
 import url from 'url'
 import { createHash } from 'crypto'
-import authCode from '@magisterjs/authcode'
+import AuthCode from '@magisterjs/authcode'
 
 // internal: used in this file
 import AbsenceInfo from './absenceInfo'
@@ -457,7 +457,7 @@ class Magister {
 		let authRes
 		// test username
 		authRes = await this.http.post(`${authUrl}/username`, {
-			authCode: authCode,
+			authCode: options.authCode,
 			sessionId: sessionId,
 			returnUrl: returnUrl,
 			username: options.username,
@@ -473,7 +473,7 @@ class Magister {
 
 		// test password
 		authRes = await this.http.post(`${authUrl}/password`, {
-			authCode: authCode,
+			authCode: options.authCode,
 			sessionId: sessionId,
 			returnUrl: returnUrl,
 			password: options.password,
@@ -512,12 +512,16 @@ class Magister {
  * 	@param {String} [options.token] The Bearer token to use. (instead of the username and password)
  * 	@param {Boolean} [options.keepLoggedIn=true] Whether or not to keep the user logged in.
  * 	@param {Boolean} [options.login=true] Whether or not to call {@link login} before returning the object.
+ * 	@param {String} [options.authCode=AuthCode] The AuthCode that Magister uses in their
+ * 	requests. Per default we use the value from the @magisterjs/authcode
+ * 	package. Which you should keep up-to-date.
  * @return {Promise<Magister>}
  */
 export default function magister(options) {
 	_.defaults(options, {
 		keepLoggedIn: true,
 		login: true,
+		authCode: AuthCode,
 	})
 	const rej = s => Promise.reject(new Error(s))
 
