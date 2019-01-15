@@ -323,8 +323,17 @@ describe('Magister', function() {
 				return files[0].download()
 			})
 			.then(stream => {
-				expect(stream).to.be.a.ReadableStream
-				return expect(stream).to.end
+				expect(stream).to.be.a('Object')
+				return new Promise((resolve, reject) => {
+					stream.on('data', () => {
+						stream.end()
+						resolve()
+					})
+
+					setTimeout(() => {
+						reject('timeout exceeded')
+					}, 10000)
+				})
 			})
 		})
 	})
