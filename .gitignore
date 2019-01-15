@@ -5,3 +5,4 @@ coverage
 yarn.lock
 .*.swp
 .nyc_output
+package-lock.json
