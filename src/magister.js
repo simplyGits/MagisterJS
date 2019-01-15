@@ -5,6 +5,7 @@ import _ from 'lodash'
 import fetch from 'node-fetch'
 import url from 'url'
 import { createHash } from 'crypto'
+import authCode from '@magisterjs/authcode'
 
 // internal: used in this file
 import AbsenceInfo from './absenceInfo'
@@ -387,7 +388,6 @@ class Magister {
 	async login(forceLogin = false) {
 		const self = this
 
-		const authCode = 'a87ab8057fa92a4775'
 		const options = this._options
 		const schoolUrl = this.school.url
 		const filteredName = schoolUrl.replace('https://', '')

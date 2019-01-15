@@ -7,6 +7,7 @@
     "test": "test"
   },
   "dependencies": {
+    "@magisterjs/authcode": "*",
     "dedent": "^0.7.0",
     "lodash": "^4.17.11",
     "moment": "^2.23.0",
