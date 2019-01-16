@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-if [[ `git status --porcelain --untracked-files=no` ]]; then
+if [[ $(git status --porcelain --untracked-files=no) ]]; then
 	echo untracked files, aborting...
 	exit 1
 fi
 
 OLDVERSION=$(jq -r '.version' ./package.json)
-read -p "New version (old was $OLDVERSION): " NEWVERSION
+read -r -p "New version (old was $OLDVERSION): " NEWVERSION
 
 rm -rf lib/
 sed -i "s/$OLDVERSION/$NEWVERSION/g" package.json
