@@ -398,8 +398,8 @@ class Magister {
 		authorizeUrl += `&redirect_uri=https%3A%2F%2F${filteredName}%2Foidc%2Fredirect_callback.html`
 		authorizeUrl += '&response_type=id_token%20token'
 		authorizeUrl += '&scope=openid%20profile%20magister.ecs.legacy%20magister.mdv.broker.read%20magister.dnn.roles.read'
-		authorizeUrl += `&state=${await util.randomMD5()}`
-		authorizeUrl += `&nonce=${await util.randomMD5()}`
+		authorizeUrl += `&state=${await util.randomHex()}`
+		authorizeUrl += `&nonce=${await util.randomHex()}`
 		authorizeUrl += `&acr_values=tenant%3A${filteredName}`
 
 		const setToken = token => {
