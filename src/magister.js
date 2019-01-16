@@ -4,7 +4,6 @@
 import _ from 'lodash'
 import fetch from 'node-fetch'
 import url from 'url'
-import { createHash } from 'crypto'
 import AuthCode from '@magisterjs/authcode'
 
 // internal: used in this file
@@ -386,23 +385,21 @@ class Magister {
 	 * @return {Promise<String>} A promise that resolves when done logging in. With the current session ID as parameter.
 	 */
 	async login(forceLogin = false) {
+		// TODO: clean this code up a bit
+
 		const self = this
 
 		const options = this._options
 		const schoolUrl = this.school.url
 		const filteredName = schoolUrl.replace('https://', '')
 
-		const randomHash = () => {
-			return createHash('md5').update(Math.random().toString()).digest('hex')
-		}
-
 		let authorizeUrl = 'https://accounts.magister.net/connect/authorize'
 		authorizeUrl += `?client_id=M6-${filteredName}`
 		authorizeUrl += `&redirect_uri=https%3A%2F%2F${filteredName}%2Foidc%2Fredirect_callback.html`
 		authorizeUrl += '&response_type=id_token%20token'
 		authorizeUrl += '&scope=openid%20profile%20magister.ecs.legacy%20magister.mdv.broker.read%20magister.dnn.roles.read'
-		authorizeUrl += `&state=${randomHash()}`
-		authorizeUrl += `&nonce=${randomHash()}`
+		authorizeUrl += `&state=${await util.randomMD5()}`
+		authorizeUrl += `&nonce=${await util.randomMD5()}`
 		authorizeUrl += `&acr_values=tenant%3A${filteredName}`
 
 		const setToken = token => {
