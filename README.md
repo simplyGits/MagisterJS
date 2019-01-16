@@ -45,7 +45,7 @@ Useful links
 
 Before creating issues
 ===
-1. Update all your packages with `npm update`
+1. Update all dependencies with `npm update`
 2. Be sure you haven't made a typo and your code is correct (check the [docs](http://simplyGits.github.io/MagisterJS/))
 3. Don't create issues which occur in a modified version
 
@@ -53,8 +53,9 @@ Contributing
 ===
 * Document your code using [jsdoc](http://usejsdoc.org/)
 * Respect and follow the current programming style
-* Test your changes with `npm test`
-* Check your code style with `eslint`
+* Test your changes with `npm run test`
+* Check your code style with `npm run lint`
+* Make sure that your code compiles with babel using `npm run build`
 * Only commit the `src/` and `test/` directory
 
 License
