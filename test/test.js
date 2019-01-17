@@ -372,7 +372,7 @@ describe('Magister', function() {
 		})
 
 		it('should get persons', function () {
-			personPromise = m.persons(`${m.profileInfo.getFullName(false)}`)
+			personPromise = m.persons(m.profileInfo.getFullName(false))
 			return personPromise.then(r => {
 				expect(r).to.be.an('array')
 				expect(r).to.not.be.empty
