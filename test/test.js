@@ -4,8 +4,8 @@ import chai, { expect } from 'chai'
 import magister, * as magisterjs from '../src/magister'
 import * as util from '../src/util'
 
-chai.use(require('chai-stream'))
 chai.use(require('chai-as-promised'))
+chai.use(require('chai-events'))
 
 const options = {
 	isParent: false,
@@ -144,8 +144,10 @@ describe('Magister', function() {
 		it('should correctly fetch the profile picture', function () {
 			return m.profileInfo.getProfilePicture()
 			.then(stream => {
-				expect(stream).to.be.a.ReadableStream
-				return expect(stream).to.end
+				stream.resume()
+				return expect(stream).to.emit('finish', {
+					timeout: 15000,
+				})
 			})
 		})
 
@@ -323,8 +325,10 @@ describe('Magister', function() {
 				return files[0].download()
 			})
 			.then(stream => {
-				expect(stream).to.be.a.ReadableStream
-				return expect(stream).to.end
+				stream.resume()
+				return expect(stream).to.emit('finish', {
+					timeout: 15000,
+				})
 			})
 		})
 	})
