@@ -5,7 +5,7 @@ import moment from 'moment'
  * `undefined` instead of an invalid date.
  *
  * @param {any} val
- * @return {Date|undefined}
+ * @returns {Date|undefined}
  */
 export function parseDate (val) {
 	const n = Date.parse(val)
@@ -16,7 +16,7 @@ export function parseDate (val) {
 
 /**
  * @param {Date} date
- * @return {Date}
+ * @returns {Date}
  */
 export function date (date) {
 	return new Date(date.getFullYear(), date.getMonth(), date.getDate())
@@ -24,7 +24,7 @@ export function date (date) {
 
 /**
  * @param {Date} date
- * @return {String}
+ * @returns {string}
  */
 export function urlDateConvert (date) {
 	return moment(date).format('Y-MM-DD')

@@ -1,7 +1,7 @@
 class AuthError extends Error {
 	/**
 	 * @private
-	 * @param {String} error
+	 * @param {string} message
 	 */
 	constructor(message) {
 		super(message)

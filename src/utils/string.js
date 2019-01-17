@@ -2,7 +2,7 @@
  * Returns the value as a string, or the value itself if it's `undefined` or
  * `null`.
  * @param {any} val
- * @return {String|undefined|null}
+ * @returns {string|undefined|null}
  */
 export function toString(val) {
 	if (val == null) {

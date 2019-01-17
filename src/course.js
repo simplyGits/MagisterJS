@@ -71,7 +71,7 @@ class Course extends MagisterThing {
 	}
 
 	/**
-	 * @type {Boolean}
+	 * @type {boolean}
 	 * @readonly
 	 */
 	get current() {
@@ -80,7 +80,7 @@ class Course extends MagisterThing {
 	}
 
 	/**
-	 * @return {Promise<Class[]>}
+	 * @returns {Promise<Class[]>}
 	 */
 	classes() {
 		const url = `${this._magister._personUrl}/aanmeldingen/${this.id}/vakken`
@@ -91,9 +91,9 @@ class Course extends MagisterThing {
 
 	/**
 	 * @param {Object} [options={}]
-	 * 	@param {Boolean} [options.fillGrades=true]
+	 * 	@param {boolean} [options.fillGrades=true]
 	 *  @param {Boolean} [options.latest=false]
-	 * @return {Promise<Grade[]>}
+	 * @returns {Promise<Grade[]>}
 	 */
 	grades({ fillGrades = true, latest = false } = {}) {
 		const urlPrefix = `${this._magister._personUrl}/aanmeldingen/${this.id}/cijfers`

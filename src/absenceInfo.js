@@ -62,7 +62,7 @@ class AbsenceInfo extends MagisterThing {
 	}
 
 	/**
-	 * @type {String}
+	 * @type {string}
 	 * @readonly
 	 */
 	get type() {

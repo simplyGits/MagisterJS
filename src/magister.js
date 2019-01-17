@@ -80,7 +80,7 @@ class Magister {
 	}
 
 	/**
- 	 * @type {String}
+ 	 * @type {string}
  	 * @readonly
  	 */
 	get token() {
@@ -88,7 +88,7 @@ class Magister {
 	}
 
 	/**
-	 * @return {Promise<Activity[]>}
+	 * @returns {Promise<Activity[]>}
 	 */
 	activities() {
 		return this._privileges.needs('activiteiten', 'read')
@@ -101,10 +101,10 @@ class Magister {
 	 * @param {Date} from Time is ignored.
 	 * @param {Date} [to=from] Time is ignored
 	 * @param {Object} [options={}]
-	 * 	@param {Boolean} [options.fillPersons=false]
-	 * 	@param {Boolean} [options.fetchAbsences=true]
-	 * 	@param {Boolean} [options.ignoreAbsenceErrors=true]
-	 * @return {Promise<Appointment[]>}
+	 * 	@param {boolean} [options.fillPersons=false]
+	 * 	@param {boolean} [options.fetchAbsences=true]
+	 * 	@param {boolean} [options.ignoreAbsenceErrors=true]
+	 * @returns {Promise<Appointment[]>}
 	 */
 	appointments() {
 		// extract options
@@ -168,10 +168,10 @@ class Magister {
 
 	/**
 	 * @param {Object} [options={}]
-	 * 	@param {Number} [options.count=50]
-	 * 	@param {Number} [options.skip=0]
-	 * 	@param {Boolean} [options.fillPersons=false]
-	 * @return {Promise<Assignment[]>}
+	 * 	@param {number} [options.count=50]
+	 * 	@param {number} [options.skip=0]
+	 * 	@param {boolean} [options.fillPersons=false]
+	 * @returns {Promise<Assignment[]>}
 	 */
 	assignments({
 		count = 50,
@@ -207,7 +207,7 @@ class Magister {
 	}
 
 	/**
-	 * @return {Promise<Magister[]>}
+	 * @returns {Promise<Magister[]>}
 	 */
 	children() {
 		if (this.profileInfo.isChild) {
@@ -232,7 +232,7 @@ class Magister {
 	}
 
 	/**
-	 * @return {Promise<Course[]>}
+	 * @returns {Promise<Course[]>}
 	 */
 	courses() {
 		return this._privileges.needs('aanmeldingen', 'read')
@@ -244,21 +244,21 @@ class Magister {
 
 	/**
 	 * @param {Object} options
-	 * 	@param {String} options.description The description of the appointment.
+	 * 	@param {string} options.description The description of the appointment.
 	 * 	@param {Date} options.start The start of the appointment, time is
 	 * 	ignored when `options.fullDay` is set to true.
 	 * 	@param {Date} options.end The end of the appointment, this is ignored
 	 * 	when `options.fullDay` is set to true.
-	 * 	@param {Boolean} [options.fullDay=false] When this is true,
+	 * 	@param {boolean} [options.fullDay=false] When this is true,
 	 * 	`options.end` is ignored and only `options.start` is used to set the
 	 * 	begin and the end for the appointment.
-	 * 	@param {String} [options.location] The location (classroom for example)
+	 * 	@param {string} [options.location] The location (classroom for example)
 	 * 	for the appointment.
-	 * 	@param {String} [options.content] Some arbitrary string you want to
+	 * 	@param {string} [options.content] Some arbitrary string you want to
 	 * 	save.
-	 * 	@param {Number} [options.type=1] The type of the appointment: 1 for
+	 * 	@param {number} [options.type=1] The type of the appointment: 1 for
 	 * 	personal or 16 for planning
-	 * @return {Promise}
+	 * @returns {Promise}
 	 */
 	createAppointment(options) {
 		const required = [ 'description', 'start', 'end' ]
@@ -311,7 +311,7 @@ class Magister {
 	}
 
 	/**
-	 * @return {Promise<FileFolder[]>}
+	 * @returns {Promise<FileFolder[]>}
 	 */
 	fileFolders() {
 		return this._privileges.needs('bronnen', 'read')
@@ -321,7 +321,7 @@ class Magister {
 	}
 
 	/**
-	 * @return {Promise<MessageFolder[]>}
+	 * @returns {Promise<MessageFolder[]>}
 	 */
 	messageFolders() {
 		return this._privileges.needs('berichten', 'read')
@@ -331,9 +331,9 @@ class Magister {
 	}
 
 	/**
-	 * @param {String} query
-	 * @param {String} [type]
-	 * @return {Promise<Person[]>}
+	 * @param {string} query
+	 * @param {string} [type]
+	 * @returns {Promise<Person[]>}
 	 */
 	persons(query, type) {
 		query = query != null ? query.trim() : ''
@@ -367,7 +367,7 @@ class Magister {
 	}
 
 	/**
-	 * @return {Promise<SchoolUtility[]>}
+	 * @returns {Promise<SchoolUtility[]>}
 	 */
 	schoolUtilities() {
 		const url = `${this._personUrl}/lesmateriaal`
@@ -380,9 +380,9 @@ class Magister {
 
 	/**
 	 * Logins to Magister.
-	 * @param {Boolean} [forceLogin=false] Force a login, even when a token
+	 * @param {boolean} [forceLogin=false] Force a login, even when a token
 	 * is in the options object.
-	 * @return {Promise<String>} A promise that resolves when done logging in. With the current session ID as parameter.
+	 * @returns {Promise<string>} A promise that resolves when done logging in. With the current session ID as parameter.
 	 */
 	async login(forceLogin = false) {
 		// TODO: clean this code up a bit
@@ -515,15 +515,15 @@ class Magister {
  * Create a new Magister object using `options`.
  * @param {Object} options
  * 	@param {School} options.school The school to login to.
- * 	@param {String} [options.username] The username of the user to login to.
- * 	@param {String} [options.password] The password of the user to login to.
- * 	@param {String} [options.token] The Bearer token to use. (instead of the username and password)
- * 	@param {Boolean} [options.keepLoggedIn=true] Whether or not to keep the user logged in.
- * 	@param {Boolean} [options.login=true] Whether or not to call {@link login} before returning the object.
- * 	@param {String} [options.authCode=AuthCode] The AuthCode that Magister uses in their
+ * 	@param {string} [options.username] The username of the user to login to.
+ * 	@param {string} [options.password] The password of the user to login to.
+ * 	@param {string} [options.token] The Bearer token to use. (instead of the username and password)
+ * 	@param {boolean} [options.keepLoggedIn=true] Whether or not to keep the user logged in.
+ * 	@param {boolean} [options.login=true] Whether or not to call {@link login} before returning the object.
+ * 	@param {string} [options.authCode=AuthCode] The AuthCode that Magister uses in their
  * 	requests. Per default we use the value from the @magisterjs/authcode
  * 	package. Which you should keep up-to-date.
- * @return {Promise<Magister>}
+ * @returns {Promise<Magister>}
  */
 export default function magister(options) {
 	_.defaults(options, {
@@ -557,8 +557,8 @@ export default function magister(options) {
 
 /**
  * Get the schools matching `query`.
- * @param {String} query
- * @return {Promise<School[]>}
+ * @param {string} query
+ * @returns {Promise<School[]>}
  */
 export function getSchools(query) {
 	query = query.replace(/\d/g, '')

@@ -9,7 +9,7 @@ const DEFAULT_REQUEST_TIMEOUT = 1000 * 30 // 30 seconds
  */
 class Http {
 	/**
-	 * @param {Number} [requestTimeout=DEFAULT_REQUEST_TIMEOUT] A time in ms
+	 * @param {number} [requestTimeout=DEFAULT_REQUEST_TIMEOUT] A time in ms
 	 * after the start of a request when it should be timed out.
 	 */
 	constructor(requestTimeout = DEFAULT_REQUEST_TIMEOUT) {
@@ -50,7 +50,7 @@ class Http {
 	}
 	/**
 	 * @private
-	 * @param {Number} timeLeft time left for the ratelimit in seconds.
+	 * @param {number} timeLeft time left for the ratelimit in seconds.
 	 */
 	_setRatelimitTime(timeLeft) {
 		const info = this._ratelimit
@@ -70,7 +70,7 @@ class Http {
 
 	/**
 	 * @param {Object} obj
-	 * @return {Request}
+	 * @returns {Request}
 	 */
 	makeRequest(obj) {
 		const init = {
@@ -126,9 +126,9 @@ class Http {
 
 	/**
 	 * Gets the content at `url`
-	 * @param {String} url
+	 * @param {string} url
 	 * @param {Object} [opt]
-	 * @return {Promise<Response>}
+	 * @returns {Promise<Response>}
 	 */
 	get(url, opt) {
 		return this._request({
@@ -140,10 +140,10 @@ class Http {
 
 	/**
 	 * Posts the given `data` to `url`
-	 * @param {String} url
+	 * @param {string} url
 	 * @param {Object} [data]
 	 * @param {Object} [opt]
-	 * @return {Promise<Response>}
+	 * @returns {Promise<Response>}
 	 */
 	post(url, data, opt) {
 		return this._request({
@@ -156,10 +156,10 @@ class Http {
 
 	/**
 	 * Puts the given `data` to `url`
-	 * @param {String} url
+	 * @param {string} url
 	 * @param {Object} [data]
 	 * @param {Object} [opt]
-	 * @return {Promise<Response>}
+	 * @returns {Promise<Response>}
 	 */
 	put(url, data, opt) {
 		return this._request({
@@ -172,8 +172,8 @@ class Http {
 
 	/**
 	 * Deletes the content at `url`
-	 * @param {String} url
-	 * @return {Promise<Response>}
+	 * @param {string} url
+	 * @returns {Promise<Response>}
 	 */
 	delete(url) {
 		return this._request({

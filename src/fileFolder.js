@@ -34,8 +34,8 @@ class FileFolder extends MagisterThing {
 	}
 
 	/**
-	 * @param {Boolean} [fillPersons=false]
-	 * @return {Promise<File[]>}
+	 * @param {boolean} [fillPersons=false]
+	 * @returns {Promise<File[]>}
 	 */
 	files(fillPersons = false) {
 		const url = `${this._magister._personUrl}/bronnen?parentId=${this.id}`

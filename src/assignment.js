@@ -86,7 +86,7 @@ class Assignment extends MagisterThing {
 	}
 
 	/**
-	 * @return {Promise<AssignmentVersion[]>}
+	 * @returns {Promise<AssignmentVersion[]>}
 	 */
 	versions() {
 		const promises = this.versionIds.map(id => {

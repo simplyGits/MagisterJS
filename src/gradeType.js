@@ -73,7 +73,7 @@ class GradeType extends MagisterThing {
 	}
 
 	/**
-	 * @type {String}
+	 * @type {string}
 	 * @readonly
 	 */
 	get type() {

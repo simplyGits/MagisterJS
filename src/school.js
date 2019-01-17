@@ -7,9 +7,6 @@ class School {
 	/**
 	 * @private
 	 * @param {Object} raw
-	 * @param {String} id
-	 * @param {String} name
-	 * @param {String} url
 	 */
 	constructor(raw) {
 		/**
@@ -30,7 +27,7 @@ class School {
 	}
 
 	/**
-	 * @return {Promise<VersionInfo>}
+	 * @returns {Promise<VersionInfo>}
 	 */
 	versionInfo() {
 		return fetch(`${this.url}/api/versie`)

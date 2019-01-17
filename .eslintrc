@@ -113,7 +113,18 @@
 		"arrow-parens": [
 			1,
 			"as-needed"
-		]
+		],
+
+		"require-await": 2,
+
+		"jsdoc/check-examples": 1,
+		"jsdoc/check-tag-names": 1,
+		"jsdoc/check-types": 1,
+		"jsdoc/require-param": 1,
+		"jsdoc/require-param-name": 1,
+		"jsdoc/require-param-type": 1,
+		"jsdoc/require-returns-type": 1,
+        "jsdoc/valid-types": 1
 	},
 	"env": {
 		"node": true,
@@ -122,5 +133,8 @@
 	},
 	"globals": {
 		"__VERSION__": false
-	}
+	},
+	"plugins": [
+		"jsdoc"
+	]
 }

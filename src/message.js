@@ -128,7 +128,7 @@ class Message extends MagisterThing {
 	}
 
 	/**
-	 * @type {String}
+	 * @type {string}
 	 * @readonly
 	 * @default 'message'
 	 */
@@ -213,8 +213,8 @@ class Message extends MagisterThing {
 	}
 
 	/**
-	 * @param {Boolean} [fillPersons=false]
-	 * @return {Promise<Message>}
+	 * @param {boolean} [fillPersons=false]
+	 * @returns {Promise<Message>}
 	 */
 	fill(fillPersons = false) {
 		if (this._filled && (this._filledPersons || !fillPersons)) {
@@ -271,7 +271,7 @@ class Message extends MagisterThing {
 	}
 
 	/**
-	 * @return {Promise<Error|undefined>}
+	 * @returns {Promise<Error|undefined>}
 	 */
 	remove() {
 		return this._magister._privileges.needs('berichten', 'delete')
@@ -281,7 +281,7 @@ class Message extends MagisterThing {
 	/**
 	 * Update the server to reflect the changes made on the properties of this
 	 * Message instance.
-	 * @return {Promise<undefined>}
+	 * @returns {Promise<undefined>}
 	 */
 	saveChanges() {
 		return this._magister._privileges.needs('berichten', 'update')
@@ -290,7 +290,7 @@ class Message extends MagisterThing {
 	}
 
 	/**
-	 * @return {Promise<Message>}
+	 * @returns {Promise<Message>}
 	 */
 	send() {
 		const reject = message => Promise.reject(new Error(message))
@@ -324,7 +324,7 @@ class Message extends MagisterThing {
 
 	/**
 	 * @private
-	 * @return {Object}
+	 * @returns {Object}
 	 */
 	_toMagister() {
 		return {

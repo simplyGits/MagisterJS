@@ -49,13 +49,13 @@ class MessageFolder extends MagisterThing {
 
 	/**
 	 * @param {Object} [options={}]
-	 * 	@param {Number} [options.count=10] The limit of the amount of Messages to fetch. If `null`, all messages will be downloaded form the server.
-	 * 	@param {Number} [options.skip=0] The amount of messages in front of the
+	 * 	@param {number} [options.count=10] The limit of the amount of Messages to fetch. If `null`, all messages will be downloaded form the server.
+	 * 	@param {number} [options.skip=0] The amount of messages in front of the
 	 * 	MessageFolder to skip.
-	 * 	@param {String} [options.readState='all'] One of: 'all', 'read', 'unread'.
-	 * 	@param {Boolean} [options.fill=true] Whether or not to call `fill` on every message.
-	 * 	@param {Boolean} [options.fillPersons=false] Whether or not to download the users from the server. `options.fill` has to be true for this option to take effect.
-	 * @return {Promise<Object>} { messages: Message[], totalCount: Number }
+	 * 	@param {string} [options.readState='all'] One of: 'all', 'read', 'unread'.
+	 * 	@param {boolean} [options.fill=true] Whether or not to call `fill` on every message.
+	 * 	@param {boolean} [options.fillPersons=false] Whether or not to download the users from the server. `options.fill` has to be true for this option to take effect.
+	 * @returns {Promise<Object>} { messages: Message[], totalCount: Number }
 	 */
 	messages({ count = 10, skip = 0, readState = 'all', fill = true, fillPersons = false } = {}) {
 		if (![ 'all', 'read', 'unread' ].includes(readState)) {
@@ -116,7 +116,7 @@ class MessageFolder extends MagisterThing {
 
 	/**
 	 * @override
-	 * @return {Object}
+	 * @returns {Object}
 	 */
 	toJSON() {
 		return _.omit(super.toJSON(), 'type')

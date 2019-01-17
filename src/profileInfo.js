@@ -83,8 +83,8 @@ class ProfileInfo extends MagisterThing {
 	}
 
 	/**
-	 * @param {Boolean} [useBirthname=this.useBirthname]
-	 * @return {String}
+	 * @param {boolean} [useBirthname=this.useBirthname]
+	 * @returns {string}
 	 */
 	getFullName(useBirthname = this.useBirthname) {
 		return _(
@@ -98,10 +98,10 @@ class ProfileInfo extends MagisterThing {
 	 * Opens a stream to the profile picture of the current user with the given
 	 * options.
 	 *
-	 * @param {Number} [width=640] The width of the picture.
-	 * @param {Number} [height=640] The height of the picture.
-	 * @param {Boolean} [crop=false] Whether or not to crop the image.
-	 * @return {Promise<Stream>}
+	 * @param {number} [width=640] The width of the picture.
+	 * @param {number} [height=640] The height of the picture.
+	 * @param {boolean} [crop=false] Whether or not to crop the image.
+	 * @returns {Promise<Stream>}
 	 */
 	getProfilePicture(width = 640, height = 640, crop = false) {
 		const url = `${this._magister._personUrl}/foto?width=${width}&height=${height}&crop=${crop}`
@@ -109,7 +109,7 @@ class ProfileInfo extends MagisterThing {
 	}
 
 	/**
-	 * @return {Promise<Error|AddressInfo>}
+	 * @returns {Promise<Error|AddressInfo>}
 	 */
 	address() {
 		const url = `${this._magister._personUrl}/adresprofiel`
@@ -121,7 +121,7 @@ class ProfileInfo extends MagisterThing {
 	}
 
 	/**
-	 * @return {Promise<Error|ProfileSettings>}
+	 * @returns {Promise<Error|ProfileSettings>}
 	 */
 	settings() {
 		const url = `${this._magister._personUrl}/profiel`

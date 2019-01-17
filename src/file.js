@@ -109,7 +109,7 @@ class File extends MagisterThing {
 
 	/**
 	 * Opens a stream to the current file
-	 * @return {Promise<Stream>}
+	 * @returns {Promise<Stream>}
 	 */
 	download() {
 		return this._magister._privileges.needs('bronnen', 'read')
@@ -119,7 +119,7 @@ class File extends MagisterThing {
 
 	/**
 	 * Removes the current file permanently
-	 * @return {Promise<undefined>}
+	 * @returns {Promise<undefined>}
 	 */
 	remove() {
 		return this._magister._privileges.needs('bronnen', 'delete')
@@ -130,7 +130,7 @@ class File extends MagisterThing {
 	/**
 	 * Update the server to reflect the changes made on the properties of this
 	 * File instance.
-	 * @return {Promise<undefined>}
+	 * @returns {Promise<undefined>}
 	 */
 	saveChanges() {
 		return this._magister._privileges.needs('bronnen', 'update')
@@ -140,7 +140,7 @@ class File extends MagisterThing {
 
 	/**
 	 * @private
-	 * @return {Object}
+	 * @returns {Object}
 	 */
 	_toMagister() {
 		const toNumberSafe = val => val == null ? val : parseInt(val, 10)

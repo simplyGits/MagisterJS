@@ -6,6 +6,7 @@ class ActivityElement extends MagisterThing {
 	/**
 	 * @private
 	 * @param {Magister} magister
+	 * @param {Activity} activity
 	 * @param {Object} raw
 	 */
 	constructor(magister, activity, raw) {
@@ -92,8 +93,8 @@ class ActivityElement extends MagisterThing {
 	}
 
 	/**
-	 * @param {Boolean} val
-	 * @return {ActivityElement}
+	 * @param {boolean} val
+	 * @returns {ActivityElement}
 	 */
 	signup(val) {
 		// TODO: handle errors, I have no idea how an error looks like, though.
@@ -126,7 +127,7 @@ class ActivityElement extends MagisterThing {
 
 	/**
 	 * @private
-	 * @return {Object}
+	 * @returns {Object}
 	 */
 	_toMagister() {
 		return {

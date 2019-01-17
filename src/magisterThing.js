@@ -21,7 +21,7 @@ class MagisterThing {
 	}
 
 	/**
-	 * @return {Object}
+	 * @returns {Object}
 	 */
 	toJSON() {
 		// REVIEW: do we want to omit all keys starting with '_'?

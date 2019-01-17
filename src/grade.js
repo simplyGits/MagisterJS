@@ -120,7 +120,7 @@ class Grade extends MagisterThing {
 
 	// TODO: add ability to fill persons
 	/**
-	 * @return {Promise<Grade>}
+	 * @returns {Promise<Grade>}
 	 */
 	fill() {
 		if (this._filled) {

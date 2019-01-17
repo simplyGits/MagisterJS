@@ -26,7 +26,7 @@ class ProfileSettings extends MagisterThing {
 	/**
 	 * Update the server to reflect the changes made on the properties of this
 	 * ProfileSettings instance.
-	 * @return {Promise<Error|undefined>}
+	 * @returns {Promise<Error|undefined>}
 	 */
 	async saveChanges() {
 		await this._magister._privileges.needs('profiel', 'update')
@@ -39,9 +39,9 @@ class ProfileSettings extends MagisterThing {
 	 * Change the user password,
 	 * seperate function because requires verification.
 	 *
-	 * @param {String} changed
-	 * @param {String} [original] - Not required, defaults to password set on auth
-	 * @return {Promise}
+	 * @param {string} changed
+	 * @param {string} [original] - Not required, defaults to password set on auth
+	 * @returns {Promise}
 	 */
 	async changePassword(changed, original) {
 		original = original || this._magister._options.password
@@ -69,7 +69,7 @@ class ProfileSettings extends MagisterThing {
 
 	/**
 	 * @private
-	 * @return {Object}
+	 * @returns {Object}
 	 */
 	_toMagister() {
 		return {

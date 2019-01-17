@@ -58,7 +58,7 @@ class Activity extends MagisterThing {
 	}
 
 	/**
-	 * @return {Promise<ActivityElement[]>}
+	 * @returns {Promise<ActivityElement[]>}
 	 */
 	elements() {
 		const url = `${this._url}/onderdelen`

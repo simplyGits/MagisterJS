@@ -17,10 +17,9 @@ class Privileges {
 	}
 
 	/**
-	 * @method can
-	 * @param {String} thing
-	 * @param {String} action
-	 * @return {Boolean}
+	 * @param {string} thing
+	 * @param {string} action
+	 * @returns {boolean}
 	 */
 	can(thing, action) {
 		thing = thing.toLowerCase()
@@ -33,10 +32,9 @@ class Privileges {
 	}
 
 	/**
-	 * @method needs
-	 * @param {String} thing
-	 * @param {String} action
-	 * @return {Promise}
+	 * @param {string} thing
+	 * @param {string} action
+	 * @returns {Promise}
 	 */
 	needs(thing, action) {
 		if (this.can(thing, action)) {

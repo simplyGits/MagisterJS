@@ -7,7 +7,7 @@ class Person extends MagisterThing {
 	 * @private
 	 * @param {Magister} magister
 	 * @param {Object} raw
-	 * @param {Number} type
+	 * @param {number} type
 	 */
 	constructor(magister, raw, type) {
 		super(magister)
@@ -106,8 +106,8 @@ class Person extends MagisterThing {
 	}
 
 	/**
-	 * @param {String} [type]
-	 * @return {Promise<User>}
+	 * @param {string} [type]
+	 * @returns {Promise<User>}
 	 */
 	getFilled(type) {
 		if (this._filled) {
@@ -120,7 +120,7 @@ class Person extends MagisterThing {
 
 	/**
 	 * @override
-	 * @return {Object}
+	 * @returns {Object}
 	 */
 	toJSON() {
 		const obj = _.omit(super.toJSON(), '_filled')
@@ -130,7 +130,7 @@ class Person extends MagisterThing {
 
 	/**
 	 * @private
-	 * @return {Object}
+	 * @returns {Object}
 	 */
 	_toMagister() {
 		const obj = {}
