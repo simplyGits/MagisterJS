@@ -96,8 +96,9 @@ class Course extends MagisterThing {
 	 * @return {Promise<Grade[]>}
 	 */
 	grades({ fillGrades = true, latest = false } = {}) {
-		const urlPrefix = `${this._magister._personUrl}/aanmeldingen/${this.id}/cijfers`
-		const url = latest ? `${urlPrefix}/laatste?top=50&skip=0` : `${urlPrefix}/cijferoverzichtvooraanmelding?actievePerioden=false&alleenBerekendeKolommen=false&alleenPTAKolommen=false`
+		const url = latest
+		? `${this._magister._personUrl}/cijfers/laatste?top=50&skip=0` 
+		: `${this._magister._personUrl}/aanmeldingen/${this.id}/cijfers/cijferoverzichtvooraanmelding?actievePerioden=false&alleenBerekendeKolommen=false&alleenPTAKolommen=false`
 
 		return this._magister._privileges.needs('cijfers', 'read')
 		.then(() => this._magister.http.get(url))
