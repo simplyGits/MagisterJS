@@ -339,6 +339,28 @@ describe('Magister', function() {
 			.then(res => res.find(c => c.current))
 			.then(c => c.grades({
 				fillGrades: false,
+				latest: false,
+			}))
+			.then(r => {
+				expect(r).to.be.a('array')
+
+				for (const g of r) {
+					expect(g).to.be.an.instanceof(magisterjs.Grade)
+				}
+
+				const grade = r[0]
+				if (grade != null) {
+					return grade.fill()
+					.then(r => expect(r).to.be.an.instanceof(magisterjs.Grade))
+				}
+			})
+		}),
+		it('should correctly get latest grades', function () {
+			return m.courses()
+			.then(res => res.find(c => c.current))
+			.then(c => c.grades({
+				fillGrades: false,
+				latest: true,
 			}))
 			.then(r => {
 				expect(r).to.be.a('array')
