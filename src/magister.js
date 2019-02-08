@@ -439,8 +439,8 @@ class Magister {
 			redirect: 'manual',
 		})
 
+		const authUrl = 'https://accounts.magister.net/challenge'
 		let sessionId
-		let authUrl
 		let xsrf
 		let authCookies
 		try {
@@ -449,7 +449,6 @@ class Magister {
 				.split('?')[1]
 				.split('&')[0]
 				.split('=')[1]
-			authUrl = 'https://accounts.magister.net/challenge'
 			xsrf =
 				xsrfResponse.headers.get('set-cookie')
 				.split('XSRF-TOKEN=')[1]
