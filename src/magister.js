@@ -317,11 +317,10 @@ class Magister {
 	fileFolders(parentId = 0) {
 		return this._privileges.needs('bronnen', 'read')
 		.then(() => {
-			if (parentId === 0) {
-				return this.http.get(`${this._personUrl}/bronnen?soort=0`)
-			} else {
-				return this.http.get(`${this._personUrl}/bronnen?soort=0&parentId=${parentId}`)
-			}
+			let url = `${this._personUrl}/bronnen?soort=0`
+			if (parentId !== 0) { url += `&parentId=${parentId}` }
+
+			return this.http.get(url)
 		})
 		.then(res => res.json())
 		.then(res => res.Items.filter(item => item.BronSoort === 0).map(f => new FileFolder(this, f)))
