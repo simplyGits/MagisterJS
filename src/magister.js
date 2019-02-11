@@ -439,17 +439,28 @@ class Magister {
 			redirect: 'manual',
 		})
 
-		const sessionId =
-			xsrfResponse.headers.get('Location')
-			.split('?')[1]
-			.split('&')[0]
-			.split('=')[1]
 		const authUrl = 'https://accounts.magister.net/challenge'
-		const xsrf =
-			xsrfResponse.headers.get('set-cookie')
-			.split('XSRF-TOKEN=')[1]
-			.split(';')[0]
-		const authCookies = xsrfResponse.headers.get('set-cookie').toString()
+		let sessionId
+		let xsrf
+		let authCookies
+		try {
+			sessionId =
+				xsrfResponse.headers.get('Location')
+				.split('?')[1]
+				.split('&')[0]
+				.split('=')[1]
+			xsrf =
+				xsrfResponse.headers.get('set-cookie')
+				.split('XSRF-TOKEN=')[1]
+				.split(';')[0]
+			authCookies = xsrfResponse.headers.get('set-cookie').toString()
+		} catch (err) {
+			if (err.message === 'Cannot read property \'split\' of null') {
+				throw new AuthError('Invalid school url')
+			} else {
+				throw err
+			}
+		}
 
 		let authRes
 		// test username
