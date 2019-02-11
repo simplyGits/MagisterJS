@@ -311,13 +311,23 @@ class Magister {
 	}
 
 	/**
+	 * @param {Integer} [parentId = 0]
 	 * @returns {Promise<FileFolder[]>}
 	 */
-	fileFolders() {
+	fileFolders(parentId = 0) {
 		return this._privileges.needs('bronnen', 'read')
-		.then(() => this.http.get(`${this._personUrl}/bronnen?soort=0`))
+		.then(() => {
+			let url = `${this._personUrl}/bronnen?soort=0`
+			if (parentId !== 0) {
+				url += `&parentId=${parentId}`
+			}
+
+			return this.http.get(url)
+		})
 		.then(res => res.json())
-		.then(res => res.Items.map(f => new FileFolder(this, f)))
+		.then(res => {
+			return res.Items.filter(item => ![ 0, 1, 2, 4 ].includes(item.Type)).map(f => new FileFolder(this, f))
+		})
 	}
 
 	/**

@@ -23,7 +23,7 @@ class File extends MagisterThing {
 		 * @type {Number}
 		 * @readonly
 		 */
-		this.type = raw.BronSoort // REVIEW: string?
+		this.type = raw.BronSoort // REVIEW: string? And there is a difference in Magister between the Type and BronSoort
 		/**
 		 * @type {String}
 		 * @readonly

@@ -307,7 +307,7 @@ describe('Magister', function() {
 
 	describe('file', function () {
 		it('should download files', function () {
-			return m.fileFolders()
+			return m.fileFolders(0)
 			.then(folders => {
 				expect(folders).to.be.an('array')
 				for (const f of folders) {
