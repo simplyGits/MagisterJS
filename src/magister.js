@@ -323,7 +323,9 @@ class Magister {
 			return this.http.get(url)
 		})
 		.then(res => res.json())
-		.then(res => res.Items.filter(item => item.BronSoort === 0).map(f => new FileFolder(this, f)))
+		.then(res => {
+			return res.Items.filter(item => ![0, 1, 2, 4].includes(item.Type)).map(f => new FileFolder(this, f))
+		})
 	}
 
 	/**
