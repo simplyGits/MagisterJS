@@ -324,7 +324,7 @@ class Magister {
 			}
 		})
 		.then(res => res.json())
-		.then(res => res.Items.map(f => new FileFolder(this, f)))
+		.then(res => res.Items.filter(item => item.BronSoort === 0).map(f => new FileFolder(this, f)))
 	}
 
 	/**
