@@ -43,7 +43,7 @@ class FileFolder extends MagisterThing {
 		.then(() => this._magister.http.get(url))
 		.then(res => res.json())
 		.then(res => {
-			const promises = res.Items.map(f => {
+			const promises = res.Items.filter(item => item.BronSoort !== 0).map(f => {
 				const file = new File(this._magister, this, f)
 				return fillPersons ?
 					file.addedBy.getFilled().then(() => file) :
@@ -51,6 +51,13 @@ class FileFolder extends MagisterThing {
 			})
 			return Promise.all(promises)
 		})
+	}
+
+	/**
+	 * @return {Promise<FileFolder[]>}
+	 */
+	folders() {
+		return this._magister.fileFolders(this.id)
 	}
 }
 
