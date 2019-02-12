@@ -10,7 +10,7 @@ class ProfileInfo extends MagisterThing {
 	 * @param {Magister} magister
 	 * @param {Object} raw
 	 */
-	constructor(magister, raw) {
+	constructor(magister, raw, isParent = false) {
 		super(magister)
 
 		/**
@@ -70,13 +70,9 @@ class ProfileInfo extends MagisterThing {
 		this.birthDate = parseDate(raw.Geboortedatum)
 
 		/**
-		 * @type {Boolean|undefined}
+		 * @type {Boolean}
 		 */
-		this.isChild = undefined
-		/**
-		 * @type {Boolean|undefined}
-		 */
-		this.isVisibleForParent = undefined
+		this.isParent = isParent
 	}
 
 	/**
@@ -127,6 +123,16 @@ class ProfileInfo extends MagisterThing {
 		.then(() => this._magister.http.get(url))
 		.then(res => res.json())
 		.then(raw => new ProfileSettings(this._magister, raw))
+	}
+
+	/**
+	 * @return {Promise<Boolean>}
+	 */
+	isVisibleForParent() {
+		if (this.isParent) { return Promise.resolve(false) }
+		return this._magister.http.get(`${this._magister._pupilUrl}/autorisatie`)
+			.then(res => res.json())
+			.then(res => res.oudersMogenGegevensZien)
 	}
 }
 

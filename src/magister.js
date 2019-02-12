@@ -422,25 +422,12 @@ class Magister {
 				await self.http.get(`${schoolUrl}/api/account`).then(res => res.json())
 			const id = accountData.Persoon.Id
 
-			// REVIEW: do we want to make profileInfo a function?
-			self.profileInfo = new ProfileInfo(self, accountData.Persoon)
-			self._privileges = new Privileges(self, accountData.Groep[0].Privileges)
-
-			// REVIEW: Maybe pass this as an argument to the ProfileInfo constructor?
-			// If someone has this privilege then they are a parent
-			self.profileInfo.isChild = !(await self._privileges.can("kinderen", "read"))
-
 			self._personUrl = `${schoolUrl}/api/personen/${id}`
 			self._pupilUrl = `${schoolUrl}/api/leerlingen/${id}`
 
-			// REVIEW: Maybe pass this as an argument to the ProfileInfo constructor?
-			// If we are a child then check if our parents can see our information
-			if (self.profileInfo.isChild) {
-				self.profileInfo.isVisibleForParent =
-					await self.http.get(`${self._pupilUrl}/autorisatie`)
-					.then(res => res.json())
-					.then(res => res.oudersMogenGegevensZien)
-			}
+			self._privileges = new Privileges(self, accountData.Groep[0].Privileges)
+			// REVIEW: do we want to make profileInfo a function?
+			self.profileInfo = new ProfileInfo(self, accountData.Persoon, await self._privileges.can("kinderen", "read"))
 		}
 
 		if (!forceLogin && options.token) {
