@@ -422,12 +422,12 @@ class Magister {
 				await self.http.get(`${schoolUrl}/api/account`).then(res => res.json())
 			const id = accountData.Persoon.Id
 
-			// REVIEW: do we want to make profileInfo a function?
-			self.profileInfo = new ProfileInfo(self, accountData.Persoon)
-			self._privileges = new Privileges(self, accountData.Groep[0].Privileges)
-
 			self._personUrl = `${schoolUrl}/api/personen/${id}`
 			self._pupilUrl = `${schoolUrl}/api/leerlingen/${id}`
+
+			self._privileges = new Privileges(self, accountData.Groep[0].Privileges)
+			// REVIEW: do we want to make profileInfo a function?
+			self.profileInfo = new ProfileInfo(self, accountData.Persoon, await self._privileges.can("kinderen", "read"))
 		}
 
 		if (!forceLogin && options.token) {
