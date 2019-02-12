@@ -70,16 +70,13 @@ class ProfileInfo extends MagisterThing {
 		this.birthDate = parseDate(raw.Geboortedatum)
 
 		/**
-		 * @readonly
-		 * @type {Boolean}
-		 */
-		this.isChild = raw.ZichtbaarVoorOuder != null
-		/**
-		 * `undefined` when `this.isChild` is `false`.
-		 * @readonly
 		 * @type {Boolean|undefined}
 		 */
-		this.isVisibleForParent = raw.ZichtbaarVoorOuder
+		this.isChild = undefined
+		/**
+		 * @type {Boolean|undefined}
+		 */
+		this.isVisibleForParent = undefined
 	}
 
 	/**
