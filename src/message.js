@@ -56,7 +56,7 @@ class Message extends MagisterThing {
 			this._type = raw.Soort
 			this.subject = raw.Onderwerp
 			this.body = undefined
-			this.recipients = raw.Ontvangers.map(p => new Person(magister, p))
+			this.recipients = (raw.Ontvangers || []).map(p => new Person(magister, p))
 
 			/**
 			 * @type {String}
