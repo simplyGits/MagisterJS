@@ -12,23 +12,26 @@ const options = {
 	school: {},
 	username: undefined,
 	password: undefined,
+	authCode: undefined
 }
 try {
 	const parsed = require('./options.json')
 	const isParent = parsed.parent != null
-	const { school, username, password } = parsed[isParent ? 'parent' : 'child']
+	const { school, username, password, authCode } = parsed[isParent ? 'parent' : 'child']
 
 	options.isParent = isParent
 	options.school = school
 	options.username = username
 	options.password = password
+	options.authCode = authCode
 } catch (e) { // For Travis CI we use environment variables.
 	options.isParent = process.env.TEST_ISPARENT
 	options.school.url = process.env.TEST_SCHOOLURL
 	options.username = process.env.TEST_USERNAME
 	options.password = process.env.TEST_PASSWORD
+	options.authCode = process.env.TEST_AUTHCODE
 }
-if (!options.school.url || !options.username || !options.password) {
+if (!options.school.url || !options.username || !options.password || !options.authCode) {
 	throw new Error('No login information found.')
 }
 
@@ -170,6 +173,21 @@ describe('Magister', function() {
 			expect(profileSettings).to.be.instanceof(magisterjs.ProfileSettings)
 
 			return profileSettings.changePassword(options.password, options.password)
+		})
+	})
+
+	describe('absence', function () {
+		it('should fetch absences', function () {
+			return m.absences(new Date()).then(r => {
+				expect(r).to.be.an('array')
+
+				for (const absence of r) {
+					expect(absence).to.be.an.instanceof(magisterjs.AbsenceInfo)
+					expect(absence.appointment).to.be.a('object')
+				}
+
+				return []
+			})
 		})
 	})
 
