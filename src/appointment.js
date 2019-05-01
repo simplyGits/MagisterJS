@@ -143,6 +143,78 @@ class Appointment extends MagisterThing {
 	}
 
 	/**
+	 * @type {String}
+	 * @readonly
+	 */
+	get type() {
+		switch (this.type) {
+			case 0:   return 'none' // None
+			case 1:   return 'personal' // Persoonlijk
+			case 2:   return 'general' // Algemeen
+			case 3:   return 'school wide' // School breed
+			case 4:   return 'stage' // Stage
+			case 5:   return 'intake' // Intake
+			case 6:   return 'free' // Roostervrij
+			case 7:   return 'kwt' // Kwt
+			case 8:   return 'standby' // Standby
+			case 9:   return 'blocked' // Blokkade
+			case 10:  return 'other' // Overig
+			case 11:  return 'blocked classroom' // Blokkade lokaal
+			case 12:  return 'blocked class' // Blokkade klas
+			case 13:  return 'class' // Les
+			case 14:  return 'study house' // Studiehuis
+			case 15:  return 'free study' // Roostervrije studie
+			case 16:  return 'schedule' // Planning
+			case 101: return 'measures' // Maatregelen
+			case 102: return 'presentations' // Presentaties
+			case 103: return 'exam schedule' // Examen rooster
+
+			default:  return 'unknown'
+		}
+	}
+
+	/**
+	 * @type {String}
+	 * @readonly
+	 */
+	get infoType() {
+		switch (this.infoType) {
+			case 0:  return 'none' // None
+			case 1:  return 'homework' // Huiswerk
+			case 2:  return 'test' // Proefwerk
+			case 3:  return 'exam' // Tentamen
+			case 4:  return 'written exam' // Schriftelijke overhoring
+			case 5:  return 'oral exam' // Mondelinge overhoring
+			case 6:  return 'information' // Informatie
+			case 7:  return 'note' // Aantekening
+
+			default: return 'unknown'
+		}
+	}
+
+	/**
+	 * @type {String}
+	 * @readonly
+	 */
+	get status() {
+		switch (this.status) {
+			case 0:  return 'unknown' // Geen status
+			case 1:  return 'scheduled automatically' // Geroosterd automatisch
+			case 2:  return 'scheduled manually' // Geroosterd handmatig
+			case 3:  return 'changed' // Gewijzigd
+			case 4:  return 'canceled manually' // Vervallen handmatig
+			case 5:  return 'canceled automatically' // Vervallen automatisch
+			case 6:  return 'in use' // In gebruik
+			case 7:  return 'finished' // Afgesloten
+			case 8:  return 'used' // Ingezet
+			case 9:  return 'moved' // Verplaatst
+			case 10: return 'changed and moved' // Gewijzigd en verplaatst
+
+			default: return 'unknown'
+		}
+	}
+
+	/**
 	 * @returns {Promise<File[]>}
 	 */
 	attachments() {
