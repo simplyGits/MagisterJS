@@ -241,7 +241,7 @@ class Appointment extends MagisterThing {
 	 * @returns {Promise}
 	 */
 	remove() {
-		if (this.type !== 1 && this.type !== 16) {
+		if (this.type !== 'personal' && this.type !== 'schedule') {
 			return Promise.reject(new Error('Appointment not created by user'))
 		}
 
