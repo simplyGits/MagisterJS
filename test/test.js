@@ -197,7 +197,11 @@ describe('Magister', function() {
 	// TODO: add tests for fillPersons option
 	describe('appointment', function () {
 		it('should fetch appointments', function () {
-			return m.appointments(new Date()).then(r => {
+			var now = new Date()
+			var today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+			var nextWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 7)
+
+			return m.appointments(today, nextWeek).then(r => {
 				expect(r).to.be.an('array')
 
 				for (const appointment of r) {
@@ -237,15 +241,19 @@ describe('Magister', function() {
 		})
 
 		it('should be able to create appointments and delete them', function () {
-			const now = new Date()
+			var now = new Date()
+			var today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+			var tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1)
+			var nextWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 7)
+
 			const description = 'magister.js test appointment'
 
 			return m.createAppointment({
-				start: now,
-				end: new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1),
+				start: today,
+				end: tomorrow,
 				description,
 			}).then(() => {
-				return m.appointments(now).then(r => {
+				return m.appointments(today, nextWeek).then(r => {
 					const appointment = r.find(a => a.description === description)
 					expect(appointment).to.exist
 					return appointment.remove()
