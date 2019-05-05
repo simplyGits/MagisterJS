@@ -78,20 +78,23 @@ class GradeType extends MagisterThing {
 	 */
 	get type() {
 		switch (this._type) {
-		case 1:  return 'grade'
-		case 2:  return 'average'
-		case 3:  return 'maximum'
-		case 4:  return 'formula'
-		case 5:  return 'minimum'
-		case 6:  return 'sum'
-		case 7:  return 'count'
-		case 8:  return 'cevo'
-		case 9:  return 'text'
-		case 10: return 'cevocpe'
-		case 11: return 'cevocie'
-		case 12: return 'weight'
-		case 13: return 'end'
-		case 14: return 'deficit'
+		case 0:  return 'unknown' // Unkown
+		case 1:  return 'grade' // Cijfer
+		case 2:  return 'average' // Gemiddelde
+		case 3:  return 'maximum' // Maximum
+		case 4:  return 'formula' // Formule
+		case 5:  return 'minimum' // Minimum
+		case 6:  return 'sum' // Som
+		case 7:  return 'count' // Tel
+		case 8:  return 'cevo' // Cevo
+		case 9:  return 'text' // Vrije tekst
+		case 10: return 'cevocpe' // Cevo CPE
+		case 11: return 'cevocie' // Cevo CIE
+		case 12: return 'weight' // Weegfactor
+		case 13: return 'end' // Eind cijfer
+		case 14: return 'deficit' // Tekortpunten
+		case 15: return 'tree top' // Boom top
+		case 16: return 'subject requirement' // Vak voorwaarde
 
 		default: return 'unknown'
 		}
