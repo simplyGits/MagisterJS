@@ -11,14 +11,14 @@
     "dedent": "^0.7.0",
     "lodash": "^4.17.11",
     "moment": "^2.24.0",
-    "node-fetch": "^2.3.0"
+    "node-fetch": "^2.5.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.2.3",
-    "@babel/core": "^7.3.4",
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.4",
     "@babel/plugin-transform-strict-mode": "^7.2.0",
-    "@babel/preset-env": "^7.3.4",
-    "@babel/register": "^7.0.0",
+    "@babel/preset-env": "^7.4.4",
+    "@babel/register": "^7.4.4",
     "babel-plugin-version-inline": "^1.0.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
@@ -28,9 +28,9 @@
     "esdoc-ecmascript-proposal-plugin": "^1.0.0",
     "esdoc-standard-plugin": "^1.0.0",
     "eslint": "^5.15.1",
-    "eslint-plugin-jsdoc": "^4.1.1",
-    "mocha": "^6.0.2",
-    "nyc": "^13.3.0"
+    "eslint-plugin-jsdoc": "^4.8.3",
+    "mocha": "^6.1.4",
+    "nyc": "^14.1.0"
   },
   "scripts": {
     "build": "babel -s false -d lib/ src/",
