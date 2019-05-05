@@ -288,7 +288,7 @@ class Magister {
 			DuurtHeleDag: options.fullDay || false,
 
 			// Static non-configurable stuff.
-			InfoType: 6,
+			InfoType: 0,
 			WeergaveType: 1,
 			Status: 2,
 			HeeftBijlagen: false,
