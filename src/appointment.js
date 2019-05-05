@@ -241,9 +241,10 @@ class Appointment extends MagisterThing {
 	 * @returns {Promise}
 	 */
 	remove() {
-		if (this.type !== 1 && this.type !== 16) {
-			return Promise.reject(new Error('Appointment not created by user'))
-		}
+		// TODO: enable this check again when we have decided on which `InfoType` to use.
+		// if (this.type !== 1 && this.type !== 16) {
+		// 	return Promise.reject(new Error('Appointment not created by user'))
+		// }
 
 		return this._magister._privileges.needs('afspraken', 'delete')
 		.then(() => this._magister.http.delete(this._url))
