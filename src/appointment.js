@@ -57,27 +57,12 @@ class Appointment extends MagisterThing {
 		 * @type {String}
 		 * @readonly
 		 */
-		this.status = raw.Status
-		/**
-		 * @type {String}
-		 * @readonly
-		 */
-		this.type = raw.Type
-		/**
-		 * @type {String}
-		 * @readonly
-		 */
 		this.displayType = raw.WeergaveType
 		/**
 		 * @type {String}
 		 * @readonly
 		 */
 		this.content = raw.Inhoud
-		/**
-		 * @type {String}
-		 * @readonly
-		 */
-		this.infoType = raw.InfoType
 		/**
 		 * @type {String}
 		 * @readonly
@@ -136,6 +121,22 @@ class Appointment extends MagisterThing {
 
 		/**
 		 * @type {String}
+		 * @readonly
+		 */
+		this._type = raw.Type
+		/**
+		 * @type {String}
+		 * @readonly
+		 */
+		this._infoType = raw.InfoType
+		/**
+		 * @type {String}
+		 * @readonly
+		 */
+		this._status = raw.Status
+
+		/**
+		 * @type {String}
 		 * @private
 		 * @readonly
 		 */
@@ -143,11 +144,11 @@ class Appointment extends MagisterThing {
 	}
 
 	/**
-	 * @type {String}
+	 * @type {string}
 	 * @readonly
 	 */
 	get type() {
-		switch (this.type) {
+		switch (this._type) {
 		case 0:   return 'none' // None
 		case 1:   return 'personal' // Persoonlijk
 		case 2:   return 'general' // Algemeen
@@ -174,11 +175,11 @@ class Appointment extends MagisterThing {
 	}
 
 	/**
-	 * @type {String}
+	 * @type {string}
 	 * @readonly
 	 */
 	get infoType() {
-		switch (this.infoType) {
+		switch (this._infoType) {
 		case 0:  return 'none' // None
 		case 1:  return 'homework' // Huiswerk
 		case 2:  return 'test' // Proefwerk
@@ -193,11 +194,11 @@ class Appointment extends MagisterThing {
 	}
 
 	/**
-	 * @type {String}
+	 * @type {string}
 	 * @readonly
 	 */
 	get status() {
-		switch (this.status) {
+		switch (this._status) {
 		case 0:  return 'unknown' // Geen status
 		case 1:  return 'scheduled automatically' // Geroosterd automatisch
 		case 2:  return 'scheduled manually' // Geroosterd handmatig
@@ -273,11 +274,11 @@ class Appointment extends MagisterThing {
 			DuurtHeleDag: this.isFullDay,
 			Omschrijving: this.description,
 			Lokatie: this.location,
-			Status: this.status,
-			Type: this.type,
+			Status: this._status,
+			Type: this._type,
 			WeergaveType: this.displayType,
 			Inhoud: this.content,
-			InfoType: this.infoType,
+			InfoType: this._infoType,
 			Aantekening: this.annotation,
 			Afgerond: this.isDone,
 			Vakken: this.classes,
