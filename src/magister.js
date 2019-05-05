@@ -86,6 +86,28 @@ class Magister {
 	get token() {
 		return this.http._token
 	}
+	
+	/**
+	 * @param {Date} from Time is ignored.
+	 * @param {Date} [to=from] Time is ignored
+	 * @returns {Promise<Absences[]>}
+	 */
+	absences() {
+		// extract dates
+		const dates = _(arguments).filter(_.isDate).sortBy().value()
+		const from = dates[0]
+		const to = dates[1] || dates[0]
+
+		const fromUrl = util.urlDateConvert(from)
+		const toUrl = util.urlDateConvert(to)
+
+		// fetch absences
+		const absencesUrl = `${this._personUrl}/absenties?van=${fromUrl}&tot=${toUrl}`
+		return this._privileges.needs('absenties', 'read')
+		.then(() => this.http.get(absencesUrl))
+		.then(res => res.json())
+		.then(res => res.Items.map(a => new AbsenceInfo(this, a)))
+	}
 
 	/**
 	 * @returns {Promise<Activity[]>}
