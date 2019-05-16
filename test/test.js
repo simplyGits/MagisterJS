@@ -13,6 +13,7 @@ const options = {
 	username: undefined,
 	password: undefined,
 }
+
 try {
 	const parsed = require('./options.json')
 	const isParent = parsed.parent != null
@@ -28,6 +29,7 @@ try {
 	options.username = process.env.TEST_USERNAME
 	options.password = process.env.TEST_PASSWORD
 }
+
 if (!options.school.url || !options.username || !options.password) {
 	throw new Error('No login information found.')
 }
@@ -240,21 +242,27 @@ describe('Magister', function() {
 			})
 		})
 
-		it('should be able to create appointments and delete them', function () {
-			var now = new Date()
-			var today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
-			var tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1)
-			var nextWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 7)
+		it('should be able to create and delete appointments', function () {
+			const now = new Date()
+
+			const start = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours())
+			const end = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours() + 1)
+
+			const yesterday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1)
+			const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1)
 
 			const description = 'magister.js test appointment'
 
 			return m.createAppointment({
-				start: today,
-				end: tomorrow,
-				description,
-			}).then(() => {
-				return m.appointments(today, nextWeek).then(r => {
-					const appointment = r.find(a => a.description === description)
+				start: start,
+				end: end,
+				description: description,
+			}).then(response => {
+				expect(response.statusText).to.equal('Created')
+
+				return m.appointments(yesterday, tomorrow).then(appointments => {
+					const appointment = appointments.find(appointment => appointment.description === description)
+
 					expect(appointment).to.exist
 					return appointment.remove()
 				})
