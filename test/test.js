@@ -263,8 +263,39 @@ describe('Magister', function() {
 				return m.appointments(yesterday, tomorrow).then(appointments => {
 					const appointment = appointments.find(appointment => appointment.description === description)
 
-					expect(appointment).to.exist
-					return appointment.remove()
+					return appointment.remove().then(response => {
+						// TODO: review: is this the most accurate way to test this?
+						expect(response.statusText).to.equal('No Content')
+					})
+				})
+			})
+		})
+
+		it('should be able to create and delete appointments with content', function () {
+			const now = new Date()
+
+			const start = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours())
+			const end = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours() + 1)
+
+			const yesterday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1)
+			const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1)
+
+			const description = 'magister.js test appointment'
+			return m.createAppointment({
+				start: start,
+				end: end,
+				description: description,
+				content: description,
+			}).then(response => {
+				expect(response.statusText).to.equal('Created')
+
+				return m.appointments(yesterday, tomorrow).then(appointments => {
+					const appointment = appointments.find(appointment => appointment.description === description)
+
+					return appointment.remove().then(response => {
+						// TODO: review: is this the most accurate way to test this?
+						expect(response.statusText).to.equal('No Content')
+					})
 				})
 			})
 		})
