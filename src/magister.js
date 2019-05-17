@@ -274,21 +274,22 @@ class Magister {
 			options.end = new Date(options.start.getTime()) + 1000 * 60 * 60 * 24
 		}
 
+		let content = _.trim(options.content)
+		content = content.length > 0 ? _.escape(content) : null
+
 		const payload = {
 			Omschrijving: options.description,
 			Start: options.start.toJSON(),
 			Einde: options.end.toJSON(),
 
 			Lokatie: _.trim(options.location),
-			Inhoud: (function () {
-				const content = _.trim(options.content)
-				return content.length > 0 ? _.escape(content) : null
-			})(),
+			Inhoud: content,
 			Type: options.type || 1,
 			DuurtHeleDag: options.fullDay || false,
 
+			InfoType: content === null ? 0 : 6,
+
 			// Static non-configurable stuff.
-			InfoType: 6,
 			WeergaveType: 1,
 			Status: 2,
 			HeeftBijlagen: false,
