@@ -261,7 +261,7 @@ describe('Magister', function() {
 				expect(response.statusText).to.equal('Created')
 
 				return m.appointments(yesterday, tomorrow).then(appointments => {
-					const appointment = appointments.find(appointment => appointment.description === description)
+					const appointment = appointments.find(a => a.description === description)
 
 					return appointment.remove().then(response => {
 						// TODO: review: is this the most accurate way to test this?
