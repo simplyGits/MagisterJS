@@ -199,9 +199,9 @@ describe('Magister', function() {
 	// TODO: add tests for fillPersons option
 	describe('appointment', function () {
 		it('should fetch appointments', function () {
-			var now = new Date()
-			var today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
-			var nextWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 7)
+			const now = new Date()
+			const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+			const nextWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 7)
 
 			return m.appointments(today, nextWeek).then(r => {
 				expect(r).to.be.an('array')
