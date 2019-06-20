@@ -423,6 +423,27 @@ describe('Magister', function() {
 				}
 			})
 		})
+		it('should correctly get grades from previous years', function () {
+			return m.courses()
+			.then(res => res.find(c => !c.current))
+			.then(c => c.grades({
+				fillGrades: false,
+				latest: false,
+			}))
+			.then(r => {
+				expect(r).to.be.a('array')
+
+				for (const g of r) {
+					expect(g).to.be.an.instanceof(magisterjs.Grade)
+				}
+
+				const grade = r[0]
+				if (grade != null) {
+					return grade.fill()
+					.then(r => expect(r).to.be.an.instanceof(magisterjs.Grade))
+				}
+			})
+		})
 	})
 
 	describe('person', function () {
