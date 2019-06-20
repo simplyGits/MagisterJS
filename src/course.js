@@ -99,7 +99,7 @@ class Course extends MagisterThing {
 		const urlPrefix = `${this._magister._personUrl}/aanmeldingen/${this.id}/cijfers`
 		const url = latest
 			? `${this._magister._personUrl}/cijfers/laatste?top=50&skip=0`
-			: `${urlPrefix}/cijferoverzichtvooraanmelding?actievePerioden=false&alleenBerekendeKolommen=false&alleenPTAKolommen=false`
+			: `${urlPrefix}/cijferoverzichtvooraanmelding?actievePerioden=false&alleenBerekendeKolommen=false&alleenPTAKolommen=false&peildatum=${this.end.getFullYear()}-${this.end.getMonth()+1}-${this.end.getDate()}`
 
 		return this._magister._privileges.needs('cijfers', 'read')
 		.then(() => this._magister.http.get(url))
