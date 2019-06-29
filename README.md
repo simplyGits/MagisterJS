@@ -14,6 +14,13 @@
 
 A JavaScript implementation of the [Magister 6](http://magister6.nl/) API.
 
+
+Accreditation
+===
+The vendor of Magister, [Iddink Digital](mailto:partners@iddinkgroup.com), requires that all users of the API are accredited parties: this means that the company wants to check that you conform to their guidelines regarding security and personal data management.
+After registration with Iddink Digital, you will receive an authentication code (_authcode_) which is required by MagisterJS.
+For registration, send an email to: partners@iddinkgroup.com.
+
 Quickstart
 ===
 `npm install magister.js`
