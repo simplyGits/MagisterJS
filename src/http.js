@@ -110,6 +110,9 @@ class Http {
 		if (res.ok || res.status === 302) {
 			return res
 		}
+		
+		const error = new Error(res.statusText);
+		error.res = res;
 
 		try {
 			const parsed = await res.json()
@@ -119,10 +122,11 @@ class Http {
 				return this._request(obj)
 			}
 			if ('error' in parsed) {
-				res.error = parsed.error
+				error.message = parsed.error;
 			}
 		} catch (_) {}
-		return res
+		
+		throw error;
 	}
 
 	/**
