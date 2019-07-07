@@ -11,7 +11,8 @@
     "dedent": "^0.7.0",
     "lodash": "^4.17.11",
     "moment": "^2.24.0",
-    "node-fetch": "^2.6.0"
+    "node-fetch": "^2.6.0",
+    "snyk": "^1.192.3"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.4",
@@ -38,7 +39,9 @@
     "test": "nyc mocha --require @babel/register",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "lint": "eslint .",
-    "docs": "esdoc"
+    "docs": "esdoc",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "engines": {
     "node": ">=8"
@@ -62,5 +65,6 @@
     "school",
     "simplyApps"
   ],
-  "runkitExample": "runkitExample.js"
+  "runkitExample": "runkitExample.js",
+  "snyk": true
 }
