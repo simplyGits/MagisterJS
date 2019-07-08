@@ -1,6 +1,6 @@
 import { promisify } from 'util'
 import { randomBytes } from 'crypto'
-import { encode as encodeQuery } from 'querystring'
+import { encode as encodeQuery, decode as decodeQuery } from 'querystring'
 const random = promisify(randomBytes)
 
 export function cloneClassInstance(object) {
@@ -27,4 +27,12 @@ export async function createAuthUrl(schoolUrl) {
 	}
 
 	return `${authUrl}?${encodeQuery(authData)}`
+}
+
+export function extractQueryParameter(url, paramater) {
+	if(url.includes('?')) {
+		url = url.split('?')[1]	
+	}
+	
+	return decodeQuery(url)[paramater]
 }

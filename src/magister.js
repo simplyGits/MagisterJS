@@ -92,9 +92,9 @@ class Magister {
 	 */
 	activities() {
 		return this._privileges.needs('activiteiten', 'read')
-		.then(() => this.http.get(`${this._personUrl}/activiteiten`))
-		.then(res => res.json())
-		.then(res => res.Items.map(a => new Activity(this, a)))
+			.then(() => this.http.get(`${this._personUrl}/activiteiten`))
+			.then(res => res.json())
+			.then(res => res.Items.map(a => new Activity(this, a)))
 	}
 
 	/**
@@ -125,45 +125,45 @@ class Magister {
 		// fetch appointments
 		const appointmentsUrl = `${this._personUrl}/afspraken?van=${fromUrl}&tot=${toUrl}`
 		const appointmentsPromise = this._privileges.needs('afspraken', 'read')
-		.then(() => this.http.get(appointmentsUrl))
-		.then(res => res.json())
-		.then(res => res.Items.map(a => new Appointment(this, a)))
-		.then(appointments => {
-			if (!fillPersons) {
-				return appointments
-			}
+			.then(() => this.http.get(appointmentsUrl))
+			.then(res => res.json())
+			.then(res => res.Items.map(a => new Appointment(this, a)))
+			.then(appointments => {
+				if (!fillPersons) {
+					return appointments
+				}
 
-			const promises = appointments.map(a => {
-				return Promise.all(a.teachers.map(t => t.getFilled('teacher')))
-				.then(teachers => a.teachers = teachers)
-				.then(() => a)
+				const promises = appointments.map(a => {
+					return Promise.all(a.teachers.map(t => t.getFilled('teacher')))
+						.then(teachers => a.teachers = teachers)
+						.then(() => a)
+				})
+				return Promise.all(promises)
 			})
-			return Promise.all(promises)
-		})
 
 		// fetch absences
 		let absencesPromise = Promise.resolve([])
 		if (fetchAbsences) {
 			const absencesUrl = `${this._personUrl}/absenties?van=${fromUrl}&tot=${toUrl}`
 			absencesPromise = this._privileges.needs('Absenties', 'read')
-			.then(() => this.http.get(absencesUrl))
-			.then(res => res.json())
-			.then(res => res.Items.map(a => new AbsenceInfo(this, a)))
+				.then(() => this.http.get(absencesUrl))
+				.then(res => res.json())
+				.then(res => res.Items.map(a => new AbsenceInfo(this, a)))
 
 			if (ignoreAbsenceErrors) {
 				absencesPromise = absencesPromise.catch(() => [])
 			}
 		}
 
-		return Promise.all([ appointmentsPromise, absencesPromise ])
-		.then(([ appointments, absences ]) => {
-			for (const a of appointments) {
-				a.absenceInfo = absences.find(i => i.appointment.id === a.id)
-			}
+		return Promise.all([appointmentsPromise, absencesPromise])
+			.then(([appointments, absences]) => {
+				for (const a of appointments) {
+					a.absenceInfo = absences.find(i => i.appointment.id === a.id)
+				}
 
-			return appointments
-		})
-		.then(appointments => _.sortBy(appointments, 'start'))
+				return appointments
+			})
+			.then(appointments => _.sortBy(appointments, 'start'))
 	}
 
 	/**
@@ -181,29 +181,29 @@ class Magister {
 		const url = `${this._personUrl}/opdrachten?top=${count}&skip=${skip}&status=alle`
 
 		return this._privileges.needs('eloopdracht', 'read')
-		.then(() => this.http.get(url))
-		.then(res => res.json())
-		.then(res => res.Items.map(i => i.Id))
-		.then(ids => {
-			const promises = ids.map(id => {
-				return this.http.get(`${this._personUrl}/opdrachten/${id}`)
-				.then(res => res.json())
+			.then(() => this.http.get(url))
+			.then(res => res.json())
+			.then(res => res.Items.map(i => i.Id))
+			.then(ids => {
+				const promises = ids.map(id => {
+					return this.http.get(`${this._personUrl}/opdrachten/${id}`)
+						.then(res => res.json())
+				})
+				return Promise.all(promises)
 			})
-			return Promise.all(promises)
-		})
-		.then(items => {
-			const promises = items.map(item => {
-				const assignment = new Assignment(this, item)
-				if (!fillPersons) {
-					return assignment
-				}
+			.then(items => {
+				const promises = items.map(item => {
+					const assignment = new Assignment(this, item)
+					if (!fillPersons) {
+						return assignment
+					}
 
-				return Promise.all(assignment.teachers.map(p => p.getFilled('teacher')))
-				.then(teachers => assignment.teachers = teachers)
-				.then(() => assignment)
+					return Promise.all(assignment.teachers.map(p => p.getFilled('teacher')))
+						.then(teachers => assignment.teachers = teachers)
+						.then(() => assignment)
+				})
+				return Promise.all(promises)
 			})
-			return Promise.all(promises)
-		})
 	}
 
 	/**
@@ -215,20 +215,20 @@ class Magister {
 		}
 
 		return this.http.get(`${this._personUrl}/kinderen`)
-		.then(res => res.json())
-		.then(res => res.Items)
-		.then(items => items.map(raw => {
-			const m = Object.create(this)
+			.then(res => res.json())
+			.then(res => res.Items)
+			.then(items => items.map(raw => {
+				const m = Object.create(this)
 
-			m.school = this.school
-			m.http = this.http
+				m.school = this.school
+				m.http = this.http
 
-			m._personUrl = `${this.school.url}/api/personen/${raw.Id}`
-			m._pupilUrl = `${this.school.url}/api/leerlingen/${raw.Id}`
-			m.profileInfo = new ProfileInfo(m, raw)
+				m._personUrl = `${this.school.url}/api/personen/${raw.Id}`
+				m._pupilUrl = `${this.school.url}/api/leerlingen/${raw.Id}`
+				m.profileInfo = new ProfileInfo(m, raw)
 
-			return m
-		}))
+				return m
+			}))
 	}
 
 	/**
@@ -236,10 +236,10 @@ class Magister {
 	 */
 	courses() {
 		return this._privileges.needs('aanmeldingen', 'read')
-		.then(() => this.http.get(`${this._personUrl}/aanmeldingen`))
-		.then(res => res.json())
-		.then(res => res.Items.map(c => new Course(this, c)))
-		.then(items => _.sortBy(items, 'start'))
+			.then(() => this.http.get(`${this._personUrl}/aanmeldingen`))
+			.then(res => res.json())
+			.then(res => res.Items.map(c => new Course(this, c)))
+			.then(items => _.sortBy(items, 'start'))
 	}
 
 	/**
@@ -261,7 +261,7 @@ class Magister {
 	 * @returns {Promise}
 	 */
 	createAppointment(options) {
-		const required = [ 'description', 'start', 'end' ]
+		const required = ['description', 'start', 'end']
 		for (const key of required) {
 			if (options[key] == null) {
 				const err = new Error(`Not all required fields for \`options\` are given, required are: [ ${required.join(', ')} ]`)
@@ -308,7 +308,7 @@ class Magister {
 		}
 
 		return this._privileges.needs('afspraken', 'create')
-		.then(() => this.http.post(`${this._personUrl}/afspraken`, payload))
+			.then(() => this.http.post(`${this._personUrl}/afspraken`, payload))
 	}
 
 	/**
@@ -317,18 +317,18 @@ class Magister {
 	 */
 	fileFolders(parentId = 0) {
 		return this._privileges.needs('bronnen', 'read')
-		.then(() => {
-			let url = `${this._personUrl}/bronnen?soort=0`
-			if (parentId !== 0) {
-				url += `&parentId=${parentId}`
-			}
+			.then(() => {
+				let url = `${this._personUrl}/bronnen?soort=0`
+				if (parentId !== 0) {
+					url += `&parentId=${parentId}`
+				}
 
-			return this.http.get(url)
-		})
-		.then(res => res.json())
-		.then(res => {
-			return res.Items.filter(item => ![ 0, 1, 2, 4 ].includes(item.Type)).map(f => new FileFolder(this, f))
-		})
+				return this.http.get(url)
+			})
+			.then(res => res.json())
+			.then(res => {
+				return res.Items.filter(item => ![0, 1, 2, 4].includes(item.Type)).map(f => new FileFolder(this, f))
+			})
 	}
 
 	/**
@@ -336,9 +336,9 @@ class Magister {
 	 */
 	messageFolders() {
 		return this._privileges.needs('berichten', 'read')
-		.then(() => this.http.get(`${this._personUrl}/berichten/mappen`))
-		.then(res => res.json())
-		.then(res => res.Items.map(m => new MessageFolder(this, m)))
+			.then(() => this.http.get(`${this._personUrl}/berichten/mappen`))
+			.then(res => res.json())
+			.then(res => res.Items.map(m => new MessageFolder(this, m)))
 	}
 
 	/**
@@ -355,7 +355,7 @@ class Magister {
 			return Promise.all([
 				this.persons(query, 'teacher'),
 				this.persons(query, 'pupil'),
-			]).then(([ teachers, pupils ]) => teachers.concat(pupils))
+			]).then(([teachers, pupils]) => teachers.concat(pupils))
 		}
 
 		type = ({
@@ -368,13 +368,13 @@ class Magister {
 		const url = `${this._personUrl}/contactpersonen?contactPersoonType=${type}&q=${query}`
 
 		return this._privileges.needs('contactpersonen', 'read')
-		.then(() => this.http.get(url))
-		.then(res => res.json())
-		.then(res => res.Items.map(p => {
-			p = new Person(this, p)
-			p._filled = true
-			return p
-		}))
+			.then(() => this.http.get(url))
+			.then(res => res.json())
+			.then(res => res.Items.map(p => {
+				p = new Person(this, p)
+				p._filled = true
+				return p
+			}))
 	}
 
 	/**
@@ -384,9 +384,9 @@ class Magister {
 		const url = `${this._personUrl}/lesmateriaal`
 
 		return this._privileges.needs('digitaallesmateriaal', 'read')
-		.then(() => this.http.get(url))
-		.then(res => res.json())
-		.then(res => res.Items.map(u => new SchoolUtility(this, u)))
+			.then(() => this.http.get(url))
+			.then(res => res.json())
+			.then(res => res.Items.map(u => new SchoolUtility(this, u)))
 	}
 
 	/**
@@ -433,9 +433,7 @@ class Magister {
 			redirect: 'manual',
 		}).then(res => res.headers.get('Location'))
 
-		const returnUrl = decodeURIComponent(
-			location.split('returnUrl=')[1]
-		)
+		const returnUrl = util.extractQueryParameter(location, 'returnUrl')
 
 		// extract session and XSRF related stuff
 		const xsrfResponse = await this.http.get(location, {
@@ -443,27 +441,13 @@ class Magister {
 		})
 
 		const challengeUrl = 'https://accounts.magister.net/challenge'
-		let sessionId
-		let xsrf
-		let authCookies
-		try {
-			sessionId =
-				xsrfResponse.headers.get('Location')
-				.split('?')[1]
-				.split('&')[0]
-				.split('=')[1]
-			xsrf =
-				xsrfResponse.headers.get('set-cookie')
+		const sessionId = util.extractQueryParameter(xsrfResponse.headers.get('Location'), 'sessionId')
+		const xsrfToken =
+			xsrfResponse.headers.get('set-cookie')
 				.split('XSRF-TOKEN=')[1]
 				.split(';')[0]
-			authCookies = xsrfResponse.headers.get('set-cookie').toString()
-		} catch (err) {
-			if (err.message === 'Cannot read property \'split\' of null') {
-				throw new AuthError('Invalid school url')
-			} else {
-				throw err
-			}
-		}
+		const authCookies = xsrfResponse.headers.get('set-cookie').toString()
+		
 
 		let authRes
 		// test username
@@ -473,11 +457,11 @@ class Magister {
 			returnUrl: returnUrl,
 			username: options.username,
 		}, {
-			headers: {
-				Cookie: authCookies,
-				'X-XSRF-TOKEN': xsrf,
-			},
-		})
+				headers: {
+					Cookie: authCookies,
+					'X-XSRF-TOKEN': xsrfToken,
+				},
+			})
 		if (authRes.error || authRes.status !== 200) {
 			throw new AuthError(authRes.error || 'Invalid username')
 		}
@@ -489,11 +473,11 @@ class Magister {
 			returnUrl: returnUrl,
 			password: options.password,
 		}, {
-			headers: {
-				Cookie: authCookies,
-				'X-XSRF-TOKEN': xsrf,
-			},
-		})
+				headers: {
+					Cookie: authCookies,
+					'X-XSRF-TOKEN': xsrfToken,
+				},
+			})
 		if (authRes.error || authRes.status !== 200) {
 			throw new AuthError(authRes.error || 'Invalid password')
 		}
@@ -503,7 +487,7 @@ class Magister {
 			redirect: 'manual',
 			headers: {
 				Cookie: authRes.headers.get('set-cookie'),
-				'X-XSRF-TOKEN': xsrf,
+				'X-XSRF-TOKEN': xsrfToken,
 			},
 		})
 		const tokenRegex = /&access_token=([^&]*)/
@@ -573,8 +557,8 @@ export function getSchools(query) {
 	}
 
 	return fetch(`https://mijn.magister.net/api/schools?filter=${query}`)
-	.then(res => res.json())
-	.then(schools => schools.map(school => new School(school)))
+		.then(res => res.json())
+		.then(schools => schools.map(school => new School(school)))
 }
 
 /**
