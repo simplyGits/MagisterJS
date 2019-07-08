@@ -397,9 +397,6 @@ class Magister {
 	 */
 	async login(forceLogin = false) {
 		// TODO: clean this code up a bit
-
-		const self = this
-
 		const options = this._options
 		const schoolUrl = this.school.url
 		const filteredName = schoolUrl.replace('https://', '')
@@ -414,24 +411,24 @@ class Magister {
 		authorizeUrl += `&acr_values=tenant%3A${filteredName}`
 
 		const setToken = token => {
-			self.http._token = token
+			this.http._token = token
 			return token
 		}
 
 		const retrieveAccount = async () => {
 			const accountData =
-				await self.http.get(`${schoolUrl}/api/account`).then(res => res.json())
+				await this.http.get(`${schoolUrl}/api/account`).then(res => res.json())
 			const id = accountData.Persoon.Id
 
-			self._personUrl = `${schoolUrl}/api/personen/${id}`
-			self._pupilUrl = `${schoolUrl}/api/leerlingen/${id}`
+			this._personUrl = `${schoolUrl}/api/personen/${id}`
+			this._pupilUrl = `${schoolUrl}/api/leerlingen/${id}`
 
-			self._privileges = new Privileges(self, accountData.Groep[0].Privileges)
+			this._privileges = new Privileges(this, accountData.Groep[0].Privileges)
 			// REVIEW: do we want to make profileInfo a function?
-			self.profileInfo = new ProfileInfo(
-				self,
+			this.profileInfo = new ProfileInfo(
+				this,
 				accountData.Persoon,
-				await self._privileges.can('kinderen', 'read'),
+				await this._privileges.can('kinderen', 'read'),
 			)
 		}
 
