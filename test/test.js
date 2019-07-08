@@ -4,8 +4,8 @@ import chai, { expect } from 'chai'
 import magister, * as magisterjs from '../src/magister'
 import * as util from '../src/util'
 
+chai.use(require('chai-stream'))
 chai.use(require('chai-as-promised'))
-chai.use(require('chai-events'))
 
 const options = {
 	isParent: false,
@@ -13,7 +13,6 @@ const options = {
 	username: undefined,
 	password: undefined,
 }
-
 try {
 	const parsed = require('./options.json')
 	const isParent = parsed.parent != null
@@ -29,7 +28,6 @@ try {
 	options.username = process.env.TEST_USERNAME
 	options.password = process.env.TEST_PASSWORD
 }
-
 if (!options.school.url || !options.username || !options.password) {
 	throw new Error('No login information found.')
 }
@@ -146,10 +144,8 @@ describe('Magister', function() {
 		it('should correctly fetch the profile picture', function () {
 			return m.profileInfo.getProfilePicture()
 			.then(stream => {
-				stream.resume()
-				return expect(stream).to.emit('finish', {
-					timeout: 15000,
-				})
+				expect(stream).to.be.a.ReadableStream
+				return expect(stream).to.end
 			})
 		})
 
@@ -199,11 +195,7 @@ describe('Magister', function() {
 	// TODO: add tests for fillPersons option
 	describe('appointment', function () {
 		it('should fetch appointments', function () {
-			const now = new Date()
-			const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
-			const nextWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 7)
-
-			return m.appointments(today, nextWeek).then(r => {
+			return m.appointments(new Date()).then(r => {
 				expect(r).to.be.an('array')
 
 				for (const appointment of r) {
@@ -242,60 +234,19 @@ describe('Magister', function() {
 			})
 		})
 
-		it('should be able to create and delete appointments', function () {
+		it('should be able to create appointments and delete them', function () {
 			const now = new Date()
-
-			const start = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours())
-			const end = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours() + 1)
-
-			const yesterday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1)
-			const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1)
-
 			const description = 'magister.js test appointment'
 
 			return m.createAppointment({
-				start: start,
-				end: end,
-				description: description,
-			}).then(response => {
-				expect(response.statusText).to.equal('Created')
-
-				return m.appointments(yesterday, tomorrow).then(appointments => {
-					const appointment = appointments.find(a => a.description === description)
-
-					return appointment.remove().then(response => {
-						// TODO: review: is this the most accurate way to test this?
-						expect(response.statusText).to.equal('No Content')
-					})
-				})
-			})
-		})
-
-		it('should be able to create and delete appointments with content', function () {
-			const now = new Date()
-
-			const start = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours())
-			const end = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours() + 1)
-
-			const yesterday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1)
-			const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1)
-
-			const description = 'magister.js test appointment'
-			return m.createAppointment({
-				start: start,
-				end: end,
-				description: description,
-				content: description,
-			}).then(response => {
-				expect(response.statusText).to.equal('Created')
-
-				return m.appointments(yesterday, tomorrow).then(appointments => {
-					const appointment = appointments.find(appointment => appointment.description === description)
-
-					return appointment.remove().then(response => {
-						// TODO: review: is this the most accurate way to test this?
-						expect(response.statusText).to.equal('No Content')
-					})
+				start: now,
+				end: new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1),
+				description,
+			}).then(() => {
+				return m.appointments(now).then(r => {
+					const appointment = r.find(a => a.description === description)
+					expect(appointment).to.exist
+					return appointment.remove()
 				})
 			})
 		})
@@ -354,7 +305,7 @@ describe('Magister', function() {
 
 	describe('file', function () {
 		it('should download files', function () {
-			return m.fileFolders(0)
+			return m.fileFolders()
 			.then(folders => {
 				expect(folders).to.be.an('array')
 				for (const f of folders) {
@@ -372,9 +323,16 @@ describe('Magister', function() {
 				return files[0].download()
 			})
 			.then(stream => {
-				stream.resume()
-				return expect(stream).to.emit('finish', {
-					timeout: 15000,
+				expect(stream).to.be.a('Object')
+				return new Promise((resolve, reject) => {
+					stream.on('data', () => {
+						stream.end()
+						resolve()
+					})
+
+					setTimeout(() => {
+						reject('timeout exceeded')
+					}, 10000)
 				})
 			})
 		})
@@ -386,49 +344,6 @@ describe('Magister', function() {
 			.then(res => res.find(c => c.current))
 			.then(c => c.grades({
 				fillGrades: false,
-				latest: false,
-			}))
-			.then(r => {
-				expect(r).to.be.a('array')
-
-				for (const g of r) {
-					expect(g).to.be.an.instanceof(magisterjs.Grade)
-				}
-
-				const grade = r[0]
-				if (grade != null) {
-					return grade.fill()
-					.then(r => expect(r).to.be.an.instanceof(magisterjs.Grade))
-				}
-			})
-		}),
-		it('should correctly get latest grades', function () {
-			return m.courses()
-			.then(res => res.find(c => c.current))
-			.then(c => c.grades({
-				fillGrades: false,
-				latest: true,
-			}))
-			.then(r => {
-				expect(r).to.be.a('array')
-
-				for (const g of r) {
-					expect(g).to.be.an.instanceof(magisterjs.Grade)
-				}
-
-				const grade = r[0]
-				if (grade != null) {
-					return grade.fill()
-					.then(r => expect(r).to.be.an.instanceof(magisterjs.Grade))
-				}
-			})
-		})
-		it('should correctly get grades from previous years', function () {
-			return m.courses()
-			.then(res => res.find(c => !c.current))
-			.then(c => c.grades({
-				fillGrades: false,
-				latest: false,
 			}))
 			.then(r => {
 				expect(r).to.be.a('array')
@@ -462,7 +377,7 @@ describe('Magister', function() {
 		})
 
 		it('should get persons', function () {
-			personPromise = m.persons(m.profileInfo.getFullName(false))
+			personPromise = m.persons(m.profileInfo.firstName)
 			return personPromise.then(r => {
 				expect(r).to.be.an('array')
 				expect(r).to.not.be.empty
