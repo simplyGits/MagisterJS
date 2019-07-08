@@ -402,16 +402,7 @@ class Magister {
 
 		const options = this._options
 		const schoolUrl = this.school.url
-		const filteredName = schoolUrl.replace('https://', '')
-
-		let authorizeUrl = 'https://accounts.magister.net/connect/authorize'
-		authorizeUrl += `?client_id=M6-${filteredName}`
-		authorizeUrl += `&redirect_uri=https%3A%2F%2F${filteredName}%2Foidc%2Fredirect_callback.html`
-		authorizeUrl += '&response_type=id_token%20token'
-		authorizeUrl += '&scope=openid%20profile%20magister.ecs.legacy%20magister.mdv.broker.read%20magister.dnn.roles.read'
-		authorizeUrl += `&state=${await util.randomHex()}`
-		authorizeUrl += `&nonce=${await util.randomHex()}`
-		authorizeUrl += `&acr_values=tenant%3A${filteredName}`
+		const authUrl = await util.createAuthUrl(schoolUrl)
 
 		const setToken = token => {
 			self.http._token = token
@@ -441,7 +432,7 @@ class Magister {
 		}
 
 		// extract returnUrl
-		const location = await this.http.get(authorizeUrl, {
+		const location = await this.http.get(authUrl, {
 			redirect: 'manual',
 		}).then(res => res.headers.get('Location'))
 
@@ -454,7 +445,7 @@ class Magister {
 			redirect: 'manual',
 		})
 
-		const authUrl = 'https://accounts.magister.net/challenge'
+		const challengeUrl = 'https://accounts.magister.net/challenge'
 		let sessionId
 		let xsrf
 		let authCookies
@@ -479,7 +470,7 @@ class Magister {
 
 		let authRes
 		// test username
-		authRes = await this.http.post(`${authUrl}/username`, {
+		authRes = await this.http.post(`${challengeUrl}/username`, {
 			authCode: options.authCode,
 			sessionId: sessionId,
 			returnUrl: returnUrl,
@@ -495,7 +486,7 @@ class Magister {
 		}
 
 		// test password
-		authRes = await this.http.post(`${authUrl}/password`, {
+		authRes = await this.http.post(`${challengeUrl}/password`, {
 			authCode: options.authCode,
 			sessionId: sessionId,
 			returnUrl: returnUrl,
