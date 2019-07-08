@@ -432,7 +432,6 @@ class Magister {
 		const location = await this.http.get(authUrl, {
 			redirect: 'manual',
 		}).then(res => res.headers.get('Location'))
-
 		const returnUrl = util.extractQueryParameter(location, 'returnUrl')
 
 		// extract session and XSRF related stuff
@@ -442,53 +441,54 @@ class Magister {
 
 		const challengeUrl = 'https://accounts.magister.net/challenge'
 		const sessionId = util.extractQueryParameter(xsrfResponse.headers.get('Location'), 'sessionId')
+		
 		const xsrfToken =
 			xsrfResponse.headers.get('set-cookie')
 				.split('XSRF-TOKEN=')[1]
 				.split(';')[0]
 		const authCookies = xsrfResponse.headers.get('set-cookie').toString()
-		
+		const headers = {
+			Cookie: authCookies,
+			'X-XSRF-TOKEN': xsrfToken,
+		}
 
-		let authRes
 		// test username
-		authRes = await this.http.post(`${challengeUrl}/username`, {
+		await this.http.post(`${challengeUrl}/username`, {
 			authCode: options.authCode,
 			sessionId: sessionId,
 			returnUrl: returnUrl,
 			username: options.username,
-		}, {
-				headers: {
-					Cookie: authCookies,
-					'X-XSRF-TOKEN': xsrfToken,
-				},
+		}, { headers })
+			.then(res => {
+				if (res.error) {
+					throw new AuthError(res.error)
+				} else if (res.status === 400) {
+					throw new AuthError(res.error || 'Invalid username')
+				}
+				return res
 			})
-		if (authRes.error || authRes.status !== 200) {
-			throw new AuthError(authRes.error || 'Invalid username')
-		}
 
 		// test password
-		authRes = await this.http.post(`${challengeUrl}/password`, {
+		headers.Cookie = await this.http.post(`${challengeUrl}/password`, {
 			authCode: options.authCode,
 			sessionId: sessionId,
 			returnUrl: returnUrl,
 			password: options.password,
-		}, {
-				headers: {
-					Cookie: authCookies,
-					'X-XSRF-TOKEN': xsrfToken,
-				},
+		}, { headers })
+			.then(res => {
+				if (res.error) {
+					throw new AuthError(res.error)
+				} else if (res.status === 400) {
+					throw new AuthError(res.error || 'Invalid password')
+				}
+				return res
 			})
-		if (authRes.error || authRes.status !== 200) {
-			throw new AuthError(authRes.error || 'Invalid password')
-		}
+			.then(res => res.headers.get('set-cookie'))
 
 		// extract bearer token
 		const res = await this.http.get(`https://accounts.magister.net${returnUrl}`, {
 			redirect: 'manual',
-			headers: {
-				Cookie: authRes.headers.get('set-cookie'),
-				'X-XSRF-TOKEN': xsrfToken,
-			},
+			headers
 		})
 		const tokenRegex = /&access_token=([^&]*)/
 		const loc = res.headers.get('Location')
