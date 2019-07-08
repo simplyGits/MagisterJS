@@ -441,11 +441,11 @@ class Magister {
 
 		const challengeUrl = 'https://accounts.magister.net/challenge'
 		const sessionId = util.extractQueryParameter(xsrfResponse.headers.get('Location'), 'sessionId')
-		
+
 		const xsrfToken =
 			xsrfResponse.headers.get('set-cookie')
-				.split('XSRF-TOKEN=')[1]
-				.split(';')[0]
+			.split('XSRF-TOKEN=')[1]
+			.split(';')[0]
 		const authCookies = xsrfResponse.headers.get('set-cookie').toString()
 		const headers = {
 			Cookie: authCookies,
@@ -459,14 +459,14 @@ class Magister {
 			returnUrl: returnUrl,
 			username: options.username,
 		}, { headers })
-			.then(res => {
-				if (res.error) {
-					throw new AuthError(res.error)
-				} else if (res.status === 400) {
-					throw new AuthError(res.error || 'Invalid username')
-				}
-				return res
-			})
+		.then(res => {
+			if (res.error) {
+				throw new AuthError(res.error)
+			} else if (res.status === 400) {
+				throw new AuthError(res.error || 'Invalid username')
+			}
+			return res
+		})
 
 		// test password
 		headers.Cookie = await this.http.post(`${challengeUrl}/password`, {
@@ -475,20 +475,20 @@ class Magister {
 			returnUrl: returnUrl,
 			password: options.password,
 		}, { headers })
-			.then(res => {
-				if (res.error) {
-					throw new AuthError(res.error)
-				} else if (res.status === 400) {
-					throw new AuthError(res.error || 'Invalid password')
-				}
-				return res
-			})
-			.then(res => res.headers.get('set-cookie'))
+		.then(res => {
+			if (res.error) {
+				throw new AuthError(res.error)
+			} else if (res.status === 400) {
+				throw new AuthError(res.error || 'Invalid password')
+			}
+			return res
+		})
+		.then(res => res.headers.get('set-cookie'))
 
 		// extract bearer token
 		const res = await this.http.get(`https://accounts.magister.net${returnUrl}`, {
 			redirect: 'manual',
-			headers
+			headers,
 		})
 		const tokenRegex = /&access_token=([^&]*)/
 		const loc = res.headers.get('Location')

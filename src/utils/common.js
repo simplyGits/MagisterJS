@@ -22,16 +22,16 @@ export async function createAuthUrl(schoolUrl) {
 		acr_values: `tenant:${filteredName}`,
 		scope: 'openid profile magister.ecs.legacy magister.mdv.broker.read magister.dnn.roles.read',
 		state: await randomHex(),
-		nonce: await randomHex()
+		nonce: await randomHex(),
 	}
 
 	return `${authUrl}?${encodeQuery(authData)}`
 }
 
 export function extractQueryParameter(url, paramater) {
-	if(url.includes('?')) {
-		url = url.split('?')[1]	
+	if (url.includes('?')) {
+		url = url.split('?')[1]
 	}
-	
+
 	return decodeQuery(url)[paramater]
 }
