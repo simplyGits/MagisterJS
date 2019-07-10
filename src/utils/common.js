@@ -1,6 +1,6 @@
 import { promisify } from 'util'
 import { randomBytes } from 'crypto'
-import { encode as encodeQuery, decode as decodeQuery } from 'querystring'
+import { URL } from 'url'
 const random = promisify(randomBytes)
 
 export function cloneClassInstance (object) {
@@ -14,7 +14,7 @@ export async function randomHex (nBytes = 16) {
 
 export async function createAuthUrl(schoolUrl) {
 	const filteredName = schoolUrl.replace('https://', '')
-	const authUrl = 'https://accounts.magister.net/connect/authorize'
+	const authUrl = new URL('https://accounts.magister.net/connect/authorize')
 	const authData = {
 		client_id: `M6-${filteredName}`,
 		redirect_uri: `https://${filteredName}/oidc/redirect_callback.html`,
@@ -25,13 +25,16 @@ export async function createAuthUrl(schoolUrl) {
 		nonce: await randomHex(),
 	}
 
-	return `${authUrl}?${encodeQuery(authData)}`
+	const keys = Object.keys(authData)
+	for (const key of keys) {
+		authUrl.searchParams.set(key, authData[key])
+	}
+
+	return authUrl.toString()
 }
 
 export function extractQueryParameter(url, paramater) {
-	if (url.includes('?')) {
-		url = url.split('?')[1]
-	}
+	const parsedUrl = new URL(url)
 
-	return decodeQuery(url)[paramater]
+	return parsedUrl.searchParams.get(paramater)
 }
