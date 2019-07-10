@@ -121,7 +121,7 @@ class Http {
 				this._setRatelimitTime(Number.parseInt(parsed.SecondsLeft, 10))
 				return this._request(obj)
 			}
-			if ('error' in parsed) {
+			else if ('error' in parsed) {
 				error.message = parsed.error;
 			}
 		} catch (_) {}
