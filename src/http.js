@@ -111,17 +111,21 @@ class Http {
 			return res
 		}
 
+		const error = new Error(res.statusText)
+		error.res = res
+
 		try {
-			const body = await res.body()
-			const parsed = JSON.parse(body)
+			const parsed = await res.json()
 			if ('SecondsLeft' in parsed) {
 				// Handle rate limit errors
 				this._setRatelimitTime(Number.parseInt(parsed.SecondsLeft, 10))
 				return this._request(obj)
+			} else if ('error' in parsed) {
+				error.message = parsed.error
 			}
-		} catch (_) {
-			return res
-		}
+		} catch (_) {}
+
+		throw error
 	}
 
 	/**
