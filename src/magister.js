@@ -463,7 +463,7 @@ class Magister {
 			if (res.error) {
 				throw new AuthError(res.error)
 			} else if (res.status === 400) {
-				throw new AuthError(res.error || 'Invalid username')
+				throw new AuthError('Invalid username')
 			}
 			return res
 		})
@@ -479,7 +479,7 @@ class Magister {
 			if (res.error) {
 				throw new AuthError(res.error)
 			} else if (res.status === 400) {
-				throw new AuthError(res.error || 'Invalid password')
+				throw new AuthError('Invalid password')
 			}
 			return res
 		})
