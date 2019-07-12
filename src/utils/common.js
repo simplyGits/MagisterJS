@@ -33,8 +33,8 @@ export async function createAuthUrl(schoolUrl) {
 	return authUrl.toString()
 }
 
-export function extractQueryParameter(url, paramater) {
+export function extractQueryParameter(url, parameter) {
 	const parsedUrl = new URL(url)
 
-	return parsedUrl.searchParams.get(paramater)
+	return parsedUrl.searchParams.get(parameter)
 }
