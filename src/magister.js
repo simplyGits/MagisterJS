@@ -399,7 +399,7 @@ class Magister {
 		// TODO: clean this code up a bit
 		const options = this._options
 		const schoolUrl = this.school.url
-		const authUrl = await util.createAuthUrl(schoolUrl)
+		const authUrl = await util.getAuthenticationUrl(schoolUrl)
 
 		const setToken = token => {
 			this.http._token = token
