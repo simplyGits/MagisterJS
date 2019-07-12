@@ -397,41 +397,29 @@ class Magister {
 	 */
 	async login(forceLogin = false) {
 		// TODO: clean this code up a bit
-
-		const self = this
-
 		const options = this._options
 		const schoolUrl = this.school.url
-		const filteredName = schoolUrl.replace('https://', '')
-
-		let authorizeUrl = 'https://accounts.magister.net/connect/authorize'
-		authorizeUrl += `?client_id=M6-${filteredName}`
-		authorizeUrl += `&redirect_uri=https%3A%2F%2F${filteredName}%2Foidc%2Fredirect_callback.html`
-		authorizeUrl += '&response_type=id_token%20token'
-		authorizeUrl += '&scope=openid%20profile%20magister.ecs.legacy%20magister.mdv.broker.read%20magister.dnn.roles.read'
-		authorizeUrl += `&state=${await util.randomHex()}`
-		authorizeUrl += `&nonce=${await util.randomHex()}`
-		authorizeUrl += `&acr_values=tenant%3A${filteredName}`
+		const authUrl = await util.getAuthenticationUrl(schoolUrl)
 
 		const setToken = token => {
-			self.http._token = token
+			this.http._token = token
 			return token
 		}
 
 		const retrieveAccount = async () => {
 			const accountData =
-				await self.http.get(`${schoolUrl}/api/account`).then(res => res.json())
+				await this.http.get(`${schoolUrl}/api/account`).then(res => res.json())
 			const id = accountData.Persoon.Id
 
-			self._personUrl = `${schoolUrl}/api/personen/${id}`
-			self._pupilUrl = `${schoolUrl}/api/leerlingen/${id}`
+			this._personUrl = `${schoolUrl}/api/personen/${id}`
+			this._pupilUrl = `${schoolUrl}/api/leerlingen/${id}`
 
-			self._privileges = new Privileges(self, accountData.Groep[0].Privileges)
+			this._privileges = new Privileges(this, accountData.Groep[0].Privileges)
 			// REVIEW: do we want to make profileInfo a function?
-			self.profileInfo = new ProfileInfo(
-				self,
+			this.profileInfo = new ProfileInfo(
+				this,
 				accountData.Persoon,
-				await self._privileges.can('kinderen', 'read'),
+				await this._privileges.can('kinderen', 'read'),
 			)
 		}
 
@@ -441,82 +429,66 @@ class Magister {
 		}
 
 		// extract returnUrl
-		const location = await this.http.get(authorizeUrl, {
+		const location = await this.http.get(authUrl, {
 			redirect: 'manual',
 		}).then(res => res.headers.get('Location'))
-
-		const returnUrl = decodeURIComponent(
-			location.split('returnUrl=')[1]
-		)
+		const returnUrl = util.extractQueryParameter(location, 'returnUrl')
 
 		// extract session and XSRF related stuff
 		const xsrfResponse = await this.http.get(location, {
 			redirect: 'manual',
 		})
 
-		const authUrl = 'https://accounts.magister.net/challenge'
-		let sessionId
-		let xsrf
-		let authCookies
-		try {
-			sessionId =
-				xsrfResponse.headers.get('Location')
-				.split('?')[1]
-				.split('&')[0]
-				.split('=')[1]
-			xsrf =
-				xsrfResponse.headers.get('set-cookie')
-				.split('XSRF-TOKEN=')[1]
-				.split(';')[0]
-			authCookies = xsrfResponse.headers.get('set-cookie').toString()
-		} catch (err) {
-			if (err.message === 'Cannot read property \'split\' of null') {
-				throw new AuthError('Invalid school url')
-			} else {
-				throw err
-			}
+		const challengeUrl = 'https://accounts.magister.net/challenge'
+		const sessionId = util.extractQueryParameter(xsrfResponse.headers.get('Location'), 'sessionId')
+
+		const xsrfToken =
+			xsrfResponse.headers.get('set-cookie')
+			.split('XSRF-TOKEN=')[1]
+			.split(';')[0]
+		const authCookies = xsrfResponse.headers.get('set-cookie').toString()
+		const headers = {
+			Cookie: authCookies,
+			'X-XSRF-TOKEN': xsrfToken,
 		}
 
-		let authRes
 		// test username
-		authRes = await this.http.post(`${authUrl}/username`, {
+		await this.http.post(`${challengeUrl}/username`, {
 			authCode: options.authCode,
 			sessionId: sessionId,
 			returnUrl: returnUrl,
 			username: options.username,
-		}, {
-			headers: {
-				Cookie: authCookies,
-				'X-XSRF-TOKEN': xsrf,
-			},
+		}, { headers })
+		.then(res => {
+			if (res.error) {
+				throw new AuthError(res.error)
+			} else if (res.status === 400) {
+				throw new AuthError('Invalid username')
+			}
+			return res
 		})
-		if (authRes.error || authRes.status !== 200) {
-			throw new AuthError(authRes.error || 'Invalid username')
-		}
 
 		// test password
-		authRes = await this.http.post(`${authUrl}/password`, {
+		headers.Cookie = await this.http.post(`${challengeUrl}/password`, {
 			authCode: options.authCode,
 			sessionId: sessionId,
 			returnUrl: returnUrl,
 			password: options.password,
-		}, {
-			headers: {
-				Cookie: authCookies,
-				'X-XSRF-TOKEN': xsrf,
-			},
+		}, { headers })
+		.then(res => {
+			if (res.error) {
+				throw new AuthError(res.error)
+			} else if (res.status === 400) {
+				throw new AuthError('Invalid password')
+			}
+			return res
 		})
-		if (authRes.error || authRes.status !== 200) {
-			throw new AuthError(authRes.error || 'Invalid password')
-		}
+		.then(res => res.headers.get('set-cookie'))
 
 		// extract bearer token
 		const res = await this.http.get(`https://accounts.magister.net${returnUrl}`, {
 			redirect: 'manual',
-			headers: {
-				Cookie: authRes.headers.get('set-cookie'),
-				'X-XSRF-TOKEN': xsrf,
-			},
+			headers,
 		})
 		const tokenRegex = /&access_token=([^&]*)/
 		const loc = res.headers.get('Location')

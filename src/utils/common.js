@@ -1,12 +1,11 @@
-import { promisify } from 'util'
-import { randomBytes } from 'crypto'
-const random = promisify(randomBytes)
+import { URL } from 'url'
 
-export function cloneClassInstance (object) {
+export function cloneClassInstance(object) {
 	return Object.assign(Object.create(object), object)
 }
 
-export async function randomHex (nBytes = 16) {
-	const bytes = await random(nBytes)
-	return bytes.toString('hex')
+export function extractQueryParameter(url, parameter) {
+	const parsedUrl = new URL(url)
+
+	return parsedUrl.searchParams.get(parameter)
 }

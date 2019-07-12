@@ -111,9 +111,6 @@ class Http {
 			return res
 		}
 
-		const error = new Error(res.statusText)
-		error.res = res
-
 		try {
 			const parsed = await res.json()
 			if ('SecondsLeft' in parsed) {
@@ -125,7 +122,7 @@ class Http {
 			}
 		} catch (_) {}
 
-		throw error
+		return res
 	}
 
 	/**
