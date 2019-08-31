@@ -5,6 +5,7 @@ import _ from 'lodash'
 import fetch from 'node-fetch'
 import url from 'url'
 import AuthCode from '@magisterjs/authcode'
+import { AuthManager } from 'magister-openid'
 
 // internal: used in this file
 import AbsenceInfo from './absenceInfo'
@@ -53,8 +54,8 @@ class Magister {
 		if (!/^[^.#/\\]+\.magister\.net$/.test(info.host)) {
 			throw new Error('`school.url` is not a correct magister url')
 		}
+		school.tenant = info.host
 		school.url = `https://${info.host}`
-
 
 		/**
 		 * @type {Object}
@@ -80,11 +81,17 @@ class Magister {
 	}
 
 	/**
- 	 * @type {string}
- 	 * @readonly
+ 	 * @type {AuthManager}
  	 */
-	get token() {
-		return this.http._token
+	get authManager() {
+		return this.http.authManager
+	}
+
+	/**
+ 	 * @type {AuthManager}
+ 	 */
+	 set authManager(authManager) {
+		this.http.authManager = authManager
 	}
 
 	/**
@@ -391,28 +398,23 @@ class Magister {
 
 	/**
 	 * Logins to Magister.
-	 * @param {boolean} [forceLogin=false] Force a login, even when a token
+	 * @param {boolean} [forceLogin=false] Force a login, even when a tokenSet
 	 * is in the options object.
-	 * @returns {Promise<string>} A promise that resolves when done logging in. With the current session ID as parameter.
+	 * @returns {Promise<string>} A promise that resolves when done logging in.
 	 */
 	async login(forceLogin = false) {
-		// TODO: clean this code up a bit
 		const options = this._options
-		const schoolUrl = this.school.url
-		const authUrl = await util.getAuthenticationUrl(schoolUrl)
-
-		const setToken = token => {
-			this.http._token = token
-			return token
-		}
+		const school = this.school
+		const tenant = school.tenant
+		this.authManager = new AuthManager(tenant, options.tokenSet)
 
 		const retrieveAccount = async () => {
 			const accountData =
-				await this.http.get(`${schoolUrl}/api/account`).then(res => res.json())
+				await this.http.get(`${school.url}/api/account`).then(res => res.json())
 			const id = accountData.Persoon.Id
 
-			this._personUrl = `${schoolUrl}/api/personen/${id}`
-			this._pupilUrl = `${schoolUrl}/api/leerlingen/${id}`
+			this._personUrl = `${school.url}/api/personen/${id}`
+			this._pupilUrl = `${school.url}/api/leerlingen/${id}`
 
 			this._privileges = new Privileges(this, accountData.Groep[0].Privileges)
 			// REVIEW: do we want to make profileInfo a function?
@@ -423,77 +425,13 @@ class Magister {
 			)
 		}
 
-		if (!forceLogin && options.token) {
-			setToken(options.token)
-			return await retrieveAccount()
+		if(options.tokenSet && !forceLogin) {
+			this.authManager.tokenSet = options.tokenSet
+			await this.authManager.checkExpiration()
+		} else {
+			await this.authManager.login(options.username, options.password)
 		}
-
-		// extract returnUrl
-		const location = await this.http.get(authUrl, {
-			redirect: 'manual',
-		}).then(res => res.headers.get('Location'))
-		const returnUrl = util.extractQueryParameter(location, 'returnUrl')
-
-		// extract session and XSRF related stuff
-		const xsrfResponse = await this.http.get(location, {
-			redirect: 'manual',
-		})
-
-		const challengeUrl = 'https://accounts.magister.net/challenge'
-		const sessionId = util.extractQueryParameter(xsrfResponse.headers.get('Location'), 'sessionId')
-
-		const xsrfToken =
-			xsrfResponse.headers.get('set-cookie')
-			.split('XSRF-TOKEN=')[1]
-			.split(';')[0]
-		const authCookies = xsrfResponse.headers.get('set-cookie').toString()
-		const headers = {
-			Cookie: authCookies,
-			'X-XSRF-TOKEN': xsrfToken,
-		}
-
-		// test username
-		await this.http.post(`${challengeUrl}/username`, {
-			authCode: options.authCode,
-			sessionId: sessionId,
-			returnUrl: returnUrl,
-			username: options.username,
-		}, { headers })
-		.then(res => {
-			if (res.error) {
-				throw new AuthError(res.error)
-			} else if (res.status === 400) {
-				throw new AuthError('Invalid username')
-			}
-			return res
-		})
-
-		// test password
-		headers.Cookie = await this.http.post(`${challengeUrl}/password`, {
-			authCode: options.authCode,
-			sessionId: sessionId,
-			returnUrl: returnUrl,
-			password: options.password,
-		}, { headers })
-		.then(res => {
-			if (res.error) {
-				throw new AuthError(res.error)
-			} else if (res.status === 400) {
-				throw new AuthError('Invalid password')
-			}
-			return res
-		})
-		.then(res => res.headers.get('set-cookie'))
-
-		// extract bearer token
-		const res = await this.http.get(`https://accounts.magister.net${returnUrl}`, {
-			redirect: 'manual',
-			headers,
-		})
-		const tokenRegex = /&access_token=([^&]*)/
-		const loc = res.headers.get('Location')
-
-		setToken(tokenRegex.exec(loc)[1])
+		
 		return await retrieveAccount()
 	}
 }
@@ -522,9 +460,9 @@ export default function magister(options) {
 
 	if (!(
 		options.school &&
-		(options.token || (options.username && options.password))
+		(options.tokenSet || (options.username && options.password))
 	)) {
-		return rej('school and username&password or token are required.')
+		return rej('school and username&password or tokenSet are required.')
 	}
 
 	if (!_.isObject(options.school)) {
