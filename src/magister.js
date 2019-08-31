@@ -89,8 +89,9 @@ class Magister {
 
 	/**
  	 * @type {AuthManager}
+	 * @param {AuthManager} authManager
  	 */
-	 set authManager(authManager) {
+	set authManager(authManager) {
 		this.http.authManager = authManager
 	}
 
@@ -425,13 +426,13 @@ class Magister {
 			)
 		}
 
-		if(options.tokenSet && !forceLogin) {
+		if (options.tokenSet && !forceLogin) {
 			this.authManager.tokenSet = options.tokenSet
 			await this.authManager.checkExpiration()
 		} else {
 			await this.authManager.login(options.username, options.password)
 		}
-		
+
 		return await retrieveAccount()
 	}
 }
