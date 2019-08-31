@@ -71,7 +71,8 @@ class Http {
 	 * @param {Object} obj
 	 * @returns {Request}
 	 */
-	makeRequest(obj) {
+	async makeRequest(obj) {
+		await this.authManager.checkExpiration()
 		const accessToken = this.authManager.accessToken
 		const init = {
 			method: obj.method,
@@ -97,7 +98,7 @@ class Http {
 	 * @param {Object} obj
 	 */
 	async _request(obj) {
-		const request = this.makeRequest(obj)
+		const request = await this.makeRequest(obj)
 		const info = this._ratelimit
 
 		let res
