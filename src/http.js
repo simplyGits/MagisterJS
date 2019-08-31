@@ -14,6 +14,10 @@ class Http {
 	 */
 	constructor(requestTimeout = DEFAULT_REQUEST_TIMEOUT) {
 		/**
+		 * @type {AuthManager}
+		 */
+		this.authManager = undefined
+		/**
 		 * @type {{ queue: Object, timeoutId: ?Number }}
 		 * @private
 		 * @readonly
@@ -22,11 +26,6 @@ class Http {
 			queue: [],
 			timeoutId: undefined,
 		}
-		/**
-		 * @type {String}
-		 * @private
-		 */
-		this._token = ''
 		/**
 		 * @type {Number}
 		 * @private
@@ -72,13 +71,15 @@ class Http {
 	 * @param {Object} obj
 	 * @returns {Request}
 	 */
-	makeRequest(obj) {
+	async makeRequest(obj) {
+		await this.authManager.checkExpiration()
+		const accessToken = this.authManager.accessToken
 		const init = {
 			method: obj.method,
 			timeout: this._requestTimeout,
 			headers: {
 				...obj.headers,
-				Authorization: 'Bearer ' + this._token,
+				Authorization: `Bearer ${accessToken}`,
 				'X-API-Client-ID': '12D8',
 			},
 			redirect: obj.redirect,
@@ -97,7 +98,7 @@ class Http {
 	 * @param {Object} obj
 	 */
 	async _request(obj) {
-		const request = this.makeRequest(obj)
+		const request = await this.makeRequest(obj)
 		const info = this._ratelimit
 
 		let res
@@ -112,7 +113,8 @@ class Http {
 		}
 
 		try {
-			const parsed = await res.json()
+			const clone = await res.clone()
+			const parsed = await clone.json()
 			if ('SecondsLeft' in parsed) {
 				// Handle rate limit errors
 				this._setRatelimitTime(Number.parseInt(parsed.SecondsLeft, 10))
