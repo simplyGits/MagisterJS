@@ -107,7 +107,7 @@ class Person extends MagisterThing {
 
 	/**
 	 * @param {string} [type]
-	 * @returns {Promise<User>}
+	 * @returns {Promise<Person>}
 	 */
 	getFilled(type) {
 		if (this._filled) {
