@@ -429,6 +429,7 @@ class Magister {
 		if (options.tokenSet && !forceLogin) {
 			this.authManager.tokenSet = options.tokenSet
 			await this.authManager.checkExpiration()
+<<<<<<< HEAD
 			.catch(error => {
 				throw new AuthError(error)
 			})
@@ -437,6 +438,10 @@ class Magister {
 			.catch(error => {
 				throw new AuthError(error)
 			})
+=======
+		} else {
+			await this.authManager.login(options.username, options.password)
+>>>>>>> 0e53c5e5ac097afc3105cb2026744cc2662f918f
 		}
 
 		return await retrieveAccount()

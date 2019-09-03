@@ -100,7 +100,7 @@ describe('Magister', function() {
 			...options,
 			username: 'xxx',
 			password: 'xxx',
-		})).to.be.rejectedWith(magisterjs.AuthError)
+		})).to.be.rejectedWith(Error)
 	})
 
 	it('should be able to reuthenticate with a token', function () {
