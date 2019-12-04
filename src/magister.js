@@ -433,7 +433,7 @@ class Magister {
 				throw new AuthError(error)
 			})
 		} else {
-			await this.authManager.login(options.username, options.password)
+			await this.authManager.login(options.username, options.password, options.authCode)
 			.catch(error => {
 				throw new AuthError(error)
 			})
