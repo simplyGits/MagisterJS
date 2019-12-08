@@ -10,7 +10,7 @@
     "@magisterjs/authcode": "*",
     "dedent": "^0.7.0",
     "lodash": "^4.17.11",
-    "magister-openid": "^0.1.2",
+    "magister-openid": "^0.1.5",
     "moment": "^2.24.0",
     "node-fetch": "^2.6.0"
   },
