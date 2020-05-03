@@ -12,7 +12,8 @@
     "lodash": "^4.17.11",
     "magister-openid": "^0.1.5",
     "moment": "^2.24.0",
-    "node-fetch": "^2.6.0"
+    "node-fetch": "^2.6.0",
+    "snyk": "^1.316.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.4",
@@ -35,11 +36,12 @@
   },
   "scripts": {
     "build": "babel -s false -d lib/ src/",
-    "prepare": "npm run build",
+    "prepare": "npm run snyk-protect && npm run build",
     "test": "nyc mocha --require @babel/register",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "lint": "eslint .",
-    "docs": "esdoc"
+    "docs": "esdoc",
+    "snyk-protect": "snyk protect"
   },
   "engines": {
     "node": ">=8"
@@ -63,5 +65,6 @@
     "school",
     "simplyApps"
   ],
-  "runkitExample": "runkitExample.js"
+  "runkitExample": "runkitExample.js",
+  "snyk": true
 }
